@@ -653,10 +653,14 @@ public class UserAction extends ActionSupport {
             cell.setCellStyle(style);
 
             cell = row.createCell(4);
-            cell.setCellValue("Role");
+            cell.setCellValue("Email");
             cell.setCellStyle(style);
 
             cell = row.createCell(5);
+            cell.setCellValue("Role");
+            cell.setCellStyle(style);
+            
+            cell = row.createCell(6);
             cell.setCellValue("Date");
             cell.setCellStyle(style);
             
@@ -664,8 +668,9 @@ public class UserAction extends ActionSupport {
             sheet.setColumnWidth(1, 9000);
             sheet.setColumnWidth(2, 3000);
             sheet.setColumnWidth(3, 3000);
-            sheet.setColumnWidth(4, 3000);
-            sheet.setColumnWidth(5, 6000);
+            sheet.setColumnWidth(4, 6000);
+            sheet.setColumnWidth(5, 3000);
+            sheet.setColumnWidth(6, 6000);
             
             //第六步，写入实体数据，实际应用中这些数据从数据库得到
             
@@ -721,8 +726,9 @@ public class UserAction extends ActionSupport {
                 row.createCell(1).setCellValue(user.getName());
                 row.createCell(2).setCellValue(user.getPassword());
                 row.createCell(3).setCellValue(user.getSex());
-                row.createCell(4).setCellValue(roleBIZ.GetRoleName(user.getRid()));
-                row.createCell(5).setCellValue(user.getDate());
+                row.createCell(4).setCellValue(user.getEmail());
+                row.createCell(5).setCellValue(user.getRole().getName());
+                row.createCell(6).setCellValue(user.getDate());
 			}
             
 
