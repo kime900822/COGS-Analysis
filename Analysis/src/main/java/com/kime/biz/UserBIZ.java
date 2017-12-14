@@ -43,5 +43,5 @@ public interface UserBIZ {
 	
 	public void deleteUser(User user);
 	
-	public void inportUser(List lUsers);
+	public void inportUser(List<User> lUsers);
 }

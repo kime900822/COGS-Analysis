@@ -3,8 +3,9 @@
  <script type="text/javascript">
 
 		$(function(){
-			if('${param.uid}'!=null){
-				$.CurrentDialog.find('#j_user_edit_uid').attr("disabled",false);				
+			
+			if('${param.uid}'!=""){
+				$.CurrentDialog.find('#j_user_edit_uid').attr("readonly","");				
 			}
 			
 			BJUI.ajax('doajax', {
@@ -36,7 +37,7 @@
                 
                 <label class="row-label">ID</label>
                 <div class="row-input required">
-                    <input type="text" name="uid" id="j_user_edit_uid" value="${param.uid}" data-rule="required" >
+                    <input type="text" name="uid" id="j_user_edit_uid" value="${param.uid}" data-rule="required"  >
                 </div>
                 <label class="row-label">Name</label>
                 <div class="row-input required">
@@ -44,8 +45,8 @@
                 </div>
                 <label class="row-label">Sex</label>
                 <div class="row-input required">
-                    <input type="radio" name="sex" id="j_user_edit_sex_nan" data-toggle="icheck" value="F" data-rule="checked" data-label="Male&nbsp;&nbsp;" checked>
-                    <input type="radio" name="sex" id="j_user_edit_sex_nv" data-toggle="icheck" value="M" data-label="Female">
+                    <input type="radio" name="sex" id="j_user_edit_sex_nan" data-toggle="icheck" value="M" data-label="Male&nbsp;&nbsp;" checked>
+                    <input type="radio" name="sex" id="j_user_edit_sex_nv" data-toggle="icheck" value="F" data-label="Female">
                 </div>
                 <label class="row-label">Role</label>
                 <div class="row-input required">

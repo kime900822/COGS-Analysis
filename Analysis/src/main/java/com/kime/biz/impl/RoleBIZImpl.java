@@ -86,7 +86,7 @@ public class RoleBIZImpl implements RoleBIZ {
 	public String GetRoleID(String name) {
 		List<Role> list=roleDao.Query(" where name='"+name+"'");
 		if (list.size()>0) {
-			return list.get(0).getName();
+			return list.get(0).getRid();
 		}else{
 			return null;
 		}		

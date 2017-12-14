@@ -78,8 +78,10 @@ public class UserBIZImpl implements UserBIZ {
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
-	public void inportUser(List lUsers) {
-		// TODO Auto-generated method stub
+	public void inportUser(List<User> lUsers) {
+		for (User u : lUsers) {
+			userDao.save(u);
+		}
 		
 	}
 

@@ -420,11 +420,11 @@ public class UserAction extends ActionBase {
 	public String ModUser() throws UnsupportedEncodingException{
 		
 		Date d1=new Date();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:dd");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		user.setName(name);
 		user.setPassword(password);
 		user.setSex(sex);
-		user.setRid(rid);;
+		user.setRid(rid);
 		user.setDate(sdf.format(d1));
 		user.setUid(uid);
 		user.setEmail(email);
@@ -435,7 +435,7 @@ public class UserAction extends ActionBase {
 			}else{
 				userBIZ.modUser(user);
 			}			
-			user=userBIZ.getUser(" where name='"+name+"'").get(0);
+			user=userBIZ.getUser(" where uid='"+uid+"'").get(0);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -601,7 +601,7 @@ public class UserAction extends ActionBase {
             wb.write(os);
             byte[] fileContent = os.toByteArray();
             ByteArrayInputStream is = new ByteArrayInputStream(fileContent);
-    		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm:dd");		 
+    		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");		 
     		fileName = "User"+sf.format(new Date()).toString()+ ".xls";
     		fileName= new String(fileName.getBytes(), "ISO8859-1");
     		//文件流
@@ -633,22 +633,25 @@ public class UserAction extends ActionBase {
 	        	POIFSFileSystem fs=new POIFSFileSystem(new FileInputStream(upfile));   
 	        	HSSFWorkbook wb = new HSSFWorkbook(fs); 
 	        	HSSFSheet sheet = wb.getSheetAt(0); 
+	        	Date d1=new Date();
+	    		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:dd");
 	            // 循环遍历表,sheet.getLastRowNum()是获取一个表最后一条记录的记录号
 	            for (int i = Integer.parseInt(first)-1 ; i <= sheet.getLastRowNum(); i++) {
 	                // 创建一个行对象
 	                HSSFRow row = sheet.getRow(i);
 	
 	    				User user=new User();
-	    				user.setUid(row.getCell(0).getStringCellValue());
-	    				user.setName(row.getCell(1).getStringCellValue());
-	    				user.setPassword(row.getCell(2).getStringCellValue());	    				
-	    				user.setSex(row.getCell(3).getStringCellValue());
-	    				String rid=roleBIZ.GetRoleID(row.getCell(4).getStringCellValue());
+	    				user.setUid(row.getCell(0).getStringCellValue().trim());
+	    				user.setName(row.getCell(1).getStringCellValue().trim());
+	    				user.setPassword(row.getCell(2).getStringCellValue().trim());	    				
+	    				user.setSex(row.getCell(3).getStringCellValue().trim());
+	    				user.setEmail(row.getCell(4).getStringCellValue().trim());
+	    				String rid=roleBIZ.GetRoleID(row.getCell(5).getStringCellValue().trim());
 	    				if (rid==null) {
-							throw new Exception(row.getCell(0).getStringCellValue() +" 的权限不存在！");
+							throw new Exception(row.getCell(0).getStringCellValue().trim() +" 的权限不存在！");
 						}
-	    				user.setRid(roleBIZ.GetRoleID(row.getCell(4).getStringCellValue()));
-	    				user.setDate(row.getCell(5).getStringCellValue());
+	    				user.setRid(rid);
+	    				user.setDate(sdf.format(d1));
 	    				lUsers.add(user);
 	            }
 	            userBIZ.inportUser(lUsers);
