@@ -36,7 +36,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller
 @Scope("prototype")
 @ParentPackage("Struts 2")
-public class MenuAction extends ActionSupport {
+public class MenuAction extends ActionBase {
 
 	/**
 	 * 
@@ -50,64 +50,29 @@ public class MenuAction extends ActionSupport {
 	@Autowired
 	private Menu menu;
 
-	
-	
-	public RoleBIZ getRoleBIZ() {
-		return roleBIZ;
-	}
 
-	public void setRoleBIZ(RoleBIZ roleBIZ) {
-		this.roleBIZ = roleBIZ;
-	}
-
-	@Autowired
-	private Result result;
-	
-	private InputStream reslutJson;
-	private String json;
 	
 	private String id;
 	private String type;
 	
 
-	public String getType() {
-		return type;
-	}
 
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getJson() {
-		return json;
-	}
-
-	public void setJson(String json) {
-		this.json = json;
-	}
-
-	public InputStream getReslutJson() {
-		return reslutJson;
-	}
-
-	public void setReslutJson(InputStream reslutJson) {
-		this.reslutJson = reslutJson;
-	}
-
+	
+	
 	public MenuBIZ getMenuBIZ() {
 		return menuBIZ;
 	}
 
 	public void setMenuBIZ(MenuBIZ menuBIZ) {
 		this.menuBIZ = menuBIZ;
+	}
+
+	public RoleBIZ getRoleBIZ() {
+		return roleBIZ;
+	}
+
+	public void setRoleBIZ(RoleBIZ roleBIZ) {
+		this.roleBIZ = roleBIZ;
 	}
 
 	public Menu getMenu() {
@@ -118,17 +83,26 @@ public class MenuAction extends ActionSupport {
 		this.menu = menu;
 	}
 
-	
-	public Result getResult() {
-		return result;
+	public String getId() {
+		return id;
 	}
 
-	public void setResult(Result result) {
-		this.result = result;
+	public void setId(String id) {
+		this.id = id;
 	}
-	
-	
-	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Action(value="getAllMenu",results={@org.apache.struts2.convention.annotation.Result(type="stream",
 			params={
 					"inputName", "reslutJson"
@@ -136,7 +110,7 @@ public class MenuAction extends ActionSupport {
 	public String getAllMenu() throws UnsupportedEncodingException{		
 		List lmenu = menuBIZ.getAllMenu();
 		reslutJson=new ByteArrayInputStream(new Gson().toJson(lmenu).getBytes("UTF-8"));  
-
+		logUtil.logInfo("获取菜单");
 		return SUCCESS;
 	}
 	
@@ -213,9 +187,11 @@ public class MenuAction extends ActionSupport {
 		menu=(Menu) lmenu.get(0);
 		try {
 			menuBIZ.deleteMenu(menu);
+			logUtil.logInfo("删除菜单:"+menu.getName());
 			result.setMessage(Message.DEL_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
 		} catch (Exception e) {
+			logUtil.logInfo("删除菜单:"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");		
 		}
@@ -242,10 +218,13 @@ public class MenuAction extends ActionSupport {
 						menu.setOrder("0");
 					}
 					menuBIZ.editMenu(menu);
+					logUtil.logInfo("编辑菜单:"+menu.getName());
 				}
+				
 				result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 				result.setStatusCode("200");
 			} catch (Exception e) {
+				logUtil.logInfo("编辑菜单:"+e.getMessage());
 				result.setMessage(e.getMessage());
 				result.setStatusCode("300");		
 			}
@@ -303,16 +282,20 @@ public class MenuAction extends ActionSupport {
 					roleBIZ.Save(role);
 					result.setStatusCode("200");
 					result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
+					logUtil.logInfo(role.getName()+" 添加权限:"+menu.getName());
 				} catch (Exception e) {
+					logUtil.logInfo("编辑权限:"+e.getMessage());
 					result.setStatusCode("300");
 					result.setMessage(e.getMessage());
 				}
 			}else{
 				try {
 					roleBIZ.Delete(role);
+					logUtil.logInfo(role.getName()+" 移除权限:"+menu.getName());
 					result.setStatusCode("200");
 					result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 				} catch (Exception e) {
+					logUtil.logInfo("编辑权限:"+e.getMessage());
 					result.setStatusCode("300");
 					result.setMessage(e.getMessage());
 				}

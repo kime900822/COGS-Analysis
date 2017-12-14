@@ -35,110 +35,69 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller
 @Scope("prototype")
 @ParentPackage("Struts 2")
-public class RoleAction extends ActionSupport {
+public class RoleAction extends ActionBase {
 	
 	@Autowired
 	private RoleBIZ roleBIZ;
 	@Autowired
 	private Role role;
 	@Autowired
-	private Result result;
-	@Autowired
-	private QueryResult queryResult;
-	@Autowired
 	private UserBIZ userBIZ;
 	
-	
-	public UserBIZ getUserBIZ() {
-		return userBIZ;
-	}
-	public void setUserBIZ(UserBIZ userBIZ) {
-		this.userBIZ = userBIZ;
-	}
-	
-	private InputStream reslutJson;
-	private String json;
-	private String pageSize;
-	private String pageCurrent;
-	private String callback;
 	
 	private String name;
 	private String level;
 	private String description;
 	
-	public String getLevel() {
-		return level;
-	}
-	public void setLevel(String level) {
-		this.level = level;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getCallback() {
-		return callback;
-	}
-	public void setCallback(String callback) {
-		this.callback = callback;
-	}
-	public QueryResult getqResult() {
-		return queryResult;
-	}
-	public void setqResult(QueryResult queryResult) {
-		this.queryResult = queryResult;
-	}
-	public String getJson() {
-		return json;
-	}
-	public void setJson(String json) {
-		this.json = json;
-	}
-	public String getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(String pageSize) {
-		this.pageSize = pageSize;
-	}
-	public String getPageCurrent() {
-		return pageCurrent;
-	}
-	public void setPageCurrent(String pageCurrent) {
-		this.pageCurrent = pageCurrent;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public InputStream getReslutJson() {
-		return reslutJson;
-	}
-	public void setReslutJson(InputStream reslutJson) {
-		this.reslutJson = reslutJson;
-	}
-	public Result getResult() {
-		return result;
-	}
-	public void setResult(Result result) {
-		this.result = result;
-	}
+	
 	public RoleBIZ getRoleBIZ() {
 		return roleBIZ;
 	}
+
 	public void setRoleBIZ(RoleBIZ roleBIZ) {
 		this.roleBIZ = roleBIZ;
 	}
+
 	public Role getRole() {
 		return role;
 	}
+
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
+
+	public UserBIZ getUserBIZ() {
+		return userBIZ;
+	}
+
+	public void setUserBIZ(UserBIZ userBIZ) {
+		this.userBIZ = userBIZ;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Action(value="getRole",results={@org.apache.struts2.convention.annotation.Result(type="stream",
 			params={
 					"inputName", "reslutJson"
@@ -159,7 +118,7 @@ public class RoleAction extends ActionSupport {
 		//String r=callback+"("+new Gson().toJson(qResult)+")";
 		
 		reslutJson=new ByteArrayInputStream(new Gson().toJson(queryResult).getBytes("UTF-8"));  
-		
+		logUtil.logInfo("查询用户类别");
 		return SUCCESS;
 	}
 	
@@ -176,6 +135,7 @@ public class RoleAction extends ActionSupport {
 					result.setStatusCode("300");
 				}else{
 					roleBIZ.DeleteAllOfName(r);
+					logUtil.logInfo("删除用户类别+"+r.getName());
 					result.setMessage(Message.DEL_MESSAGE_SUCCESS);
 					result.setStatusCode("200");
 				}
@@ -183,6 +143,7 @@ public class RoleAction extends ActionSupport {
 			}
 			
 		} catch (Exception e) {
+			logUtil.logInfo("删除用户类别:"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");
 		}
@@ -212,12 +173,14 @@ public class RoleAction extends ActionSupport {
 						result.setStatusCode("300");
 					}else{
 						roleBIZ.Save(r);
+						logUtil.logInfo("新增用户类别:"+r.getName());
 						result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 						result.setStatusCode("200");
 					}
 					
 				}else{
 					roleBIZ.Mod(r);
+					logUtil.logInfo("修改用户类别:"+r.getName());
 					result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 					result.setStatusCode("200");
 				}	
@@ -226,6 +189,7 @@ public class RoleAction extends ActionSupport {
 					
 		} catch (Exception e1) {
 			e1.printStackTrace();
+			logUtil.logInfo("修改用户类别:"+e1.getMessage());
 			result.setMessage(e1.getMessage());
 			result.setStatusCode("300");	
 		}

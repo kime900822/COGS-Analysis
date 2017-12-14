@@ -17,22 +17,19 @@ import org.springframework.context.annotation.Scope;
 import com.analysis.biz.CogsBIZ;
 import com.analysis.model.COGS_Details;
 import com.google.gson.Gson;
+import com.kime.action.ActionBase;
 import com.kime.model.Result;
 import com.kime.utils.ExcelUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
 @Scope("prototype")
 @ParentPackage("DataImport")
-public class CogsAction extends ActionSupport {
+public class CogsAction extends ActionBase {
 
 	@Autowired
 	private CogsBIZ cogsBIZ;
 	@Autowired
-	private Result result;
-	@Autowired
 	private COGS_Details cogs_Details;
-	
-	private InputStream reslutJson;
 	
 	public COGS_Details getCogs_Details() {
 		return cogs_Details;
@@ -51,13 +48,7 @@ public class CogsAction extends ActionSupport {
 	private String Notes;
 	private String fileName;
 	
-	
-	public String getFileName() {
-		return fileName;
-	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
+
 	public String getNotes() {
 		return Notes;
 	}
@@ -76,12 +67,6 @@ public class CogsAction extends ActionSupport {
 	}
 	public void setCogsBIZ(CogsBIZ cogsBIZ) {
 		this.cogsBIZ = cogsBIZ;
-	}
-	public Result getResult() {
-		return result;
-	}
-	public void setResult(Result result) {
-		this.result = result;
 	}
 	public InputStream getReslutJson() {
 		return reslutJson;

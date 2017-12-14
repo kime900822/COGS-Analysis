@@ -29,74 +29,19 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller
 @Scope("prototype")
 @ParentPackage("Struts 2")
-public class EditorAction extends ActionSupport  {
+public class EditorAction extends ActionBase  {
 	
 	@Autowired
 	private EditorBIZ editorBIZ; 
 	@Autowired
 	private Editor editor;
-	@Autowired
-	private Result result;
-	@Autowired
-	private QueryResult queryResult ;
-	
 	
 	private String id;
 	private String title;
 	private String content;
 	private String date;
 	
-	private String pageSize;
-	private String pageCurrent;
-	private String callback;
-	private InputStream reslutJson;
-	private String json;
 	
-	public String getJson() {
-		return json;
-	}
-
-
-
-	public void setJson(String json) {
-		this.json = json;
-	}
-
-
-
-	public QueryResult getqResult() {
-		return queryResult;
-	}
-
-
-
-	public void setqResult(QueryResult queryResult) {
-		this.queryResult = queryResult;
-	}
-
-
-
-	public String getDate() {
-		return date;
-	}
-
-
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-
-
-	public InputStream getReslutJson() {
-		return reslutJson;
-	}
-
-
-
-	public void setReslutJson(InputStream reslutJson) {
-		this.reslutJson = reslutJson;
-	}
 
 
 
@@ -105,23 +50,9 @@ public class EditorAction extends ActionSupport  {
 	}
 
 
-
 	public void setEditorBIZ(EditorBIZ editorBIZ) {
 		this.editorBIZ = editorBIZ;
 	}
-
-
-
-	public Result getResult() {
-		return result;
-	}
-
-
-
-	public void setResult(Result result) {
-		this.result = result;
-	}
-
 
 
 	public String getId() {
@@ -129,11 +60,9 @@ public class EditorAction extends ActionSupport  {
 	}
 
 
-
 	public void setId(String id) {
 		this.id = id;
 	}
-
 
 
 	public String getTitle() {
@@ -141,11 +70,9 @@ public class EditorAction extends ActionSupport  {
 	}
 
 
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 
 
 	public String getContent() {
@@ -153,53 +80,24 @@ public class EditorAction extends ActionSupport  {
 	}
 
 
-
 	public void setContent(String content) {
 		this.content = content;
 	}
 
 
-
-	public String getPageSize() {
-		return pageSize;
+	public String getDate() {
+		return date;
 	}
 
 
-
-	public void setPageSize(String pageSize) {
-		this.pageSize = pageSize;
+	public void setDate(String date) {
+		this.date = date;
 	}
-
-
-
-	public String getPageCurrent() {
-		return pageCurrent;
-	}
-
-
-
-	public void setPageCurrent(String pageCurrent) {
-		this.pageCurrent = pageCurrent;
-	}
-
-
-
-	public String getCallback() {
-		return callback;
-	}
-
-
-
-	public void setCallback(String callback) {
-		this.callback = callback;
-	}
-
 
 
 	public void setEditor(Editor editor) {
 		this.editor = editor;
 	}
-
 
 
 	@Action(value="getEditor",results={@org.apache.struts2.convention.annotation.Result(type="stream",
@@ -235,7 +133,7 @@ public class EditorAction extends ActionSupport  {
 		
 		reslutJson=new ByteArrayInputStream(r.getBytes("UTF-8"));  
 		
-		
+		logUtil.logInfo("查询信息发布，条件:"+where);
 		return SUCCESS;
 	}
 	
@@ -248,11 +146,13 @@ public class EditorAction extends ActionSupport  {
 		List<Editor> leditor=new Gson().fromJson(json, new TypeToken<ArrayList<Editor>>() {}.getType());
 		try {
 			for (Editor editor : leditor) {
-				editorBIZ.deleteEditor(editor);		
+				editorBIZ.deleteEditor(editor);	
+				logUtil.logInfo("删除信息发布:"+editor.getTitle());
 			}
 			result.setMessage(Message.DEL_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
 		} catch (Exception e) {
+			logUtil.logInfo("删除信息发布:"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");
 		}
@@ -303,9 +203,11 @@ public class EditorAction extends ActionSupport  {
 			}else{
 				editorBIZ.updateEditor(editor);
 			}
+			logUtil.logInfo("修改信息:"+editor.getTitle());
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
 		} catch (Exception e) {
+			logUtil.logInfo("修改信息:"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");	
 		}

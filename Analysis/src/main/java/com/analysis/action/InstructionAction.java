@@ -31,6 +31,7 @@ import com.analysis.biz.InstructionBIZ;
 import com.analysis.model.Instruction;
 import com.analysis.model.Sales;
 import com.google.gson.Gson;
+import com.kime.action.ActionBase;
 import com.kime.infoenum.Message;
 import com.kime.model.Result;
 import com.kime.model.User;
@@ -40,26 +41,13 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller
 @Scope("prototype")
 @ParentPackage("DataImport")
-public class InstructionAction extends ActionSupport {
+public class InstructionAction extends ActionBase {
 	@Autowired
 	private InstructionBIZ instructionBIZ;
 	@Autowired
 	private Instruction instruction;
-	@Autowired
-	private Result result;
 
-	private InputStream reslutJson;
-	private String fileName;
-	private File upfile;
-	private String first;
-	private String[] upfileFileName;
-	
-	public String[] getUpfileFileName() {
-		return upfileFileName;
-	}
-	public void setUpfileFileName(String[] upfileFileName) {
-		this.upfileFileName = upfileFileName;
-	}
+
 	public InstructionBIZ getInstructionBIZ() {
 		return instructionBIZ;
 	}
@@ -72,36 +60,13 @@ public class InstructionAction extends ActionSupport {
 	public void setInstruction(Instruction instruction) {
 		this.instruction = instruction;
 	}
-	public Result getResult() {
-		return result;
-	}
-	public void setResult(Result result) {
-		this.result = result;
-	}
 	public InputStream getReslutJson() {
 		return reslutJson;
 	}
 	public void setReslutJson(InputStream reslutJson) {
 		this.reslutJson = reslutJson;
 	}
-	public String getFileName() {
-		return fileName;
-	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-	public File getUpfile() {
-		return upfile;
-	}
-	public void setUpfile(File upfile) {
-		this.upfile = upfile;
-	}
-	public String getFirst() {
-		return first;
-	}
-	public void setFirst(String first) {
-		this.first = first;
-	}
+	
 	
 	@Action(value="getInstruction",results={@org.apache.struts2.convention.annotation.Result(type="stream",
 			params={

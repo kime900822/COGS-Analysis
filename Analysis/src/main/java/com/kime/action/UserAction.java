@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import javax.annotation.Resource;
 import javax.jws.soap.SOAPBinding.Use;
@@ -45,13 +46,14 @@ import com.kime.infoenum.Message;
 import com.kime.model.QueryResult;
 import com.kime.model.Result;
 import com.kime.model.User;
+import com.kime.utils.LogUtil;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 @Controller
 @Scope("prototype")
 @ParentPackage("Struts 2")
-public class UserAction extends ActionSupport {
+public class UserAction extends ActionBase {
 
 	/**
 	 * 
@@ -63,24 +65,8 @@ public class UserAction extends ActionSupport {
 	@Autowired
 	private User user;
 	@Autowired
-	private Result result;
-	@Autowired
-	private QueryResult queryResult ;
-	@Autowired
 	private RoleBIZ roleBIZ;
 	
-	private InputStream reslutJson;
-	private String json;
-	
-	public String getJson() {
-		return json;
-	}
-
-
-	public void setJson(String json) {
-		this.json = json;
-	}
-
 
 	private String name;
 	private String password;
@@ -92,133 +78,8 @@ public class UserAction extends ActionSupport {
 	private String date;
 	private String email;
 	
-	private String pageSize;
-	private String pageCurrent;
-	private String callback;
-	private String fileName;
-	private File upfile;
-	private String first;
 	
 
-	
-	public RoleBIZ getRoleBIZ() {
-		return roleBIZ;
-	}
-
-
-	public void setRoleBIZ(RoleBIZ roleBIZ) {
-		this.roleBIZ = roleBIZ;
-	}
-
-
-	public String getEmail() {
-		return email;
-	}
-
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-
-	public File getUpfile() {
-		return upfile;
-	}
-
-
-	public void setUpfile(File upfile) {
-		this.upfile = upfile;
-	}
-
-
-	public String getFirst() {
-		return first;
-	}
-
-
-	public void setFirst(String first) {
-		this.first = first;
-	}
-
-
-	public String getFileName() {
-		return fileName;
-	}
-
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-
-	public String getDate() {
-		return date;
-	}
-
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-
-	public String getId() {
-		return id;
-	}
-
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-
-	public String getCallback() {
-		return callback;
-	}
-
-
-	public void setCallback(String callback) {
-		this.callback = callback;
-	}
-
-
-	public String getPageSize() {
-		return pageSize;
-	}
-
-
-	public void setPageSize(String pageSize) {
-		this.pageSize = pageSize;
-	}
-
-
-	public String getPageCurrent() {
-		return pageCurrent;
-	}
-
-
-	public void setPageCurrent(String pageCurrent) {
-		this.pageCurrent = pageCurrent;
-	}
-
-
-	public QueryResult getQueryResult() {
-		return queryResult;
-	}
-
-
-	public void setQueryResult(QueryResult queryResult) {
-		this.queryResult = queryResult;
-	}
-
-
-	public String getRid() {
-		return rid;
-	}
-
-
-	public void setRid(String rid) {
-		this.rid = rid;
-	}
 
 
 	public UserBIZ getUserBIZ() {
@@ -229,17 +90,25 @@ public class UserAction extends ActionSupport {
 	public void setUserBIZ(UserBIZ userBIZ) {
 		this.userBIZ = userBIZ;
 	}
-	
 
 
-
-	public Result getResult() {
-		return result;
+	public User getUser() {
+		return user;
 	}
 
 
-	public void setResult(Result result) {
-		this.result = result;
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+	public RoleBIZ getRoleBIZ() {
+		return roleBIZ;
+	}
+
+
+	public void setRoleBIZ(RoleBIZ roleBIZ) {
+		this.roleBIZ = roleBIZ;
 	}
 
 
@@ -260,18 +129,6 @@ public class UserAction extends ActionSupport {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	
-	
-
-	public InputStream getReslutJson() {
-		return reslutJson;
-	}
-
-
-	public void setReslutJson(InputStream reslutJson) {
-		this.reslutJson = reslutJson;
 	}
 
 
@@ -295,18 +152,6 @@ public class UserAction extends ActionSupport {
 	}
 
 
-	public User getUser() {
-		return user;
-	}
-
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-
-	
-	
 	public String getOldpassword() {
 		return oldpassword;
 	}
@@ -317,13 +162,48 @@ public class UserAction extends ActionSupport {
 	}
 
 
-	public QueryResult getqResult() {
-		return queryResult;
+	public String getRid() {
+		return rid;
 	}
 
 
-	public void setqResult(QueryResult queryResult) {
-		this.queryResult = queryResult;
+	public void setRid(String rid) {
+		this.rid = rid;
+	}
+
+
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+	public String getDate() {
+		return date;
+	}
+
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 
@@ -331,6 +211,7 @@ public class UserAction extends ActionSupport {
 	 * 用户登录
 	 * @return
 	 */
+	
 	@Action(value="login",
 			results={@org.apache.struts2.convention.annotation.Result(name="success",location="/UI/index.jsp"),
 			@org.apache.struts2.convention.annotation.Result(name="error",location="/UI/login.jsp")})
@@ -361,10 +242,12 @@ public class UserAction extends ActionSupport {
 		
 		if (err_message==null) {
 			session.setAttribute("user", user);
+			logUtil.logInfo("登录成功！");
 			return SUCCESS;
 			
 		}else{
 			session.setAttribute("login_message", err_message.toString());
+			logUtil.logInfo("登录失败！"+err_message.toString());
 			return ERROR;
 			
 		}
@@ -396,10 +279,12 @@ public class UserAction extends ActionSupport {
 		
 		try {
 			userBIZ.register(user);
+			logUtil.logInfo("注册成功");
 			result.setMessage(Message.REGISTER_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
 		} catch (Exception e1) {
-			result.setMessage(e1.getMessage());
+			result.setMessage("注册失败！"+e1.getMessage());
+			logUtil.logInfo(e1.getMessage());
 			result.setStatusCode("300");
 			e1.printStackTrace();
 		}
@@ -425,10 +310,12 @@ public class UserAction extends ActionSupport {
 				user.setPassword(password);
 				try {
 					userBIZ.modUser(user);
+					logUtil.logInfo("修改密码成功");
 					result.setMessage(Message.MOD_MESSAGE_SUCCESS);
 					result.setStatusCode("200");
 				} catch (Exception e1) {
 					result.setMessage(e1.getMessage());
+					logUtil.logInfo("修改密码失败！"+e1.getMessage());
 					result.setStatusCode("300");
 					e1.printStackTrace();
 				}
@@ -456,6 +343,7 @@ public class UserAction extends ActionSupport {
 		ActionContext actionContext = ActionContext.getContext();  
         Map session = actionContext.getSession();  
         session.clear();
+        logUtil.logInfo("注销登陆");
         return SUCCESS;
 		
 	}
@@ -536,7 +424,7 @@ public class UserAction extends ActionSupport {
 		
 		reslutJson=new ByteArrayInputStream(r.getBytes("UTF-8"));  
 		
-		
+		logUtil.logInfo("查询用户信息，条件:"+where);
 		return SUCCESS;
 	}
 	
@@ -574,6 +462,7 @@ public class UserAction extends ActionSupport {
 		}
 		String r=callback+"("+new Gson().toJson(user)+")";
 		reslutJson=new ByteArrayInputStream(r.getBytes("UTF-8"));  
+		logUtil.logInfo("修改用户信息，用户:"+user.getJobnumber());
 		return SUCCESS;
 		
 		
@@ -593,10 +482,12 @@ public class UserAction extends ActionSupport {
 		try {
 			for (User u : luser) {
 				userBIZ.deleteUser(u);			
+				logUtil.logInfo("删除用户！"+u.getJobnumber());
 			}
 			result.setMessage(Message.DEL_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
 		} catch (Exception e) {
+			logUtil.logInfo("删除用户！"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");
 		}
@@ -741,9 +632,11 @@ public class UserAction extends ActionSupport {
     		fileName = "User"+sf.format(new Date()).toString()+ ".xls";
     		fileName= new String(fileName.getBytes(), "ISO8859-1");
     		//文件流
-            reslutJson = is;            
+            reslutJson = is;   
+            logUtil.logInfo("导出用户，条件："+where);
         }
         catch(Exception e) {
+        	logUtil.logInfo("导出用户!"+e.getMessage());
             e.printStackTrace();
         }
 
@@ -788,13 +681,19 @@ public class UserAction extends ActionSupport {
 	            userBIZ.inportUser(lUsers);
 	            wb.close();
 	            fs.close();
+	            for (User u :lUsers) {
+	            	logUtil.logInfo("导入用户!"+u.getJobnumber());
+				}
+	            logUtil.logInfo("导入用户!成功");
 	            result.setMessage(Message.UPLOAD_MESSAGE_SUCCESS);
 				result.setStatusCode("200");
 			}else{
+				logUtil.logInfo("导入用户!失败");
 				result.setMessage(Message.UPLOAD_MESSAGE_ERROE);
 				result.setStatusCode("300");
 			}
 		} catch (Exception e) {
+			logUtil.logInfo("导入用户!"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");
 		}

@@ -30,6 +30,7 @@ import com.analysis.biz.SourceBIZ;
 import com.analysis.model.Sales;
 import com.analysis.model.Source;
 import com.google.gson.Gson;
+import com.kime.action.ActionBase;
 import com.kime.infoenum.Message;
 import com.kime.model.Result;
 import com.kime.utils.ExcelUtil;
@@ -38,29 +39,14 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller
 @Scope("prototype")
 @ParentPackage("DataImport")
-public class SourceAction extends ActionSupport {
+public class SourceAction extends ActionBase {
 
 	@Autowired
 	private Source source;
 	@Autowired
 	private SourceBIZ sourceBIZ;
-	@Autowired
-	private Result result;
 	
-	private InputStream reslutJson;
-	private String fileName;
-	private File upfile;
-	private String first;
-	private String[] upfileFileName;
 	
-
-
-	public String[] getUpfileFileName() {
-		return upfileFileName;
-	}
-	public void setUpfileFileName(String[] upfileFileName) {
-		this.upfileFileName = upfileFileName;
-	}
 	public Source getSource() {
 		return source;
 	}
@@ -73,37 +59,6 @@ public class SourceAction extends ActionSupport {
 	public void setSourceBIZ(SourceBIZ sourceBIZ) {
 		this.sourceBIZ = sourceBIZ;
 	}
-	public Result getResult() {
-		return result;
-	}
-	public void setResult(Result result) {
-		this.result = result;
-	}
-	public InputStream getReslutJson() {
-		return reslutJson;
-	}
-	public void setReslutJson(InputStream reslutJson) {
-		this.reslutJson = reslutJson;
-	}
-	public String getFileName() {
-		return fileName;
-	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-	public File getUpfile() {
-		return upfile;
-	}
-	public void setUpfile(File upfile) {
-		this.upfile = upfile;
-	}
-	public String getFirst() {
-		return first;
-	}
-	public void setFirst(String first) {
-		this.first = first;
-	}
-	
 	
 	
 	@Action(value="getSource",results={@org.apache.struts2.convention.annotation.Result(type="stream",
@@ -197,6 +152,7 @@ public class SourceAction extends ActionSupport {
 	    		if (lSources.size()>0) {
 					sourceBIZ.DeleteSource("");
 					sourceBIZ.SaveSource(lSources);
+					logUtil.logInfo("导入Source成功！文件："+fileName);
 					result.setMessage(Message.UPLOAD_MESSAGE_SUCCESS);
 					result.setStatusCode("200");
 				}else{
@@ -205,10 +161,12 @@ public class SourceAction extends ActionSupport {
 				}
 	            
 			}else{
+				logUtil.logInfo("导入Source失败！文件上传失败："+fileName);
 				result.setMessage(Message.UPLOAD_MESSAGE_ERROE);
 				result.setStatusCode("300");
 			}
 		} catch (Exception e) {
+			logUtil.logInfo("导入Source失败！"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");
 		}
@@ -242,8 +200,10 @@ public class SourceAction extends ActionSupport {
     		fileName= new String(fileName.getBytes(), "ISO8859-1");
     		//文件流
             reslutJson = is;            
+            logUtil.logInfo("导出Source！"+fileName);
         }
         catch(Exception e) {
+        	logUtil.logInfo("导出Source！"+e.getMessage());
             e.printStackTrace();
         }
 

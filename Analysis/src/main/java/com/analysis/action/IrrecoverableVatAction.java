@@ -21,6 +21,7 @@ import com.analysis.model.Instruction;
 import com.analysis.model.IrrecoverableVat;
 import com.analysis.model.Sales;
 import com.google.gson.Gson;
+import com.kime.action.ActionBase;
 import com.kime.infoenum.Message;
 import com.kime.model.Result;
 import com.kime.utils.ExcelUtil;
@@ -28,29 +29,14 @@ import com.opensymphony.xwork2.ActionSupport;
 
 @Scope("prototype")
 @ParentPackage("DataImport")
-public class IrrecoverableVatAction extends ActionSupport {
+public class IrrecoverableVatAction extends ActionBase {
 
 	@Autowired
 	private IrrecoverableVatBIZ IrrecoverableVatBIZ;
 	@Autowired
 	private IrrecoverableVat irrecoverableVat;
-	@Autowired
-	private Result result;
+
 	
-	
-	private InputStream reslutJson;
-	private String fileName;
-	private File upfile;
-	private String first;
-	private String[] upfileFileName;
-	
-	
-	public String[] getUpfileFileName() {
-		return upfileFileName;
-	}
-	public void setUpfileFileName(String[] upfileFileName) {
-		this.upfileFileName = upfileFileName;
-	}
 	public IrrecoverableVatBIZ getIrrecoverableVatBIZ() {
 		return IrrecoverableVatBIZ;
 	}
@@ -63,37 +49,7 @@ public class IrrecoverableVatAction extends ActionSupport {
 	public void setIrrecoverableVat(IrrecoverableVat irrecoverableVat) {
 		this.irrecoverableVat = irrecoverableVat;
 	}
-	public Result getResult() {
-		return result;
-	}
-	public void setResult(Result result) {
-		this.result = result;
-	}
-	public InputStream getReslutJson() {
-		return reslutJson;
-	}
-	public void setReslutJson(InputStream reslutJson) {
-		this.reslutJson = reslutJson;
-	}
-	public String getFileName() {
-		return fileName;
-	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-	public File getUpfile() {
-		return upfile;
-	}
-	public void setUpfile(File upfile) {
-		this.upfile = upfile;
-	}
-	public String getFirst() {
-		return first;
-	}
-	public void setFirst(String first) {
-		this.first = first;
-	}
-	
+
 	
 	@Action(value="getIrrecoverableVat",results={@org.apache.struts2.convention.annotation.Result(type="stream",
 			params={

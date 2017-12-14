@@ -32,6 +32,7 @@ import com.analysis.biz.SalesBIZ;
 import com.analysis.model.Instruction;
 import com.analysis.model.Sales;
 import com.google.gson.Gson;
+import com.kime.action.ActionBase;
 import com.kime.infoenum.Message;
 import com.kime.model.Result;
 import com.kime.utils.ExcelUtil;
@@ -40,26 +41,13 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller
 @Scope("prototype")
 @ParentPackage("DataImport")
-public class SalesAction extends ActionSupport {
+public class SalesAction extends ActionBase {
 	@Autowired
 	private SalesBIZ salesBIZ;
 	@Autowired
 	private Sales sales;
-	@Autowired
-	private Result result;
+
 	
-	private InputStream reslutJson;
-	private String fileName;
-	private File upfile;
-	private String first;
-	private String[] upfileFileName;
-	
-	public String[] getUpfileFileName() {
-		return upfileFileName;
-	}
-	public void setUpfileFileName(String[] upfileFileName) {
-		this.upfileFileName = upfileFileName;
-	}
 	public SalesBIZ getSalesBIZ() {
 		return salesBIZ;
 	}
@@ -71,36 +59,6 @@ public class SalesAction extends ActionSupport {
 	}
 	public void setSales(Sales sales) {
 		this.sales = sales;
-	}
-	public Result getResult() {
-		return result;
-	}
-	public void setResult(Result result) {
-		this.result = result;
-	}
-	public InputStream getReslutJson() {
-		return reslutJson;
-	}
-	public void setReslutJson(InputStream reslutJson) {
-		this.reslutJson = reslutJson;
-	}
-	public String getFileName() {
-		return fileName;
-	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-	public File getUpfile() {
-		return upfile;
-	}
-	public void setUpfile(File upfile) {
-		this.upfile = upfile;
-	}
-	public String getFirst() {
-		return first;
-	}
-	public void setFirst(String first) {
-		this.first = first;
 	}
 	
 	
