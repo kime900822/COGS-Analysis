@@ -16,7 +16,7 @@ public interface UserDAO {
 	 * @param passWord
 	 * @return
 	 */
-	public User login(String najobnumberme,String passWord);
+	public User login(String uid,String passWord);
 	
 	/**
 	 * 注册

@@ -18,7 +18,7 @@
 	<!-- 当struts配置文件修改后，系统是否重新加载该文件。默认为false。开发阶段建议为true， -->
 	<constant name="struts.configuratio.xml.reload" value="true" />
 	<!-- 开发模式下，这样可以打印出更加详细的错误i -->
-	<constant name="struts.devMode" value="true" />
+	<constant name="struts.devMode" value="false" />
 	<!-- 开启动态方法调用 -->
 	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
 	<!-- 默认视觉主题 这个配置之后label什么都不会显示-->

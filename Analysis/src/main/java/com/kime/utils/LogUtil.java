@@ -32,7 +32,7 @@ public class LogUtil  {
 		  User user=(User) session.getAttribute("user");
 		  String ip = request.getRemoteAddr();
 		  if (user!=null) {
-			  log.debug(" IP:"+ip+" 工号:"+user.getJobnumber()+" 操作:" +message);
+			  log.debug(" IP:"+ip+" 工号:"+user.getUid()+" 操作:" +message);
 		  }
 		  
 	  }
@@ -41,7 +41,7 @@ public class LogUtil  {
 		  User user=(User) session.getAttribute("user");
 		  String ip = request.getRemoteAddr();
 		  if (user!=null) {
-			  log.info(" IP:"+ip+" 工号:"+user.getJobnumber()+" 操作:" +message);
+			  log.info(" IP:"+ip+" 工号:"+user.getUid()+" 操作:" +message);
 		  }
 	  }
 	  
@@ -49,7 +49,7 @@ public class LogUtil  {
 		  User user=(User) session.getAttribute("user");
 		  String ip = request.getRemoteAddr();
 		  if (user!=null) {
-			  log.error(" IP:"+ip+" 工号:"+user.getJobnumber()+" 操作:" +message);
+			  log.error(" IP:"+ip+" 工号:"+user.getUid()+" 操作:" +message);
 		  }
 	  }
 }

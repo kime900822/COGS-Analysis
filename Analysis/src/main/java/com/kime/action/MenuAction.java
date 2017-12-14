@@ -122,7 +122,7 @@ public class MenuAction extends ActionBase {
 		HttpServletRequest request=ServletActionContext.getRequest();
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
-		if (PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "jobnumber").equals(user.getJobnumber())) {
+		if (PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "id").equals(user.getUid())) {
 			List lMenus=menuBIZ.getParentMenu();
 			session.setAttribute("parentMenu", lMenus); 
 			for (Object object : lMenus) {

@@ -101,11 +101,11 @@ $(function() {
     choose_bg();
     changeCode();
     if ($.cookie(COOKIE_NAME)){
-        $("#j_jobnumber").val($.cookie(COOKIE_NAME));
+        $("#j_uid").val($.cookie(COOKIE_NAME));
         $("#j_password").focus();
         $("#j_remember").attr('checked', true);
     } else {
-        $("#j_jobnumber").focus();
+        $("#j_uid").focus();
     }
     $("#captcha_img").click(function(){
         changeCode();
@@ -183,7 +183,7 @@ function choose_bg() {
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon" id="sizing-addon-user"><span class="glyphicon glyphicon-user"></span></span>
-                    <input type="text" class="form-control" id="j_jobnumber" name="jobnumber" value="" data-rule="required" placeholder="JobNumber" aria-describedby="sizing-addon-user">
+                    <input type="text" class="form-control" id="j_uid" name="uid" value="" data-rule="required" placeholder="ID" aria-describedby="sizing-addon-user">
                 </div>
             </div>
             </br>

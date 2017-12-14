@@ -26,8 +26,8 @@ public class UserDAOImpl extends HibernateDaoSupport implements UserDAO {
     }  
     
 	@Override
-	public User login(String jobnumber, String passWord) {
-		List user=this.getHibernateTemplate().find("FROM User where jobnumber=? and password=? ", new String[]{jobnumber,passWord});
+	public User login(String uid, String passWord) {
+		List user=this.getHibernateTemplate().find("FROM User where uid=? and password=? ", new String[]{uid,passWord});
 		if (user.size()>0) {
 			return (User)user.get(0);
 		}

@@ -16,7 +16,7 @@ public interface UserBIZ {
 	 * @param passWord
 	 * @return
 	 */
-	public User login(String jobnumber,String passWord);
+	public User login(String uid,String passWord);
 	
 	/**
 	 * 注册

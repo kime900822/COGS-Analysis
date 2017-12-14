@@ -195,7 +195,7 @@ public class EditorAction extends ActionBase  {
 		editor.setId(id);
 		editor.setTitle(title);
 		editor.setUser(user);
-		editor.setUid(user.getId());
+		editor.setUid(user.getUid());
 
 		try {
 			if ("".equals(id)||id==null) {

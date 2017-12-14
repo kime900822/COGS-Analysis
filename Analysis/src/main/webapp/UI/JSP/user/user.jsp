@@ -43,7 +43,7 @@
         dataType: 'jsonp',
         editMode: {dialog:{width:'800',height:280,title:'Edit User',mask:true}},
         delUrl:'deleteUser.action',
-        editUrl: 'JSP/user/user-edit.jsp?id={id}&name={name}&sex={sex}&jobnumber={jobnumber}&type={type}&date={date}&password={password}&email={email}',
+        editUrl: 'JSP/user/user-edit.jsp?uid={uid}&name={name}&sex={sex}&type={type}&date={date}&password={password}&email={email}',
         paging: {pageSize:60, pageCurrent:1},
         showCheckboxcol: true,
         linenumberAll: true,
@@ -54,8 +54,7 @@
     }">
         <thead>
             <tr>
-            	<th data-options="{name:'id',width:400,align:'center',hide:'true',finalWidth:'true'}" >ID</th>
-            	<th data-options="{name:'jobnumber',width:60,align:'center',finalWidth:'true'}">JobNumber</th>
+            	<th data-options="{name:'uid',width:150,align:'center',finalWidth:'true'}" >ID</th>
 				<th data-options="{name:'name',width:150,align:'center',finalWidth:'true'}">UserName</th>
 				<th data-options="{name:'sex',width:60,align:'center',type:'select',items:[{'M':'Male'},{'F':'Female'}] ,finalWidth:'true'}">Sex</th>
 				<th data-options="{name:'email',width:400,align:'center',finalWidth:'true'}">Email</th>

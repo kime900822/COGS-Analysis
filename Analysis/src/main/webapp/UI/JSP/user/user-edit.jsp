@@ -2,22 +2,28 @@
     pageEncoding="UTF-8"%>
  <script type="text/javascript">
 
+		$(function(){
+			if('${param.uid}'!=null){
+				$.CurrentDialog.find('#j_user_edit_uid').attr("disabled",false);				
+			}
+			
+			BJUI.ajax('doajax', {
+			    url: 'getAllRole.action',
+			    loadingmask: false,
+			    okCallback: function(json, options) {
+	                $.each(json, function (i, item) {
+	                    $.CurrentDialog.find('#j_user_edit_rid').append("<option value='" + item.rid + "'>" + item.name + "</option>")           
+	                })
+	                $.CurrentDialog.find('#j_user_edit_rid').selectpicker('val','${param.rid}');
+	                $.CurrentDialog.find('#j_user_edit_rid').selectpicker('refresh');
+			    }
+			})	
+			
+			if('${param.sex}'=='F'){
+				$.CurrentDialog.find('#j_user_edit_sex_nv').attr("checked","checked");
+			}
+		})
 
-		BJUI.ajax('doajax', {
-		    url: 'getAllRole.action',
-		    loadingmask: false,
-		    okCallback: function(json, options) {
-                $.each(json, function (i, item) {
-                    $.CurrentDialog.find('#j_user_edit_type').append("<option value='" + item.rid + "'>" + item.name + "</option>")           
-                })
-                $.CurrentDialog.find('#j_user_edit_type').selectpicker('val','${param.rid}');
-                $.CurrentDialog.find('#j_user_edit_type').selectpicker('refresh');
-		    }
-		})	
-		
-		if('${param.sex}'=='F'){
-			$.CurrentDialog.find('#j_user_edit_sex_nv').attr("checked","checked");
-		}
 		
 
 
@@ -27,12 +33,12 @@
     <div class="bs-example" >
         <form action="modUser.action?callback=?" class="datagrid-edit-form" data-toggle="validate" data-data-type="jsonp">
             <div class="bjui-row col-2">
-            	<input type="text" name="id" value="${param.id}" style="display:none;"/>
-                <label class="row-label">UserName</label>
-                <label class="row-label">JobNumber</label>
+                
+                <label class="row-label">ID</label>
                 <div class="row-input required">
-                    <input type="text" name="age" value="${param.jobnumber}" data-rule="required">
+                    <input type="text" name="uid" id="j_user_edit_uid" value="${param.uid}" data-rule="required" >
                 </div>
+                <label class="row-label">Name</label>
                 <div class="row-input required">
                     <input type="text" name="name" value="${param.name}" data-rule="required">
                 </div>
@@ -43,7 +49,7 @@
                 </div>
                 <label class="row-label">Role</label>
                 <div class="row-input required">
-                    <select name="type" data-toggle="selectpicker" id="j_user_edit_type" data-rule="required" data-width="100%"  >
+                    <select name="rid" data-toggle="selectpicker" id="j_user_edit_rid" data-rule="required" data-width="100%"  >
                          <option value="" selected></option>
                     </select>
                 </div>

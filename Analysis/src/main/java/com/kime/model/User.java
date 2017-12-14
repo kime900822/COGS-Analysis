@@ -27,15 +27,13 @@ import org.springframework.stereotype.Component;
 public class User {
 	
 	@Id
-	@GeneratedValue(generator="uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid")
-	private String id;
+	@GeneratedValue(generator="assigned")
+	@GenericGenerator(name = "assigned", strategy = "assigned")
+	private String uid;
 	@Column(length=50)
 	private String name;
 	@Column(length=50)
 	private String password;
-	@Column(length=11)
-	private String jobnumber;
 	@Column(length=10)
 	private String sex;
 	@Column
@@ -69,12 +67,6 @@ public class User {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public String getName() {
 		return name;
 	}
@@ -87,14 +79,6 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-
-	public String getJobnumber() {
-		return jobnumber;
-	}
-	public void setJobnumber(String jobnumber) {
-		this.jobnumber = jobnumber;
 	}
 	public String getSex() {
 		return sex;
@@ -113,6 +97,12 @@ public class User {
 	}
 	public void setRole(Role role) {
 		this.role = role;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 
 

@@ -70,11 +70,10 @@ public class UserAction extends ActionBase {
 
 	private String name;
 	private String password;
-	private String jobnumber;
 	private String sex;
 	private String oldpassword;
 	private String rid;
-	private String id;
+	private String uid;
 	private String date;
 	private String email;
 	
@@ -131,17 +130,6 @@ public class UserAction extends ActionBase {
 		this.password = password;
 	}
 
-
-	public String getJobnumber() {
-		return jobnumber;
-	}
-
-
-	public void setJobnumber(String jobnumber) {
-		this.jobnumber = jobnumber;
-	}
-
-
 	public String getSex() {
 		return sex;
 	}
@@ -172,13 +160,13 @@ public class UserAction extends ActionBase {
 	}
 
 
-	public String getId() {
-		return id;
+	public String getUid() {
+		return uid;
 	}
 
 
-	public void setId(String id) {
-		this.id = id;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 
 
@@ -225,12 +213,12 @@ public class UserAction extends ActionBase {
 		
 		String err_message = null;
 		try {
-			if ("".equals(jobnumber)&&"".equals(password)) {
-				err_message="Please enter your Jobnumber and password";
+			if ("".equals(uid)&&"".equals(password)) {
+				err_message="Please enter your id and password";
 			}else{
-				user=userBIZ.login(jobnumber, password);
+				user=userBIZ.login(uid, password);
 				if (user==null) {
-					err_message="User jobnumber or password error";
+					err_message="User id or password error";
 				}
 				
 			}
@@ -269,7 +257,7 @@ public class UserAction extends ActionBase {
 		
 		Date d1=new Date();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:dd");
-		user.setJobnumber(jobnumber);
+		user.setUid(uid);
 		user.setName(name);
 		user.setPassword(password);
 		user.setSex(sex);
@@ -369,11 +357,11 @@ public class UserAction extends ActionBase {
 			}
 			where += " name like '%"+name+"%'";
 		}
-		if (!"".equals(id)&&id!=null) {
+		if (!"".equals(uid)&&uid!=null) {
 			if (!"".equals(where)) {
 				where +=" and ";
 			}
-			where += " id like '%"+id+"%'";
+			where += " uid like '%"+uid+"%'";
 		}
 		
 		if (!"".equals(sex)&&sex!=null) {
@@ -388,14 +376,6 @@ public class UserAction extends ActionBase {
 				where +=" and ";
 			}
 			where += " date = '"+date+"'";
-		}
-		
-		
-		if (!"".equals(jobnumber)&&jobnumber!=null) {
-			if (!"".equals(where)) {
-				where +=" and ";
-			}
-			where += " jobnumber = '"+jobnumber+"'";
 		}
 		
 		if (!"".equals(email)&&email!=null) {
@@ -441,17 +421,16 @@ public class UserAction extends ActionBase {
 		
 		Date d1=new Date();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:dd");
-		user.setJobnumber(jobnumber);
 		user.setName(name);
 		user.setPassword(password);
 		user.setSex(sex);
 		user.setRid(rid);;
 		user.setDate(sdf.format(d1));
-		user.setId(id);
-		user.setId(email);
+		user.setUid(uid);
+		user.setEmail(email);
 		
 		try {
-			if (id==null||"".equals(id)) {
+			if (uid==null||"".equals(uid)) {
 				userBIZ.register(user);	
 			}else{
 				userBIZ.modUser(user);
@@ -462,7 +441,7 @@ public class UserAction extends ActionBase {
 		}
 		String r=callback+"("+new Gson().toJson(user)+")";
 		reslutJson=new ByteArrayInputStream(r.getBytes("UTF-8"));  
-		logUtil.logInfo("修改用户信息，用户:"+user.getJobnumber());
+		logUtil.logInfo("修改用户信息，用户:"+user.getUid());
 		return SUCCESS;
 		
 		
@@ -482,7 +461,7 @@ public class UserAction extends ActionBase {
 		try {
 			for (User u : luser) {
 				userBIZ.deleteUser(u);			
-				logUtil.logInfo("删除用户！"+u.getJobnumber());
+				logUtil.logInfo("删除用户！"+u.getUid());
 			}
 			result.setMessage(Message.DEL_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -528,7 +507,7 @@ public class UserAction extends ActionBase {
             HSSFCell cell;
 
             cell = row.createCell(0);
-            cell.setCellValue("JobNumber");
+            cell.setCellValue("ID");
             cell.setCellStyle(style);
 
             cell = row.createCell(1);
@@ -575,11 +554,11 @@ public class UserAction extends ActionBase {
     			}
     			where += " name like '%"+name+"%'";
     		}
-    		if (!"".equals(id)&&id!=null) {
+    		if (!"".equals(uid)&&uid!=null) {
     			if (!"".equals(where)) {
     				where +=" and ";
     			}
-    			where += " id like '%"+id+"%'";
+    			where += " uid like '%"+uid+"%'";
     		}
     		
     		if (!"".equals(sex)&&sex!=null) {
@@ -596,13 +575,7 @@ public class UserAction extends ActionBase {
     			where += " date = '"+date+"'";
     		}
     		
-    		
-    		if (!"".equals(jobnumber)&&jobnumber!=null) {
-    			if (!"".equals(where)) {
-    				where +=" and ";
-    			}
-    			where += " jobnumber = '"+jobnumber+"'";
-    		}
+    	
     		
     		if (!"".equals(where)) {
     			where =" where "+where;
@@ -613,7 +586,7 @@ public class UserAction extends ActionBase {
             for (User user : lUsers) {
             	i++;
                 row = sheet.createRow(i);
-                row.createCell(0).setCellValue(user.getJobnumber());
+                row.createCell(0).setCellValue(user.getUid());
                 row.createCell(1).setCellValue(user.getName());
                 row.createCell(2).setCellValue(user.getPassword());
                 row.createCell(3).setCellValue(user.getSex());
@@ -666,7 +639,7 @@ public class UserAction extends ActionBase {
 	                HSSFRow row = sheet.getRow(i);
 	
 	    				User user=new User();
-	    				user.setJobnumber(row.getCell(0).getStringCellValue());
+	    				user.setUid(row.getCell(0).getStringCellValue());
 	    				user.setName(row.getCell(1).getStringCellValue());
 	    				user.setPassword(row.getCell(2).getStringCellValue());	    				
 	    				user.setSex(row.getCell(3).getStringCellValue());
@@ -682,7 +655,7 @@ public class UserAction extends ActionBase {
 	            wb.close();
 	            fs.close();
 	            for (User u :lUsers) {
-	            	logUtil.logInfo("导入用户!"+u.getJobnumber());
+	            	logUtil.logInfo("导入用户!"+u.getUid());
 				}
 	            logUtil.logInfo("导入用户!成功");
 	            result.setMessage(Message.UPLOAD_MESSAGE_SUCCESS);

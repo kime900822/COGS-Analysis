@@ -30,18 +30,18 @@ public class UserBIZImpl implements UserBIZ {
 	}
 
 	@Override
-	public User login(String jobnumber, String passWord) {
-		if (jobnumber.equals(PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "jobnumber"))&&passWord.equals(PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "password"))) {
+	public User login(String uid, String passWord) {
+		if (uid.equals(PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "id"))&&passWord.equals(PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "password"))) {
 			User user=new User();
 			user.setName("admin");
 			user.setPassword(passWord);
-			user.setId("admin");
+			user.setUid("admin");
 			Role role=new Role();
 			role.setName("admin");
 			user.setRole(role);
 			return user;
 		}else{
-			return userDao.login(jobnumber, passWord);
+			return userDao.login(uid, passWord);
 		}
 		
 	}
