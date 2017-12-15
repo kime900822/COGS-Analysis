@@ -217,7 +217,7 @@ public class RoleAction extends ActionBase {
 			})})
 	public String GetAllRole_User() throws UnsupportedEncodingException{
 		
-		List<Role> lRole=roleBIZ.GetRole(" WHERE level='-1' ");
+		List<Role> lRole=roleBIZ.GetRole(" WHERE level='0' ");
 		StringBuilder stringBuilder =new StringBuilder();
 		stringBuilder.append("[");
 		for (Role role : lRole) {
