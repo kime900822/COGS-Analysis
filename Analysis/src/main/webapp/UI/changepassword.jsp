@@ -20,8 +20,12 @@ function check(){
 <div class="bjui-pageContent">
     <form action="change.action" data-toggle="validate" method="post" data-close-current="true" onsubmit="return check();">
         <div class="bjui-row col-1">
+      		<label class="row-label">ID:</label>
+            <div class="row-input">${user.uid}</div>
             <label class="row-label">Username:</label>
             <div class="row-input">${user.name}</div>
+            <label class="row-label">Email:</label>
+            <div class="row-input">${user.email}</div>
             <label class="row-label">Old Password:</label>
             <div class="row-input required">
                 <input type="password" id="j_userinfo_changepass_oldpass" name="oldpassword" value="" data-rule="required;">

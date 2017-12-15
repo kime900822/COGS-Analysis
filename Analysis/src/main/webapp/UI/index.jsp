@@ -172,18 +172,9 @@ function bjui_index_exchange() {
             <nav class="collapse navbar-collapse" id="bjui-top-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="datetime"><a><span id="bjui-date">0000/00/00</span> <span id="bjui-clock">00:00:00</span></a></li>
-                    <li><a href="#">UserName：${user.name}</a></li>
+                    <li><a href="changepassword.jsp" data-toggle="dialog" data-id="sys_user_changepass" data-mask="true" data-width="500" data-height="300">UserName：${user.name}</a></li>
                     <li><a href="#">Department：${user.role.name}</a></li>
-                    <li><a href="changepassword.jsp" data-toggle="dialog" data-id="sys_user_changepass" data-mask="true" data-width="500" data-height="300">Change Password</a></li>
                     <li><a href="logout.action" style="font-weight:bold;">&nbsp;<i class="fa fa-power-off"></i> Logout</a></li>
-                    <li class="dropdown"><a href="#" class="dropdown-toggle bjui-fonts-tit" data-toggle="dropdown" title="Change Font Size"><i class="fa fa-font"></i> 大</a>
-                        <ul class="dropdown-menu" role="menu" id="bjui-fonts">
-                            <li><a href="javascript:;" class="bjui-font-a" data-toggle="fonts"><i class="fa fa-font"></i> More Large</a></li>
-                            <li><a href="javascript:;" class="bjui-font-b" data-toggle="fonts"><i class="fa fa-font"></i> Large</a></li>
-                            <li><a href="javascript:;" class="bjui-font-c" data-toggle="fonts"><i class="fa fa-font"></i> Middle</a></li>
-                            <li><a href="javascript:;" class="bjui-font-d" data-toggle="fonts"><i class="fa fa-font"></i> Small</a></li>
-                        </ul>
-                    </li>
                     <li class="dropdown active"><a href="#" class="dropdown-toggle theme" data-toggle="dropdown" title="Change Skin"><i class="fa fa-tree"></i></a>
                         <ul class="dropdown-menu" role="menu" id="bjui-themes">
                             <!--

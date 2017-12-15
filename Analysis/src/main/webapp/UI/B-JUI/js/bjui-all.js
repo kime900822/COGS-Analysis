@@ -16668,7 +16668,7 @@
                 $li.theme({})
                 
                 /* font */
-                var fontSize = $.cookie('bjui_font') || 'bjui-font-c'
+                var fontSize = $.cookie('bjui_font') || 'bjui-font-d'
                 var $fontLi  = $fontLis.find('a.'+ fontSize)
                 
                 $fontLi.theme('setFont', fontSize)
