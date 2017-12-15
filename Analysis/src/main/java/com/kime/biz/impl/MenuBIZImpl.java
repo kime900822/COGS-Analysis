@@ -37,7 +37,7 @@ public class MenuBIZImpl implements MenuBIZ {
 		if (menuDao.getMenuByID(menu.getId())==null) {
 			menuDao.save(menu);
 		}else{
-			menuDao.modMenu(menu);
+			menuDao.update(menu);
 		}
 		
 	}
@@ -107,11 +107,11 @@ public class MenuBIZImpl implements MenuBIZ {
 		lm.add(menu);
 		lm.addAll(getAllChildMenu(menu));
 		for (Menu m : lm) {
-			List<Role> lRoles=roleBIZ.GetRole(" where menuid='"+m.getId()+"'");
+			List<Role> lRoles=roleBIZ.getRole(" where menuid='"+m.getId()+"'");
 			for (Role role : lRoles) {
-				roleBIZ.Delete(role);
+				roleBIZ.delete(role);
 			}
-			menuDao.deleteMenu(m);		
+			menuDao.delete(m);		
 		}
 		
 		

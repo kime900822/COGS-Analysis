@@ -2,5 +2,7 @@ eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/java/com/kime/action/UserAction.java=UTF-8
 encoding//src/main/resources=UTF-8
+encoding//src/main/webapp/UI/JSP/department/department.html=UTF-8
+encoding//src/main/webapp/UI/JSP/editor/editor.html=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

@@ -30,12 +30,12 @@ public interface UserDAO {
 	 * @param where
 	 * @return
 	 */
-	public List getUser(String where,Integer pageSize,Integer pageCurrent);
+	public List query(String where,Integer pageSize,Integer pageCurrent);
 	
-	public List getUser(String where);
+	public List query(String where);
 	
-	public void modUser(User user);
+	public void update(User user);
 	
-	public void deleteUser(User user);
+	public void delete(User user);
 	
 }

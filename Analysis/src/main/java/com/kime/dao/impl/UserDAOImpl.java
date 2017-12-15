@@ -43,7 +43,7 @@ public class UserDAOImpl extends HibernateDaoSupport implements UserDAO {
 	}
 
 	@Override
-	public List getUser(String where,Integer pageSize,Integer pageCurrent) {
+	public List query(String where,Integer pageSize,Integer pageCurrent) {
 		// TODO Auto-generated method stub
 		Session session=this.getSessionFactory().openSession();
 		String hql="FROM User "+where;
@@ -54,20 +54,20 @@ public class UserDAOImpl extends HibernateDaoSupport implements UserDAO {
 	
 
 	@Override
-	public List getUser(String where) {
+	public List query(String where) {
 		Session session=this.getSessionFactory().openSession();
 		String hql="FROM User "+where;
 		return session.createQuery(hql).list();
 	}
 
 	@Override
-	public void modUser(User user) {
+	public void update(User user) {
 		this.getHibernateTemplate().merge(user);
 		
 	}
 
 	@Override
-	public void deleteUser(User user) {
+	public void delete(User user) {
 		this.getHibernateTemplate().delete(user);
 		
 	}

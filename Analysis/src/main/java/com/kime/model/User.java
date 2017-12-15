@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -47,7 +45,6 @@ public class User {
 	private Role role;
 	@Transient
 	private String type;
-
 	
 	public String getEmail() {
 		return email;

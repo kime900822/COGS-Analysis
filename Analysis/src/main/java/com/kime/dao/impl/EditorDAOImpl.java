@@ -26,25 +26,25 @@ public class EditorDAOImpl extends HibernateDaoSupport implements EditorDAO {
     }  
 
 	@Override
-	public List getEditor(String where) {
+	public List query(String where) {
 		Session session=this.getSessionFactory().openSession();
 		String hql="FROM Editor "+where;
 		return session.createQuery(hql).list();
 	}
 
 	@Override
-	public void saveEditor(Editor editor) {
+	public void save(Editor editor) {
 		this.getHibernateTemplate().save(editor);
 	}
 
 	@Override
-	public void deleteEditor(Editor editor) {
+	public void delete(Editor editor) {
 		this.getHibernateTemplate().delete(editor);
 		
 	}
 
 	@Override
-	public List getEditor(String where, int pageSize, int pageCurrent) {
+	public List query(String where, int pageSize, int pageCurrent) {
 		Session session=this.getSessionFactory().openSession();
 		String hql="FROM Editor "+where;
 		return session.createQuery(hql).setFirstResult((pageCurrent-1)*pageSize).setMaxResults(pageSize).list();
@@ -52,7 +52,7 @@ public class EditorDAOImpl extends HibernateDaoSupport implements EditorDAO {
 	}
 
 	@Override
-	public void updateEditor(Editor editor) {
+	public void mod(Editor editor) {
 		this.getHibernateTemplate().merge(editor);
 		
 	}

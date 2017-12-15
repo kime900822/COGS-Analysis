@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.kime.model.Editor;
 
-@Service
+
 public interface EditorBIZ {
 	public void saveEditor(Editor editor);
 	

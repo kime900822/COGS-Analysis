@@ -30,32 +30,32 @@ public class EditorBIZImpl implements EditorBIZ{
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void saveEditor(Editor editor) {
-		editorDAO.saveEditor(editor);
+		editorDAO.save(editor);
 		
 	}
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void updateEditor(Editor editor) {
-		editorDAO.updateEditor(editor);
+		editorDAO.mod(editor);
 		
 	}
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void deleteEditor(Editor editor) {
-		editorDAO.deleteEditor(editor);
+		editorDAO.delete(editor);
 		
 	}
 
 	@Override
 	public List getEditor(String where) {
-		return editorDAO.getEditor(where);
+		return editorDAO.query(where);
 	}
 
 	@Override
 	public List getEditor(String where, int pageSize, int pageCurrent) {
-		return editorDAO.getEditor(where,pageSize , pageCurrent);
+		return editorDAO.query(where,pageSize , pageCurrent);
 		
 	}
 

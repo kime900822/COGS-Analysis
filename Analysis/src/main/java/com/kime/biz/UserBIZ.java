@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.kime.dao.UserDAO;
 import com.kime.model.User;
 
-@Service
 public interface UserBIZ {
 	
 	/**

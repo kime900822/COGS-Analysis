@@ -26,31 +26,31 @@ public class RoleDAOImpl extends HibernateDaoSupport implements RoleDAO {
     }  
 	
 	@Override
-	public List Query(String where) {
+	public List query(String where) {
 		Session session=this.getSessionFactory().openSession();
 		String hql="FROM Role "+where;
 		return session.createQuery(hql).list();
 	}
 
 	@Override
-	public void Delete(Role role) {
+	public void delete(Role role) {
 		this.getHibernateTemplate().delete(role);		
 	}
 
 	@Override
-	public void Save(Role role) {
+	public void save(Role role) {
 		this.getHibernateTemplate().save(role);
 		
 	}
 
 	@Override
-	public void Mod(Role role) {
+	public void update(Role role) {
 		this.getHibernateTemplate().merge(role);
 		
 	}
 
 	@Override
-	public List Query(String where, int pageSize, int pageCurrent) {
+	public List query(String where, int pageSize, int pageCurrent) {
 		Session session=this.getSessionFactory().openSession();
 		String hql="FROM Role "+where;
 		return session.createQuery(hql).setFirstResult((pageCurrent-1)*pageSize).setMaxResults(pageSize).list();
@@ -58,7 +58,7 @@ public class RoleDAOImpl extends HibernateDaoSupport implements RoleDAO {
 	}
 
 	@Override
-	public void Delete(String id) {
+	public void delete(String id) {
 		Session session=this.getSessionFactory().openSession();
 		String hql="DELETE FROM Role r where name='"+"'";
 		

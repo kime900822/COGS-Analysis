@@ -104,8 +104,8 @@ public class RoleAction extends ActionBase {
 			})})
 	public String GetRole() throws UnsupportedEncodingException{
 	
-		List lrole=roleBIZ.GetRole(" WHERE level='-1' ",Integer.parseInt(pageSize),Integer.parseInt(pageCurrent));
-		int total=roleBIZ.GetRole(" WHERE level='-1' ").size();
+		List lrole=roleBIZ.getRole(" WHERE level='0' ",Integer.parseInt(pageSize),Integer.parseInt(pageCurrent));
+		int total=roleBIZ.getRole(" WHERE level='0' ").size();
 		
 
 		queryResult.setList(lrole);
@@ -134,7 +134,7 @@ public class RoleAction extends ActionBase {
 					result.setMessage(Message.DEL_MESSAGE_ERROR_ROLE_1);
 					result.setStatusCode("300");
 				}else{
-					roleBIZ.DeleteAllOfName(r);
+					roleBIZ.deleteAllOfName(r);
 					logUtil.logInfo("删除用户类别+"+r.getName());
 					result.setMessage(Message.DEL_MESSAGE_SUCCESS);
 					result.setStatusCode("200");
@@ -166,20 +166,20 @@ public class RoleAction extends ActionBase {
 			for (Role r : lRoles) {
 				if (r.getRid()==null||"".equals(r.getRid())) {
 					r.setRid(UUID.randomUUID().toString().replaceAll("-", ""));;
-					r.setLevel("-1");
-					int i=roleBIZ.GetRole(" WHERE name='"+r.getName()+"'").size();
+					r.setLevel("0");
+					int i=roleBIZ.getRole(" WHERE name='"+r.getName()+"'").size();
 					if (i>0) {
 						result.setMessage(Message.SAVE_MESSAGE_ERROR_ROLE_1);
 						result.setStatusCode("300");
 					}else{
-						roleBIZ.Save(r);
+						roleBIZ.save(r);
 						logUtil.logInfo("新增用户类别:"+r.getName());
 						result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 						result.setStatusCode("200");
 					}
 					
 				}else{
-					roleBIZ.Mod(r);
+					roleBIZ.update(r);
 					logUtil.logInfo("修改用户类别:"+r.getName());
 					result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 					result.setStatusCode("200");
@@ -205,7 +205,7 @@ public class RoleAction extends ActionBase {
 			})})
 	public String GetAllRole() throws UnsupportedEncodingException{
 		
-		List<Role> lRole=roleBIZ.GetRole(" WHERE level='-1' ");
+		List<Role> lRole=roleBIZ.getRole(" WHERE level='0' ");
 		reslutJson=new ByteArrayInputStream(new Gson().toJson(lRole).getBytes("UTF-8"));  
 		
 		return SUCCESS;
@@ -217,7 +217,7 @@ public class RoleAction extends ActionBase {
 			})})
 	public String GetAllRole_User() throws UnsupportedEncodingException{
 		
-		List<Role> lRole=roleBIZ.GetRole(" WHERE level='0' ");
+		List<Role> lRole=roleBIZ.getRole(" WHERE level='0' ");
 		StringBuilder stringBuilder =new StringBuilder();
 		stringBuilder.append("[");
 		for (Role role : lRole) {

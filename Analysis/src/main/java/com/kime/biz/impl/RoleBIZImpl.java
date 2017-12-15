@@ -28,23 +28,23 @@ public class RoleBIZImpl implements RoleBIZ {
 	}
 
 	@Override
-	public List GetRole(String where,int pageSize,int pageCurrent) {
-		return roleDao.Query(where,pageSize,pageCurrent);
+	public List getRole(String where,int pageSize,int pageCurrent) {
+		return roleDao.query(where,pageSize,pageCurrent);
 	}
 
 	@Override
-	public List GetRole(String where) {
-		return roleDao.Query(where);
+	public List getRole(String where) {
+		return roleDao.query(where);
 	}
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
-	public void Mod(Role role) {
-		Role tmp=(Role)roleDao.Query(" where rid='"+role.getRid()+"'").get(0);
-		List<Role> lRoles=roleDao.Query(" WHERE NAME='"+tmp.getName()+"'");
+	public void update(Role role) {
+		Role tmp=(Role)roleDao.query(" where rid='"+role.getRid()+"'").get(0);
+		List<Role> lRoles=roleDao.query(" WHERE NAME='"+tmp.getName()+"'");
 		for (Role r : lRoles) {
 			r.setName(role.getName());
-			roleDao.Mod(r);
+			roleDao.update(r);
 		}
 		
 		
@@ -52,29 +52,29 @@ public class RoleBIZImpl implements RoleBIZ {
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
-	public void DeleteAllOfName(Role role) {
+	public void deleteAllOfName(Role role) {
 		
-		List<Role> lRoles=roleDao.Query(" WHERE NAME='"+role.getName()+"'");
+		List<Role> lRoles=roleDao.query(" WHERE NAME='"+role.getName()+"'");
 		for (Role r : lRoles) {
-			roleDao.Delete(r);
+			roleDao.delete(r);
 		}
 	}
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
-	public void Delete(Role role) {
-		roleDao.Delete(role);
+	public void delete(Role role) {
+		roleDao.delete(role);
 	}
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
-	public void Save(Role role) {
-			roleDao.Save(role);		
+	public void save(Role role) {
+			roleDao.save(role);		
 	}
 
 	@Override
-	public String GetRoleName(String rid) {
-		List<Role> list=roleDao.Query(" where rid='"+rid+"'");
+	public String getRoleName(String rid) {
+		List<Role> list=roleDao.query(" where rid='"+rid+"'");
 		if (list.size()>0) {
 			return list.get(0).getName();
 		}else{
@@ -83,8 +83,8 @@ public class RoleBIZImpl implements RoleBIZ {
 	}
 
 	@Override
-	public String GetRoleID(String name) {
-		List<Role> list=roleDao.Query(" where name='"+name+"'");
+	public String getRoleID(String name) {
+		List<Role> list=roleDao.query(" where name='"+name+"'");
 		if (list.size()>0) {
 			return list.get(0).getRid();
 		}else{

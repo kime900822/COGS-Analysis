@@ -646,7 +646,7 @@ public class UserAction extends ActionBase {
 	    				user.setPassword(row.getCell(2).getStringCellValue().trim());	    				
 	    				user.setSex(row.getCell(3).getStringCellValue().trim());
 	    				user.setEmail(row.getCell(4).getStringCellValue().trim());
-	    				String rid=roleBIZ.GetRoleID(row.getCell(5).getStringCellValue().trim());
+	    				String rid=roleBIZ.getRoleID(row.getCell(5).getStringCellValue().trim());
 	    				if (rid==null) {
 							throw new Exception(row.getCell(0).getStringCellValue().trim() +" 的权限不存在！");
 						}

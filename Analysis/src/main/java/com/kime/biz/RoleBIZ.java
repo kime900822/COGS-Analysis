@@ -6,21 +6,20 @@ import org.springframework.stereotype.Service;
 
 import com.kime.model.Role;
 
-@Service
 public interface RoleBIZ {
-	public List GetRole(String where,int pageSize,int pageCurrent);
+	public List getRole(String where,int pageSize,int pageCurrent);
 	
-	public List GetRole(String where);
+	public List getRole(String where);
 	
-	public void Mod(Role role);
+	public void update(Role role);
 	
-	public void Delete(Role role);
+	public void delete(Role role);
 	
-	public void Save(Role role);
+	public void save(Role role);
 	
-	public void DeleteAllOfName(Role role);
+	public void deleteAllOfName(Role role);
 	
-	public String GetRoleName(String rid);
+	public String getRoleName(String rid);
 	
-	public String GetRoleID(String name);
+	public String getRoleID(String name);
 }

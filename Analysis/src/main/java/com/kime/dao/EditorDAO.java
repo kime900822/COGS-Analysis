@@ -5,13 +5,14 @@ import java.util.List;
 import com.kime.model.Editor;
 
 public interface EditorDAO {
-	public List getEditor(String where);
 	
-	public void saveEditor(Editor editor);
+	public List query(String where);
 	
-	public void deleteEditor(Editor editor);
+	public void save(Editor editor);
 	
-	public List getEditor(String where, int pageSize, int pageCurrent);
+	public void delete(Editor editor);
 	
-	public void updateEditor(Editor editor);
+	public List query(String where, int pageSize, int pageCurrent);
+	
+	public void mod(Editor editor);
 }

@@ -54,25 +54,25 @@ public class UserBIZImpl implements UserBIZ {
 
 	@Override
 	public List<User> getUser(String where,Integer pageSize,Integer pageCurrent) {
-		return userDao.getUser(where,pageSize , pageCurrent);
+		return userDao.query(where,pageSize , pageCurrent);
 	}
 
 	
 	@Override
 	public List<User> getUser(String where) {
-		return userDao.getUser(where);
+		return userDao.query(where);
 	}
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void modUser(User user) {
-		userDao.modUser(user);
+		userDao.update(user);
 	}
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void deleteUser(User user) {
-		userDao.deleteUser(user);
+		userDao.delete(user);
 		
 	}
 

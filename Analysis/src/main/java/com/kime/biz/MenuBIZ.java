@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.kime.model.Menu;
 import com.kime.model.Role;
 
-@Service
 public interface MenuBIZ {
 	
 	

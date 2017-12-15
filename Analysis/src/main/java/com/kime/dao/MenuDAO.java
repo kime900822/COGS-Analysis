@@ -19,9 +19,9 @@ public interface MenuDAO {
 	
 	public List getMenuByParentID(String parentID);
 	
-	public void modMenu(Menu menu);
+	public void update(Menu menu);
 	
-	public void deleteMenu(Menu menu);
+	public void delete(Menu menu);
 	
 	public List getParentMenu();
 	

@@ -133,7 +133,7 @@ public class MenuAction extends ActionBase {
 			
 		}else{
 			
-			List<Role> lRoles=roleBIZ.GetRole(" where name='"+user.getRole().getName()+"' AND level='1' ORDER BY order ");
+			List<Role> lRoles=roleBIZ.getRole(" where name='"+user.getRole().getName()+"' AND level='1' ORDER BY order ");
 			List<Menu> lMenus=new ArrayList<Menu>();
 			for (Role r : lRoles) {
 				Menu menu = menuBIZ.getMenuById(r.getMenuid());
@@ -142,7 +142,7 @@ public class MenuAction extends ActionBase {
 				}
 			}
 			
-			lRoles=roleBIZ.GetRole(" where name='"+user.getRole().getName()+"' AND level>='1' ORDER BY order ");
+			lRoles=roleBIZ.getRole(" where name='"+user.getRole().getName()+"' AND level>='1' ORDER BY order ");
 			session.setAttribute("parentMenu", lMenus); 
 			for (Object object : lMenus) {
 				Menu m=(Menu)object;
@@ -241,7 +241,7 @@ public class MenuAction extends ActionBase {
 	public String GetRoleMenu() throws UnsupportedEncodingException{
 		
 		List<Menu> lmenu = menuBIZ.getAllMenu();
-		List<Role> lrole=roleBIZ.GetRole(" WHERE NAME='"+type+"' AND level<>'0'");
+		List<Role> lrole=roleBIZ.getRole(" WHERE NAME='"+type+"' AND level<>'0'");
 		
 		for (Menu menu : lmenu) {
 			menu.setType(type);
@@ -273,13 +273,13 @@ public class MenuAction extends ActionBase {
 			result.setStatusCode("300");
 			result.setMessage(Message.MOD_MESSAGE_ERROR_MENU_1);
 		}else{
-			Role role=(Role)roleBIZ.GetRole(" WHERE NAME='"+menu.getType()+"' ").get(0);
+			Role role=(Role)roleBIZ.getRole(" WHERE NAME='"+menu.getType()+"' ").get(0);
 			role.setMenuid(menu.getId());
 			role.setLevel(menu.getLevel());
 			role.setOrder(menu.getOrder());
 			if (menu.isUsed()) {
 				try {
-					roleBIZ.Save(role);
+					roleBIZ.save(role);
 					result.setStatusCode("200");
 					result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 					logUtil.logInfo(role.getName()+" 添加权限:"+menu.getName());
@@ -290,7 +290,7 @@ public class MenuAction extends ActionBase {
 				}
 			}else{
 				try {
-					roleBIZ.Delete(role);
+					roleBIZ.delete(role);
 					logUtil.logInfo(role.getName()+" 移除权限:"+menu.getName());
 					result.setStatusCode("200");
 					result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
