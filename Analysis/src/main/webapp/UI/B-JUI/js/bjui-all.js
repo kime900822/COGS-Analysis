@@ -379,7 +379,7 @@
 		        fAndS     : 'Filter && Sort!',
 		        expandMsg : 'Click here to expand the tr!',
 		        shrinkMsg : 'Click here to shrink the tr!',
-		        selectMsg : 'Not selected any rows!',
+		        selectMsg : 'No selected rows!',
 		        saveMsg   : 'No rows need to save!',
 		        editMsg   : 'Please save the edited row!',
 		        delMsg    : 'Sure you want to delete this row?',
@@ -620,7 +620,7 @@
         fAndS     : 'Filter && Sort!',
         expandMsg : 'Click here to expand the tr!',
         shrinkMsg : 'Click here to shrink the tr!',
-        selectMsg : 'Not selected any rows!',
+        selectMsg : 'No selected rows!',
         saveMsg   : 'No rows need to save!',
         editMsg   : 'Please save the edited row!',
         delMsg    : 'Sure you want to delete this row?',
@@ -10301,7 +10301,17 @@
                             that.$toolbar_add = $(btnHtml).attr('data-icon', 'plus').addClass('btn-blue').text(options.addName || BJUI.getRegional('datagrid.add'))
                                 .appendTo($group)
                                 .on('click', function(e) {
-                                    that.add()
+                                	if(options.isTree){
+                                		var $selectTrs = that.$tbody.find('> tr.'+ that.classnames.tr_selected)
+                                		 if (!$selectTrs.length) {
+                                        $(this).alertmsg('info', BJUI.getRegional('datagrid.selectMsg'))
+                                		 }else{
+                                			 that.add()                                			 
+                                		 }
+                                	}else{
+                                		that.add()
+                                	}
+                                    
                                 })
                         } else if (n === 'edit') {
                             that.$toolbar_edit = $(btnHtml).attr('data-icon', 'edit').addClass('btn-green').text(options.editName || BJUI.getRegional('datagrid.edit'))

@@ -133,7 +133,7 @@ public class MenuAction extends ActionBase {
 			
 		}else{
 			
-			List<Role> lRoles=roleBIZ.GetRole(" where name='"+user.getRole().getName()+"' AND level='0' ORDER BY order ");
+			List<Role> lRoles=roleBIZ.GetRole(" where name='"+user.getRole().getName()+"' AND level='1' ORDER BY order ");
 			List<Menu> lMenus=new ArrayList<Menu>();
 			for (Role r : lRoles) {
 				Menu menu = menuBIZ.getMenuById(r.getMenuid());
@@ -142,7 +142,7 @@ public class MenuAction extends ActionBase {
 				}
 			}
 			
-			lRoles=roleBIZ.GetRole(" where name='"+user.getRole().getName()+"' AND level>='0' ORDER BY order ");
+			lRoles=roleBIZ.GetRole(" where name='"+user.getRole().getName()+"' AND level>='1' ORDER BY order ");
 			session.setAttribute("parentMenu", lMenus); 
 			for (Object object : lMenus) {
 				Menu m=(Menu)object;
@@ -241,7 +241,7 @@ public class MenuAction extends ActionBase {
 	public String GetRoleMenu() throws UnsupportedEncodingException{
 		
 		List<Menu> lmenu = menuBIZ.getAllMenu();
-		List<Role> lrole=roleBIZ.GetRole(" WHERE NAME='"+type+"' AND level<>'-1'");
+		List<Role> lrole=roleBIZ.GetRole(" WHERE NAME='"+type+"' AND level<>'0'");
 		
 		for (Menu menu : lmenu) {
 			menu.setType(type);
