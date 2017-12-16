@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -37,14 +37,19 @@ public class User {
 	@Column
 	private String rid;
 	@Column
+	private String did;
+	@Column
 	private String date;
 	@Column
 	private String email;
-	@OneToOne(cascade = CascadeType.REFRESH)
+	@ManyToOne(cascade = CascadeType.REFRESH)
 	@JoinColumn(name="rid",insertable=false,updatable=false)
 	private Role role;
 	@Transient
 	private String type;
+	@ManyToOne(cascade = CascadeType.REFRESH)
+	@JoinColumn(name="did",insertable=false,updatable=false)
+	private Department department;
 	
 	public String getEmail() {
 		return email;
