@@ -1,0 +1,28 @@
+
+<div class="bjui-pageHeader" style="background-color:#fefefe; border-bottom:none;">
+
+</div>
+<div class="bjui-pageContent" id="div-user">
+    <table class="table table-bordered" id="datagrid-edit-filter" data-toggle="datagrid" data-options="{
+        height: '100%',
+        gridTitle : '收款人维护',
+        showToolbar: true,
+        dataType: 'jsonp',
+        toolbarItem: 'add,edit,del,save,cancel,|,refresh',
+        dataUrl: 'queryBeneficiary.action',
+        delUrl:'deleteBeneficiary.action',
+        editUrl: 'saveBeneficiary.action',
+        paging: {pageSize:60, pageCurrent:1},
+        showCheckboxcol: true,
+        linenumberAll: true,
+        contextMenuB: true,
+        hScrollbar: true
+    }">
+        <thead>
+            <tr>
+            	<th data-options="{name:'name',width:200,align:'center',finalWidth:'true'}">Name</th>
+            	<th data-options="{name:'accno',width:350,align:'center',finalWidth:'true'}" >AccNO</th>		
+            </tr>
+        </thead>
+    </table>
+</div>

@@ -142,11 +142,13 @@ public class DepartmentAction extends ActionBase {
 		try {
 			if (department.getAddFlag().equals("true")) {
 				departmentBIZ.saveDepartment(department);
+				logUtil.logInfo("新增部门信息:"+department.getDid());
 			}else{
 				departmentBIZ.updateDepartment(department);
+				logUtil.logInfo("修改部门信息:"+department.getDid());
 			}
 			
-			logUtil.logInfo("修改部门信息:"+department.getDid());
+			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
 		} catch (Exception e) {

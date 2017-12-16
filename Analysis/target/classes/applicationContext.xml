@@ -76,6 +76,7 @@
        <list>
             <value>com/kime/model</value>
             <value>com/analysis/model</value>
+            <value>com/sign</value>
         </list>
     </property>
 </bean>
