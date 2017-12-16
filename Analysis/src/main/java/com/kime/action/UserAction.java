@@ -40,6 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kime.biz.DepartmentBIZ;
 import com.kime.biz.RoleBIZ;
 import com.kime.biz.UserBIZ;
 import com.kime.infoenum.Message;
@@ -66,7 +67,8 @@ public class UserAction extends ActionBase {
 	private User user;
 	@Autowired
 	private RoleBIZ roleBIZ;
-	
+	@Autowired
+	private DepartmentBIZ departmentBIZ;
 
 	private String name;
 	private String password;
@@ -76,9 +78,29 @@ public class UserAction extends ActionBase {
 	private String uid;
 	private String date;
 	private String email;
-	
+	private String did;
 	
 
+
+
+	public String getDid() {
+		return did;
+	}
+
+
+	public void setDid(String did) {
+		this.did = did;
+	}
+
+
+	public DepartmentBIZ getDepartmentBIZ() {
+		return departmentBIZ;
+	}
+
+
+	public void setDepartmentBIZ(DepartmentBIZ departmentBIZ) {
+		this.departmentBIZ = departmentBIZ;
+	}
 
 
 	public UserBIZ getUserBIZ() {
@@ -531,6 +553,10 @@ public class UserAction extends ActionBase {
             cell.setCellStyle(style);
             
             cell = row.createCell(6);
+            cell.setCellValue("Department");
+            cell.setCellStyle(style);
+            
+            cell = row.createCell(7);
             cell.setCellValue("Date");
             cell.setCellStyle(style);
             
@@ -540,7 +566,8 @@ public class UserAction extends ActionBase {
             sheet.setColumnWidth(3, 3000);
             sheet.setColumnWidth(4, 6000);
             sheet.setColumnWidth(5, 3000);
-            sheet.setColumnWidth(6, 6000);
+            sheet.setColumnWidth(6, 3000);
+            sheet.setColumnWidth(7, 6000);
             
             //第六步，写入实体数据，实际应用中这些数据从数据库得到
             
@@ -575,6 +602,12 @@ public class UserAction extends ActionBase {
     			where += " date = '"+date+"'";
     		}
     		
+    		if (!"".equals(did)&&did!=null) {
+    			if (!"".equals(where)) {
+    				where +=" and ";
+    			}
+    			where += " did = '"+did+"'";
+    		}
     	
     		
     		if (!"".equals(where)) {
@@ -592,7 +625,8 @@ public class UserAction extends ActionBase {
                 row.createCell(3).setCellValue(user.getSex());
                 row.createCell(4).setCellValue(user.getEmail());
                 row.createCell(5).setCellValue(user.getRole().getName());
-                row.createCell(6).setCellValue(user.getDate());
+                row.createCell(6).setCellValue(user.getDepartment().getName());
+                row.createCell(7).setCellValue(user.getDate());
 			}
             
 
@@ -650,7 +684,8 @@ public class UserAction extends ActionBase {
 	    				if (rid==null) {
 							throw new Exception(row.getCell(0).getStringCellValue().trim() +" 的权限不存在！");
 						}
-	    				user.setRid(rid);
+	    				user.setRid(did);
+	    				user.setDid(row.getCell(6).getStringCellValue().trim());
 	    				user.setDate(sdf.format(d1));
 	    				lUsers.add(user);
 	            }

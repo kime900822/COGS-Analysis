@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import com.kime.biz.DepartmentBIZ;
 import com.kime.infoenum.Message;
 import com.kime.model.Department;
+import com.kime.model.Role;
 
 @Controller
 @Scope("prototype")
@@ -154,5 +159,30 @@ public class DepartmentAction extends ActionBase {
 		return SUCCESS;
 		
 	}
+	
+	
+	@Action(value="getAllDepartment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String getAllDepartment() throws UnsupportedEncodingException{
+		
+		List<Department> list=departmentBIZ.queryDepartment("");
+		StringBuilder stringBuilder =new StringBuilder();
+		stringBuilder.append("[");
+		for (Department department : list) {
+			stringBuilder.append("{\'"+department.getDid()+"\':\'"+department.getName()+"\'}");
+			stringBuilder.append(",");
+		}
+		stringBuilder.deleteCharAt(stringBuilder.length()-1);
+		stringBuilder.append("]");
+		String string=stringBuilder.toString();
+		HttpServletRequest request=ServletActionContext.getRequest();
+		HttpSession session=request.getSession();
+		session.setAttribute("allDepartment", string);
+		
+		return SUCCESS;
+	}
+	
 	
 }

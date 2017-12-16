@@ -106,6 +106,18 @@ public class User {
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
+	public String getDid() {
+		return did;
+	}
+	public void setDid(String did) {
+		this.did = did;
+	}
+	public Department getDepartment() {
+		return department;
+	}
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
 
 
 	

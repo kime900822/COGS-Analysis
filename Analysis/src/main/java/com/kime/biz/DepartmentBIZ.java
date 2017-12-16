@@ -14,4 +14,5 @@ public interface DepartmentBIZ {
 	public List<Department> queryDepartment(String where);
 	
 	public List<Department> queryDepartment(String where, int pageSize, int pageCurrent);
+	
 }
