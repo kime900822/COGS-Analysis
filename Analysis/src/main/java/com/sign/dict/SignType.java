@@ -1,4 +1,4 @@
-package com.sign.payment.dict;
+package com.sign.dict;
 
 public class SignType {
 	/**

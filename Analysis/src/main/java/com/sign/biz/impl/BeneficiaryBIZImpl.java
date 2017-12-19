@@ -1,4 +1,4 @@
-package com.sign.payment.biz.impl;
+package com.sign.biz.impl;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sign.payment.biz.BeneficiaryBIZ;
-import com.sign.payment.dao.BeneficiaryDAO;
-import com.sign.payment.model.Beneficiary;
+import com.sign.biz.BeneficiaryBIZ;
+import com.sign.dao.BeneficiaryDAO;
+import com.sign.model.Beneficiary;
 
 @Service
 @Transactional(readOnly=true)

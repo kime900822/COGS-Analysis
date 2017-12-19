@@ -1,4 +1,4 @@
-package com.sign.payment.model;
+package com.sign.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,8 +1,8 @@
-package com.sign.payment.dao;
+package com.sign.dao;
 
 import java.util.List;
 
-import com.sign.payment.model.Beneficiary;
+import com.sign.model.Beneficiary;
 
 public interface BeneficiaryDAO {
 

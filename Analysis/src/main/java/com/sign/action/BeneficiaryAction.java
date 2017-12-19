@@ -1,4 +1,4 @@
-package com.sign.payment.action;
+package com.sign.action;
 
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
@@ -13,8 +13,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kime.action.ActionBase;
 import com.kime.infoenum.Message;
-import com.sign.payment.biz.BeneficiaryBIZ;
-import com.sign.payment.model.Beneficiary;
+import com.sign.biz.BeneficiaryBIZ;
+import com.sign.model.Beneficiary;
 
 @Controller
 public class BeneficiaryAction extends ActionBase {

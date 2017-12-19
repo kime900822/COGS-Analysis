@@ -1,8 +1,8 @@
-package com.sign.payment.biz;
+package com.sign.biz;
 
 import java.util.List;
 
-import com.sign.payment.model.Beneficiary;
+import com.sign.model.Beneficiary;
 
 public interface BeneficiaryBIZ {
 	public void saveBeneficiary(Beneficiary beneficiary);

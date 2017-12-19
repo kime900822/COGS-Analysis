@@ -1,4 +1,4 @@
-package com.sign.payment.dao.impl;
+package com.sign.dao.impl;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import com.sign.payment.dao.BeneficiaryDAO;
-import com.sign.payment.model.Beneficiary;
+import com.sign.dao.BeneficiaryDAO;
+import com.sign.model.Beneficiary;
 
 @Repository
 public class BeneficiaryDAOImpl extends HibernateDaoSupport implements BeneficiaryDAO {
