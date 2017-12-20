@@ -1,11 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <script type="text/javascript">
 
 </script>
 <div class="bjui-pageContent">
-    <div class="bs-example" style="width:1350px">
+    <div class="bs-example" style="width:1430px">
         <form action="../../json/ajaxDone.json" id="j_custom_form" data-toggle="ajaxform">
 			
-			<table width="1300px">
+			<table width="1400px">
 				<tr>
 					<td width="300px" align="left"><img  style="width:300px;height:50px;" alt="payment" src="images/paymentlogo.png"></td>
 					<td width="800px"  align="center"><h4 align="center">Cimtas(NingBo) Steel Processing CO.,LTD 庆达西（宁波）钢构制造有限公司</h4>
@@ -15,7 +17,7 @@
 				</tr>
 			</table>		
 			<br />
-			<table width="1300px">
+			<table width="1400px">
 				<tr>
 					<td width="120px">Application Date<br/>(申请日期)</td>
 					<td width="200px"><input type="text" name="custom.birthday" id="j_custom_birthday" value="1980-08-08" data-toggle="datepicker" data-rule="required;date"></td>
@@ -39,57 +41,57 @@
 				</tr>
 			</table>            
 
-			<table  width="1300px" border="1" cellspacing="0" style="font-size:8px;">
+			<table  width="1400px" border="1" cellspacing="0" style="font-size:8px;">
 				<tr>
 					<td width="30px"/>
-					<td width="120px"/>
+					<td width="140px"/>
 					<td width="50px"/>
-					<td width="100px"/>
+					<td width="150px"/>
 					<td width="100px"/>
 					<td width="100px"/>
 					<td width="100px"/>
 					<td width="100px"/>
 					<td width="80px"/>
 					<td width="300px"/>
-					<td width="40px"/>
-					<td width="100px"/>
+					<td width="50px"/>
+					<td width="120px"/>
 					<td width="80px"/>
 				</tr>
 				<tr>
-					<td colspan="2">申请人:</td>
+					<td colspan="2" style="background:#8EE5EE">申请人:</td>
 					<td colspan="2" rowspan="2"></td>
-					<td colspan="4">收款人（全称）:</td>
+					<td colspan="4" style="background:#8EE5EE">收款人（全称）:</td>
 					<td colspan="2" rowspan="2"></td>
-					<td align="center">change<br/>变更</td>
-					<td rowspan="2">供应商代码:<br/>Supplier Code:</td>
+					<td align="center" style="background:#8EE5EE">change<br/>变更</td>
+					<td rowspan="2" style="background:#8EE5EE">供应商代码:<br/>Supplier Code:</td>
 					<td rowspan="2"></td>
 				</tr>
-				<tr>
-					<td colspan="2">Applicant:</td>
-					<td colspan="4">Beneficiary:</td>
+				<tr height="40px">
+					<td colspan="2" style="background:#8EE5EE">Applicant:</td>
+					<td colspan="4" style="background:#8EE5EE">Beneficiary:</td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="2">所属部门:</td>
+					<td colspan="2" style="background:#8EE5EE">所属部门:</td>
 					<td colspan="2" rowspan="2"></td>
-					<td colspan="4">银行及帐号:</td>
+					<td colspan="4" style="background:#8EE5EE">银行及帐号:</td>
 					<td colspan="2" rowspan="2"></td>
-					<td align="center">change<br/>变更</td>
-					<td rowspan="2">银行交易编码:<br/>Ref. No. of Bank:</td>
+					<td align="center" style="background:#8EE5EE">change<br/>变更</td>
+					<td rowspan="2" style="background:#8EE5EE">银行交易编码:<br/>Ref. No. of Bank:</td>
 					<td rowspan="2"></td>
 				</tr>
-				<tr>
-					<td colspan="2">Department of Applicant:</td>
-					<td colspan="4">Beneficiary Account NO:</td>
+				<tr height="40px">
+					<td colspan="2" style="background:#8EE5EE">Department of Applicant:</td>
+					<td colspan="4" style="background:#8EE5EE">Beneficiary Account NO:</td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center">付款项目<br/>Payment Subject</td>
-					<td colspan="2" align="center">结算期 <br/>Payment Term</td>
-					<td align="center">收货或验收日期<br/>Receiving or Approval date</td>
-					<td align="center">订单号<br/>PO No.</td>
-					<td align="center">币别<br/>Currency</td>
-					<td align="center">金额<br/>Amount</td>
+					<td colspan="2" align="center" style="background:#8EE5EE">付款项目<br/>Payment Subject</td>
+					<td colspan="2" align="center" style="background:#8EE5EE">结算期 <br/>Payment Term</td>
+					<td align="center" style="background:#8EE5EE">收货或验收日期<br/>Receiving or Approval date</td>
+					<td align="center" style="background:#8EE5EE">订单号<br/>PO No.</td>
+					<td align="center" style="background:#8EE5EE">币别<br/>Currency</td>
+					<td align="center" style="background:#8EE5EE">金额<br/>Amount</td>
 					<td rowspan="8" align="center">支付用途<br/>Usage<br/>Description</td>
 					<td colspan="4" rowspan="8"></td>
 				</tr>
@@ -97,7 +99,7 @@
 					<td align="center"><input type="checkbox" name="cash" id="j_payment_subject" data-toggle="icheck" value="true" ></td>
 					<td>Fixed Asset 固定资产</td>
 					<td></td>
-					<td align="right">Advance预付款</td>
+					<td align="right">Advance<br/>预付款</td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -147,7 +149,7 @@
 					<td align="center"><input type="checkbox" name="cash" id="j_payment_subject" data-toggle="icheck" value="true" ></td>
 					<td>Petty Cash备用金</td>
 					<td></td>
-					<td align="right">Other 其他</td>
+					<td align="right">Other<br/>其他</td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -157,23 +159,23 @@
 					<td align="center"><input type="checkbox" name="cash" id="j_payment_subject" data-toggle="icheck" value="true" ></td>
 					<td>Other 其他</td>
 					<td></td>
-					<td align="right"></td>
+					<td align="right"><br/><br/></td>
 					<td></td>
 					<td></td>
 					<td></td>
 					<td></td>
 				</tr>		
 				<tr>
-					<td colspan="2" align="right">金额(小写)<br/>Amount in figures:</td>
+					<td colspan="2" align="right" style="background:#8EE5EE">金额(小写)<br/>Amount in figures:</td>
 					<td colspan="6"></td>
-					<td align="right">金额(大写)<br/>Amount in words:</td>
+					<td align="right" style="background:#8EE5EE">金额(大写)<br/>Amount in words:</td>
 					<td colspan="2"></td>
-					<td align="right">Document Audit:<br/>单据审核</td>
+					<td align="right" style="background:#8EE5EE">Document Audit:<br/>单据审核</td>
 					<td></td>
 				</tr>		
 			</table>
 			<br>
-			<table  width="1300px" >
+			<table  width="1400px" >
 				<tr>
 					<td width="25%">General Manager:<br/>总经理</td>
 					<td width="25%">Finance Manager:<br/>财务经理</td>
@@ -182,7 +184,7 @@
 				</tr>
 			</table>
 			<br/>
-			<table width="1300px">
+			<table width="1400px">
 				<tr>
 					<td align="right" width="50%">
 						<label class="row-label">Attachment1 Invoice （附件：发票）</label>
