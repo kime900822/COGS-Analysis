@@ -5,8 +5,7 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
-@Component
-@Entity @Table(name="t_payment")
+
 public class Payment {
 	
 	/**
