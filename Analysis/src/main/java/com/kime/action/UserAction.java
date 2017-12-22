@@ -44,6 +44,7 @@ import com.kime.biz.DepartmentBIZ;
 import com.kime.biz.RoleBIZ;
 import com.kime.biz.UserBIZ;
 import com.kime.infoenum.Message;
+import com.kime.model.Dict;
 import com.kime.model.QueryResult;
 import com.kime.model.Result;
 import com.kime.model.User;
@@ -458,12 +459,14 @@ public class UserAction extends ActionBase {
 				userBIZ.modUser(user);
 			}			
 			user=userBIZ.getUser(" where uid='"+uid+"'").get(0);
+			logUtil.logInfo("修改用户信息，用户:"+user.getUid());
 		} catch (Exception e1) {
 			e1.printStackTrace();
+			logUtil.logInfo("修改用户信息，用户:"+e1.getMessage());
 		}
 		String r=callback+"("+new Gson().toJson(user)+")";
 		reslutJson=new ByteArrayInputStream(r.getBytes("UTF-8"));  
-		logUtil.logInfo("修改用户信息，用户:"+user.getUid());
+		
 		return SUCCESS;
 		
 		
@@ -494,6 +497,18 @@ public class UserAction extends ActionBase {
 		}
 
 		reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8"));  
+		return SUCCESS;
+	}
+	
+	
+	
+	@Action(value="getUserByID",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String getUserByID() throws UnsupportedEncodingException{
+		List<User> list=userBIZ.getUser("WHERE UID='"+uid+"'");
+		reslutJson=new ByteArrayInputStream(new Gson().toJson(list).getBytes("UTF-8"));  
 		return SUCCESS;
 	}
 	

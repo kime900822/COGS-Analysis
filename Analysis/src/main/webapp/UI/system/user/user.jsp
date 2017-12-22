@@ -43,7 +43,7 @@
         dataType: 'jsonp',
         editMode: {dialog:{width:'800',height:280,title:'Edit User',mask:true}},
         delUrl:'deleteUser.action',
-        editUrl: 'JSP/user/user-edit.jsp?uid={uid}&name={name}&sex={sex}&type={type}&date={date}&password={password}&email={email}',
+        editUrl: 'system/user/user-edit.jsp',
         paging: {pageSize:60, pageCurrent:1},
         showCheckboxcol: true,
         linenumberAll: true,

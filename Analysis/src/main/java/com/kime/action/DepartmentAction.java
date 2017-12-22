@@ -21,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import com.kime.biz.DepartmentBIZ;
 import com.kime.infoenum.Message;
 import com.kime.model.Department;
+import com.kime.model.Dict;
 import com.kime.model.Role;
 
 @Controller
@@ -186,5 +187,16 @@ public class DepartmentAction extends ActionBase {
 		return SUCCESS;
 	}
 	
-	
+	@Action(value="getAllDepartmentOfSign",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String getAllDepartmentOfSign() throws UnsupportedEncodingException{
+		
+		List<Department> list=departmentBIZ.queryDepartment("");
+		
+		reslutJson=new ByteArrayInputStream(new Gson().toJson(list).getBytes("UTF-8"));  
+		return SUCCESS;
+		
+	}
 }

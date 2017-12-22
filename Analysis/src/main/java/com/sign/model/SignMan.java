@@ -8,20 +8,27 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
 
+import com.kime.model.Department;
 import com.kime.model.User;
 
+/**
+ * 审批维护
+ * @author 10603
+ *
+ */
 @Component
 @Entity
 @Table(name = "t_sign")
 public class SignMan {
 
 	@Id
-	@GeneratedValue(generator="uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid")
+	@GeneratedValue(generator="assigned")
+	@GenericGenerator(name = "assigned", strategy = "assigned")
 	private String sid;
 	@Column
 	private String type;
@@ -30,6 +37,31 @@ public class SignMan {
 	@ManyToOne(cascade = CascadeType.REFRESH)
 	@JoinColumn(name="uid",insertable=false,updatable=false)
 	private User user;
+	@Column
+	private String did;
+	@ManyToOne(cascade = CascadeType.REFRESH)
+	@JoinColumn(name="did",insertable=false,updatable=false)
+	private Department department;
+	@Transient
+	private String dname;
+	@Transient
+	private String uname;
+	
+	
+	
+	public void setDname(String dname) {
+		this.dname = dname;
+	}
+	public void setUname(String uname) {
+		this.uname = uname;
+	}
+	public String getDname() {
+		return department.getName();
+	}
+	public String getUname() {
+		return user.getName();
+	}
+
 	public String getSid() {
 		return sid;
 	}
@@ -53,6 +85,18 @@ public class SignMan {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public String getDid() {
+		return did;
+	}
+	public void setDid(String did) {
+		this.did = did;
+	}
+	public Department getDepartment() {
+		return department;
+	}
+	public void setDepartment(Department department) {
+		this.department = department;
 	}
 	
 	

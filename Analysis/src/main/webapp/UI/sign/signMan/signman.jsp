@@ -1,0 +1,55 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+
+<div class="bjui-pageHeader" style="background-color:#fefefe; border-bottom:none;">
+<form data-toggle="ajaxsearch" data-options="{searchDatagrid:$.CurrentNavtab.find('#datagrid-signmane-filter')}">
+    <fieldset>
+        <legend style="font-weight:normal;">Search：</legend>
+        <div style="margin:0; padding:1px 5px 5px;">
+            <span>SignType：</span>
+            <select name="type" data-toggle="selectpicker">
+	                <option value=""></option>
+	                <option value="M">Male</option>
+	                <option value="F">Female</option>
+	        </select>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            <div class="btn-group">
+                <button type="submit" class="btn-green" data-icon="search">Search</button>
+                <button type="reset" class="btn-orange" data-icon="times">Reset</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+</div>
+<div class="bjui-pageContent" id="div-user">
+    <table class="table table-bordered" id="datagrid-signmane-filter" data-toggle="datagrid" data-options="{
+        height: '100%',
+        gridTitle : 'sign management',
+        showToolbar: true,
+        toolbarItem: 'add,edit,del',
+        dataUrl: 'querySignMan.action',
+        dataType: 'jsonp',
+        editMode: {dialog:{width:'800',height:200,title:'Edit SignMan',mask:true}},
+        delUrl:'deleteSignMan.action',
+        editUrl: 'sign/signMan/signman-edit.jsp',
+        paging: {pageSize:60, pageCurrent:1},
+        showCheckboxcol: true,
+        linenumberAll: true,
+        contextMenuB: true,
+        hScrollbar: true,
+        filterThead:false
+    }">
+        <thead>
+            <tr>
+            	<th data-options="{name:'sid',width:150,align:'center',finalWidth:'true',hide:'true'}" >sid</th>
+            	<th data-options="{name:'rid',width:150,align:'center',finalWidth:'true',hide:'true'}" >rid</th>
+            	<th data-options="{name:'uid',width:150,align:'center',finalWidth:'true',hide:'true'}" >uid</th>
+				<th data-options="{name:'type',width:150,align:'center',finalWidth:'true'}">Type</th>
+				<th data-options="{name:'dname',width:200,align:'center',finalWidth:'true'}">Department</th>
+				<th data-options="{name:'uname',width:150,align:'center',finalWidth:'true'}">Name</th>
+            </tr>
+        </thead>
+    </table>
+</div>

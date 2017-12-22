@@ -26,14 +26,14 @@ public class SignManDAOImpl extends HibernateDaoSupport implements SignManDAO {
 	@Override
 	public List<SignMan> query(String where) {
 		Session session=this.getSessionFactory().openSession();
-		String hql="FROM Beneficiary "+where;
+		String hql="FROM SignMan "+where;
 		return session.createQuery(hql).list();
 	}
 
 	@Override
 	public List<SignMan> query(String where, Integer pageSize, Integer pageCurrent) {
 		Session session=this.getSessionFactory().openSession();
-		String hql="FROM Beneficiary "+where;
+		String hql="FROM SignMan "+where;
 		return session.createQuery(hql).setFirstResult((pageCurrent-1)*pageSize).setMaxResults(pageSize).list();
 
 	}
