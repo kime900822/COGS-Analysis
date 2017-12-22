@@ -38,6 +38,12 @@ public class MenuBIZImpl implements MenuBIZ {
 			menuDao.save(menu);
 		}else{
 			menuDao.update(menu);
+			List<Role> list=roleBIZ.getRole(" WHERE menuid='"+menu.getId()+"'");
+			for (Role role : list) {
+				role.setLevel(menu.getLevel());
+				role.setOrder(menu.getOrder());
+				roleBIZ.update(role);
+			}
 		}
 		
 	}
