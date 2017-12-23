@@ -54,4 +54,13 @@ public class DictDAOImpl extends HibernateDaoSupport implements DictDAO {
 		
 	}
 
+	@Override
+	public List getType() {
+		Session session=this.getSessionFactory().openSession();
+		String hql="select distinct r.type from Dict r";
+		return session.createQuery(hql).list();
+		
+		
+	}
+
 }

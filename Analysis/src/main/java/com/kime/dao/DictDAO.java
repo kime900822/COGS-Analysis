@@ -15,4 +15,6 @@ public interface DictDAO {
 	public void save(Dict dict);
 	
 	public void update(Dict dict);
+	
+	public List getType();
 }

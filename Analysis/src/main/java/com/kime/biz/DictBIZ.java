@@ -12,4 +12,17 @@ public interface DictBIZ {
 	 */
 	public List<Dict> getALLSign();
 	
+	
+	public List<Dict> getAllType();
+	
+	public List<Dict> getDict(String where);
+	
+	public List<Dict> getDict(String where,Integer pageSize,Integer pageCurrent);
+	
+	public void save(Dict dict);
+	
+	public void update(Dict dict);
+	
+	public void delete(Dict dict);
+	
 }

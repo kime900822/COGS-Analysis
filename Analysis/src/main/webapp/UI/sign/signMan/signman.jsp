@@ -1,17 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<script type="text/javascript">
+$(function(){
+	
+	BJUI.ajax('doajax', {
+	    url: 'getALLSign.action',
+	    loadingmask: false,
+	    okCallback: function(json, options) {
+            $.each(json, function (i, item) {
+                $.CurrentNavtab.find('#j_signman_type').append("<option value='" + item.value + "'>" + item.key + "</option>")           
+            })
+            $.CurrentNavtab.find('#j_signman_type').selectpicker('refresh');
+	    }
+	})	
+	
+})
 
+</script>
 <div class="bjui-pageHeader" style="background-color:#fefefe; border-bottom:none;">
 <form data-toggle="ajaxsearch" data-options="{searchDatagrid:$.CurrentNavtab.find('#datagrid-signmane-filter')}">
     <fieldset>
         <legend style="font-weight:normal;">Search：</legend>
         <div style="margin:0; padding:1px 5px 5px;">
             <span>SignType：</span>
-            <select name="type" data-toggle="selectpicker">
+            <select name="type" id="j_signman_type" data-toggle="selectpicker" data-width="200">
 	                <option value=""></option>
-	                <option value="M">Male</option>
-	                <option value="F">Female</option>
 	        </select>
             &nbsp;&nbsp;&nbsp;&nbsp;
 

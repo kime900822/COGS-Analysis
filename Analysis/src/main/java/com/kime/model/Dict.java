@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,9 @@ public class Dict {
 	private String key;
 	@Column
 	private String value;
+	@Transient
+	private String addFlag;
+	
 	public String getType() {
 		return type;
 	}
@@ -38,6 +42,12 @@ public class Dict {
 	}
 	public void setValue(String value) {
 		this.value = value;
+	}
+	public String getAddFlag() {
+		return addFlag;
+	}
+	public void setAddFlag(String addFlag) {
+		this.addFlag = addFlag;
 	}
 
 	
