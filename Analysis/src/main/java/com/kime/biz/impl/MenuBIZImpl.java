@@ -38,12 +38,6 @@ public class MenuBIZImpl implements MenuBIZ {
 			menuDao.save(menu);
 		}else{
 			menuDao.update(menu);
-			List<Role> list=roleBIZ.getRole(" WHERE menuid='"+menu.getId()+"'");
-			for (Role role : list) {
-				role.setLevel(menu.getLevel());
-				role.setOrder(menu.getOrder());
-				roleBIZ.update(role);
-			}
 		}
 		
 	}
@@ -80,18 +74,18 @@ public class MenuBIZImpl implements MenuBIZ {
 		
 	}
 	
+	
 	/**
-	 * 根据用户类型取菜单
+	 * 根据roleid 获取子菜单
 	 */
 	@Override
-	public String getChildMenu_R(String parentID,List<Role> lRoles) {
-		
+	public String getChildMenu_R(String parentID, String roleid) {
 		StringBuilder sb=new StringBuilder();
 		List<Menu> lmenu=menuDao.getMenuByParentID(parentID);
 		if (lmenu.size()>0) {
 			sb.append("[");
 			for (Menu m : lmenu) {
-				sb.append(getChildMenu_recursion_r(m,lRoles));
+				sb.append(getChildMenu_recursion_r(m,roleid));
 			}
 			
 			sb.deleteCharAt(sb.length()-1);
@@ -103,8 +97,8 @@ public class MenuBIZImpl implements MenuBIZ {
 		}
 		else
 			return "";
-		
 	}
+	
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
@@ -123,7 +117,11 @@ public class MenuBIZImpl implements MenuBIZ {
 		
 	}
 	
-	
+	/**
+	 * 根据菜单对线获取role中所有对应记录
+	 * @param menu
+	 * @return
+	 */
 	public List getAllChildMenu(Menu menu){
 		List<Menu> lMenus=new ArrayList<Menu>();
 		lMenus.addAll(menuDao.getMenuByParentID(menu.getId()));
@@ -135,11 +133,7 @@ public class MenuBIZImpl implements MenuBIZ {
 
 		
 	}
-	
-	@Override
-	public List getMenu(String level,String order) {
-		return menuDao.getMenu(level,order);		
-	}
+
 
 	
 	
@@ -168,15 +162,15 @@ public class MenuBIZImpl implements MenuBIZ {
 		
 	}
 
+
 	
-	public StringBuilder getChildMenu_recursion_r(Menu menu,List<Role> lRoles){
+	public StringBuilder getChildMenu_recursion_r(Menu menu,String roleid){
 		StringBuilder sb=new StringBuilder();
-		List<Menu> lmenus=menuDao.getMenuByParentID(menu.getId());
-		if (isInRole(menu, lRoles)) {		
+		List<Menu> lmenus=menuDao.getMenuByParentIDRole(menu.getId(),roleid);	
 			if (lmenus.size()>0) {
 				sb.append("{\"name\":\""+menu.getName()+"\",\"children\":[");
 				for (Menu m : lmenus) {
-					sb.append(getChildMenu_recursion_r(m,lRoles));		
+					sb.append(getChildMenu_recursion_r(m,roleid));		
 				}
 				if (sb.charAt(sb.length()-1)==',') {
 					sb.deleteCharAt(sb.length()-1);
@@ -189,18 +183,15 @@ public class MenuBIZImpl implements MenuBIZ {
 					sb.append("\"url\":\""+menu.getUrl()+"\"},");
 	
 			}
-		}
 		return sb;
 		
 	}
-	
-	public boolean isInRole(Menu menu,List<Role> lRoles){
-		for (Role role : lRoles) {
-			if (menu.getId().equals(role.getMenuid())) {
-				return true;
-			}
-		}
-		return false;
+
+
+
+	@Override
+	public List getParentMenuByRole(String role) {
+		return menuDao.getFatherMenuByRole(role);
 	}
 	
 	

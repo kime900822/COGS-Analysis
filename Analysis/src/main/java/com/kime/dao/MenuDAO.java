@@ -26,4 +26,8 @@ public interface MenuDAO {
 	public List getParentMenu();
 	
 	public List getMenu(String level,String order);
+	
+	public List getFatherMenuByRole(String role);
+	
+	public List getMenuByParentIDRole(String parentID,String role);
 }

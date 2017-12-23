@@ -20,10 +20,6 @@ public class Role {
 	@Column
 	private String name;
 	@Column
-	private String level;
-	@Column(name="`order`")
-	private String order;
-	@Column
 	private String description;
 	@Column
 	private String menuid;
@@ -52,18 +48,6 @@ public class Role {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getLevel() {
-		return level;
-	}
-	public void setLevel(String level) {
-		this.level = level;
-	}
-	public String getOrder() {
-		return order;
-	}
-	public void setOrder(String order) {
-		this.order = order;
 	}
 
 }

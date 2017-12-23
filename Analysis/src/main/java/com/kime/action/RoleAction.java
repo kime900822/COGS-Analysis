@@ -104,8 +104,8 @@ public class RoleAction extends ActionBase {
 			})})
 	public String GetRole() throws UnsupportedEncodingException{
 	
-		List lrole=roleBIZ.getRole(" WHERE level='0' ",Integer.parseInt(pageSize),Integer.parseInt(pageCurrent));
-		int total=roleBIZ.getRole(" WHERE level='0' ").size();
+		List lrole=roleBIZ.getRole(" WHERE menuid is null ",Integer.parseInt(pageSize),Integer.parseInt(pageCurrent));
+		int total=roleBIZ.getRole(" WHERE  menuid is null ").size();
 		
 
 		queryResult.setList(lrole);
@@ -166,7 +166,6 @@ public class RoleAction extends ActionBase {
 			for (Role r : lRoles) {
 				if (r.getRid()==null||"".equals(r.getRid())) {
 					r.setRid(UUID.randomUUID().toString().replaceAll("-", ""));;
-					r.setLevel("0");
 					int i=roleBIZ.getRole(" WHERE name='"+r.getName()+"'").size();
 					if (i>0) {
 						result.setMessage(Message.SAVE_MESSAGE_ERROR_ROLE_1);
@@ -205,7 +204,7 @@ public class RoleAction extends ActionBase {
 			})})
 	public String GetAllRole() throws UnsupportedEncodingException{
 		
-		List<Role> lRole=roleBIZ.getRole(" WHERE level='0' ");
+		List<Role> lRole=roleBIZ.getRole(" WHERE menuid is null ");
 		reslutJson=new ByteArrayInputStream(new Gson().toJson(lRole).getBytes("UTF-8"));  
 		
 		return SUCCESS;

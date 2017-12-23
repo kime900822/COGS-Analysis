@@ -52,6 +52,14 @@ public class MenuDAOImpl extends HibernateDaoSupport implements MenuDAO {
 		return this.getHibernateTemplate().find("FROM Menu where parentid=? ", new String[]{parentID});
 	}
 
+	
+	
+	
+	@Override
+	public List getMenuByParentIDRole(String parentID, String role) {
+		return this.getHibernateTemplate().find("SELECT M FROM Menu M, Role R where M.parentid=? AND M.id=R.menuid AND R.name=?  ORDER BY M.order", new String[]{parentID,role});
+	}
+
 	@Override
 	public void update(Menu menu) {
 		this.getHibernateTemplate().merge(menu);
@@ -75,6 +83,11 @@ public class MenuDAOImpl extends HibernateDaoSupport implements MenuDAO {
 	@Override
 	public List getMenu(String level,String order) {
 		return this.getHibernateTemplate().find("FROM Menu  where level=? AND order=? ", new String[]{level,order});
+	}
+
+	@Override
+	public List getFatherMenuByRole(String role) {
+		return this.getHibernateTemplate().find("select M FROM Menu M, Role R  where M.level=1 AND M.id=R.menuid AND R.name=? ", new String[]{role});
 	}
 
 	

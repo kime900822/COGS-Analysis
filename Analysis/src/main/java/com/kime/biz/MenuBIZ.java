@@ -20,9 +20,9 @@ public interface MenuBIZ {
 	
 	public void deleteMenu(Menu menu);
 	
-	public List getMenu(String level,String order);
-	
 	public Menu getMenuById(String id);
 	
-	public String getChildMenu_R(String parentID,List<Role> roles);
+	public List getParentMenuByRole(String role);
+	
+	public String getChildMenu_R(String parentID,String roleid);
 }
