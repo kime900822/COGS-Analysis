@@ -96,7 +96,7 @@ public class MenuBIZImpl implements MenuBIZ {
 			return sb.toString();
 		}
 		else
-			return "";
+			return "{\"name\":\"无子菜单\"}";
 	}
 	
 
