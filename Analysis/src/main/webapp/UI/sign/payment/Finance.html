@@ -1,0 +1,22 @@
+<div class="bjui-pageContent">
+    <table id="j_datagrid_finance" data-toggle="datagrid" data-options="{
+        height: '100%',
+        gridTitle : 'Finance',
+        showToolbar: true,
+        toolbarItem: 'edit,save,cancel',
+        dataUrl: 'getFinanceDict.action',
+        editUrl: 'modeFinanceDict.action',
+        linenumberAll: true,
+        hScrollbar: true,
+        inlineEditMult: false,
+        filterThead:false
+    }">
+        <thead>
+            <tr>
+            	<th data-options="{name:'type', align:'left',finalWidth:'true', width:200, edit:false}">Type</th>
+                <th data-options="{name:'key', align:'left',finalWidth:'true', width:200,edit:false}">Key</th>
+                <th data-options="{name:'value', align:'center',finalWidth:'true',width:200}">Value</th>
+            </tr>
+        </thead>
+    </table>
+</div>
