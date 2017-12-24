@@ -60,6 +60,16 @@ public class Message {
 	public static String SAVE_MESSAGE_ERROR_ROLE_1="Name cannot be duplicated！";
 	
 	/**
+	 * 字典中同样TYPE同业KEY只能存在一条记录
+	 */
+	public static String SAVE_MESSAGE_ERROR_DICT="The type of consent can only have the same KEY!";
+	
+	/**
+	 * 维护财务人员时对应ID不存在
+	 */
+	public static String SAVE_MESSAGE_ERROR_DICT_PAYMENT="The corresponding ID does not exist!";
+	
+	/**
 	 * 删除成功
 	 */
 	public static String DEL_MESSAGE_SUCCESS="Delete successfully!";

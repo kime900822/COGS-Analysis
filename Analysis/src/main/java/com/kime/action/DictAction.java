@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kime.biz.DictBIZ;
+import com.kime.biz.UserBIZ;
 import com.kime.infoenum.Message;
 import com.kime.model.Dict;
 import com.kime.model.Editor;
@@ -27,10 +28,12 @@ public class DictAction extends ActionBase{
 
 	@Autowired
 	private DictBIZ dictBIZ;
+	@Autowired
+	private UserBIZ userBIZ;
 	private String type;
 	private String key;
 	private String value;
-	
+	private String id;
 	
 	public DictBIZ getDictBIZ() {
 		return dictBIZ;
@@ -42,6 +45,14 @@ public class DictAction extends ActionBase{
 	
 	
 	
+	public UserBIZ getUserBIZ() {
+		return userBIZ;
+	}
+
+	public void setUserBIZ(UserBIZ userBIZ) {
+		this.userBIZ = userBIZ;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -64,6 +75,16 @@ public class DictAction extends ActionBase{
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+	
+	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@Action(value="getALLSign",results={@org.apache.struts2.convention.annotation.Result(type="stream",
@@ -176,15 +197,25 @@ public class DictAction extends ActionBase{
 
 		try {
 			if (object.getAddFlag().equals("true")) {
-				dictBIZ.save(object);
-				logUtil.logInfo("新增字典:"+object.getType()+" "+object.getKey());
+				if (dictBIZ.getDict(" where type='"+object.getType()+"' and key='"+object.getKey()+"'").size()==1) {
+					logUtil.logInfo("新增字典:已存在相同type和相同key的记录：");
+					result.setMessage(Message.SAVE_MESSAGE_ERROR_DICT);
+					result.setStatusCode("300");
+				}else{
+					dictBIZ.save(object);
+					logUtil.logInfo("新增字典:"+object.getType()+" "+object.getKey());
+					result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
+					result.setStatusCode("200");
+				}
+				
 			}else{
 				dictBIZ.update(object);
 				logUtil.logInfo("修改字典:"+object.getType()+" "+object.getKey());
+				result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
+				result.setStatusCode("200");
 			}
 			
-			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
-			result.setStatusCode("200");
+			
 		} catch (Exception e) {
 			logUtil.logInfo("修改字典:"+e.getMessage());
 			result.setMessage(e.getMessage());
@@ -207,29 +238,35 @@ public class DictAction extends ActionBase{
 		List<Dict> list=new Gson().fromJson(json, new TypeToken<ArrayList<Dict>>() {}.getType());
 		Dict object=list.get(0);
 		
-		if (object.equals("Fixed Asset 固定资产")) {
+		if (object.getKey().equals("Fixed Asset 固定资产")) {
 			object.setKey("1");
-		}else if (object.equals("Raw Material 原材料")) {
+		}else if (object.getKey().equals("Raw Material 原材料")) {
 			object.setKey("2");
-		}else if (object.equals("Consumable 消耗品")) {
+		}else if (object.getKey().equals("Consumable 消耗品")) {
 			object.setKey("3");
-		}else if (object.equals("Subcontractor 外包")) {
+		}else if (object.getKey().equals("Subcontractor 外包")) {
 			object.setKey("4");
-		}else if (object.equals("Service 服务")) {
+		}else if (object.getKey().equals("Service 服务")) {
 			object.setKey("5");
-		}else if (object.equals("Petty Cash备用金")) {
+		}else if (object.getKey().equals("Petty Cash备用金")) {
 			object.setKey("6");
-		}else if (object.equals("Other 其他")) {
+		}else if (object.getKey().equals("Other 其他")) {
 			object.setKey("7");
 		}
 		
 		try {
-
-			dictBIZ.update(object);
-			logUtil.logInfo("修改付款签核对应财务:"+object.getType()+" "+object.getKey());
+			if (userBIZ.getUser(" where uid='"+object.getValue()+"'").size()==1) {
+				dictBIZ.update(object);
+				logUtil.logInfo("修改付款签核对应财务:"+object.getType()+" "+object.getKey());
+				result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
+				result.setStatusCode("200");
+			}else{
+				logUtil.logInfo("修改付款签核对应财务:对应用户id不存在，"+object.getValue());
+				result.setMessage(Message.SAVE_MESSAGE_ERROR_DICT_PAYMENT);
+				result.setStatusCode("300");
+				
+			}	
 			
-			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
-			result.setStatusCode("200");
 		} catch (Exception e) {
 			logUtil.logInfo("修改付款签核对应财务:"+e.getMessage());
 			result.setMessage(e.getMessage());

@@ -14,11 +14,14 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table(name = "t_dict")
 public class Dict {
+	
 	@Id
-	@GeneratedValue(generator="assigned")
-	@GenericGenerator(name = "assigned", strategy = "assigned")
-	private String type;
+	@GeneratedValue(generator="uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid")
+	private String Id;
 	@Column
+	private String type;
+	@Column(name="`key`")
 	private String key;
 	@Column
 	private String value;
@@ -48,6 +51,12 @@ public class Dict {
 	}
 	public void setAddFlag(String addFlag) {
 		this.addFlag = addFlag;
+	}
+	public String getId() {
+		return Id;
+	}
+	public void setId(String id) {
+		Id = id;
 	}
 
 	
