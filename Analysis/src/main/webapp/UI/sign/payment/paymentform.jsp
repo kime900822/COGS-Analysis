@@ -20,43 +20,43 @@ $(function(){
             <div class="bjui-row col-2" >
                 <label class="row-label">Application Date<br>申请日期）</label>
                 <div class="row-input required">
-                    <input type="text" name="custom.birthday" id="j_custom_birthday" value="" data-toggle="datepicker" data-rule="required;date">
+                    <input type="text" name="applicationDate" value="" data-toggle="datepicker" data-rule="required;date">
                 </div>
                 <label class="row-label">Request Payment Date<br>(要求付款日期）</label>
                 <div class="row-input">
-                    <input type="text" name="custom.birthday" id="j_custom_birthday" value="" data-toggle="datepicker" data-rule="required;date">
+                    <input type="text" name="requestPaymentDate" value="" data-toggle="datepicker" data-rule="required;date">
                 </div>
                 <label class="row-label">Contactural Payment Date<br>（合同付款日期）</label>
                 <div class="row-input">
-                   <input type="text" name="custom.birthday" id="j_custom_birthday" value="" data-toggle="datepicker" data-rule="required;date">
+                   <input type="text" name="contacturalPaymentDate" value="" data-toggle="datepicker" data-rule="required;date">
                 </div>
                 <label class="row-label">Urgent</label>
                 <div class="row-input">
-                    <input type="checkbox" name="custom.visa" id="j_custom_visa" data-toggle="icheck" value="true" data-label="">
+                    <input type="checkbox" name="urgent"  data-toggle="icheck" value="true" data-label="">
                 </div>           
                 <label class="row-label">支付现金 <br>Cash</label>
                 <div class="row-input">
-                    <input type="checkbox" name="custom.visa" id="j_custom_visa" data-toggle="icheck" value="true" data-label="">
+                    <input type="radio" name="payType" data-toggle="icheck" value="true" data-label="">
                 </div>
                 <label class="row-label">银行支付<br> Banking</label>
                 <div class="row-input">
-                    <input type="checkbox" name="custom.visa" id="j_custom_visa" data-toggle="icheck" value="true" data-label="">
+                    <input type="radio" name="payType" data-toggle="icheck" value="true" data-label="">
                 </div>
                 <label class="row-label" >核销预付 <br>Advance Write-off (Amount) .</label>
                 <div class="row-input">
-                    <input type="checkbox" name="custom.visa" id="j_custom_visa" data-toggle="icheck" value="true" data-label="">
+                    <input type="checkbox" name="advanceWriteoff" data-toggle="icheck" value="true" data-label="">
                 </div><br>
                 <label class="row-label">申请人<br>Applicant:</label>
                 <div class="row-input">
-                	<input type="text" name="custom.name" id="j_custom_name" value="${user.uid}-${user.name}" readonly="" data-rule="required">
+                	<input type="text" name="UID" value="${user.uid}-${user.name}" readonly="" data-rule="required">
                 </div>
                 <label class="row-label">所属部门<br>Department of Applicant:</label>
                 <div class="row-input">
-                    <input type="text" name="custom.name" id="j_custom_name" value="${user.department.name}-${user.department.did}" readonly="" data-rule="required">
+                    <input type="text" name="departmentID" value="${user.department.name}-${user.department.did}" readonly="" data-rule="required">
                 </div>
                 <label class="row-label">收款人（全称）<br>Beneficiary:</label>
                 <div class="row-input required">
-                    <select name="custom.sale" id="j_custom_sale" data-toggle="selectpicker" data-rule="required">
+                    <select name="custom.sale" id="beneficiary" data-toggle="selectpicker" data-rule="required">
                         <option value=""></option>
                     </select>
                 </div>
@@ -64,20 +64,20 @@ $(function(){
                 
                 <label class="row-label">银行及帐号<br>Beneficiary Account NO.</label>
                 <div class="row-input">
-                     <input type="text" name="custom.name" id="j_custom_name" value="" readonly="" data-rule="required">
+                     <input type="text" name="beneficiaryAccountNO" value="" readonly="" data-rule="required">
                 </div>
                 <label class="row-label">变更<br>Change</label>
                 <div class="row-input">
-                    <input type="checkbox" name="custom.visa" id="j_custom_visa" data-toggle="icheck" value="true" data-label="">
+                    <input type="checkbox" name="beneficiaryChange" data-toggle="icheck" value="true" data-label="">
                 </div>
                 <label class="row-label">变更<br>Change</label>
                 <div class="row-input">
-                     <input type="checkbox" name="custom.visa" id="j_custom_visa" data-toggle="icheck" value="true" data-label="">
+                     <input type="checkbox" name="beneficiaryAccountNOChange" data-toggle="icheck" value="true" data-label="">
                 </div>
                 
                 <label class="row-label">付款项目<br>Payment Subject</label>
                 <div class="row-input required">
-                    <select name="custom.sale" id="j_custom_sale" data-toggle="selectpicker" data-rule="required">
+                    <select name="paymentSubject" data-toggle="selectpicker" data-rule="required">
                         <option value=""></option>
                         <option value="1">Fixed Asset 固定资产</option>
                         <option value="2">Raw Material 原材料</option>
@@ -91,9 +91,9 @@ $(function(){
                 
                 <label class="row-label">结算期 <br>Payment Term</label>
                 <div class="row-input required">
-                	<input type="text" name="custom.name" id="j_custom_name" value="" data-rule="required" size="5">
+                	<input type="text" name="paymentDays" id="j_custom_name" value="" data-rule="required" size="5">
                 	<span style="text-align:right; color:#777; font-weight:normal;">Days</span>
-                    <select name="custom.sale" id="j_custom_sale" data-toggle="selectpicker" data-rule="required">
+                    <select name="paymentTerm" data-toggle="selectpicker" data-rule="required">
                         <option value=""></option>
                         <option value="1">Advance预付款</option>
                         <option value="2">Payment at sight 见票即付</option>
@@ -106,63 +106,63 @@ $(function(){
                
                 <label class="row-label">收货或验收日期<br>Receiving or Approval date</label>
                 <div class="row-input">
-                    <input type="text" name="custom.name" id="j_custom_name" value="" data-rule="required">
+                    <input type="text" name="receivingOrApprovalDate" value="" data-rule="required">
                 </div>
                 <label class="row-label">订单号<br>PO No.</label>
                 <div class="row-input">
-                    <input type="text" name="custom.name" id="j_custom_name" value="" data-rule="required">
+                    <input type="text" name="PONo"  value="" data-rule="required">
                 </div>
                 <label class="row-label">币别<br>Currency</label>
                 <div class="row-input">
-                    <select name="custom.sale" id="j_custom_sale" data-toggle="selectpicker" data-rule="required">
+                    <select name="currency" data-toggle="selectpicker" data-rule="required">
                         <option value=""></option>
-                        <option value="1">RMB</option>
-                        <option value="2">USD</option>
-                        <option value="3">EUR</option>
-                        <option value="4">GBP</option>
+                        <option value="RMB">RMB</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
                     </select>
                 </div>
                 <label class="row-label">金额<br>Amount</label>
                 <div class="row-input">
-                    <input type="text" name="custom.name" id="j_custom_name" value="" data-rule="required">
+                    <input type="text" name="amount" value="" data-rule="required">
                 </div>
                 
 				<label class="row-label">供应商代码<br>Supplier Code</label>
                 <div class="row-input">
-                    <input type="text" name="custom.name" id="j_custom_name" value="" data-rule="required">
+                    <input type="text" name="supplierCode" value="" data-rule="required">
                 </div>
                 <label class="row-label">银行交易编码<br>Ref. No. of Bank</label>
                 <div class="row-input">
-                    <input type="text" name="custom.name" id="j_custom_name" value="" data-rule="required">
+                    <input type="text" name="refNoofBank" value="" data-rule="required">
                 </div>
                 
                 <label class="row-label">支付用途 <br>Usage Description</label>
                 <div class="row-input">
-                    <textarea cols="60" rows="1" data-toggle="autoheight"></textarea>
+                    <textarea name="usageDescription" cols="60" rows="1" data-toggle="autoheight"></textarea>
                 </div><br>
                 <label class="row-label">金额(小写)<br>Amount in figures:</label>
                 <div class="row-input">
-                    <input type="text" name="custom.name" id="j_custom_name" value=""  data-rule="required" >
+                    <input type="text" name="amountInFigures" value=""  data-rule="required" >
                 </div>
                 <label class="row-label">金额（大写）<br>Amount in words:</label>
                 <div class="row-input">
-                    <input type="text" name="custom.name" id="j_custom_name" value=""  >
+                    <input type="text" name="AmountInWords" id="j_custom_name" value=""  >
                 </div>
                 <label class="row-label">单据审核<br>Document Audit:</label>
                 <div class="row-input">
-                    <input type="text" name="custom.name" id="j_custom_name" value="" readonly=""  >
+                    <input type="text" name="documentAudit" id="j_custom_name" value="" readonly=""  >
                 </div>
                 <label class="row-label">部门经理<br>Dept. Manager:</label>
                 <div class="row-input">
-                    <input type="text" name="custom.name" id="j_custom_name" value="" readonly="" >
+                    <input type="text" name="deptManager" id="j_custom_name" value="" readonly="" >
                 </div>
 
                 <label class="row-label">Attachment1 Invoice<br>（附件：发票）</label>
                 <div class="row-input">
-                    <input type="file" data-name="custom.pic" data-toggle="webuploader" data-options="
+                    <input name="file_Invoice" data-name="custom.pic" data-toggle="webuploader" data-options="
                         {
                             pick: {label: '点击选择文件'},
-                            server: '../../json/ajaxUpload.json',
+                            server: 'savefile.action',
                             fileNumLimit: 2,
                             formData: {dir:'custompic'},
                             required: true,
@@ -178,10 +178,10 @@ $(function(){
                 </div>
                 <label class="row-label">Attachment2 Contract<br>（附件：合同）</label>
                 <div class="row-input">
-                    <input type="file" data-name="custom.pic" data-toggle="webuploader" data-options="
+                    <input name="file_Contract" data-name="custom.pic" data-toggle="webuploader" data-options="
                         {
                             pick: {label: '点击选择文件'},
-                            server: '../../json/ajaxUpload.json',
+                            server: 'savefile.action',
                             fileNumLimit: 1,
                             formData: {dir:'custompic'},
                             required: true,
@@ -198,10 +198,10 @@ $(function(){
                 
                 <label class="row-label">Attachment3 Other<br>（附件：其他）</label>
                 <div class="row-input">
-                    <input type="file" data-name="custom.pic" data-toggle="webuploader" data-options="
+                    <input name="file_Other" data-name="custom.pic" data-toggle="webuploader" data-options="
                         {
                             pick: {label: '点击选择文件'},
-                            server: '../../json/ajaxUpload.json',
+                            server: 'savefile.action',
                             fileNumLimit: 1,
                             formData: {dir:'custompic'},
                             required: true,
@@ -219,7 +219,7 @@ $(function(){
             
             </div>           
           
-        </form>
+
         <table width="100%">
             	<tr>
             		<td align="center">
@@ -235,15 +235,16 @@ $(function(){
             	<tr>
             		<td align="center">
             			<button type="button" class="btn-default" data-icon="close">Doc. Invalid(作废)</button>
-            			<textarea cols="30" rows="1" data-toggle="autoheight"></textarea><br><br>
+            			<textarea name="invalidDescription" cols="30" rows="1" data-toggle="autoheight"></textarea><br><br>
             		</td>
             	</tr>
             	<tr>
             		<td align="center">
             			<button type="button" class="btn-default" data-icon="arrow-down">Doc. Return(退回)</button>
-            			<textarea cols="30" rows="1" data-toggle="autoheight"></textarea>
+            			<textarea name="rReturnDescription" cols="30" rows="1" data-toggle="autoheight"></textarea>
             		</td>
             	</tr>
         </table>
+      </form>
     </div>
 </div>

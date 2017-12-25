@@ -44,7 +44,7 @@ public class Payment {
 	private String payType;
 	
 	/**
-	 * 核心预付
+	 * 核销预付
 	 */
 	private String advanceWriteoff;
 	
