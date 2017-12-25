@@ -5,7 +5,6 @@ import java.util.List;
 import com.sign.model.Payment;
 
 public interface PaymentDAO {
-	
 	public void save(Payment payment);
 	
 	public void delete(Payment payment);
