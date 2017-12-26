@@ -16,39 +16,40 @@ import com.kime.action.ActionBase;
 import com.kime.infoenum.Message;
 import com.kime.utils.ExcelUtil;
 import com.sign.biz.PaymentBIZ;
+import com.sign.other.FileSave;
 
 @Controller
 public class PaymentAction extends ActionBase {
 
 	@Autowired
 	private PaymentBIZ paymentBIZ;
-
+	@Autowired
+	private FileSave fileSave;
 	
 	
 	private File file;
-	private File file_Contract;
-	private File file_Other;
-	
+	private String fileFileName;
 
 
+	public FileSave getFileSave() {
+		return fileSave;
+	}
+	public void setFileSave(FileSave fileSave) {
+		this.fileSave = fileSave;
+	}
+	public String getFileFileName() {
+		return fileFileName;
+	}
+	public void setFileFileName(String fileFileName) {
+		this.fileFileName = fileFileName;
+	}
 	public File getFile() {
 		return file;
 	}
 	public void setFile(File file) {
 		this.file = file;
 	}
-	public File getFile_Contract() {
-		return file_Contract;
-	}
-	public void setFile_Contract(File file_Contract) {
-		this.file_Contract = file_Contract;
-	}
-	public File getFile_Other() {
-		return file_Other;
-	}
-	public void setFile_Other(File file_Other) {
-		this.file_Other = file_Other;
-	}
+
 	private String id;
 	private String applicationDate;
 	private String requestPaymentDate;
@@ -331,10 +332,15 @@ public class PaymentAction extends ActionBase {
     public String  savefile() throws FileNotFoundException, IOException{
         try {
 	    	if (file!=null) {
-
-	            
+	            if (fileSave.fleSave(file, fileFileName)) {
+	            	result.setMessage("upload Success!");
+					result.setStatusCode("200");
+				}else{			
+					result.setMessage(Message.UPLOAD_MESSAGE_ERROE);
+					result.setStatusCode("300");	
+				}
 			}else{
-				result.setMessage(Message.UPLOAD_MESSAGE_ERROE);
+				result.setMessage("No File upload");
 				result.setStatusCode("300");
 			}
 		} catch (Exception e) {

@@ -3,19 +3,36 @@
 <script type="text/javascript">
 $(function(){
 	
-	
-	
+	BJUI.ajax('doajax', {
+	    url: 'getAllBeneficiary.action',
+	    loadingmask: false,
+	    okCallback: function(json, options) {
+            $.each(json, function (i, item) {
+                $.CurrentNavtab.find('#j_payment_beneficiary').append("<option value='" + item.accno + "'>" + item.name + "</option>")           
+            })
+            $.CurrentNavtab.find('#j_payment_beneficiary').selectpicker('val','${param.beneficiary}');
+            $.CurrentNavtab.find('#j_payment_beneficiary').selectpicker('refresh');
+	    }
+	})	
 	
 	
 })
+
+
+	function changeBeneficiary(){
+		$.CurrentNavtab.find('#j_payment_beneficiaryAccountNO').val($.CurrentNavtab.find('#j_payment_beneficiary').val())
+		
+	
+	
+	}
 
 </script>
 <div class="bjui-pageContent">
     <div class="bs-example">
         <form action="../../json/ajaxDone.json" id="j_custom_form" data-toggle="ajaxform">
-            <input type="hidden" name="custom.id" value="edce142bc2ed4ec6b623aacaf602a4de">
+            <input type="hidden" name="id" value="">
             <div class="bjui-row-0" align="center">
-            <h2 class="row-label">Payment Application Form 付款申请单</h2>
+            <h2 class="row-label">Payment Application Form 付款申请单</h2><br> 
             </div>
             <div class="bjui-row col-2" >
                 <label class="row-label">Application Date<br>申请日期）</label>
@@ -30,10 +47,10 @@ $(function(){
                 <div class="row-input">
                    <input type="text" name="contacturalPaymentDate" value="" data-toggle="datepicker" data-rule="required;date">
                 </div>
-                <label class="row-label">Urgent</label>
+         		<label class="row-label">CODE(流水码)</label>
                 <div class="row-input">
-                    <input type="checkbox" name="urgent"  data-toggle="icheck" value="true" data-label="">
-                </div>           
+                    <input type="text" name="code" value="" readonly="" >
+                </div>  
                 <label class="row-label">支付现金 <br>Cash</label>
                 <div class="row-input">
                     <input type="radio" name="payType" data-toggle="icheck" value="true" data-label="">
@@ -45,7 +62,11 @@ $(function(){
                 <label class="row-label" >核销预付 <br>Advance Write-off (Amount) .</label>
                 <div class="row-input">
                     <input type="checkbox" name="advanceWriteoff" data-toggle="icheck" value="true" data-label="">
-                </div><br>
+                </div>
+                <label class="row-label">Urgent</label>
+                <div class="row-input">
+                    <input type="checkbox" name="urgent"  data-toggle="icheck" value="true" data-label="">
+                </div>  
                 <label class="row-label">申请人<br>Applicant:</label>
                 <div class="row-input">
                 	<input type="text" name="UID" value="${user.uid}-${user.name}" readonly="" data-rule="required">
@@ -56,7 +77,7 @@ $(function(){
                 </div>
                 <label class="row-label">收款人（全称）<br>Beneficiary:</label>
                 <div class="row-input required">
-                    <select name="custom.sale" id="beneficiary" data-toggle="selectpicker" data-rule="required">
+                    <select name="beneficiary" id="j_payment_beneficiary" data-toggle="selectpicker" data-rule="required" onchange="changeBeneficiary()">
                         <option value=""></option>
                     </select>
                 </div>
@@ -64,15 +85,15 @@ $(function(){
                 
                 <label class="row-label">银行及帐号<br>Beneficiary Account NO.</label>
                 <div class="row-input">
-                     <input type="text" name="beneficiaryAccountNO" value="" readonly="" data-rule="required">
+                     <input type="text" name="beneficiaryAccountNO" id="j_payment_beneficiaryAccountNO" value="" readonly="" data-rule="required">
                 </div>
                 <label class="row-label">变更<br>Change</label>
                 <div class="row-input">
-                    <input type="checkbox" name="beneficiaryChange" data-toggle="icheck" value="true" data-label="">
+                    <input type="checkbox" name="beneficiaryChange" id="j_payment_beneficiaryChange" data-toggle="icheck" value="true" data-label="">
                 </div>
                 <label class="row-label">变更<br>Change</label>
                 <div class="row-input">
-                     <input type="checkbox" name="beneficiaryAccountNOChange" data-toggle="icheck" value="true" data-label="">
+                     <input type="checkbox" name="beneficiaryAccountNOChange" id="j_payment_beneficiaryAccountNOChange" data-toggle="icheck" value="true" data-label="">
                 </div>
                 
                 <label class="row-label">付款项目<br>Payment Subject</label>
@@ -163,8 +184,8 @@ $(function(){
                         {
                             pick: {label: '点击选择文件'},
                             server: 'savefile.action',
-                            fileNumLimit: 2,
-                            formData: {dir:'custompic'},
+                            fileNumLimit: 1,
+                            formData: {},
                             required: true,
                             uploaded: '',
                             basePath: '',
@@ -183,7 +204,7 @@ $(function(){
                             pick: {label: '点击选择文件'},
                             server: 'savefile.action',
                             fileNumLimit: 1,
-                            formData: {dir:'custompic'},
+                            formData: {},
                             required: true,
                             uploaded: '',
                             basePath: '',
@@ -203,7 +224,7 @@ $(function(){
                             pick: {label: '点击选择文件'},
                             server: 'savefile.action',
                             fileNumLimit: 1,
-                            formData: {dir:'custompic'},
+                            formData: {},
                             required: true,
                             uploaded: '',
                             basePath: '',
@@ -224,23 +245,23 @@ $(function(){
             	<tr>
             		<td align="center">
             		<br><br>
-	            		<button type="button" class="btn-default" data-icon="save" size="">Save(保存)</button>
-	            		<button type="button" class="btn-default" data-icon="arrow-up" size="">Submit(送审)</button>
-	            		<button type="button" class="btn-default" data-icon="check" size="">Approve(同意)</button>
-	            		<button type="button" class="btn-default" data-icon="close" size="">Reject(拒绝)</button>
-	            		<button type="button" class="btn-default" data-icon="print" size="">Print Out(打印)</button>
-	            		<button type="button" class="btn-default" data-icon="undo" size="">Assign(转交)</button><br><br>
+	            		<button type="button" id="payment-save" class="btn-default" data-icon="save" size="">Save(保存)</button>
+	            		<button type="button" id="payment-submit" class="btn-default" data-icon="arrow-up" size="">Submit(送审)</button>
+	            		<button type="button" id="payment-approve" class="btn-default" data-icon="check" size="">Approve(同意)</button>
+	            		<button type="button" id="payment-Reject" class="btn-default" data-icon="close" size="">Reject(拒绝)</button>
+	            		<button type="button" id="payment-Print" class="btn-default" data-icon="print" size="">Print Out(打印)</button>
+	            		<button type="button" id="payment-assign" class="btn-default" data-icon="undo" size="">Assign(转交)</button><br><br>
             		</td>
             	</tr>
             	<tr>
             		<td align="center">
-            			<button type="button" class="btn-default" data-icon="close">Doc. Invalid(作废)</button>
+            			<button type="button" id="payment-invalid" class="btn-default" data-icon="close">Doc. Invalid(作废)</button>
             			<textarea name="invalidDescription" cols="30" rows="1" data-toggle="autoheight"></textarea><br><br>
             		</td>
             	</tr>
             	<tr>
             		<td align="center">
-            			<button type="button" class="btn-default" data-icon="arrow-down">Doc. Return(退回)</button>
+            			<button type="button" id="payment-return" class="btn-default" data-icon="arrow-down">Doc. Return(退回)</button>
             			<textarea name="rReturnDescription" cols="30" rows="1" data-toggle="autoheight"></textarea>
             		</td>
             	</tr>

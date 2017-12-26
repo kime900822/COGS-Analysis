@@ -28,7 +28,7 @@ public class LogUtil  {
 	
 	  private static Logger log = Logger.getLogger(LogUtil.class);
 	  
-	  public  void logDebug(String message){
+	  public void logDebug(String message){
 		  User user=(User) session.getAttribute("user");
 		  String ip = request.getRemoteAddr();
 		  if (user!=null) {
