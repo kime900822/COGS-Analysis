@@ -4,18 +4,19 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.analysis.model.Sales;
 import com.google.gson.Gson;
 import com.kime.action.ActionBase;
 import com.kime.infoenum.Message;
-import com.kime.utils.ExcelUtil;
+import com.kime.model.User;
 import com.sign.biz.PaymentBIZ;
+import com.sign.model.Payment;
 import com.sign.other.FileSave;
 
 @Controller
@@ -25,12 +26,19 @@ public class PaymentAction extends ActionBase {
 	private PaymentBIZ paymentBIZ;
 	@Autowired
 	private FileSave fileSave;
-	
+    @Autowired  
+    private  HttpSession session;   
 	
 	private File file;
 	private String fileFileName;
 
 
+	public HttpSession getSession() {
+		return session;
+	}
+	public void setSession(HttpSession session) {
+		this.session = session;
+	}
 	public FileSave getFileSave() {
 		return fileSave;
 	}
@@ -329,7 +337,7 @@ public class PaymentAction extends ActionBase {
 			params={
 					"inputName", "reslutJson"
 			})})
-    public String  savefile() throws FileNotFoundException, IOException{
+    public String savefile() throws FileNotFoundException, IOException{
         try {
 	    	if (file!=null) {
 	            if (fileSave.fleSave(file, fileFileName)) {
@@ -352,7 +360,42 @@ public class PaymentAction extends ActionBase {
     }
 	
 	
-	
-	
+	@Action(value="savePayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String savePayment(){
+		Payment payment=new Payment();
+		User user=(User)session.getAttribute("user");
+		if ("".equals(id)||id==null) {
+			payment.setId(id);
+		}
+		payment.setUID(user.getUid());
+		payment.setUName(user.getName());
+		payment.setDepartmentID(user.getDepartment().getDid());
+		payment.setDepartmentName(user.getDepartment().getName());
+		payment.setApplicationDate(applicationDate);
+		payment.setRequestPaymentDate(requestPaymentDate);
+		payment.setContacturalPaymentDate(contacturalPaymentDate);
+		payment.setUrgent(urgent);
+		payment.setPayType(payType);
+		payment.setAdvanceWriteoff(advanceWriteoff);
+		payment.setBeneficiary(beneficiary);
+		payment.setBeneficiaryAccountNO(beneficiaryAccountNO);
+		payment.setBeneficiaryChange(beneficiaryChange);
+		payment.setBeneficiaryAccountNOChange(beneficiaryAccountNOChange);
+		payment.setSupplierCode(supplierCode);
+		payment.setRefNoofBank(refNoofBank);
+		payment.setPaymentSubject(paymentSubject);
+		payment.setPaymentTerm(paymentTerm);
+		payment.setPaymentTerm(paymentTerm);
+		
+		
+		
+		
+		
+		
+		return SUCCESS;
+	}
 	
 }

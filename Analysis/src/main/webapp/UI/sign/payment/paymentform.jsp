@@ -14,10 +14,13 @@ $(function(){
             $.CurrentNavtab.find('#j_payment_beneficiary').selectpicker('refresh');
 	    }
 	})	
-	
+
+	$.CurrentNavtab.find('#payment-save').click(function(){
+		
+		$.CurrentNavtab.find("#j_payment_form").attr("action", "savePayment.action").submit();
+	})
 	
 })
-
 
 	function changeBeneficiary(){
 		$.CurrentNavtab.find('#j_payment_beneficiaryAccountNO').val($.CurrentNavtab.find('#j_payment_beneficiary').val())
@@ -29,7 +32,7 @@ $(function(){
 </script>
 <div class="bjui-pageContent">
     <div class="bs-example">
-        <form action="../../json/ajaxDone.json" id="j_custom_form" data-toggle="ajaxform">
+        <form action="../../json/ajaxDone.json" id="j_payment_form" data-toggle="ajaxform">
             <input type="hidden" name="id" value="">
             <div class="bjui-row-0" align="center">
             <h2 class="row-label">Payment Application Form 付款申请单</h2><br> 
@@ -109,7 +112,9 @@ $(function(){
                         <option value="7">Other 其他</option>
                     </select>
                 </div>
-                
+            </div> 
+            
+            <div class="bjui-row col-2" >    
                 <label class="row-label">结算期 <br>Payment Term</label>
                 <div class="row-input required">
                 	<input type="text" name="paymentDays" id="j_custom_name" value="" data-rule="required" size="5">
@@ -126,8 +131,8 @@ $(function(){
                 </div>
                
                 <label class="row-label">收货或验收日期<br>Receiving or Approval date</label>
-                <div class="row-input">
-                    <input type="text" name="receivingOrApprovalDate" value="" data-rule="required">
+                <div class="row-input required">
+                    <input type="text" name="receivingOrApprovalDate" value="" data-toggle="datepicker" data-rule="required;date">
                 </div>
                 <label class="row-label">订单号<br>PO No.</label>
                 <div class="row-input">
@@ -186,7 +191,7 @@ $(function(){
                             server: 'savefile.action',
                             fileNumLimit: 1,
                             formData: {},
-                            required: true,
+                            required: false,
                             uploaded: '',
                             basePath: '',
                             accept: {
@@ -205,7 +210,7 @@ $(function(){
                             server: 'savefile.action',
                             fileNumLimit: 1,
                             formData: {},
-                            required: true,
+                            required: false,
                             uploaded: '',
                             basePath: '',
                             accept: {
@@ -225,7 +230,7 @@ $(function(){
                             server: 'savefile.action',
                             fileNumLimit: 1,
                             formData: {},
-                            required: true,
+                            required: false,
                             uploaded: '',
                             basePath: '',
                             accept: {
