@@ -27,6 +27,14 @@ fieldset .bjui-row{padding:0;}
 .bjui-row{margin:0; letter-spacing:-3px; font-size:0;}
 .bjui-row legend {display:block; letter-spacing:0;}
 
+
+.label{display:block; letter-spacing:0;margin:0; letter-spacing:-3px; font-size:0;clear:left; padding-left:8px; padding-right:8px; width:35%; text-align:right; color:#777; font-weight:normal;}
+.input{display:block; letter-spacing:0;margin:0; letter-spacing:-3px; font-size:0;display:inline-block; margin-bottom:10px; color:#000; font-size:12px; letter-spacing:0; vertical-align:top;  /*float:left; margin-bottom:10px; color:#000;*/}
+.table{color:#777}
+
+
+
+
 .bjui-row .row-label,
 .bjui-row .row-input{display:inline-block; margin-bottom:10px; color:#000; font-size:12px; letter-spacing:0; vertical-align:top;  /*float:left; margin-bottom:10px; color:#000;*/}
 .bjui-row .row-label{clear:left; padding-left:8px; padding-right:8px; width:35%; text-align:right; color:#777; font-weight:normal;}
@@ -38,6 +46,12 @@ fieldset .bjui-row{padding:0;}
 .bjui-row.col-4 .row-label:nth-of-type(4n + 1){clear:left;}
 .bjui-row.col-4 .row-input{width:16.25%;}
 .bjui-row.col-4 .row-space{width:25%;}
+
+.bjui-row.col-5 .row-label{clear:none; width:5%;}
+.bjui-row.col-5 .row-label:nth-of-type(4n + 1){clear:left;}
+.bjui-row.col-5 .row-input{width:15%;}
+.bjui-row.col-5 .row-space{width:20%;}
+
 
 .bjui-row.col-3 .row-label{clear:none; width:11.66666%;}
 .bjui-row.col-3 .row-label:nth-of-type(4n + 1){clear:none;}
