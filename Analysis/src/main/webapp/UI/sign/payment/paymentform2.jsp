@@ -114,7 +114,7 @@ $(function(){
                 </div>
             </div> 
             
-                           <label class="label">结算期 <br>Payment Term</label>
+            <label class="label">结算期 <br>Payment Term</label>
                 <div class="input required">
                 	<input type="text" name="paymentDays" id="j_custom_name" value="" data-rule="required" size="5">
                 	<span style="text-align:right; color:#777; font-weight:normal;">Days</span>

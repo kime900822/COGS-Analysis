@@ -387,8 +387,6 @@ public class PaymentAction extends ActionBase {
 		payment.setSupplierCode(supplierCode);
 		payment.setRefNoofBank(refNoofBank);
 		payment.setPaymentSubject(paymentSubject);
-		payment.setPaymentTerm(paymentTerm);
-		payment.setPaymentTerm(paymentTerm);
 		
 		
 		
