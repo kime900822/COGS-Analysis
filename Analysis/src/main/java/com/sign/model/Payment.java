@@ -885,7 +885,7 @@ public class Payment {
 	public void setAmount_Other(String amount_Other) {
 		this.amount_Other = amount_Other;
 	}
-	
+
 	
 }
 
