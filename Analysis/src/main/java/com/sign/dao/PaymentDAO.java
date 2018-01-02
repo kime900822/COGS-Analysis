@@ -11,6 +11,8 @@ public interface PaymentDAO {
 	
 	public void update(Payment payment);
 	
+	public List queryHql(String hql);
+	
 	public List<Payment> query(String where);
 
 	public List<Payment> query(String where,Integer pageSize,Integer pageCurrent);

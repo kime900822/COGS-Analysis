@@ -1,6 +1,8 @@
 package com.sign.biz.impl;
 
 import java.io.ByteArrayInputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +65,18 @@ public class PaymentBIZImpl implements PaymentBIZ {
 		
 	}
 
+	@Override
+	public String getMaxCode() {
+		Date d=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMM");
+		String hql="SELECT MAX(CODE) FROM PAYMENT";
+		List<Object> list= paymentDao.queryHql(hql);
+		if (list.size()>0) {
+			return  String.valueOf(Integer.valueOf(list.get(0).toString())+1);
+		}
+			return sdf.format(d)+"0001";
+	}
+
+	
 	
 }

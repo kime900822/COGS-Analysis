@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -21,6 +23,7 @@ import com.kime.model.User;
 import com.sign.biz.PaymentBIZ;
 import com.sign.model.Payment;
 import com.sign.other.FileSave;
+import com.sign.other.PaymentStatus;
 
 @Controller
 public class PaymentAction extends ActionBase {
@@ -542,7 +545,7 @@ public class PaymentAction extends ActionBase {
 	public String savePayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paramToPayment();
-			payment.setStatus("0");
+			payment.setStatus(PaymentStatus.SAVEPAYMENT);
 			
 			paymentBIZ.savePayment(payment);
 			
@@ -559,6 +562,31 @@ public class PaymentAction extends ActionBase {
 		return SUCCESS;
 	}
 	
+	@Action(value="printPayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String printPayment() throws UnsupportedEncodingException{
+		try {
+			Payment payment=paramToPayment();
+			payment.setStatus(PaymentStatus.PRINTPAYMENT);
+			payment.setCode(paymentBIZ.getMaxCode());
+			
+			paymentBIZ.savePayment(payment);
+			
+			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
+			result.setStatusCode("200");
+			logUtil.logInfo("打印付款申请单:"+payment.getId());
+		} catch (Exception e) {
+			logUtil.logInfo("打印付款申请单异常:"+e.getMessage());
+			result.setMessage(e.getMessage());
+			result.setStatusCode("300");
+		}
+		
+		reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8")); 	
+		return SUCCESS;
+	}
+	
 	@Action(value="accPayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
 			params={
 					"inputName", "reslutJson"
@@ -566,7 +594,7 @@ public class PaymentAction extends ActionBase {
 	public String accPayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setStatus("2");
+			payment.setStatus(PaymentStatus.ACCPAYMENT);
 			
 			paymentBIZ.savePayment(payment);
 			
@@ -597,9 +625,9 @@ public class PaymentAction extends ActionBase {
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
-			logUtil.logInfo("财务处理付款申请单:"+payment.getId());
+			logUtil.logInfo("付款申请单财务转人:"+payment.getId());
 		} catch (Exception e) {
-			logUtil.logInfo("财务处理付款申请单异常:"+e.getMessage());
+			logUtil.logInfo("付款申请单财务转人异常:"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");
 		}
@@ -616,7 +644,7 @@ public class PaymentAction extends ActionBase {
 	public String submitPayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setStatus("1");
+			payment.setStatus(PaymentStatus.SUBPAYMENT);
 			
 			paymentBIZ.savePayment(payment);
 			
@@ -640,15 +668,15 @@ public class PaymentAction extends ActionBase {
 	public String approvePayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setStatus("5");
+			payment.setStatus(PaymentStatus.APPROVEPAYMENT);
 			
 			paymentBIZ.savePayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
-			logUtil.logInfo("提交付款申请单:"+payment.getId());
+			logUtil.logInfo("付款申请单审批通过:"+payment.getId());
 		} catch (Exception e) {
-			logUtil.logInfo("提交付款申请单异常:"+e.getMessage());
+			logUtil.logInfo("付款申请单审批异常:"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");
 		}
@@ -664,15 +692,15 @@ public class PaymentAction extends ActionBase {
 	public String rejectPayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setStatus("9");
+			payment.setStatus(PaymentStatus.REJECTPAYMENT);
 			
 			paymentBIZ.savePayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
-			logUtil.logInfo("提交付款申请单:"+payment.getId());
+			logUtil.logInfo("付款申请单拒绝:"+payment.getId());
 		} catch (Exception e) {
-			logUtil.logInfo("提交付款申请单异常:"+e.getMessage());
+			logUtil.logInfo("付款申请单拒绝异常:"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");
 		}
