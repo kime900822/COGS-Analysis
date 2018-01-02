@@ -18,7 +18,10 @@ import org.springframework.stereotype.Controller;
 
 import com.google.gson.Gson;
 import com.kime.action.ActionBase;
+import com.kime.action.DictAction;
+import com.kime.biz.DictBIZ;
 import com.kime.infoenum.Message;
+import com.kime.model.Dict;
 import com.kime.model.User;
 import com.sign.biz.PaymentBIZ;
 import com.sign.model.Payment;
@@ -34,11 +37,19 @@ public class PaymentAction extends ActionBase {
 	private FileSave fileSave;
     @Autowired  
     private  HttpSession session;   
+    @Autowired
+    private DictBIZ dictBIZ;
 	
 	private File file;
 	private String fileFileName;
 
 
+	public DictBIZ getDictBIZ() {
+		return dictBIZ;
+	}
+	public void setDictBIZ(DictBIZ dictBIZ) {
+		this.dictBIZ = dictBIZ;
+	}
 	public HttpSession getSession() {
 		return session;
 	}
@@ -72,7 +83,6 @@ public class PaymentAction extends ActionBase {
 	private String code;
 	private String urgent;
 	private String payType;
-	private String advanceWriteoff;
 	private String UID;
 	private String departmentID;
 	private String beneficiary;
@@ -87,48 +97,48 @@ public class PaymentAction extends ActionBase {
 	private String receivingOrApprovalDate_Advance;
 	private String PONo_Advance;
 	private String currency_Advance;
-	private String amount_Advance;
+	private double amount_Advance;
 	
 	private String paymentDays_PaymentAtSight;
 	private String receivingOrApprovalDate_PaymentAtSight;
 	private String PONo_PaymentAtSight;
 	private String currency_PaymentAtSight;
-	private String amount_PaymentAtSight;
+	private double amount_PaymentAtSight;
 	
 	private String paymentDays_UponReceiving;
 	private String receivingOrApprovalDate_UponReceiving;
 	private String PONo_UponReceiving;
 	private String currency_UponReceiving;
-	private String amount_UponReceiving;
+	private double amount_UponReceiving;
 	
 	private String paymentDays_UponApproval;
 	private String receivingOrApprovalDate_UponApproval;
 	private String PONo_UponApproval;
 	private String currency_UponApproval;
-	private String amount_UponApproval;
+	private double amount_UponApproval;
 	
 	private String paymentDays_UponInvoice;
 	private String receivingOrApprovalDate_UponInvoice;
 	private String PONo_UponInvoice;
 	private String currency_UponInvoice;
-	private String amount_UponInvoice;
+	private double amount_UponInvoice;
 	
 	private String paymentDays_Other;
 	private String receivingOrApprovalDate_Other;
 	private String PONo_Other;
 	private String currency_Other;
-	private String amount_Other;
+	private double amount_Other;
 	
 	
 	private String usageDescription;
-	private String amountInFigures;
+	private double amountInFigures;
 	private String documentAudit;
 	private String status;
 	private String invoice;
 	private String contract;
 	private String other;
 	private String invalidDescription;
-	private String rReturnDescription;
+	private String returnDescription;
 	private String deptManager;
 	private String financeSupervisor;
 	private String financeManager;
@@ -188,12 +198,6 @@ public class PaymentAction extends ActionBase {
 	}
 	public void setPayType(String payType) {
 		this.payType = payType;
-	}
-	public String getAdvanceWriteoff() {
-		return advanceWriteoff;
-	}
-	public void setAdvanceWriteoff(String advanceWriteoff) {
-		this.advanceWriteoff = advanceWriteoff;
 	}
 	public String getUID() {
 		return UID;
@@ -274,12 +278,6 @@ public class PaymentAction extends ActionBase {
 	public void setCurrency_Advance(String currency_Advance) {
 		this.currency_Advance = currency_Advance;
 	}
-	public String getAmount_Advance() {
-		return amount_Advance;
-	}
-	public void setAmount_Advance(String amount_Advance) {
-		this.amount_Advance = amount_Advance;
-	}
 	public String getPaymentDays_PaymentAtSight() {
 		return paymentDays_PaymentAtSight;
 	}
@@ -303,12 +301,6 @@ public class PaymentAction extends ActionBase {
 	}
 	public void setCurrency_PaymentAtSight(String currency_PaymentAtSight) {
 		this.currency_PaymentAtSight = currency_PaymentAtSight;
-	}
-	public String getAmount_PaymentAtSight() {
-		return amount_PaymentAtSight;
-	}
-	public void setAmount_PaymentAtSight(String amount_PaymentAtSight) {
-		this.amount_PaymentAtSight = amount_PaymentAtSight;
 	}
 	public String getPaymentDays_UponReceiving() {
 		return paymentDays_UponReceiving;
@@ -334,12 +326,6 @@ public class PaymentAction extends ActionBase {
 	public void setCurrency_UponReceiving(String currency_UponReceiving) {
 		this.currency_UponReceiving = currency_UponReceiving;
 	}
-	public String getAmount_UponReceiving() {
-		return amount_UponReceiving;
-	}
-	public void setAmount_UponReceiving(String amount_UponReceiving) {
-		this.amount_UponReceiving = amount_UponReceiving;
-	}
 	public String getPaymentDays_UponApproval() {
 		return paymentDays_UponApproval;
 	}
@@ -363,12 +349,6 @@ public class PaymentAction extends ActionBase {
 	}
 	public void setCurrency_UponApproval(String currency_UponApproval) {
 		this.currency_UponApproval = currency_UponApproval;
-	}
-	public String getAmount_UponApproval() {
-		return amount_UponApproval;
-	}
-	public void setAmount_UponApproval(String amount_UponApproval) {
-		this.amount_UponApproval = amount_UponApproval;
 	}
 	public String getPaymentDays_UponInvoice() {
 		return paymentDays_UponInvoice;
@@ -394,12 +374,6 @@ public class PaymentAction extends ActionBase {
 	public void setCurrency_UponInvoice(String currency_UponInvoice) {
 		this.currency_UponInvoice = currency_UponInvoice;
 	}
-	public String getAmount_UponInvoice() {
-		return amount_UponInvoice;
-	}
-	public void setAmount_UponInvoice(String amount_UponInvoice) {
-		this.amount_UponInvoice = amount_UponInvoice;
-	}
 	public String getPaymentDays_Other() {
 		return paymentDays_Other;
 	}
@@ -424,10 +398,40 @@ public class PaymentAction extends ActionBase {
 	public void setCurrency_Other(String currency_Other) {
 		this.currency_Other = currency_Other;
 	}
-	public String getAmount_Other() {
+	public double getAmount_Advance() {
+		return amount_Advance;
+	}
+	public void setAmount_Advance(double amount_Advance) {
+		this.amount_Advance = amount_Advance;
+	}
+	public double getAmount_PaymentAtSight() {
+		return amount_PaymentAtSight;
+	}
+	public void setAmount_PaymentAtSight(double amount_PaymentAtSight) {
+		this.amount_PaymentAtSight = amount_PaymentAtSight;
+	}
+	public double getAmount_UponReceiving() {
+		return amount_UponReceiving;
+	}
+	public void setAmount_UponReceiving(double amount_UponReceiving) {
+		this.amount_UponReceiving = amount_UponReceiving;
+	}
+	public double getAmount_UponApproval() {
+		return amount_UponApproval;
+	}
+	public void setAmount_UponApproval(double amount_UponApproval) {
+		this.amount_UponApproval = amount_UponApproval;
+	}
+	public double getAmount_UponInvoice() {
+		return amount_UponInvoice;
+	}
+	public void setAmount_UponInvoice(double amount_UponInvoice) {
+		this.amount_UponInvoice = amount_UponInvoice;
+	}
+	public double getAmount_Other() {
 		return amount_Other;
 	}
-	public void setAmount_Other(String amount_Other) {
+	public void setAmount_Other(double amount_Other) {
 		this.amount_Other = amount_Other;
 	}
 	public String getUsageDescription() {
@@ -436,10 +440,10 @@ public class PaymentAction extends ActionBase {
 	public void setUsageDescription(String usageDescription) {
 		this.usageDescription = usageDescription;
 	}
-	public String getAmountInFigures() {
+	public double getAmountInFigures() {
 		return amountInFigures;
 	}
-	public void setAmountInFigures(String amountInFigures) {
+	public void setAmountInFigures(double amountInFigures) {
 		this.amountInFigures = amountInFigures;
 	}
 	public String getDocumentAudit() {
@@ -478,11 +482,12 @@ public class PaymentAction extends ActionBase {
 	public void setInvalidDescription(String invalidDescription) {
 		this.invalidDescription = invalidDescription;
 	}
-	public String getrReturnDescription() {
-		return rReturnDescription;
+
+	public String getReturnDescription() {
+		return returnDescription;
 	}
-	public void setrReturnDescription(String rReturnDescription) {
-		this.rReturnDescription = rReturnDescription;
+	public void setReturnDescription(String returnDescription) {
+		this.returnDescription = returnDescription;
 	}
 	public String getDeptManager() {
 		return deptManager;
@@ -546,12 +551,20 @@ public class PaymentAction extends ActionBase {
 		try {
 			Payment payment=paramToPayment();
 			payment.setStatus(PaymentStatus.SAVEPAYMENT);
+			List<Dict> lDicts=dictBIZ.getDict(" where key='"+paymentSubject+"'");
+			if (!"".equals(lDicts.get(0).getValue())&&lDicts.get(0).getValue()!=null) {
+//				payment.setDocumentAudit(lDicts.get(0).getValue());
+				paymentBIZ.savePayment(payment);
+				
+				result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
+				result.setStatusCode("200");
+				logUtil.logInfo("新增付款申请单:"+payment.getId());
+			}else{
+				result.setMessage(Message.SAVE_MESSAGE_PAYMENT_ERROR);
+				result.setStatusCode("300");
+				logUtil.logInfo("新增付款申异常:为维护对应财务人员");
+			}
 			
-			paymentBIZ.savePayment(payment);
-			
-			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
-			result.setStatusCode("200");
-			logUtil.logInfo("新增付款申请单:"+payment.getId());
 		} catch (Exception e) {
 			logUtil.logInfo("新增付款申请单异常:"+e.getMessage());
 			result.setMessage(e.getMessage());
@@ -569,10 +582,10 @@ public class PaymentAction extends ActionBase {
 	public String printPayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paramToPayment();
-			payment.setStatus(PaymentStatus.PRINTPAYMENT);
+			payment.setIsPrint("1");
 			payment.setCode(paymentBIZ.getMaxCode());
 			
-			paymentBIZ.savePayment(payment);
+			paymentBIZ.modePayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -595,8 +608,9 @@ public class PaymentAction extends ActionBase {
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setStatus(PaymentStatus.ACCPAYMENT);
+			payment.setDocumentAudit(documentAudit);
 			
-			paymentBIZ.savePayment(payment);
+			paymentBIZ.modePayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -621,7 +635,7 @@ public class PaymentAction extends ActionBase {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setDocumentAudit(documentAudit);
 			
-			paymentBIZ.savePayment(payment);
+			paymentBIZ.modePayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -646,7 +660,7 @@ public class PaymentAction extends ActionBase {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setStatus(PaymentStatus.SUBPAYMENT);
 			
-			paymentBIZ.savePayment(payment);
+			paymentBIZ.modePayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -670,13 +684,64 @@ public class PaymentAction extends ActionBase {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setStatus(PaymentStatus.APPROVEPAYMENT);
 			
-			paymentBIZ.savePayment(payment);
+			paymentBIZ.modePayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
 			logUtil.logInfo("付款申请单审批通过:"+payment.getId());
 		} catch (Exception e) {
 			logUtil.logInfo("付款申请单审批异常:"+e.getMessage());
+			result.setMessage(e.getMessage());
+			result.setStatusCode("300");
+		}
+		
+		reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8")); 	
+		return SUCCESS;
+	}
+	
+	@Action(value="invalidPayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String invalidPayment() throws UnsupportedEncodingException{
+		try {
+			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
+			payment.setStatus(PaymentStatus.INVALIDPAYMENT);
+			payment.setInvalidDescription(invalidDescription);
+			
+			paymentBIZ.modePayment(payment);
+			
+			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
+			result.setStatusCode("200");
+			logUtil.logInfo("作废申请单:"+payment.getId());
+		} catch (Exception e) {
+			logUtil.logInfo("作废申请单异常:"+e.getMessage());
+			result.setMessage(e.getMessage());
+			result.setStatusCode("300");
+		}
+		
+		reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8")); 	
+		return SUCCESS;
+	}
+	
+	@Action(value="returnPayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String returnPayment() throws UnsupportedEncodingException{
+		try {
+			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
+			payment.setStatus(PaymentStatus.RETURNPAYMENT);
+			payment.setReturnDescription(returnDescription);
+			
+			
+			paymentBIZ.modePayment(payment);
+			
+			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
+			result.setStatusCode("200");
+			logUtil.logInfo("作废申请单:"+payment.getId());
+		} catch (Exception e) {
+			logUtil.logInfo("作废申请单异常:"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");
 		}
@@ -694,7 +759,7 @@ public class PaymentAction extends ActionBase {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setStatus(PaymentStatus.REJECTPAYMENT);
 			
-			paymentBIZ.savePayment(payment);
+			paymentBIZ.modePayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -777,7 +842,7 @@ public class PaymentAction extends ActionBase {
 	public Payment paramToPayment(){
 		Payment payment=new Payment();
 		User user=(User)session.getAttribute("user");
-		if ("".equals(id)||id==null) {
+		if (!"".equals(id)&&id!=null) {
 			payment.setId(id);
 			
 		}
@@ -788,13 +853,12 @@ public class PaymentAction extends ActionBase {
 		payment.setApplicationDate(applicationDate);
 		payment.setRequestPaymentDate(requestPaymentDate);
 		payment.setContacturalPaymentDate(contacturalPaymentDate);
-		payment.setUrgent(urgent);
+		payment.setUrgent(urgent==null?"0":urgent);
 		payment.setPayType(payType);
-		payment.setAdvanceWriteoff(advanceWriteoff);
 		payment.setBeneficiary(beneficiary);
 		payment.setBeneficiaryAccountNO(beneficiaryAccountNO);
-		payment.setBeneficiaryChange(beneficiaryChange);
-		payment.setBeneficiaryAccountNOChange(beneficiaryAccountNOChange);
+		payment.setBeneficiaryChange(beneficiaryChange==null?"0":beneficiaryChange);
+		payment.setBeneficiaryAccountNOChange(beneficiaryAccountNOChange==null?"0":beneficiaryAccountNOChange);
 		payment.setSupplierCode(supplierCode);
 		payment.setRefNoofBank(refNoofBank);
 		payment.setPaymentSubject(paymentSubject);

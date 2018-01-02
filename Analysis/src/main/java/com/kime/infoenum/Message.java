@@ -70,6 +70,11 @@ public class Message {
 	public static String SAVE_MESSAGE_ERROR_DICT_PAYMENT="The corresponding ID does not exist!";
 	
 	/**
+	 * 保存付款单，没有维护对应财务人员
+	 */
+	public static String SAVE_MESSAGE_PAYMENT_ERROR="Not maintaining a corresponding financial officer!";
+	
+	/**
 	 * 删除成功
 	 */
 	public static String DEL_MESSAGE_SUCCESS="Delete successfully!";

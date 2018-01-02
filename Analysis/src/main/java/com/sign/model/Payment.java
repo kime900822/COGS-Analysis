@@ -59,11 +59,6 @@ public class Payment {
 	@Column
 	private String payType;
 	
-	/**
-	 * 核销预付
-	 */
-	@Column
-	private String advanceWriteoff;
 	
 	/**
 	 * 申请人ID
@@ -160,7 +155,7 @@ public class Payment {
 	 * 金额-预付款
 	 */
 	@Column
-	private String amount_Advance;
+	private double amount_Advance;
 	
 	/**
 	 * 结算天数-见票即付
@@ -190,7 +185,7 @@ public class Payment {
 	 * 金额-见票即付
 	 */
 	@Column
-	private String amount_PaymentAtSight;
+	private double amount_PaymentAtSight;
 	
 	/**
 	 * 结算天数-收货后
@@ -220,7 +215,7 @@ public class Payment {
 	 * 金额-收货后
 	 */
 	@Column
-	private String amount_UponReceiving;
+	private double amount_UponReceiving;
 	
 	/**
 	 * 结算天数-验收后
@@ -250,7 +245,7 @@ public class Payment {
 	 * 金额-验收后
 	 */
 	@Column
-	private String amount_UponApproval;
+	private double amount_UponApproval;
 	
 	/**
 	 * 结算天数-见票后
@@ -280,7 +275,7 @@ public class Payment {
 	 * 金额-见票后
 	 */
 	@Column
-	private String amount_UponInvoice;
+	private double amount_UponInvoice;
 	
 	/**
 	 * 结算天数-其他
@@ -310,7 +305,7 @@ public class Payment {
 	 * 金额-其他
 	 */
 	@Column
-	private String amount_Other;
+	private double amount_Other;
 	
 	/**
 	 * 支付用途
@@ -322,7 +317,7 @@ public class Payment {
 	 * 金额小写
 	 */
 	@Column
-	private String amountInFigures;
+	private double amountInFigures;
 	
 	/**
 	 * 单据审核人
@@ -364,7 +359,7 @@ public class Payment {
 	 * 回退原因
 	 */
 	@Column
-	private String rReturnDescription;
+	private String returnDescription;
 	
 	/**
 	 * 部门经理
@@ -389,6 +384,12 @@ public class Payment {
 	 */
 	@Column
 	private String generalManager;
+	
+	/**
+	 * 打印标志
+	 */
+	@Column
+	private String isPrint;
 
 	public String getId() {
 		return id;
@@ -446,13 +447,6 @@ public class Payment {
 		this.payType = payType;
 	}
 
-	public String getAdvanceWriteoff() {
-		return advanceWriteoff;
-	}
-
-	public void setAdvanceWriteoff(String advanceWriteoff) {
-		this.advanceWriteoff = advanceWriteoff;
-	}
 
 	public String getUID() {
 		return UID;
@@ -550,14 +544,6 @@ public class Payment {
 		this.usageDescription = usageDescription;
 	}
 
-	public String getAmountInFigures() {
-		return amountInFigures;
-	}
-
-	public void setAmountInFigures(String amountInFigures) {
-		this.amountInFigures = amountInFigures;
-	}
-
 	public String getDocumentAudit() {
 		return documentAudit;
 	}
@@ -606,12 +592,22 @@ public class Payment {
 		this.invalidDescription = invalidDescription;
 	}
 
-	public String getrReturnDescription() {
-		return rReturnDescription;
+
+
+	public String getReturnDescription() {
+		return returnDescription;
 	}
 
-	public void setrReturnDescription(String rReturnDescription) {
-		this.rReturnDescription = rReturnDescription;
+	public void setReturnDescription(String returnDescription) {
+		this.returnDescription = returnDescription;
+	}
+
+	public String getIsPrint() {
+		return isPrint;
+	}
+
+	public void setIsPrint(String isPrint) {
+		this.isPrint = isPrint;
 	}
 
 	public String getDeptManager() {
@@ -678,14 +674,6 @@ public class Payment {
 		this.currency_Advance = currency_Advance;
 	}
 
-	public String getAmount_Advance() {
-		return amount_Advance;
-	}
-
-	public void setAmount_Advance(String amount_Advance) {
-		this.amount_Advance = amount_Advance;
-	}
-
 	public String getPaymentDays_PaymentAtSight() {
 		return paymentDays_PaymentAtSight;
 	}
@@ -716,14 +704,6 @@ public class Payment {
 
 	public void setCurrency_PaymentAtSight(String currency_PaymentAtSight) {
 		this.currency_PaymentAtSight = currency_PaymentAtSight;
-	}
-
-	public String getAmount_PaymentAtSight() {
-		return amount_PaymentAtSight;
-	}
-
-	public void setAmount_PaymentAtSight(String amount_PaymentAtSight) {
-		this.amount_PaymentAtSight = amount_PaymentAtSight;
 	}
 
 	public String getPaymentDays_UponReceiving() {
@@ -758,14 +738,6 @@ public class Payment {
 		this.currency_UponReceiving = currency_UponReceiving;
 	}
 
-	public String getAmount_UponReceiving() {
-		return amount_UponReceiving;
-	}
-
-	public void setAmount_UponReceiving(String amount_UponReceiving) {
-		this.amount_UponReceiving = amount_UponReceiving;
-	}
-
 	public String getPaymentDays_UponApproval() {
 		return paymentDays_UponApproval;
 	}
@@ -796,14 +768,6 @@ public class Payment {
 
 	public void setCurrency_UponApproval(String currency_UponApproval) {
 		this.currency_UponApproval = currency_UponApproval;
-	}
-
-	public String getAmount_UponApproval() {
-		return amount_UponApproval;
-	}
-
-	public void setAmount_UponApproval(String amount_UponApproval) {
-		this.amount_UponApproval = amount_UponApproval;
 	}
 
 	public String getPaymentDays_UponInvoice() {
@@ -838,14 +802,6 @@ public class Payment {
 		this.currency_UponInvoice = currency_UponInvoice;
 	}
 
-	public String getAmount_UponInvoice() {
-		return amount_UponInvoice;
-	}
-
-	public void setAmount_UponInvoice(String amount_UponInvoice) {
-		this.amount_UponInvoice = amount_UponInvoice;
-	}
-
 	public String getPaymentDays_Other() {
 		return paymentDays_Other;
 	}
@@ -878,13 +834,62 @@ public class Payment {
 		this.currency_Other = currency_Other;
 	}
 
-	public String getAmount_Other() {
+	public double getAmount_Advance() {
+		return amount_Advance;
+	}
+
+	public void setAmount_Advance(double amount_Advance) {
+		this.amount_Advance = amount_Advance;
+	}
+
+	public double getAmount_PaymentAtSight() {
+		return amount_PaymentAtSight;
+	}
+
+	public void setAmount_PaymentAtSight(double amount_PaymentAtSight) {
+		this.amount_PaymentAtSight = amount_PaymentAtSight;
+	}
+
+	public double getAmount_UponReceiving() {
+		return amount_UponReceiving;
+	}
+
+	public void setAmount_UponReceiving(double amount_UponReceiving) {
+		this.amount_UponReceiving = amount_UponReceiving;
+	}
+
+	public double getAmount_UponApproval() {
+		return amount_UponApproval;
+	}
+
+	public void setAmount_UponApproval(double amount_UponApproval) {
+		this.amount_UponApproval = amount_UponApproval;
+	}
+
+	public double getAmount_UponInvoice() {
+		return amount_UponInvoice;
+	}
+
+	public void setAmount_UponInvoice(double amount_UponInvoice) {
+		this.amount_UponInvoice = amount_UponInvoice;
+	}
+
+	public double getAmount_Other() {
 		return amount_Other;
 	}
 
-	public void setAmount_Other(String amount_Other) {
+	public void setAmount_Other(double amount_Other) {
 		this.amount_Other = amount_Other;
 	}
+
+	public double getAmountInFigures() {
+		return amountInFigures;
+	}
+
+	public void setAmountInFigures(double amountInFigures) {
+		this.amountInFigures = amountInFigures;
+	}
+
 
 	
 }

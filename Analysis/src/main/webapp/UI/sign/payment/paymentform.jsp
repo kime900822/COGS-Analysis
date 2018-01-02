@@ -38,12 +38,29 @@ $(function(){
 	});
 	
 	
-
+	showButton('-1','0');		
 	
 	
 	
 })
 
+
+function PONoCheck(){
+	if($.CurrentNavtab.find('#j_payment_PONo_UponReceiving').val()!=''){
+		alert(1);
+		$.CurrentNavtab.find('#receivingOrApprovalDate_UponReceiving').removeAttr("data-rule").attr("data-rule","required;date");
+	}else{
+		alert(2);
+		$.CurrentNavtab.find('#receivingOrApprovalDate_UponReceiving').removeAttr("data-rule").attr("data-rule","date");
+	}
+	
+	if($.CurrentNavtab.find('#j_payment_PONo_UponApproval').val()!=''){
+		$.CurrentNavtab.find('#receivingOrApprovalDate_UponApproval').removeAttr("data-rule").attr("data-rule","required;date");
+	}else{
+		$.CurrentNavtab.find('#receivingOrApprovalDate_UponApproval').removeAttr("data-rule").attr("data-rule","date");
+	}
+	
+}
 
 function getPayment(){
 	if('${param.id}'!=null&&'${param.id}'!=''){
@@ -52,19 +69,19 @@ function getPayment(){
 		    data:{id:'${param.id}',queryType:'${param.queryType}'},
 		    loadingmask: true,
 		    okCallback: function(json, options) {
-		    	showButton(json.status);				
+		    	showButton(json.status,json.isPrint);				
 		    	dataToFace(json);
 		    }
 		});	
 		
 	}else{
-		showButton('0');				
+		showButton('-1','0');				
 	}	
 }
 
 
-function showButton(status){
-	if(status=='0'){//新建
+function showButton(status,print){
+	if(status=='-1'){//新建
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -77,7 +94,7 @@ function showButton(status){
 		$.CurrentNavtab.find('#j_file_upload1').show();
 		$.CurrentNavtab.find('#j_file_download1').hide();
 		$.CurrentNavtab.find('#j_file_download1').hide();
-	}else if(status=='1'){//保存后可提交
+	}else if(status=='0'){//保存后可提交
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').show();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -90,21 +107,27 @@ function showButton(status){
 		$.CurrentNavtab.find('#j_file_upload1').show();
 		$.CurrentNavtab.find('#j_file_download1').hide();
 		$.CurrentNavtab.find('#j_file_download1').hide();
-	}else if(status="2"){//财务处理
+	}else if(status="4"){//财务处理
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
 		$.CurrentNavtab.find('#payment-Reject').hide();
 		$.CurrentNavtab.find('#payment-assign').show();
 		$.CurrentNavtab.find('#payment-Print').hide();
-		$.CurrentNavtab.find('#payment-invalid-tr').hide();
-		$.CurrentNavtab.find('#payment-return-tr').hide();
+		if(print=='1'){
+			$.CurrentNavtab.find('#payment-invalid-tr').show();
+			$.CurrentNavtab.find('#payment-return-tr').show();		
+		}else{
+			$.CurrentNavtab.find('#payment-invalid-tr').hide();
+			$.CurrentNavtab.find('#payment-return-tr').hide();					
+		}
+		
 		$.CurrentNavtab.find('#j_file_upload2').hide();
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$
-	}else if(status="3"){//部门经理审批
+	}else if(status="1"){//部门经理审批
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').show();
@@ -117,7 +140,7 @@ function showButton(status){
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
-	}else if(status="4"){//审批通过
+	}else if(status="2"){//审批通过
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -130,7 +153,7 @@ function showButton(status){
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
-	}else if(status="5"){//审批未通过，单据作废，
+	}else if(status="3"){//审批未通过，单据作废，
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -143,20 +166,7 @@ function showButton(status){
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
-	}else if(status="6"){//打印后
-		$.CurrentNavtab.find('#payment-save').hide();
-		$.CurrentNavtab.find('#payment-submit').hide();
-		$.CurrentNavtab.find('#payment-approve').hide();
-		$.CurrentNavtab.find('#payment-Reject').hide();
-		$.CurrentNavtab.find('#payment-assign').hide();
-		$.CurrentNavtab.find('#payment-Print').hide();
-		$.CurrentNavtab.find('#payment-invalid-tr').show();
-		$.CurrentNavtab.find('#payment-return-tr').show();	
-		$.CurrentNavtab.find('#j_file_upload2').hide();
-		$.CurrentNavtab.find('#j_file_upload1').hide();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download1').show();
-	}else if(status="7"){//单据作废
+	}else if(status="5"){//单据作废
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -261,6 +271,7 @@ function dataToFace(o){
 	$.CurrentNavtab.find("#j_payment_refNoofBank").val(o.refNoofBank);
 	$.CurrentNavtab.find("#j_payment_usageDescription").val(o.usageDescription);
 	$.CurrentNavtab.find("#j_payment_amountInFigures").val(o.amountInFigures);
+
 	$.CurrentNavtab.find("#j_payment_documentAudit").val(o.documentAudit);
 	$.CurrentNavtab.find("#j_payment_deptManager").val(o.deptManager);
 	
@@ -364,7 +375,7 @@ function changeAmount(){
 						核销预付 <br>Advance Write-off (Amount) .
 					</td>
 					<td>
-						<input type="checkbox" name="advanceWriteoff" data-toggle="icheck" id="j_payment_advanceWriteoff" value="1" data-label="">
+						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_advanceWriteoff" value="Advance" data-label="">
 					</td>
 					<td>
 						Urgent
@@ -400,7 +411,7 @@ function changeAmount(){
 						银行及帐号<br>Beneficiary Account NO.
 					</td>
 					<td>
-						<input type="text" name="beneficiaryAccountNO" id="j_payment_beneficiaryAccountNO" value="" readonly="" data-rule="required" size="17">
+						<input type="text" name="beneficiaryAccountNO" id="j_payment_beneficiaryAccountNO" value="" readonly=""  size="17">
 					</td>					
 				</tr>
 				<tr>
@@ -445,7 +456,7 @@ function changeAmount(){
 						<label id="row_01_title">Advance预付款</label>
 					</td>
 				</tr>
-				<tr class="child_row_01">
+				<tr class="child_row_01 child_row">
 					<td>
 						结算期 <br>Payment Term
 					</td>
@@ -459,7 +470,7 @@ function changeAmount(){
 						<input type="text" name="receivingOrApprovalDate_Advance" id="j_payment_receivingOrApprovalDate_Advance" value="" data-toggle="datepicker" data-rule="date">
 					</td>
 				</tr>
-				<tr class="child_row_01">
+				<tr class="child_row_01 child_row">
 					<td>
 						订单号<br>PO No.
 					</td>
@@ -479,7 +490,7 @@ function changeAmount(){
                     	</select>
 					</td>
 				</tr>
-				<tr class="child_row_01">
+				<tr class="child_row_01 child_row">
 					<td>
 						金额<br>Amount
 					</td>
@@ -497,7 +508,7 @@ function changeAmount(){
 						<label id="row_02_title">Payment at sight 见票即付</label>					
 					</td>
 				</tr>
-				<tr class="child_row_02">
+				<tr class="child_row_02 child_row">
 					<td>
 						结算期 <br>Payment Term
 					</td>
@@ -511,7 +522,7 @@ function changeAmount(){
 						<input type="text" name="receivingOrApprovalDate_PaymentAtSight" id="j_payment_receivingOrApprovalDate_PaymentAtSight" value="" size="17" data-toggle="datepicker" data-rule="date">
 					</td>
 				</tr>
-				<tr class="child_row_02">
+				<tr class="child_row_02 child_row">
 					<td>
 						订单号<br>PO No.
 					</td>
@@ -531,7 +542,7 @@ function changeAmount(){
                     	</select>
 					</td>
 				</tr>
-				<tr class="child_row_02">
+				<tr class="child_row_02 child_row">
 					<td>
 						金额<br>Amount
 					</td>
@@ -548,7 +559,7 @@ function changeAmount(){
 						<label id="row_03_title">Upon receiving 收货后</label>						
 					</td>
 				</tr>
-				<tr class="child_row_03">
+				<tr class="child_row_03 child_row">
 					<td>
 						结算期 <br>Payment Term
 					</td>
@@ -562,12 +573,12 @@ function changeAmount(){
 						<input type="text" name="receivingOrApprovalDate_UponReceiving" id="j_payment_receivingOrApprovalDate_UponReceiving" size="17"  value="" data-toggle="datepicker" data-rule="date">
 					</td>
 				</tr>
-				<tr class="child_row_03">
+				<tr class="child_row_03 child_row">
 					<td>
 						订单号<br>PO No.
 					</td>
 					<td>
-						<input type="text" name="PONo_UponReceiving" id="j_payment_PONo_UponReceiving" size="17" value="" >
+						<input type="text" name="PONo_UponReceiving" id="j_payment_PONo_UponReceiving" size="17" value="" onchange="PONoCheck();" >
 					</td>
 					<td>
 						<label class="row-label">币别<br>Currency</label>
@@ -582,12 +593,12 @@ function changeAmount(){
                     	</select>
 					</td>
 				</tr>
-				<tr class="child_row_03">
+				<tr class="child_row_03 child_row">
 					<td>
 						金额<br>Amount
 					</td>
 					<td>
-						<input type="text" name="amount_UponReceiving" id="j_payment_amount_UponReceiving" value="" size="17" data-rule="number" onchange="changeAmount()" >
+						<input type="text" name="amount_UponReceiving" id="j_payment_amount_UponReceiving" value="" size="17" data-rule="number" onchange="changeAmount();" >
 					</td>
 					<td colspan="2">
 					</td>
@@ -599,7 +610,7 @@ function changeAmount(){
 						<label id="row_04_title">Upon Approval 验收后</label>				
 					</td>
 				</tr>
-				<tr class="child_row_04">
+				<tr class="child_row_04 child_row">
 					<td>
 						结算期 <br>Payment Term
 					</td>
@@ -613,12 +624,12 @@ function changeAmount(){
 						<input type="text" name="receivingOrApprovalDate_UponApproval" size="17" id="j_payment_receivingOrApprovalDate_UponApproval" value="" data-toggle="datepicker" data-rule="date">
 					</td>
 				</tr>
-				<tr class="child_row_04">
+				<tr class="child_row_04 child_row">
 					<td>
 						订单号<br>PO No.
 					</td>
 					<td>
-						<input type="text" name="PONo_UponApproval" id="j_payment_PONo_UponApproval" size="17" value="" >
+						<input type="text" name="PONo_UponApproval" id="j_payment_PONo_UponApproval" size="17" value="" onchange="PONoCheck();" >
 					</td>
 					<td>
 						<label class="row-label">币别<br>Currency</label>
@@ -633,7 +644,7 @@ function changeAmount(){
                     	</select>
 					</td>
 				</tr>
-				<tr class="child_row_04">
+				<tr class="child_row_04 child_row">
 					<td>
 						金额<br>Amount
 					</td>
@@ -650,7 +661,7 @@ function changeAmount(){
 						<label id="row_05_title">Upon invoice 见票后</label>							 
 					</td>
 				</tr>
-				<tr class="child_row_05">
+				<tr class="child_row_05 child_row">
 					<td>
 						结算期 <br>Payment Term
 					</td>
@@ -664,7 +675,7 @@ function changeAmount(){
 						<input type="text" name="receivingOrApprovalDate_UponInvoice" id="j_payment_receivingOrApprovalDate_UponInvoice" size="17" value="" data-toggle="datepicker" data-rule="date">
 					</td>
 				</tr>
-				<tr class="child_row_05">
+				<tr class="child_row_05 child_row">
 					<td>
 						订单号<br>PO No.
 					</td>
@@ -684,7 +695,7 @@ function changeAmount(){
                     	</select>
 					</td>
 				</tr>
-				<tr class="child_row_05">
+				<tr class="child_row_05 child_row">
 					<td>
 						金额<br>Amount
 					</td>
@@ -701,7 +712,7 @@ function changeAmount(){
 						<label id="row_06_title">Other 其他</label>						
 					</td>
 				</tr>
-				<tr class="child_row_06">
+				<tr class="child_row_06 child_row">
 					<td>
 						结算期 <br>Payment Term
 					</td>
@@ -715,7 +726,7 @@ function changeAmount(){
 						<input type="text" name="receivingOrApprovalDate_Other" id="j_payment_receivingOrApprovalDate_Other" size="17" value="" data-toggle="datepicker" data-rule="date">
 					</td>
 				</tr>
-				<tr class="child_row_06">
+				<tr class="child_row_06 child_row">
 					<td>
 						订单号<br>PO No.
 					</td>
@@ -735,7 +746,7 @@ function changeAmount(){
                     	</select>
 					</td>
 				</tr>
-				<tr class="child_row_06">
+				<tr class="child_row_06 child_row">
 					<td>
 						金额<br>Amount
 					</td>

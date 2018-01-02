@@ -19,24 +19,19 @@ public class PaymentStatus {
 	
 	
 	/**
-	 * 审批通过，待打印
+	 * 审批通过
 	 */
 	public final static String APPROVEPAYMENT="2";
 	
 	/**
 	 * 审批不通过
 	 */
-	public final static String REJECTPAYMENT="9";
-	
-	/**
-	 * 打印后状态
-	 */
-	public final static String PRINTPAYMENT="3";
+	public final static String REJECTPAYMENT="3";
 	
 	/**
 	 * 作废状态
 	 */
-	public final static String INVALIDPAYMENT="6";
+	public final static String INVALIDPAYMENT="5";
 	
 	/**
 	 * 退回状态
