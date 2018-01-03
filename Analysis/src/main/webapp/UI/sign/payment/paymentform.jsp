@@ -40,27 +40,19 @@ $(function(){
 	
 	showButton('-1','0');		
 	
-	
-	
+	$.CurrentNavtab.find("#j_payment_beneficiaryChange").on('ifChecked',function(){
+		$.CurrentNavtab.find("#j_payment_beneficiary_tr").attr("style","background-color: #9ACD32");
+	})
+	$.CurrentNavtab.find("#j_payment_beneficiaryChange").on('ifUnchecked',function(){
+		$.CurrentNavtab.find("#j_payment_beneficiary_tr").removeAttr("style");
+	})
+	$.CurrentNavtab.find("#j_payment_beneficiaryAccountNOChange").on('ifChecked',function(){
+		$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO_tr").attr("style","background-color: #EEC900");
+	})
+	$.CurrentNavtab.find("#j_payment_beneficiaryAccountNOChange").on('ifUnchecked',function(){
+		$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO_tr").removeAttr("style");
+	})
 })
-
-
-function PONoCheck(){
-	if($.CurrentNavtab.find('#j_payment_PONo_3').val()!=''){
-		alert(1);
-		$.CurrentNavtab.find('#receivingOrApprovalDate_3').removeAttr("data-rule").attr("data-rule","required;date");
-	}else{
-		alert(2);
-		$.CurrentNavtab.find('#receivingOrApprovalDate_3').removeAttr("data-rule").attr("data-rule","date");
-	}
-	
-	if($.CurrentNavtab.find('#j_payment_PONo_4').val()!=''){
-		$.CurrentNavtab.find('#receivingOrApprovalDate_4').removeAttr("data-rule").attr("data-rule","required;date");
-	}else{
-		$.CurrentNavtab.find('#receivingOrApprovalDate_4').removeAttr("data-rule").attr("data-rule","date");
-	}
-	
-}
 
 function getPayment(){
 	if('${param.id}'!=null&&'${param.id}'!=''){
@@ -195,72 +187,71 @@ function dataToFace(o){
 	$.CurrentNavtab.find("#j_payment_contacturalPaymentDate").val(o.contacturalPaymentDate);
 	$.CurrentNavtab.find("#j_payment_code").val(o.code);
 	if(o.payType=='Cash'){
-		$.CurrentNavtab.find("#j_payment_cash").get(0).checked=true; 
+		$.CurrentNavtab.find("#j_payment_cash").iCheck('check'); 
 	}else if(o.payType=='Banking'){
-		$.CurrentNavtab.find("#j_payment_banking").get(0).checked=true; 
+		$.CurrentNavtab.find("#j_payment_banking").iCheck('check'); 
 	}
 	if(o.advanceWriteoff=='1'){
-		$.CurrentNavtab.find("#j_payment_advanceWriteoff").get(0).checked=true; 
+		$.CurrentNavtab.find("#j_payment_advanceWriteoff").iCheck('check'); 
 	}
 	if(o.urgent=='1'){
-		$.CurrentNavtab.find("#j_payment_urgent").get(0).checked=true; 
+		$.CurrentNavtab.find("#j_payment_urgent").iCheck('check'); 
 	}
 	$.CurrentNavtab.find("#j_payment_UID").val(o.uid+'-'+o.uname);
 	$.CurrentNavtab.find("#j_payment_departmentID").val(o.departmentName+'-'+o.departmentID);
 	$.CurrentNavtab.find("#j_payment_beneficiary").selectpicker('val',o.beneficiary);
     $.CurrentNavtab.find('#j_payment_beneficiary').selectpicker('refresh');
     if(o.beneficiaryChange=='1'){
-		$.CurrentNavtab.find("#j_payment_beneficiaryChange").get(0).checked=true; 
+		$.CurrentNavtab.find("#j_payment_beneficiaryChange").iCheck('check'); 
 	}
     if(o.beneficiaryAccountNOChange=='1'){
-		$.CurrentNavtab.find("#j_payment_beneficiaryAccountNOChange").get(0).checked=true; 
+		$.CurrentNavtab.find("#j_payment_beneficiaryAccountNOChange").iCheck('check'); 
 	}
     $.CurrentNavtab.find("#j_payment_paymentSubject").selectpicker('val',o.paymentSubject);
     $.CurrentNavtab.find('#j_payment_paymentSubject').selectpicker('refresh');
     
-	$.CurrentNavtab.find("#j_payment_paymentDays_1").val(o.paymentDays_1);
+	$.CurrentNavtab.find("#j_payment_paymentDays_1").selectpicker('val',o.paymentDays_1);
+    $.CurrentNavtab.find('#j_payment_paymentDays_1').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_1").val(o.receivingOrApprovalDate_1);
 	$.CurrentNavtab.find("#j_payment_PONo_1").val(o.PONo_1);
 	$.CurrentNavtab.find("#j_payment_currency_1").selectpicker('val',o.currency_1);
     $.CurrentNavtab.find('#j_payment_currency_1').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_amount_1").val(o.amount_1);
 	
-	$.CurrentNavtab.find("#j_payment_paymentDays_2").val(o.paymentDays_2);
+	$.CurrentNavtab.find("#j_payment_paymentDays_2").selectpicker('val',o.paymentDays_2);
+	$.CurrentNavtab.find('#j_payment_paymentDays_2').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_2").val(o.receivingOrApprovalDate_2);
 	$.CurrentNavtab.find("#j_payment_PONo_2").val(o.PONo_2);
 	$.CurrentNavtab.find("#j_payment_currency_2").selectpicker('val',o.currency_2);
 	$.CurrentNavtab.find('#j_payment_currency_2').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_amount_2").val(o.amount_2);
 	
-	$.CurrentNavtab.find("#j_payment_paymentDays_3").val(o.paymentDays_3);
+	$.CurrentNavtab.find("#j_payment_paymentDays_3").selectpicker('val',o.paymentDays_3);
+	$.CurrentNavtab.find('#j_payment_paymentDays_3').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_3").val(o.receivingOrApprovalDate_3);
 	$.CurrentNavtab.find("#j_payment_PONo_3").val(o.PONo_3);
 	$.CurrentNavtab.find("#j_payment_currency_3").selectpicker('val',o.currency_3);
 	$.CurrentNavtab.find('#j_payment_currency_3').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_amount_3").val(o.amount_3);
 	
-	$.CurrentNavtab.find("#j_payment_paymentDays_4").val(o.paymentDays_4);
+	$.CurrentNavtab.find("#j_payment_paymentDays_4").selectpicker('val',o.paymentDays_4);
+	$.CurrentNavtab.find('#j_payment_paymentDays_4').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_4").val(o.receivingOrApprovalDate_4);
 	$.CurrentNavtab.find("#j_payment_PONo_4").val(o.PONo_4);
 	$.CurrentNavtab.find("#j_payment_currency_4").selectpicker('val',o.currency_4);
 	$.CurrentNavtab.find('#j_payment_currency_4').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_amount_4").val(o.amount_4);
 	
-	$.CurrentNavtab.find("#j_payment_paymentDays_5").val(o.paymentDays_5);
+	$.CurrentNavtab.find("#j_payment_paymentDays_5").selectpicker('val',o.paymentDays_5);
+	$.CurrentNavtab.find('#j_payment_paymentDays_5').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_5").val(o.receivingOrApprovalDate_5);
 	$.CurrentNavtab.find("#j_payment_PONo_5").val(o.PONo_5);
 	$.CurrentNavtab.find("#j_payment_currency_5").selectpicker('val',o.currency_5);
 	$.CurrentNavtab.find('#j_payment_currency_5').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_amount_5").val(o.amount_5);
 	
-	$.CurrentNavtab.find("#j_payment_paymentDays_5").val(o.paymentDays_5);
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_5").val(o.receivingOrApprovalDate_5);
-	$.CurrentNavtab.find("#j_payment_PONo_5").val(o.PONo_5);
-	$.CurrentNavtab.find("#j_payment_currency_5").selectpicker('val',o.currency_5);
-	$.CurrentNavtab.find('#j_payment_currency_5').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_5").val(o.amount_5);
-	
-	$.CurrentNavtab.find("#j_payment_paymentDays_6").val(o.paymentDays_6);
+	$.CurrentNavtab.find("#j_payment_paymentDays_6").selectpicker('val',o.paymentDays_6);
+	$.CurrentNavtab.find('#j_payment_paymentDays_6').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_6").val(o.receivingOrApprovalDate_6);
 	$.CurrentNavtab.find("#j_payment_PONo_6").val(o.PONo_6);
 	$.CurrentNavtab.find("#j_payment_currency_6").selectpicker('val',o.currency_6);
@@ -277,7 +268,7 @@ function dataToFace(o){
 	
 	$.CurrentNavtab.find("#j_file_Invoice").attr("href",o.invoice).html(o.invoice);
 	$.CurrentNavtab.find("#j_file_Contract").attr("href",o.contract).html(o.contract);
-	$.CurrentNavtab.find("#j_file_6").attr("href",o.other).html(o.other);
+	$.CurrentNavtab.find("#j_file_Other").attr("href",o.other).html(o.other);
 	
 	$.CurrentNavtab.find("#j_payment_id").val(o.id);
 	$.CurrentNavtab.find("#j_payment_status").val(o.status);
@@ -358,31 +349,27 @@ function changeAmount(){
 				</tr>
 				<tr>
 					<td>
-						支付现金 <br>Cash
+						支付方式
 					</td>
 					<td>
-						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_cash" value="Cash" data-label="">
+						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_cash" value="Cash" data-label="支付现金 <br>Cash">
 					</td>
 					<td>
-						银行支付<br> Banking
-					</td>
+						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_banking" value="Banking" data-label="银行支付 <br>Banking">
+					</td>	
 					<td>
-						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_banking" value="Banking" data-label="">
-					</td>					
+						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_advanceWriteoff" value="Advance" data-label="核销预付  <br>Advance Write-off (Amount)">
+					</td>				
 				</tr>
 				<tr>
-					<td>
-						核销预付 <br>Advance Write-off (Amount) .
-					</td>
-					<td>
-						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_advanceWriteoff" value="Advance" data-label="">
-					</td>
+
 					<td>
 						Urgent
 					</td>
 					<td>
 						<input type="checkbox" name="urgent"  data-toggle="icheck" id="j_payment_urgent" value="1" data-label="">
-					</td>					
+					</td>		
+					<td colspan="2"></td>			
 				</tr>
 				<tr>
 					<td>
@@ -402,7 +389,7 @@ function changeAmount(){
 					<td>
 						收款人（全称）<br>Beneficiary:
 					</td>
-					<td>
+					<td id="j_payment_beneficiary_tr">
 						<select name="beneficiary" id="j_payment_beneficiary" data-toggle="selectpicker" data-rule="required" onchange="changeBeneficiary()" data-width="170px">
                         	<option value=""></option>
                     	</select>
@@ -410,7 +397,7 @@ function changeAmount(){
 					<td>
 						银行及帐号<br>Beneficiary Account NO.
 					</td>
-					<td>
+					<td id="j_payment_beneficiaryAccountNO_tr">
 						<input type="text" name="beneficiaryAccountNO" id="j_payment_beneficiaryAccountNO" value="" readonly=""  size="17">
 					</td>					
 				</tr>
@@ -419,13 +406,13 @@ function changeAmount(){
 						收款人变更<br>Change
 					</td>
 					<td>
-						<input type="checkbox" name="beneficiaryChange" id="j_payment_beneficiaryChange" data-toggle="icheck" value="1" data-label="">
+						<input onclick="alert(11);" type="checkbox" name="beneficiaryChange" id="j_payment_beneficiaryChange" data-toggle="icheck" value="1" data-label="">
 					</td>
 					<td>
 						银行及账号变更<br>Change
 					</td>
 					<td>
-						<input type="checkbox" name="beneficiaryAccountNOChange" id="j_payment_beneficiaryAccountNOChange" data-toggle="icheck" value="1" data-label="">
+						<input onclick="changAccAndBank();" type="checkbox" name="beneficiaryAccountNOChange" id="j_payment_beneficiaryAccountNOChange" data-toggle="icheck" value="1" data-label="">
 					</td>					
 				</tr>
 				
@@ -450,7 +437,7 @@ function changeAmount(){
 						结算期<br>Payment Term
 					</td>	
 					<td>
-						<select name="paymentTerm" data-toggle="selectpicker" id="j_payment_paymentTerm"  data-rule="required" data-width="170px">
+						<select name="paymentTerm" data-toggle="selectpicker" id="j_payment_paymentTerm"  data-rule="required" data-width="170px" >
 	                        <option value=""></option>
 	                        <option value="1">Advance预付款</option>
 	                        <option value="2">Payment at sight 见票即付</option>
@@ -555,7 +542,7 @@ function changeAmount(){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo"  value="" size="17">
+									<input type="text" name="PONo"  value="" size="17" >
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
@@ -613,7 +600,7 @@ function changeAmount(){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_3" id="j_payment_PONo_3" size="17" value="" onchange="PONoCheck();" >
+									<input type="text" name="PONo_3" id="j_payment_PONo_3" size="17" value="" >
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
@@ -671,7 +658,7 @@ function changeAmount(){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_4" id="j_payment_PONo_4" size="17" value="" onchange="PONoCheck();" >
+									<input type="text" name="PONo_4" id="j_payment_PONo_4" size="17" value="" >
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
@@ -990,7 +977,7 @@ function changeAmount(){
             	<tr id="payment-return-tr">
             		<td colspan="4" align="center">
             			<button type="button" id="payment-return" class="btn-default" data-icon="arrow-down">Doc. Return(退回)</button>
-            			<textarea name="rReturnDescription" cols="30" rows="1" data-toggle="autoheight"></textarea>
+            			<textarea name="returnDescription" cols="30" rows="1" data-toggle="autoheight"></textarea>
             		</td>
             	</tr>
 				

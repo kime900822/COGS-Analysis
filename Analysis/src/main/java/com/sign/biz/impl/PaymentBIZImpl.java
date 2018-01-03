@@ -53,7 +53,7 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void savePayment(Payment payment) throws Exception {
 		paymentDao.save(payment);
-		List<User> lUsers=userDAO.queryByHql(" select U from USER U,SIGNMAN S where U.uid=S.uid AND S.did='"+payment.getDepartmentID()+"'");
+		List<User> lUsers=userDAO.queryByHql(" select U from User U,SignMan S where U.uid=S.uid AND S.did='"+payment.getDepartmentID()+"'");
 		if (lUsers.size()>0) {
 			SendMail.SendMail(lUsers.get(0).getEmail(), "有新的待签核付款申请单", "有'"+payment.getUName()+"' 的付款申请单待签核！");	
 		}else{

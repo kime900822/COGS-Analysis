@@ -20,6 +20,18 @@
 			    }
 			})	
 			
+			BJUI.ajax('doajax', {
+			    url: 'getAllDepartment.action',
+			    loadingmask: false,
+			    okCallback: function(json, options) {
+	                $.each(json, function (i, item) {
+	                    $.CurrentDialog.find('#j_user_edit_did').append("<option value='" + item.did + "'>" + item.name + "</option>")           
+	                })
+	                $.CurrentDialog.find('#j_user_edit_did').selectpicker('val','${param.rid}');
+	                $.CurrentDialog.find('#j_user_edit_did').selectpicker('refresh');
+			    }
+			})	
+			
 			if('${param.sex}'=='F'){
 				$.CurrentDialog.find('#j_user_edit_sex_nv').attr("checked","checked");
 			}
@@ -51,6 +63,12 @@
                 <label class="row-label">Role</label>
                 <div class="row-input required">
                     <select name="rid" data-toggle="selectpicker" id="j_user_edit_rid" data-rule="required" data-width="100%"  >
+                         <option value="" selected></option>
+                    </select>
+                </div>
+                <label class="row-label">Deprtment</label>
+                <div class="row-input required">
+                    <select name="did" data-toggle="selectpicker" id="j_user_edit_did" data-rule="required" data-width="100%"  >
                          <option value="" selected></option>
                     </select>
                 </div>

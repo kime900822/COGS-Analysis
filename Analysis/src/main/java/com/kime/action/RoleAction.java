@@ -216,7 +216,7 @@ public class RoleAction extends ActionBase {
 			})})
 	public String GetAllRole_User() throws UnsupportedEncodingException{
 		
-		List<Role> lRole=roleBIZ.getRole(" WHERE level='0' ");
+		List<Role> lRole=roleBIZ.getRole(" WHERE menuid is null ");
 		StringBuilder stringBuilder =new StringBuilder();
 		stringBuilder.append("[");
 		for (Role role : lRole) {

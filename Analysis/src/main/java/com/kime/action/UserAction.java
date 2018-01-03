@@ -386,6 +386,12 @@ public class UserAction extends ActionBase {
 			}
 			where += " uid like '%"+uid+"%'";
 		}
+		if (!"".equals(did)&&did!=null) {
+			if (!"".equals(where)) {
+				where +=" and ";
+			}
+			where += " did ='"+did+"'";
+		}
 		
 		if (!"".equals(sex)&&sex!=null) {
 			if (!"".equals(where)) {
@@ -447,6 +453,7 @@ public class UserAction extends ActionBase {
 		user.setName(name);
 		user.setPassword(password);
 		user.setSex(sex);
+		user.setDid(did);
 		user.setRid(rid);
 		user.setDate(sdf.format(d1));
 		user.setUid(uid);

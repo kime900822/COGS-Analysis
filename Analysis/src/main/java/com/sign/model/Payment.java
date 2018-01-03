@@ -128,184 +128,190 @@ public class Payment {
 	
 	
 	/**
+	 * 结算期类型
+	 */
+	@Column
+	private String paymentTerm;
+	
+	/**
 	 * 结算天数-预付款
 	 */
 	@Column
-	private String paymentDays_Advance;
+	private String paymentDays_1;
 	
 	/**
 	 * 收货或验收日期-预付款
 	 */
 	@Column
-	private String receivingOrApprovalDate_Advance;
+	private String receivingOrApprovalDate_1;
 	
 	/**
 	 * 订单号-预付款
 	 */	
 	@Column
-	private String PONo_Advance;
+	private String PONo_1;
 	
 	/**
 	 * 币种-预付款
 	 */
 	@Column
-	private String currency_Advance;
+	private String currency_1;
 	
 	/**
 	 * 金额-预付款
 	 */
 	@Column
-	private double amount_Advance;
+	private double amount_1;
 	
 	/**
 	 * 结算天数-见票即付
 	 */
 	@Column
-	private String paymentDays_PaymentAtSight;
+	private String paymentDays_2;
 	
 	/**
 	 * 收货或验收日期-见票即付
 	 */
 	@Column
-	private String receivingOrApprovalDate_PaymentAtSight;
+	private String receivingOrApprovalDate_2;
 	
 	/**
 	 * 订单号-见票即付
 	 */	
 	@Column
-	private String PONo_PaymentAtSight;
+	private String PONo_2;
 	
 	/**
 	 * 币种-见票即付
 	 */
 	@Column
-	private String currency_PaymentAtSight;
+	private String currency_2;
 	
 	/**
 	 * 金额-见票即付
 	 */
 	@Column
-	private double amount_PaymentAtSight;
+	private double amount_2;
 	
 	/**
 	 * 结算天数-收货后
 	 */
 	@Column
-	private String paymentDays_UponReceiving;
+	private String paymentDays_3;
 	
 	/**
 	 * 收货或验收日期-收货后
 	 */
 	@Column
-	private String receivingOrApprovalDate_UponReceiving;
+	private String receivingOrApprovalDate_3;
 	
 	/**
 	 * 订单号-收货后
 	 */	
 	@Column
-	private String PONo_UponReceiving;
+	private String PONo_3;
 	
 	/**
 	 * 币种-收货后
 	 */
 	@Column
-	private String currency_UponReceiving;
+	private String currency_3;
 	
 	/**
 	 * 金额-收货后
 	 */
 	@Column
-	private double amount_UponReceiving;
+	private double amount_3;
 	
 	/**
 	 * 结算天数-验收后
 	 */
 	@Column
-	private String paymentDays_UponApproval;
+	private String paymentDays_4;
 	
 	/**
 	 * 收货或验收日期-验收后
 	 */
 	@Column
-	private String receivingOrApprovalDate_UponApproval;
+	private String receivingOrApprovalDate_4;
 	
 	/**
 	 * 订单号-验收后
 	 */	
 	@Column
-	private String PONo_UponApproval;
+	private String PONo_4;
 	
 	/**
 	 * 币种-验收后
 	 */
 	@Column
-	private String currency_UponApproval;
+	private String currency_4;
 	
 	/**
 	 * 金额-验收后
 	 */
 	@Column
-	private double amount_UponApproval;
+	private double amount_4;
 	
 	/**
 	 * 结算天数-见票后
 	 */
 	@Column
-	private String paymentDays_UponInvoice;
+	private String paymentDays_5;
 	
 	/**
 	 * 收货或验收日期-见票后
 	 */
 	@Column
-	private String receivingOrApprovalDate_UponInvoice;
+	private String receivingOrApprovalDate_5;
 	
 	/**
 	 * 订单号-见票后
 	 */	
 	@Column
-	private String PONo_UponInvoice;
+	private String PONo_5;
 	
 	/**
 	 * 币种-见票后
 	 */
 	@Column
-	private String currency_UponInvoice;
+	private String currency_5;
 	
 	/**
 	 * 金额-见票后
 	 */
 	@Column
-	private double amount_UponInvoice;
+	private double amount_5;
 	
 	/**
 	 * 结算天数-其他
 	 */
 	@Column
-	private String paymentDays_Other;
+	private String paymentDays_6;
 	
 	/**
 	 * 收货或验收日期-其他
 	 */
 	@Column
-	private String receivingOrApprovalDate_Other;
+	private String receivingOrApprovalDate_6;
 	
 	/**
 	 * 订单号-其他
 	 */	
 	@Column
-	private String PONo_Other;
+	private String PONo_6;
 	
 	/**
 	 * 币种-其他
 	 */
 	@Column
-	private String currency_Other;
+	private String currency_6;
 	
 	/**
 	 * 金额-其他
 	 */
 	@Column
-	private double amount_Other;
+	private double amount_6;
 	
 	/**
 	 * 支付用途
@@ -614,6 +620,14 @@ public class Payment {
 		return deptManager;
 	}
 
+	public String getPaymentTerm() {
+		return paymentTerm;
+	}
+
+	public void setPaymentTerm(String paymentTerm) {
+		this.paymentTerm = paymentTerm;
+	}
+
 	public void setDeptManager(String deptManager) {
 		this.deptManager = deptManager;
 	}
@@ -642,244 +656,244 @@ public class Payment {
 		this.generalManager = generalManager;
 	}
 
-	public String getPaymentDays_Advance() {
-		return paymentDays_Advance;
+	public String getPaymentDays_1() {
+		return paymentDays_1;
 	}
 
-	public void setPaymentDays_Advance(String paymentDays_Advance) {
-		this.paymentDays_Advance = paymentDays_Advance;
+	public void setPaymentDays_1(String paymentDays_1) {
+		this.paymentDays_1 = paymentDays_1;
 	}
 
-	public String getReceivingOrApprovalDate_Advance() {
-		return receivingOrApprovalDate_Advance;
+	public String getReceivingOrApprovalDate_1() {
+		return receivingOrApprovalDate_1;
 	}
 
-	public void setReceivingOrApprovalDate_Advance(String receivingOrApprovalDate_Advance) {
-		this.receivingOrApprovalDate_Advance = receivingOrApprovalDate_Advance;
+	public void setReceivingOrApprovalDate_1(String receivingOrApprovalDate_1) {
+		this.receivingOrApprovalDate_1 = receivingOrApprovalDate_1;
 	}
 
-	public String getPONo_Advance() {
-		return PONo_Advance;
+	public String getPONo_1() {
+		return PONo_1;
 	}
 
-	public void setPONo_Advance(String pONo_Advance) {
-		PONo_Advance = pONo_Advance;
+	public void setPONo_1(String pONo_1) {
+		PONo_1 = pONo_1;
 	}
 
-	public String getCurrency_Advance() {
-		return currency_Advance;
+	public String getCurrency_1() {
+		return currency_1;
 	}
 
-	public void setCurrency_Advance(String currency_Advance) {
-		this.currency_Advance = currency_Advance;
+	public void setCurrency_1(String currency_1) {
+		this.currency_1 = currency_1;
 	}
 
-	public String getPaymentDays_PaymentAtSight() {
-		return paymentDays_PaymentAtSight;
+	public String getPaymentDays_2() {
+		return paymentDays_2;
 	}
 
-	public void setPaymentDays_PaymentAtSight(String paymentDays_PaymentAtSight) {
-		this.paymentDays_PaymentAtSight = paymentDays_PaymentAtSight;
+	public void setPaymentDays_2(String paymentDays_2) {
+		this.paymentDays_2 = paymentDays_2;
 	}
 
-	public String getReceivingOrApprovalDate_PaymentAtSight() {
-		return receivingOrApprovalDate_PaymentAtSight;
+	public String getReceivingOrApprovalDate_2() {
+		return receivingOrApprovalDate_2;
 	}
 
-	public void setReceivingOrApprovalDate_PaymentAtSight(String receivingOrApprovalDate_PaymentAtSight) {
-		this.receivingOrApprovalDate_PaymentAtSight = receivingOrApprovalDate_PaymentAtSight;
+	public void setReceivingOrApprovalDate_2(String receivingOrApprovalDate_2) {
+		this.receivingOrApprovalDate_2 = receivingOrApprovalDate_2;
 	}
 
-	public String getPONo_PaymentAtSight() {
-		return PONo_PaymentAtSight;
+	public String getPONo_2() {
+		return PONo_2;
 	}
 
-	public void setPONo_PaymentAtSight(String pONo_PaymentAtSight) {
-		PONo_PaymentAtSight = pONo_PaymentAtSight;
+	public void setPONo_2(String pONo_2) {
+		PONo_2 = pONo_2;
 	}
 
-	public String getCurrency_PaymentAtSight() {
-		return currency_PaymentAtSight;
+	public String getCurrency_2() {
+		return currency_2;
 	}
 
-	public void setCurrency_PaymentAtSight(String currency_PaymentAtSight) {
-		this.currency_PaymentAtSight = currency_PaymentAtSight;
+	public void setCurrency_2(String currency_2) {
+		this.currency_2 = currency_2;
 	}
 
-	public String getPaymentDays_UponReceiving() {
-		return paymentDays_UponReceiving;
+	public String getPaymentDays_3() {
+		return paymentDays_3;
 	}
 
-	public void setPaymentDays_UponReceiving(String paymentDays_UponReceiving) {
-		this.paymentDays_UponReceiving = paymentDays_UponReceiving;
+	public void setPaymentDays_3(String paymentDays_3) {
+		this.paymentDays_3 = paymentDays_3;
 	}
 
-	public String getReceivingOrApprovalDate_UponReceiving() {
-		return receivingOrApprovalDate_UponReceiving;
+	public String getReceivingOrApprovalDate_3() {
+		return receivingOrApprovalDate_3;
 	}
 
-	public void setReceivingOrApprovalDate_UponReceiving(String receivingOrApprovalDate_UponReceiving) {
-		this.receivingOrApprovalDate_UponReceiving = receivingOrApprovalDate_UponReceiving;
+	public void setReceivingOrApprovalDate_3(String receivingOrApprovalDate_3) {
+		this.receivingOrApprovalDate_3 = receivingOrApprovalDate_3;
 	}
 
-	public String getPONo_UponReceiving() {
-		return PONo_UponReceiving;
+	public String getPONo_3() {
+		return PONo_3;
 	}
 
-	public void setPONo_UponReceiving(String pONo_UponReceiving) {
-		PONo_UponReceiving = pONo_UponReceiving;
+	public void setPONo_3(String pONo_3) {
+		PONo_3 = pONo_3;
 	}
 
-	public String getCurrency_UponReceiving() {
-		return currency_UponReceiving;
+	public String getCurrency_3() {
+		return currency_3;
 	}
 
-	public void setCurrency_UponReceiving(String currency_UponReceiving) {
-		this.currency_UponReceiving = currency_UponReceiving;
+	public void setCurrency_3(String currency_3) {
+		this.currency_3 = currency_3;
 	}
 
-	public String getPaymentDays_UponApproval() {
-		return paymentDays_UponApproval;
+	public String getPaymentDays_4() {
+		return paymentDays_4;
 	}
 
-	public void setPaymentDays_UponApproval(String paymentDays_UponApproval) {
-		this.paymentDays_UponApproval = paymentDays_UponApproval;
+	public void setPaymentDays_4(String paymentDays_4) {
+		this.paymentDays_4 = paymentDays_4;
 	}
 
-	public String getReceivingOrApprovalDate_UponApproval() {
-		return receivingOrApprovalDate_UponApproval;
+	public String getReceivingOrApprovalDate_4() {
+		return receivingOrApprovalDate_4;
 	}
 
-	public void setReceivingOrApprovalDate_UponApproval(String receivingOrApprovalDate_UponApproval) {
-		this.receivingOrApprovalDate_UponApproval = receivingOrApprovalDate_UponApproval;
+	public void setReceivingOrApprovalDate_4(String receivingOrApprovalDate_4) {
+		this.receivingOrApprovalDate_4 = receivingOrApprovalDate_4;
 	}
 
-	public String getPONo_UponApproval() {
-		return PONo_UponApproval;
+	public String getPONo_4() {
+		return PONo_4;
 	}
 
-	public void setPONo_UponApproval(String pONo_UponApproval) {
-		PONo_UponApproval = pONo_UponApproval;
+	public void setPONo_4(String pONo_4) {
+		PONo_4 = pONo_4;
 	}
 
-	public String getCurrency_UponApproval() {
-		return currency_UponApproval;
+	public String getCurrency_4() {
+		return currency_4;
 	}
 
-	public void setCurrency_UponApproval(String currency_UponApproval) {
-		this.currency_UponApproval = currency_UponApproval;
+	public void setCurrency_4(String currency_4) {
+		this.currency_4 = currency_4;
 	}
 
-	public String getPaymentDays_UponInvoice() {
-		return paymentDays_UponInvoice;
+	public String getPaymentDays_5() {
+		return paymentDays_5;
 	}
 
-	public void setPaymentDays_UponInvoice(String paymentDays_UponInvoice) {
-		this.paymentDays_UponInvoice = paymentDays_UponInvoice;
+	public void setPaymentDays_5(String paymentDays_5) {
+		this.paymentDays_5 = paymentDays_5;
 	}
 
-	public String getReceivingOrApprovalDate_UponInvoice() {
-		return receivingOrApprovalDate_UponInvoice;
+	public String getReceivingOrApprovalDate_5() {
+		return receivingOrApprovalDate_5;
 	}
 
-	public void setReceivingOrApprovalDate_UponInvoice(String receivingOrApprovalDate_UponInvoice) {
-		this.receivingOrApprovalDate_UponInvoice = receivingOrApprovalDate_UponInvoice;
+	public void setReceivingOrApprovalDate_5(String receivingOrApprovalDate_5) {
+		this.receivingOrApprovalDate_5 = receivingOrApprovalDate_5;
 	}
 
-	public String getPONo_UponInvoice() {
-		return PONo_UponInvoice;
+	public String getPONo_5() {
+		return PONo_5;
 	}
 
-	public void setPONo_UponInvoice(String pONo_UponInvoice) {
-		PONo_UponInvoice = pONo_UponInvoice;
+	public void setPONo_5(String pONo_5) {
+		PONo_5 = pONo_5;
 	}
 
-	public String getCurrency_UponInvoice() {
-		return currency_UponInvoice;
+	public String getCurrency_5() {
+		return currency_5;
 	}
 
-	public void setCurrency_UponInvoice(String currency_UponInvoice) {
-		this.currency_UponInvoice = currency_UponInvoice;
+	public void setCurrency_5(String currency_5) {
+		this.currency_5 = currency_5;
 	}
 
-	public String getPaymentDays_Other() {
-		return paymentDays_Other;
+	public String getPaymentDays_6() {
+		return paymentDays_6;
 	}
 
-	public void setPaymentDays_Other(String paymentDays_Other) {
-		this.paymentDays_Other = paymentDays_Other;
+	public void setPaymentDays_6(String paymentDays_6) {
+		this.paymentDays_6 = paymentDays_6;
 	}
 
-	public String getReceivingOrApprovalDate_Other() {
-		return receivingOrApprovalDate_Other;
+	public String getReceivingOrApprovalDate_6() {
+		return receivingOrApprovalDate_6;
 	}
 
-	public void setReceivingOrApprovalDate_Other(String receivingOrApprovalDate_Other) {
-		this.receivingOrApprovalDate_Other = receivingOrApprovalDate_Other;
+	public void setReceivingOrApprovalDate_6(String receivingOrApprovalDate_6) {
+		this.receivingOrApprovalDate_6 = receivingOrApprovalDate_6;
 	}
 
-	public String getPONo_Other() {
-		return PONo_Other;
+	public String getPONo_6() {
+		return PONo_6;
 	}
 
-	public void setPONo_Other(String pONo_Other) {
-		PONo_Other = pONo_Other;
+	public void setPONo_6(String pONo_6) {
+		PONo_6 = pONo_6;
 	}
 
-	public String getCurrency_Other() {
-		return currency_Other;
+	public String getCurrency_6() {
+		return currency_6;
 	}
 
-	public void setCurrency_Other(String currency_Other) {
-		this.currency_Other = currency_Other;
+	public void setCurrency_6(String currency_6) {
+		this.currency_6 = currency_6;
 	}
 
-	public double getAmount_Advance() {
-		return amount_Advance;
+	public double getAmount_1() {
+		return amount_1;
 	}
 
-	public void setAmount_Advance(double amount_Advance) {
-		this.amount_Advance = amount_Advance;
+	public void setAmount_1(double amount_1) {
+		this.amount_1 = amount_1;
 	}
 
-	public double getAmount_PaymentAtSight() {
-		return amount_PaymentAtSight;
+	public double getAmount_2() {
+		return amount_2;
 	}
 
-	public void setAmount_PaymentAtSight(double amount_PaymentAtSight) {
-		this.amount_PaymentAtSight = amount_PaymentAtSight;
+	public void setAmount_2(double amount_2) {
+		this.amount_2 = amount_2;
 	}
 
-	public double getAmount_UponReceiving() {
-		return amount_UponReceiving;
+	public double getAmount_3() {
+		return amount_3;
 	}
 
-	public void setAmount_UponReceiving(double amount_UponReceiving) {
-		this.amount_UponReceiving = amount_UponReceiving;
+	public void setAmount_3(double amount_3) {
+		this.amount_3 = amount_3;
 	}
 
-	public double getAmount_UponApproval() {
-		return amount_UponApproval;
+	public double getAmount_4() {
+		return amount_4;
 	}
 
-	public void setAmount_UponApproval(double amount_UponApproval) {
-		this.amount_UponApproval = amount_UponApproval;
+	public void setAmount_4(double amount_4) {
+		this.amount_4 = amount_4;
 	}
 
-	public double getAmount_UponInvoice() {
-		return amount_UponInvoice;
+	public double getAmount_5() {
+		return amount_5;
 	}
 
-	public void setAmount_UponInvoice(double amount_UponInvoice) {
-		this.amount_UponInvoice = amount_UponInvoice;
+	public void setAmount_5(double amount_5) {
+		this.amount_5 = amount_5;
 	}
 
-	public double getAmount_Other() {
-		return amount_Other;
+	public double getAmount_6() {
+		return amount_6;
 	}
 
-	public void setAmount_Other(double amount_Other) {
-		this.amount_Other = amount_Other;
+	public void setAmount_6(double amount_6) {
+		this.amount_6 = amount_6;
 	}
 
 	public double getAmountInFigures() {
