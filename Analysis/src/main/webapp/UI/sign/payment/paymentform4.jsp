@@ -46,18 +46,18 @@ $(function(){
 
 
 function PONoCheck(){
-	if($.CurrentNavtab.find('#j_payment_PONo_3').val()!=''){
+	if($.CurrentNavtab.find('#j_payment_PONo_UponReceiving').val()!=''){
 		alert(1);
-		$.CurrentNavtab.find('#receivingOrApprovalDate_3').removeAttr("data-rule").attr("data-rule","required;date");
+		$.CurrentNavtab.find('#receivingOrApprovalDate_UponReceiving').removeAttr("data-rule").attr("data-rule","required;date");
 	}else{
 		alert(2);
-		$.CurrentNavtab.find('#receivingOrApprovalDate_3').removeAttr("data-rule").attr("data-rule","date");
+		$.CurrentNavtab.find('#receivingOrApprovalDate_UponReceiving').removeAttr("data-rule").attr("data-rule","date");
 	}
 	
-	if($.CurrentNavtab.find('#j_payment_PONo_4').val()!=''){
-		$.CurrentNavtab.find('#receivingOrApprovalDate_4').removeAttr("data-rule").attr("data-rule","required;date");
+	if($.CurrentNavtab.find('#j_payment_PONo_UponApproval').val()!=''){
+		$.CurrentNavtab.find('#receivingOrApprovalDate_UponApproval').removeAttr("data-rule").attr("data-rule","required;date");
 	}else{
-		$.CurrentNavtab.find('#receivingOrApprovalDate_4').removeAttr("data-rule").attr("data-rule","date");
+		$.CurrentNavtab.find('#receivingOrApprovalDate_UponApproval').removeAttr("data-rule").attr("data-rule","date");
 	}
 	
 }
@@ -218,54 +218,54 @@ function dataToFace(o){
     $.CurrentNavtab.find("#j_payment_paymentSubject").selectpicker('val',o.paymentSubject);
     $.CurrentNavtab.find('#j_payment_paymentSubject').selectpicker('refresh');
     
-	$.CurrentNavtab.find("#j_payment_paymentDays_1").val(o.paymentDays_1);
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_1").val(o.receivingOrApprovalDate_1);
-	$.CurrentNavtab.find("#j_payment_PONo_1").val(o.PONo_1);
-	$.CurrentNavtab.find("#j_payment_currency_1").selectpicker('val',o.currency_1);
-    $.CurrentNavtab.find('#j_payment_currency_1').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_1").val(o.amount_1);
+	$.CurrentNavtab.find("#j_payment_paymentDays_Advance").val(o.paymentDays_Advance);
+	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_Advance").val(o.receivingOrApprovalDate_Advance);
+	$.CurrentNavtab.find("#j_payment_PONo_Advance").val(o.PONo_Advance);
+	$.CurrentNavtab.find("#j_payment_currency_Advance").selectpicker('val',o.currency_Advance);
+    $.CurrentNavtab.find('#j_payment_currency_Advance').selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_amount_Advance").val(o.amount_Advance);
 	
-	$.CurrentNavtab.find("#j_payment_paymentDays_2").val(o.paymentDays_2);
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_2").val(o.receivingOrApprovalDate_2);
-	$.CurrentNavtab.find("#j_payment_PONo_2").val(o.PONo_2);
-	$.CurrentNavtab.find("#j_payment_currency_2").selectpicker('val',o.currency_2);
-	$.CurrentNavtab.find('#j_payment_currency_2').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_2").val(o.amount_2);
+	$.CurrentNavtab.find("#j_payment_paymentDays_PaymentAtSight").val(o.paymentDays_PaymentAtSight);
+	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_PaymentAtSight").val(o.receivingOrApprovalDate_PaymentAtSight);
+	$.CurrentNavtab.find("#j_payment_PONo_PaymentAtSight").val(o.PONo_PaymentAtSight);
+	$.CurrentNavtab.find("#j_payment_currency_PaymentAtSight").selectpicker('val',o.currency_PaymentAtSight);
+	$.CurrentNavtab.find('#j_payment_currency_PaymentAtSight').selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_amount_PaymentAtSight").val(o.amount_PaymentAtSight);
 	
-	$.CurrentNavtab.find("#j_payment_paymentDays_3").val(o.paymentDays_3);
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_3").val(o.receivingOrApprovalDate_3);
-	$.CurrentNavtab.find("#j_payment_PONo_3").val(o.PONo_3);
-	$.CurrentNavtab.find("#j_payment_currency_3").selectpicker('val',o.currency_3);
-	$.CurrentNavtab.find('#j_payment_currency_3').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_3").val(o.amount_3);
+	$.CurrentNavtab.find("#j_payment_paymentDays_UponReceiving").val(o.paymentDays_UponReceiving);
+	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_UponReceiving").val(o.receivingOrApprovalDate_UponReceiving);
+	$.CurrentNavtab.find("#j_payment_PONo_UponReceiving").val(o.PONo_UponReceiving);
+	$.CurrentNavtab.find("#j_payment_currency_UponReceiving").selectpicker('val',o.currency_UponReceiving);
+	$.CurrentNavtab.find('#j_payment_currency_UponReceiving').selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_amount_UponReceiving").val(o.amount_UponReceiving);
 	
-	$.CurrentNavtab.find("#j_payment_paymentDays_4").val(o.paymentDays_4);
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_4").val(o.receivingOrApprovalDate_4);
-	$.CurrentNavtab.find("#j_payment_PONo_4").val(o.PONo_4);
-	$.CurrentNavtab.find("#j_payment_currency_4").selectpicker('val',o.currency_4);
-	$.CurrentNavtab.find('#j_payment_currency_4').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_4").val(o.amount_4);
+	$.CurrentNavtab.find("#j_payment_paymentDays_UponApproval").val(o.paymentDays_UponApproval);
+	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_UponApproval").val(o.receivingOrApprovalDate_UponApproval);
+	$.CurrentNavtab.find("#j_payment_PONo_UponApproval").val(o.PONo_UponApproval);
+	$.CurrentNavtab.find("#j_payment_currency_UponApproval").selectpicker('val',o.currency_UponApproval);
+	$.CurrentNavtab.find('#j_payment_currency_UponApproval').selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_amount_UponApproval").val(o.amount_UponApproval);
 	
-	$.CurrentNavtab.find("#j_payment_paymentDays_5").val(o.paymentDays_5);
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_5").val(o.receivingOrApprovalDate_5);
-	$.CurrentNavtab.find("#j_payment_PONo_5").val(o.PONo_5);
-	$.CurrentNavtab.find("#j_payment_currency_5").selectpicker('val',o.currency_5);
-	$.CurrentNavtab.find('#j_payment_currency_5').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_5").val(o.amount_5);
+	$.CurrentNavtab.find("#j_payment_paymentDays_UponInvoice").val(o.paymentDays_UponInvoice);
+	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_UponInvoice").val(o.receivingOrApprovalDate_UponInvoice);
+	$.CurrentNavtab.find("#j_payment_PONo_UponInvoice").val(o.PONo_UponInvoice);
+	$.CurrentNavtab.find("#j_payment_currency_UponInvoice").selectpicker('val',o.currency_UponInvoice);
+	$.CurrentNavtab.find('#j_payment_currency_UponInvoice').selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_amount_UponInvoice").val(o.amount_UponInvoice);
 	
-	$.CurrentNavtab.find("#j_payment_paymentDays_5").val(o.paymentDays_5);
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_5").val(o.receivingOrApprovalDate_5);
-	$.CurrentNavtab.find("#j_payment_PONo_5").val(o.PONo_5);
-	$.CurrentNavtab.find("#j_payment_currency_5").selectpicker('val',o.currency_5);
-	$.CurrentNavtab.find('#j_payment_currency_5').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_5").val(o.amount_5);
+	$.CurrentNavtab.find("#j_payment_paymentDays_UponInvoice").val(o.paymentDays_UponInvoice);
+	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_UponInvoice").val(o.receivingOrApprovalDate_UponInvoice);
+	$.CurrentNavtab.find("#j_payment_PONo_UponInvoice").val(o.PONo_UponInvoice);
+	$.CurrentNavtab.find("#j_payment_currency_UponInvoice").selectpicker('val',o.currency_UponInvoice);
+	$.CurrentNavtab.find('#j_payment_currency_UponInvoice').selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_amount_UponInvoice").val(o.amount_UponInvoice);
 	
-	$.CurrentNavtab.find("#j_payment_paymentDays_6").val(o.paymentDays_6);
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_6").val(o.receivingOrApprovalDate_6);
-	$.CurrentNavtab.find("#j_payment_PONo_6").val(o.PONo_6);
-	$.CurrentNavtab.find("#j_payment_currency_6").selectpicker('val',o.currency_6);
-	$.CurrentNavtab.find('#j_payment_currency_6').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_6").val(o.amount_6);
+	$.CurrentNavtab.find("#j_payment_paymentDays_Other").val(o.paymentDays_Other);
+	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_Other").val(o.receivingOrApprovalDate_Other);
+	$.CurrentNavtab.find("#j_payment_PONo_Other").val(o.PONo_Other);
+	$.CurrentNavtab.find("#j_payment_currency_Other").selectpicker('val',o.currency_Other);
+	$.CurrentNavtab.find('#j_payment_currency_Other').selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_amount_Other").val(o.amount_Other);
 	
 	$.CurrentNavtab.find("#j_payment_supplierCode").val(o.supplierCode);
 	$.CurrentNavtab.find("#j_payment_refNoofBank").val(o.refNoofBank);
@@ -277,7 +277,7 @@ function dataToFace(o){
 	
 	$.CurrentNavtab.find("#j_file_Invoice").attr("href",o.invoice).html(o.invoice);
 	$.CurrentNavtab.find("#j_file_Contract").attr("href",o.contract).html(o.contract);
-	$.CurrentNavtab.find("#j_file_6").attr("href",o.other).html(o.other);
+	$.CurrentNavtab.find("#j_file_Other").attr("href",o.other).html(o.other);
 	
 	$.CurrentNavtab.find("#j_payment_id").val(o.id);
 	$.CurrentNavtab.find("#j_payment_status").val(o.status);
@@ -286,12 +286,12 @@ function dataToFace(o){
 
 //金额变动
 function changeAmount(){
-	var amount1=$.CurrentNavtab.find("#j_payment_amount_1").val();
-	var amount2=$.CurrentNavtab.find("#j_payment_amount_2").val();
-	var amount3=$.CurrentNavtab.find("#j_payment_amount_3").val();
-	var amount4=$.CurrentNavtab.find("#j_payment_amount_4").val();
-	var amount5=$.CurrentNavtab.find("#j_payment_amount_5").val();
-	var amount6=$.CurrentNavtab.find("#j_payment_amount_6").val();
+	var amount1=$.CurrentNavtab.find("#j_payment_amount_Advance").val();
+	var amount2=$.CurrentNavtab.find("#j_payment_amount_PaymentAtSight").val();
+	var amount3=$.CurrentNavtab.find("#j_payment_amount_UponReceiving").val();
+	var amount4=$.CurrentNavtab.find("#j_payment_amount_UponApproval").val();
+	var amount5=$.CurrentNavtab.find("#j_payment_amount_UponInvoice").val();
+	var amount6=$.CurrentNavtab.find("#j_payment_amount_Other").val();
 	var total=0;
 	if(amount1!=""){
 		total+=parseFloat(amount1);
@@ -314,12 +314,12 @@ function changeAmount(){
 	$.CurrentNavtab.find("#j_payment_amountInFigures").val(total);
 	$.CurrentNavtab.find("#j_payment_amountInWords").val(smalltoBIG(total));
 	
-	$.CurrentNavtab.find("#row_01_title").html("PO&nbsp1 &nbsp&nbsp&nbsp&nbsp Amount(金额):"+amount1);
-	$.CurrentNavtab.find("#row_02_title").html("PO&nbsp2 &nbsp&nbsp&nbsp&nbsp Amount(金额):"+amount2);
-	$.CurrentNavtab.find("#row_03_title").html("PO&nbsp3 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+amount3);
-	$.CurrentNavtab.find("#row_04_title").html("PO&nbsp4 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+amount4);
-	$.CurrentNavtab.find("#row_05_title").html("PO&nbsp5 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+amount5);
-	$.CurrentNavtab.find("#row_06_title").html("PO&nbsp6 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+amount6);
+	$.CurrentNavtab.find("#row_01_title").html("Advance预付款 &nbsp&nbsp&nbsp&nbsp Amount(金额):"+amount1);
+	$.CurrentNavtab.find("#row_02_title").html("Payment at sight 见票即付 &nbsp&nbsp&nbsp&nbsp Amount(金额):"+amount2);
+	$.CurrentNavtab.find("#row_03_title").html("Upon receiving 收货后 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+amount3);
+	$.CurrentNavtab.find("#row_04_title").html("Upon Approval 验收后 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+amount4);
+	$.CurrentNavtab.find("#row_05_title").html("Upon invoice 见票后 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+amount5);
+	$.CurrentNavtab.find("#row_06_title").html("Other 其他 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+amount6);
 	
 	
 	
@@ -463,8 +463,7 @@ function changeAmount(){
 				</tr>
 				<tr>
 					<td colspan="4">
-						<table id="payterm" class="table" width="100%">
-							<!-- Advance预付款 -->
+						<table id="payterm" width="100%">
 							<tr class="table-parent" id="row_01">
 								<td colspan="4">
 									<label id="row_01_title">Advance预付款</label>
@@ -475,7 +474,7 @@ function changeAmount(){
 									结算期 <br>Payment Term
 								</td>
 								<td>
-									<select name="paymentDays_1" id="j_payment_paymentDays_1" data-toggle="selectpicker" data-width="170px" >
+									<select name="paymentDays_Advance" id="j_payment_paymentDays_Advance" data-toggle="selectpicker" data-width="170px" >
 				                        <option value=""></option>
 				                        <option value="30">30Days</option>
 				                        <option value="45">45Days</option>
@@ -488,7 +487,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_1" id="j_payment_receivingOrApprovalDate_1" value="" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_Advance" id="j_payment_receivingOrApprovalDate_Advance" value="" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_01 child_row">
@@ -496,13 +495,13 @@ function changeAmount(){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_1" id="j_payment_PONo_1"  value="" size="17" >
+									<input type="text" name="PONo_Advance" id="j_payment_PONo_Advance"  value="" size="17" >
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
 								</td>
 								<td>
-									<select name="currency_1" data-toggle="selectpicker" id="j_payment_currency_1" data-width="170px">
+									<select name="currency_Advance" data-toggle="selectpicker" id="j_payment_currency_Advance" data-width="170px">
 				                        <option value=""></option>
 				                        <option value="RMB">RMB</option>
 				                        <option value="USD">USD</option>
@@ -516,312 +515,365 @@ function changeAmount(){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_1" id="j_payment_amount_1" value="" data-rule="number" onchange="changeAmount()" size="17">
+									<input type="text" name="amount_Advance" id="j_payment_amount_Advance" value="" data-rule="number" onchange="changeAmount()" size="17">
 								</td>
 								<td colspan="2">
 								</td>
 							</tr>
-							
-							
-							<!-- Payment at sight 见票即付-->
-							<tr class="table-parent" id="row_02">
-								<td colspan="4">
-									<label id="row_02_title">Payment at sight 见票即付</label>					
-								</td>
-							</tr>
-							<tr class="child_row_02 child_row">
-								<td>
-									结算期 <br>Payment Term
-								</td>
-								<td>
-									<select name="paymentDays_2" id="j_payment_paymentDays_2" data-toggle="selectpicker" data-width="170px" >
-				                        <option value=""></option>
-				                        <option value="30">30Days</option>
-				                        <option value="45">45Days</option>
-				                        <option value="60">60Days</option>
-				                        <option value="90">90Days</option>
-				                        <option value="120">120Days</option>
-			                    	</select>
-								</td>
-								<td>
-									收货或验收日期<br>Receiving or Approval date
-								</td>
-								<td>
-									<input type="text" name="receivingOrApprovalDate_2" id="j_payment_receivingOrApprovalDate_2" value="" size="17" data-toggle="datepicker" data-rule="date">
-								</td>
-							</tr>
-							<tr class="child_row_02 child_row">
-								<td>
-									订单号<br>PO No.
-								</td>
-								<td>
-									<input type="text" name="PONo"  value="" size="17">
-								</td>
-								<td>
-									<label class="row-label">币别<br>Currency</label>
-								</td>
-								<td>
-									<select name="currency_2" id="j_payment_currency_2" data-toggle="selectpicker" data-width="170px">
-				                        <option value=""></option>
-				                        <option value="RMB">RMB</option>
-				                        <option value="USD">USD</option>
-				                        <option value="EUR">EUR</option>
-				                        <option value="GBP">GBP</option>
-			                    	</select>
-								</td>
-							</tr>
-							<tr class="child_row_02 child_row">
-								<td>
-									金额<br>Amount
-								</td>
-								<td>
-									<input type="text" name="amount_2" id="j_payment_amount_2" value="" data-rule="number" size="17" onchange="changeAmount()">
-								</td>
-								<td colspan="2">
-								</td>
-							</tr>
-							
-							<!-- Upon receiving 收货后 -->
-							<tr class="table-parent" id="row_03">
-								<td colspan="4">
-									<label id="row_03_title">Upon receiving 收货后</label>						
-								</td>
-							</tr>
-							<tr class="child_row_03 child_row">
-								<td>
-									结算期 <br>Payment Term
-								</td>
-								<td>
-									<select name="paymentDays_3" id="j_payment_paymentDays_3" data-toggle="selectpicker" data-width="170px" >
-				                        <option value=""></option>
-				                        <option value="30">30Days</option>
-				                        <option value="45">45Days</option>
-				                        <option value="60">60Days</option>
-				                        <option value="90">90Days</option>
-				                        <option value="120">120Days</option>
-			                    	</select>
-								</td>
-								<td>
-									收货或验收日期<br>Receiving or Approval date
-								</td>
-								<td>
-									<input type="text" name="receivingOrApprovalDate_3" id="j_payment_receivingOrApprovalDate_3" size="17"  value="" data-toggle="datepicker" data-rule="date">
-								</td>
-							</tr>
-							<tr class="child_row_03 child_row">
-								<td>
-									订单号<br>PO No.
-								</td>
-								<td>
-									<input type="text" name="PONo_3" id="j_payment_PONo_3" size="17" value="" onchange="PONoCheck();" >
-								</td>
-								<td>
-									<label class="row-label">币别<br>Currency</label>
-								</td>
-								<td>
-									<select name="currency_3" id="j_payment_currency_3" data-width="170px" data-toggle="selectpicker" >
-				                        <option value=""></option>
-				                        <option value="RMB">RMB</option>
-				                        <option value="USD">USD</option>
-				                        <option value="EUR">EUR</option>
-				                        <option value="GBP">GBP</option>
-			                    	</select>
-								</td>
-							</tr>
-							<tr class="child_row_03 child_row">
-								<td>
-									金额<br>Amount
-								</td>
-								<td>
-									<input type="text" name="amount_3" id="j_payment_amount_3" value="" size="17" data-rule="number" onchange="changeAmount();" >
-								</td>
-								<td colspan="2">
-								</td>
-							</tr>
-							
-							<!-- Upon Approval 验收后 -->
-							<tr class="table-parent" id="row_04">
-								<td colspan="4">
-									<label id="row_04_title">Upon Approval 验收后</label>				
-								</td>
-							</tr>
-							<tr class="child_row_04 child_row">
-								<td>
-									结算期 <br>Payment Term
-								</td>
-								<td>
-									<select name="paymentDays_4" id="j_payment_paymentDays_4" data-toggle="selectpicker" data-width="170px" >
-				                        <option value=""></option>
-				                        <option value="30">30Days</option>
-				                        <option value="45">45Days</option>
-				                        <option value="60">60Days</option>
-				                        <option value="90">90Days</option>
-				                        <option value="120">120Days</option>
-			                    	</select>
-								</td>
-								<td>
-									收货或验收日期<br>Receiving or Approval date
-								</td>
-								<td>
-									<input type="text" name="receivingOrApprovalDate_4" size="17" id="j_payment_receivingOrApprovalDate_4" value="" data-toggle="datepicker" data-rule="date">
-								</td>
-							</tr>
-							<tr class="child_row_04 child_row">
-								<td>
-									订单号<br>PO No.
-								</td>
-								<td>
-									<input type="text" name="PONo_4" id="j_payment_PONo_4" size="17" value="" onchange="PONoCheck();" >
-								</td>
-								<td>
-									<label class="row-label">币别<br>Currency</label>
-								</td>
-								<td>
-									<select name="currency_4" id="j_payment_currency_4" data-width="170px" data-toggle="selectpicker" >
-				                        <option value=""></option>
-				                        <option value="RMB">RMB</option>
-				                        <option value="USD">USD</option>
-				                        <option value="EUR">EUR</option>
-				                        <option value="GBP">GBP</option>
-			                    	</select>
-								</td>
-							</tr>
-							<tr class="child_row_04 child_row">
-								<td>
-									金额<br>Amount
-								</td>
-								<td>
-									<input type="text" name="amount_4" id="j_payment_amount_4" size="17" value="" data-rule="number" onchange="changeAmount()" >
-								</td>
-								<td colspan="2">
-								</td>
-							</tr>
-							
-							<!-- Upon invoice 见票后 -->
-							<tr class="table-parent" id="row_05">
-								<td colspan="4">
-									<label id="row_05_title">Upon invoice 见票后</label>							 
-								</td>
-							</tr>
-							<tr class="child_row_05 child_row">
-								<td>
-									结算期 <br>Payment Term
-								</td>
-								<td>
-									<select name="paymentDays_5" id="j_payment_paymentDays_5" data-toggle="selectpicker" data-width="170px" >
-				                        <option value=""></option>
-				                        <option value="30">30Days</option>
-				                        <option value="45">45Days</option>
-				                        <option value="60">60Days</option>
-				                        <option value="90">90Days</option>
-				                        <option value="120">120Days</option>
-			                    	</select>
-								</td>
-								<td>
-									收货或验收日期<br>Receiving or Approval date
-								</td>
-								<td>
-									<input type="text" name="receivingOrApprovalDate_5" id="j_payment_receivingOrApprovalDate_5" size="17" value="" data-toggle="datepicker" data-rule="date">
-								</td>
-							</tr>
-							<tr class="child_row_05 child_row">
-								<td>
-									订单号<br>PO No.
-								</td>
-								<td>
-									<input type="text" name="PONo_5" id="j_payment_PONo_5" size="17" value="" >
-								</td>
-								<td>
-									<label class="row-label">币别<br>Currency</label>
-								</td>
-								<td>
-									<select name="currency_5" id="j_payment_currency_5" data-width="170px" data-toggle="selectpicker" >
-				                        <option value=""></option>
-				                        <option value="RMB">RMB</option>
-				                        <option value="USD">USD</option>
-				                        <option value="EUR">EUR</option>
-				                        <option value="GBP">GBP</option>
-			                    	</select>
-								</td>
-							</tr>
-							<tr class="child_row_05 child_row">
-								<td>
-									金额<br>Amount
-								</td>
-								<td>
-									<input type="text" name="amount_5" id="j_payment_amount_5" size="17" value="" data-rule="number" onchange="changeAmount()" >
-								</td>
-								<td colspan="2">
-								</td>
-							</tr>
-							
-							<!-- Other 其他 -->
-							<tr class="table-parent" id="row_06">
-								<td colspan="4">
-									<label id="row_06_title">Other 其他</label>						
-								</td>
-							</tr>
-							<tr class="child_row_06 child_row">
-								<td>
-									结算期 <br>Payment Term
-								</td>
-								<td>
-									<select name="paymentDays_6" id="j_payment_paymentDays_6" data-toggle="selectpicker" data-width="170px" >
-				                        <option value=""></option>
-				                        <option value="30">30Days</option>
-				                        <option value="45">45Days</option>
-				                        <option value="60">60Days</option>
-				                        <option value="90">90Days</option>
-				                        <option value="120">120Days</option>
-			                    	</select>
-								</td>
-								<td>
-									收货或验收日期<br>Receiving or Approval date
-								</td>
-								<td>
-									<input type="text" name="receivingOrApprovalDate_6" id="j_payment_receivingOrApprovalDate_6" size="17" value="" data-toggle="datepicker" data-rule="date">
-								</td>
-							</tr>
-							<tr class="child_row_06 child_row">
-								<td>
-									订单号<br>PO No.
-								</td>
-								<td>
-									<input type="text" name="PONo_6" id="j_payment_PONo_6" size="17" value="" >
-								</td>
-								<td>
-									<label class="row-label">币别<br>Currency</label>
-								</td>
-								<td>
-									<select name="currency_6" id="j_payment_currency_6" data-toggle="selectpicker" data-width="170px" >
-				                        <option value=""></option>
-				                        <option value="RMB">RMB</option>
-				                        <option value="USD">USD</option>
-				                        <option value="EUR">EUR</option>
-				                        <option value="GBP">GBP</option>
-			                    	</select>
-								</td>
-							</tr>
-							<tr class="child_row_06 child_row">
-								<td>
-									金额<br>Amount
-								</td>
-								<td>
-									<input type="text" name="amount_6" id="j_payment_amount_6" value="" data-rule="number" size="17" onchange="changeAmount()" >
-								</td>
-								<td colspan="2">
-								</td>
-							</tr>
-							
-
-
 						</table>						
 					</td>
 				</tr>
 				
 				
 				
-
+				<!-- Advance预付款 -->
+				<tr class="table-parent" id="row_01">
+					<td colspan="4">
+						<label id="row_01_title">Advance预付款</label>
+					</td>
+				</tr>
+				<tr class="child_row_01 child_row">
+					<td>
+						结算期 <br>Payment Term
+					</td>
+					<td>
+						<select name="paymentDays_Advance" id="j_payment_paymentDays_Advance" data-toggle="selectpicker" data-width="170px" >
+	                        <option value=""></option>
+	                        <option value="30">30Days</option>
+	                        <option value="45">45Days</option>
+	                        <option value="60">60Days</option>
+	                        <option value="90">90Days</option>
+	                        <option value="120">120Days</option>
+                    	</select>
+					</td>
+					<td>
+						收货或验收日期<br>Receiving or Approval date
+					</td>
+					<td>
+						<input type="text" name="receivingOrApprovalDate_Advance" id="j_payment_receivingOrApprovalDate_Advance" value="" data-toggle="datepicker" data-rule="date">
+					</td>
+				</tr>
+				<tr class="child_row_01 child_row">
+					<td>
+						订单号<br>PO No.
+					</td>
+					<td>
+						<input type="text" name="PONo_Advance" id="j_payment_PONo_Advance"  value="" size="17" >
+					</td>
+					<td>
+						<label class="row-label">币别<br>Currency</label>
+					</td>
+					<td>
+						<select name="currency_Advance" data-toggle="selectpicker" id="j_payment_currency_Advance" data-width="170px">
+	                        <option value=""></option>
+	                        <option value="RMB">RMB</option>
+	                        <option value="USD">USD</option>
+	                        <option value="EUR">EUR</option>
+	                        <option value="GBP">GBP</option>
+                    	</select>
+					</td>
+				</tr>
+				<tr class="child_row_01 child_row">
+					<td>
+						金额<br>Amount
+					</td>
+					<td>
+						<input type="text" name="amount_Advance" id="j_payment_amount_Advance" value="" data-rule="number" onchange="changeAmount()" size="17">
+					</td>
+					<td colspan="2">
+					</td>
+				</tr>
+				
+				
+				<!-- Payment at sight 见票即付-->
+				<tr class="table-parent" id="row_02">
+					<td colspan="4">
+						<label id="row_02_title">Payment at sight 见票即付</label>					
+					</td>
+				</tr>
+				<tr class="child_row_02 child_row">
+					<td>
+						结算期 <br>Payment Term
+					</td>
+					<td>
+						<select name="paymentDays_PaymentAtSight" id="j_payment_paymentDays_PaymentAtSight" data-toggle="selectpicker" data-width="170px" >
+	                        <option value=""></option>
+	                        <option value="30">30Days</option>
+	                        <option value="45">45Days</option>
+	                        <option value="60">60Days</option>
+	                        <option value="90">90Days</option>
+	                        <option value="120">120Days</option>
+                    	</select>
+					</td>
+					<td>
+						收货或验收日期<br>Receiving or Approval date
+					</td>
+					<td>
+						<input type="text" name="receivingOrApprovalDate_PaymentAtSight" id="j_payment_receivingOrApprovalDate_PaymentAtSight" value="" size="17" data-toggle="datepicker" data-rule="date">
+					</td>
+				</tr>
+				<tr class="child_row_02 child_row">
+					<td>
+						订单号<br>PO No.
+					</td>
+					<td>
+						<input type="text" name="PONo"  value="" size="17">
+					</td>
+					<td>
+						<label class="row-label">币别<br>Currency</label>
+					</td>
+					<td>
+						<select name="currency_PaymentAtSight" id="j_payment_currency_PaymentAtSight" data-toggle="selectpicker" data-width="170px">
+	                        <option value=""></option>
+	                        <option value="RMB">RMB</option>
+	                        <option value="USD">USD</option>
+	                        <option value="EUR">EUR</option>
+	                        <option value="GBP">GBP</option>
+                    	</select>
+					</td>
+				</tr>
+				<tr class="child_row_02 child_row">
+					<td>
+						金额<br>Amount
+					</td>
+					<td>
+						<input type="text" name="amount_PaymentAtSight" id="j_payment_amount_PaymentAtSight" value="" data-rule="number" size="17" onchange="changeAmount()">
+					</td>
+					<td colspan="2">
+					</td>
+				</tr>
+				
+				<!-- Upon receiving 收货后 -->
+				<tr class="table-parent" id="row_03">
+					<td colspan="4">
+						<label id="row_03_title">Upon receiving 收货后</label>						
+					</td>
+				</tr>
+				<tr class="child_row_03 child_row">
+					<td>
+						结算期 <br>Payment Term
+					</td>
+					<td>
+						<select name="paymentDays_UponReceiving" id="j_payment_paymentDays_UponReceiving" data-toggle="selectpicker" data-width="170px" >
+	                        <option value=""></option>
+	                        <option value="30">30Days</option>
+	                        <option value="45">45Days</option>
+	                        <option value="60">60Days</option>
+	                        <option value="90">90Days</option>
+	                        <option value="120">120Days</option>
+                    	</select>
+					</td>
+					<td>
+						收货或验收日期<br>Receiving or Approval date
+					</td>
+					<td>
+						<input type="text" name="receivingOrApprovalDate_UponReceiving" id="j_payment_receivingOrApprovalDate_UponReceiving" size="17"  value="" data-toggle="datepicker" data-rule="date">
+					</td>
+				</tr>
+				<tr class="child_row_03 child_row">
+					<td>
+						订单号<br>PO No.
+					</td>
+					<td>
+						<input type="text" name="PONo_UponReceiving" id="j_payment_PONo_UponReceiving" size="17" value="" onchange="PONoCheck();" >
+					</td>
+					<td>
+						<label class="row-label">币别<br>Currency</label>
+					</td>
+					<td>
+						<select name="currency_UponReceiving" id="j_payment_currency_UponReceiving" data-width="170px" data-toggle="selectpicker" >
+	                        <option value=""></option>
+	                        <option value="RMB">RMB</option>
+	                        <option value="USD">USD</option>
+	                        <option value="EUR">EUR</option>
+	                        <option value="GBP">GBP</option>
+                    	</select>
+					</td>
+				</tr>
+				<tr class="child_row_03 child_row">
+					<td>
+						金额<br>Amount
+					</td>
+					<td>
+						<input type="text" name="amount_UponReceiving" id="j_payment_amount_UponReceiving" value="" size="17" data-rule="number" onchange="changeAmount();" >
+					</td>
+					<td colspan="2">
+					</td>
+				</tr>
+				
+				<!-- Upon Approval 验收后 -->
+				<tr class="table-parent" id="row_04">
+					<td colspan="4">
+						<label id="row_04_title">Upon Approval 验收后</label>				
+					</td>
+				</tr>
+				<tr class="child_row_04 child_row">
+					<td>
+						结算期 <br>Payment Term
+					</td>
+					<td>
+						<select name="paymentDays_UponApproval" id="j_payment_paymentDays_UponApproval" data-toggle="selectpicker" data-width="170px" >
+	                        <option value=""></option>
+	                        <option value="30">30Days</option>
+	                        <option value="45">45Days</option>
+	                        <option value="60">60Days</option>
+	                        <option value="90">90Days</option>
+	                        <option value="120">120Days</option>
+                    	</select>
+					</td>
+					<td>
+						收货或验收日期<br>Receiving or Approval date
+					</td>
+					<td>
+						<input type="text" name="receivingOrApprovalDate_UponApproval" size="17" id="j_payment_receivingOrApprovalDate_UponApproval" value="" data-toggle="datepicker" data-rule="date">
+					</td>
+				</tr>
+				<tr class="child_row_04 child_row">
+					<td>
+						订单号<br>PO No.
+					</td>
+					<td>
+						<input type="text" name="PONo_UponApproval" id="j_payment_PONo_UponApproval" size="17" value="" onchange="PONoCheck();" >
+					</td>
+					<td>
+						<label class="row-label">币别<br>Currency</label>
+					</td>
+					<td>
+						<select name="currency_UponApproval" id="j_payment_currency_UponApproval" data-width="170px" data-toggle="selectpicker" >
+	                        <option value=""></option>
+	                        <option value="RMB">RMB</option>
+	                        <option value="USD">USD</option>
+	                        <option value="EUR">EUR</option>
+	                        <option value="GBP">GBP</option>
+                    	</select>
+					</td>
+				</tr>
+				<tr class="child_row_04 child_row">
+					<td>
+						金额<br>Amount
+					</td>
+					<td>
+						<input type="text" name="amount_UponApproval" id="j_payment_amount_UponApproval" size="17" value="" data-rule="number" onchange="changeAmount()" >
+					</td>
+					<td colspan="2">
+					</td>
+				</tr>
+				
+				<!-- Upon invoice 见票后 -->
+				<tr class="table-parent" id="row_05">
+					<td colspan="4">
+						<label id="row_05_title">Upon invoice 见票后</label>							 
+					</td>
+				</tr>
+				<tr class="child_row_05 child_row">
+					<td>
+						结算期 <br>Payment Term
+					</td>
+					<td>
+						<select name="paymentDays_UponInvoice" id="j_payment_paymentDays_UponInvoice" data-toggle="selectpicker" data-width="170px" >
+	                        <option value=""></option>
+	                        <option value="30">30Days</option>
+	                        <option value="45">45Days</option>
+	                        <option value="60">60Days</option>
+	                        <option value="90">90Days</option>
+	                        <option value="120">120Days</option>
+                    	</select>
+					</td>
+					<td>
+						收货或验收日期<br>Receiving or Approval date
+					</td>
+					<td>
+						<input type="text" name="receivingOrApprovalDate_UponInvoice" id="j_payment_receivingOrApprovalDate_UponInvoice" size="17" value="" data-toggle="datepicker" data-rule="date">
+					</td>
+				</tr>
+				<tr class="child_row_05 child_row">
+					<td>
+						订单号<br>PO No.
+					</td>
+					<td>
+						<input type="text" name="PONo_UponInvoice" id="j_payment_PONo_UponInvoice" size="17" value="" >
+					</td>
+					<td>
+						<label class="row-label">币别<br>Currency</label>
+					</td>
+					<td>
+						<select name="currency_UponInvoice" id="j_payment_currency_UponInvoice" data-width="170px" data-toggle="selectpicker" >
+	                        <option value=""></option>
+	                        <option value="RMB">RMB</option>
+	                        <option value="USD">USD</option>
+	                        <option value="EUR">EUR</option>
+	                        <option value="GBP">GBP</option>
+                    	</select>
+					</td>
+				</tr>
+				<tr class="child_row_05 child_row">
+					<td>
+						金额<br>Amount
+					</td>
+					<td>
+						<input type="text" name="amount_UponInvoice" id="j_payment_amount_UponInvoice" size="17" value="" data-rule="number" onchange="changeAmount()" >
+					</td>
+					<td colspan="2">
+					</td>
+				</tr>
+				
+				<!-- Other 其他 -->
+				<tr class="table-parent" id="row_06">
+					<td colspan="4">
+						<label id="row_06_title">Other 其他</label>						
+					</td>
+				</tr>
+				<tr class="child_row_06 child_row">
+					<td>
+						结算期 <br>Payment Term
+					</td>
+					<td>
+						<select name="paymentDays_Other" id="j_payment_paymentDays_Other" data-toggle="selectpicker" data-width="170px" >
+	                        <option value=""></option>
+	                        <option value="30">30Days</option>
+	                        <option value="45">45Days</option>
+	                        <option value="60">60Days</option>
+	                        <option value="90">90Days</option>
+	                        <option value="120">120Days</option>
+                    	</select>
+					</td>
+					<td>
+						收货或验收日期<br>Receiving or Approval date
+					</td>
+					<td>
+						<input type="text" name="receivingOrApprovalDate_Other" id="j_payment_receivingOrApprovalDate_Other" size="17" value="" data-toggle="datepicker" data-rule="date">
+					</td>
+				</tr>
+				<tr class="child_row_06 child_row">
+					<td>
+						订单号<br>PO No.
+					</td>
+					<td>
+						<input type="text" name="PONo_Other" id="j_payment_PONo_Other" size="17" value="" >
+					</td>
+					<td>
+						<label class="row-label">币别<br>Currency</label>
+					</td>
+					<td>
+						<select name="currency_Other" id="j_payment_currency_Other" data-toggle="selectpicker" data-width="170px" >
+	                        <option value=""></option>
+	                        <option value="RMB">RMB</option>
+	                        <option value="USD">USD</option>
+	                        <option value="EUR">EUR</option>
+	                        <option value="GBP">GBP</option>
+                    	</select>
+					</td>
+				</tr>
+				<tr class="child_row_06 child_row">
+					<td>
+						金额<br>Amount
+					</td>
+					<td>
+						<input type="text" name="amount_Other" id="j_payment_amount_Other" value="" data-rule="number" size="17" onchange="changeAmount()" >
+					</td>
+					<td colspan="2">
+					</td>
+				</tr>
 				
 				<tr>
 					<td>
@@ -922,7 +974,7 @@ function changeAmount(){
 						Attachment3 Other<br>（附件：其他）
 					</td>
 					<td>
-						<input name="file_6" data-name="custom.pic" data-toggle="webuploader" data-options="
+						<input name="file_Other" data-name="custom.pic" data-toggle="webuploader" data-options="
 	                        {
 	                            pick: {label: '点击选择文件'},
 	                            server: 'savefile.action',
@@ -962,7 +1014,7 @@ function changeAmount(){
 						Attachment3 Other<br>（附件：其他）
 					</td>
 					<td>
-						<a id ="j_file_other"></a>
+						<a id ="j_file_Other"></a>
 					</td>
 					<td colspan="2">
 					</td>
