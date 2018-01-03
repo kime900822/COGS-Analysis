@@ -38,4 +38,6 @@ public interface UserDAO {
 	
 	public void delete(User user);
 	
+	public List queryByHql(String hql);
+	
 }

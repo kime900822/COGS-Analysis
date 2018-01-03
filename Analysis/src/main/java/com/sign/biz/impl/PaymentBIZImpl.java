@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kime.biz.UserBIZ;
+import com.kime.dao.UserDAO;
+import com.kime.model.User;
+import com.kime.utils.mail.SendMail;
 import com.sign.biz.PaymentBIZ;
 import com.sign.dao.PaymentDAO;
 import com.sign.model.Payment;
@@ -20,8 +24,17 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	
 	@Autowired
 	private PaymentDAO paymentDao;
+	@Autowired
+	private UserDAO userDAO;
 	
-	
+	public UserDAO getUserDAO() {
+		return userDAO;
+	}
+
+	public void setUserDAO(UserDAO userDAO) {
+		this.userDAO = userDAO;
+	}
+
 	public PaymentDAO getPaymentDao() {
 		return paymentDao;
 	}
@@ -38,8 +51,14 @@ public class PaymentBIZImpl implements PaymentBIZ {
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
-	public void savePayment(Payment payment) {
-		paymentDao.save(payment);		
+	public void savePayment(Payment payment) throws Exception {
+		paymentDao.save(payment);
+		List<User> lUsers=userDAO.queryByHql(" select U from USER U,SIGNMAN S where U.uid=S.uid AND S.did='"+payment.getDepartmentID()+"'");
+		if (lUsers.size()>0) {
+			SendMail.SendMail(lUsers.get(0).getEmail(), "有新的待签核付款申请单", "有'"+payment.getUName()+"' 的付款申请单待签核！");	
+		}else{
+			throw new Exception("对应签核人员未维护，邮件发送失败");
+		}
 	}
 
 	@Override

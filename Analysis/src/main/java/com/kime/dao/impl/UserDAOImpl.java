@@ -72,6 +72,13 @@ public class UserDAOImpl extends HibernateDaoSupport implements UserDAO {
 		
 	}
 
+	@Override
+	public List queryByHql(String hql) {
+		Session session=this.getSessionFactory().openSession();
+		return session.createQuery(hql).list();
+	
+	}
+
 
 }
 

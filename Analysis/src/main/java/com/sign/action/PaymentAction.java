@@ -23,6 +23,8 @@ import com.kime.biz.DictBIZ;
 import com.kime.infoenum.Message;
 import com.kime.model.Dict;
 import com.kime.model.User;
+import com.kime.utils.mail.MailSenderInfo;
+import com.kime.utils.mail.SimpleMailSender;
 import com.sign.biz.PaymentBIZ;
 import com.sign.model.Payment;
 import com.sign.other.FileSave;
@@ -555,6 +557,9 @@ public class PaymentAction extends ActionBase {
 			if (!"".equals(lDicts.get(0).getValue())&&lDicts.get(0).getValue()!=null) {
 //				payment.setDocumentAudit(lDicts.get(0).getValue());
 				paymentBIZ.savePayment(payment);
+				MailSenderInfo mailInfo = new MailSenderInfo();    
+				mailInfo.setToAddress("han2000lei@163.com");    
+
 				
 				result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 				result.setStatusCode("200");

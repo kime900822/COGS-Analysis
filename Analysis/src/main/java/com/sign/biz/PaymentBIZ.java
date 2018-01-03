@@ -11,7 +11,7 @@ public interface PaymentBIZ {
 
 	public ByteArrayInputStream export();
 	
-	public void savePayment(Payment payment);
+	public void savePayment(Payment payment) throws Exception;
 	
 	public void modePayment(Payment payment);
 	
