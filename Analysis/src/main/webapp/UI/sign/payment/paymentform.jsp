@@ -909,7 +909,7 @@ function changeAmount(){
 						Attachment3 Other<br>（附件：其他）
 					</td>
 					<td>
-						<input name="file_6" data-name="custom.pic" data-toggle="webuploader" data-options="
+						<input name="file_Other" data-name="custom.pic" data-toggle="webuploader" data-options="
 	                        {
 	                            pick: {label: '点击选择文件'},
 	                            server: 'savefile.action',

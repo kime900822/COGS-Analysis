@@ -27,7 +27,7 @@
 	                $.each(json, function (i, item) {
 	                    $.CurrentDialog.find('#j_user_edit_did').append("<option value='" + item.did + "'>" + item.name + "</option>")           
 	                })
-	                $.CurrentDialog.find('#j_user_edit_did').selectpicker('val','${param.rid}');
+	                $.CurrentDialog.find('#j_user_edit_did').selectpicker('val','${param.did}');
 	                $.CurrentDialog.find('#j_user_edit_did').selectpicker('refresh');
 			    }
 			})	
