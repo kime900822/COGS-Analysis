@@ -1,22 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<<script type="text/javascript">
+//department
+//操作列
+function datagrid_tree_operation() {
+ var html = '<button type="button" class="btn-green" data-toggle="edit.datagrid.tr">View</button>'   
+ return html
+}
 
+</script>
 <div class="bjui-pageHeader" style="background-color:#fefefe; border-bottom:none;">
 <form data-toggle="ajaxsearch" data-options="{searchDatagrid:$.CurrentNavtab.find('#datagrid-user-filter')}">
     <fieldset>
         <legend style="font-weight:normal;">Search：</legend>
         <div style="margin:0; padding:1px 5px 5px;">
             <span>Application Date：</span>
-            <input type="text" name="applicationDate" id="j_payment_applicationDate" value="" data-toggle="datepicker" data-rule="required;date">
+            <input type="text" name="applicationDate" id="j_payment_applicationDate" value="" data-toggle="datepicker" data-rule="date">
             &nbsp;&nbsp;&nbsp;&nbsp;
             <span>Code：</span>
             <input type="text" name="code" value="" id="j_payment_code" size="15">
             <span>Urgent：</span>
-            <input type="text" name="type" class="form-control" size="15">                 
+            <input type="checkbox" name="urgent"  data-toggle="icheck" id="j_payment_urgent" value="1" data-label="">  <br>              
 			<span>Payment Subject：</span>
-            <input type="text" name="type" class="form-control" size="15">
-            <select name="paymentSubject" data-toggle="selectpicker" id="j_payment_paymentSubject"  data-rule="required" data-width="170px">
+            <select name="paymentSubject" data-toggle="selectpicker" id="j_payment_paymentSubject"  data-width="170px">
 	              <option value=""></option>
 	              <option value="1">Fixed Asset 固定资产</option>
 	              <option value="2">Raw Material 原材料</option>
@@ -41,22 +48,21 @@
     <table class="table table-bordered" id="datagrid-user-filter" data-toggle="datagrid" data-options="{
         height: '100%',
         gridTitle : 'user management',
-        showToolbar: true,
-        dataUrl: 'getUser.action',
+        dataUrl: 'getPayment.action?queryType=new',
         dataType: 'jsonp',
-        editMode: {dialog:{width:'800',height:280,title:'Edit User',mask:true}},
+        editMode: {navtab:{width:'830',height:800,title:'Edit Payment',mask:true}},
         delUrl:'deleteUser.action',
-        editUrl: 'system/user/user-edit.jsp',
+        editUrl: 'sign/payment/paymentform.jsp',
         paging: {pageSize:60, pageCurrent:1},
-        showCheckboxcol: true,
         linenumberAll: true,
         contextMenuB: true,
         hScrollbar: true,
-        importOption: {type:'dialog', options:{url:'JSP/user/user-import.html', width:500, height:300, title:'Import Users'}},
-        exportOption: {type:'file', options:{url:'exportUserExcel.action', loadingmask:false}}
+        filterThead:false
     }">
         <thead>
             <tr>
+            	<th data-options="{render:datagrid_tree_operation}">Operation</th>
+            	<th data-options="{name:'id',width:150,align:'center',finalWidth:'true',hide:'true'}">id</th>
             	<th data-options="{name:'applicationDate',width:150,align:'center',finalWidth:'true'}" >ApplicationDate</th>
 				<th data-options="{name:'code',width:150,align:'center',finalWidth:'true'}">Code</th>
 				<th data-options="{name:'urgent',width:60,align:'center' ,finalWidth:'true'}">Urgent</th>

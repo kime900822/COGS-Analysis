@@ -595,7 +595,7 @@ public class PaymentAction extends ActionBase {
 			payment.setIsPrint("1");
 			payment.setCode(paymentBIZ.getMaxCode());
 			
-			paymentBIZ.modePayment(payment);
+			paymentBIZ.printPayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -620,7 +620,7 @@ public class PaymentAction extends ActionBase {
 			payment.setStatus(PaymentStatus.ACCPAYMENT);
 			payment.setDocumentAudit(documentAudit);
 			
-			paymentBIZ.modePayment(payment);
+			paymentBIZ.accPayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -645,7 +645,7 @@ public class PaymentAction extends ActionBase {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setDocumentAudit(documentAudit);
 			
-			paymentBIZ.modePayment(payment);
+			paymentBIZ.assignPayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -670,7 +670,7 @@ public class PaymentAction extends ActionBase {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setStatus(PaymentStatus.SUBPAYMENT);
 			
-			paymentBIZ.modePayment(payment);
+			paymentBIZ.submitPayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -694,7 +694,7 @@ public class PaymentAction extends ActionBase {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setStatus(PaymentStatus.APPROVEPAYMENT);
 			
-			paymentBIZ.modePayment(payment);
+			paymentBIZ.approvePayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -719,7 +719,7 @@ public class PaymentAction extends ActionBase {
 			payment.setStatus(PaymentStatus.INVALIDPAYMENT);
 			payment.setInvalidDescription(invalidDescription);
 			
-			paymentBIZ.modePayment(payment);
+			paymentBIZ.invalidPayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -745,7 +745,7 @@ public class PaymentAction extends ActionBase {
 			payment.setReturnDescription(returnDescription);
 			
 			
-			paymentBIZ.modePayment(payment);
+			paymentBIZ.returnPayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
@@ -769,7 +769,7 @@ public class PaymentAction extends ActionBase {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setStatus(PaymentStatus.REJECTPAYMENT);
 			
-			paymentBIZ.modePayment(payment);
+			paymentBIZ.rejectPayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");

@@ -51,8 +51,26 @@ public class PaymentBIZImpl implements PaymentBIZ {
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
-	public void savePayment(Payment payment) throws Exception {
+	public void savePayment(Payment payment){
 		paymentDao.save(payment);
+	}
+
+	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
+	public void submitPayment(Payment payment) throws Exception {
+		paymentDao.update(payment);
+		List<User> lUsers=userDAO.queryByHql(" select U from User U,SignMan S where U.uid=S.uid AND S.did='"+payment.getDepartmentID()+"'");
+		if (lUsers.size()>0) {
+			SendMail.SendMail(lUsers.get(0).getEmail(), "有新的待签核付款申请单", "有'"+payment.getUName()+"' 的付款申请单待签核！");	
+		}else{
+			throw new Exception("对应签核人员未维护，邮件发送失败");
+		}
+	}
+	
+	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
+	public void accPayment(Payment payment) throws Exception {
+		paymentDao.update(payment);
 		List<User> lUsers=userDAO.queryByHql(" select U from User U,SignMan S where U.uid=S.uid AND S.did='"+payment.getDepartmentID()+"'");
 		if (lUsers.size()>0) {
 			SendMail.SendMail(lUsers.get(0).getEmail(), "有新的待签核付款申请单", "有'"+payment.getUName()+"' 的付款申请单待签核！");	
@@ -63,10 +81,42 @@ public class PaymentBIZImpl implements PaymentBIZ {
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
-	public void modePayment(Payment payment) {
+	public void assignPayment(Payment payment) throws Exception {
 		paymentDao.update(payment);
 	}
-
+	
+	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
+	public void approvePayment(Payment payment) throws Exception {
+		paymentDao.update(payment);
+	}
+	
+	
+	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
+	public void invalidPayment(Payment payment) throws Exception {
+		paymentDao.update(payment);
+	}
+	
+	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
+	public void printPayment(Payment payment) throws Exception {
+		paymentDao.update(payment);
+	}
+	
+	
+	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
+	public void returnPayment(Payment payment) throws Exception {
+		paymentDao.update(payment);
+	}
+	
+	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
+	public void rejectPayment(Payment payment) throws Exception {
+		paymentDao.update(payment);
+	}
+	
 	@Override
 	public List<Payment> getPayment(String where) {
 		return paymentDao.query(where);
