@@ -28,7 +28,8 @@ $(function(){
             $.each(json, function (i, item) {
                 $.CurrentNavtab.find('#j_payment_beneficiary').append("<option value='" + item.accno + "'>" + item.name + "</option>")           
             })
-            
+            $.CurrentNavtab.find('#j_payment_beneficiary').selectpicker().selectpicker('val','${param.beneficiary}').selectpicker('refresh');
+            changeBeneficiary();
 	    }
 	});	
 
@@ -188,8 +189,8 @@ function dataToFace(){
 	}
 	$.CurrentNavtab.find("#j_payment_UID").val('${param.UID}'+'-'+'${param.UName}');
 	$.CurrentNavtab.find("#j_payment_departmentID").val('${param.departmentName}'+'-'+'${param.departmentID}');
-	$.CurrentNavtab.find('#j_payment_beneficiary').selectpicker().selectpicker('val','${param.beneficiary}').selectpicker('refresh');
-    changeBeneficiary();
+	//$.CurrentNavtab.find('#j_payment_beneficiary').selectpicker().selectpicker('val','${param.beneficiary}').selectpicker('refresh');
+    //changeBeneficiary();
     if('${param.beneficiaryChange}'=='1'){
 		$.CurrentNavtab.find("#j_payment_beneficiaryChange").iCheck('check'); 
 		$.CurrentNavtab.find("#j_payment_beneficiary_tr").attr("style","background-color: #9ACD32");
