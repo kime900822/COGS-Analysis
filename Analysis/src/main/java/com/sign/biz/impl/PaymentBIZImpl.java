@@ -118,6 +118,17 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	}
 	
 	@Override
+	public List<Payment> getPaymentByHql(String hql) {
+		return paymentDao.queryHql(hql);
+	}
+
+	@Override
+	public List<Payment> getPaymentByHql(String hql, Integer pageSize, Integer pageCurrent) {
+		return paymentDao.queryHql(hql, pageSize, pageCurrent);
+	}
+
+	
+	@Override
 	public List<Payment> getPayment(String where) {
 		return paymentDao.query(where);
 	}
@@ -126,7 +137,7 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	public List<Payment> getPayment(String where, Integer pageSize, Integer pageCurrent) {
 		return paymentDao.query(where, pageSize, pageCurrent);
 	}
-
+	
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void sign(Payment payment) {

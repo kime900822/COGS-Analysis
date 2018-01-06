@@ -161,7 +161,7 @@ public class Payment {
 	 * 金额-预付款
 	 */
 	@Column
-	private double amount_1;
+	private String amount_1;
 	
 	/**
 	 * 结算天数-见票即付
@@ -191,7 +191,7 @@ public class Payment {
 	 * 金额-见票即付
 	 */
 	@Column
-	private double amount_2;
+	private String amount_2;
 	
 	/**
 	 * 结算天数-收货后
@@ -221,7 +221,7 @@ public class Payment {
 	 * 金额-收货后
 	 */
 	@Column
-	private double amount_3;
+	private String amount_3;
 	
 	/**
 	 * 结算天数-验收后
@@ -251,7 +251,7 @@ public class Payment {
 	 * 金额-验收后
 	 */
 	@Column
-	private double amount_4;
+	private String amount_4;
 	
 	/**
 	 * 结算天数-见票后
@@ -281,7 +281,7 @@ public class Payment {
 	 * 金额-见票后
 	 */
 	@Column
-	private double amount_5;
+	private String amount_5;
 	
 	/**
 	 * 结算天数-其他
@@ -311,7 +311,7 @@ public class Payment {
 	 * 金额-其他
 	 */
 	@Column
-	private double amount_6;
+	private String amount_6;
 	
 	/**
 	 * 支付用途
@@ -323,7 +323,7 @@ public class Payment {
 	 * 金额小写
 	 */
 	@Column
-	private double amountInFigures;
+	private String amountInFigures;
 	
 	/**
 	 * 单据审核人
@@ -848,61 +848,63 @@ public class Payment {
 		this.currency_6 = currency_6;
 	}
 
-	public double getAmount_1() {
+	public String getAmount_1() {
 		return amount_1;
 	}
 
-	public void setAmount_1(double amount_1) {
+	public void setAmount_1(String amount_1) {
 		this.amount_1 = amount_1;
 	}
 
-	public double getAmount_2() {
+	public String getAmount_2() {
 		return amount_2;
 	}
 
-	public void setAmount_2(double amount_2) {
+	public void setAmount_2(String amount_2) {
 		this.amount_2 = amount_2;
 	}
 
-	public double getAmount_3() {
+	public String getAmount_3() {
 		return amount_3;
 	}
 
-	public void setAmount_3(double amount_3) {
+	public void setAmount_3(String amount_3) {
 		this.amount_3 = amount_3;
 	}
 
-	public double getAmount_4() {
+	public String getAmount_4() {
 		return amount_4;
 	}
 
-	public void setAmount_4(double amount_4) {
+	public void setAmount_4(String amount_4) {
 		this.amount_4 = amount_4;
 	}
 
-	public double getAmount_5() {
+	public String getAmount_5() {
 		return amount_5;
 	}
 
-	public void setAmount_5(double amount_5) {
+	public void setAmount_5(String amount_5) {
 		this.amount_5 = amount_5;
 	}
 
-	public double getAmount_6() {
+	public String getAmount_6() {
 		return amount_6;
 	}
 
-	public void setAmount_6(double amount_6) {
+	public void setAmount_6(String amount_6) {
 		this.amount_6 = amount_6;
 	}
 
-	public double getAmountInFigures() {
+	public String getAmountInFigures() {
 		return amountInFigures;
 	}
 
-	public void setAmountInFigures(double amountInFigures) {
+	public void setAmountInFigures(String amountInFigures) {
 		this.amountInFigures = amountInFigures;
 	}
+
+
 
 
 	

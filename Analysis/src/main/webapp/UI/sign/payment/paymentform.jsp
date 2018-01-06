@@ -18,8 +18,7 @@ $(function(){
 		  .siblings('.child_'+this.id).toggle(); 
 	});
 	
-	//初始化金额
-	changeAmount();
+
 	
 	BJUI.ajax('doajax', {
 	    url: 'getAllBeneficiary.action',
@@ -28,23 +27,105 @@ $(function(){
             $.each(json, function (i, item) {
                 $.CurrentNavtab.find('#j_payment_beneficiary').append("<option value='" + item.accno + "'>" + item.name + "</option>")           
             })
-            $.CurrentNavtab.find('#j_payment_beneficiary').selectpicker().selectpicker('val','${param.beneficiary}').selectpicker('refresh');
+            $.CurrentNavtab.find('#j_payment_beneficiary').selectpicker().selectpicker('val','${param.beneficiaryAccountNO}').selectpicker('refresh');
             changeBeneficiary();
 	    }
 	});	
 
 	$.CurrentNavtab.find('#payment-save').click(function(){		
-		$.CurrentNavtab.find("#j_payment_form").attr("action", "savePayment.action").submit();
+		savePayment();
 	});
 	
+	$.CurrentNavtab.find('#payment-submit').click(function(){		
+		submitPayment();
+	});
+	
+	$.CurrentNavtab.find('#payment-approve').click(function(){		
+		approvePayment();
+	});
+	
+	$.CurrentNavtab.find('#payment-Reject').click(function(){		
+		RejectPayment();
+	});
 		
 	if('${param.id}'!=null&&'${param.id}'!=''){
 		dataToFace();
 	}
 	
+	showButton('${param.status}','${param.isPrint}')
+	//初始化金额
+	changeAmount();
 	isChange();
 })
 
+
+function savePayment(){
+	
+	var o=faceToDate();	
+	BJUI.ajax('doajax', {
+	    url: 'savePayment.action',
+	    loadingmask: true,
+	    data:{json:JSON.stringify(o)},	    
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+            	 BJUI.alertmsg('info', json.message); 
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	});	
+	
+}
+
+function submitPayment(){
+	BJUI.ajax('doajax', {
+	    url: 'submitPayment.action',
+	    loadingmask: true,
+	    data:{id:$.CurrentNavtab.find("#j_payment_id").val()},	    
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+            	 BJUI.alertmsg('info', json.message); 
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	});	
+	
+}
+
+function approvePayment(){
+	BJUI.ajax('doajax', {
+	    url: 'approvePayment.action',
+	    loadingmask: true,
+	    data:{id:$.CurrentNavtab.find("#j_payment_id").val()},	    
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+            	 BJUI.alertmsg('info', json.message); 
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	});	
+	
+}
+
+function rejectPayment(){
+	BJUI.ajax('doajax', {
+	    url: 'rejectPayment.action',
+	    loadingmask: true,
+	    data:{id:$.CurrentNavtab.find("#j_payment_id").val()},	    
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+            	 BJUI.alertmsg('info', json.message); 
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	});	
+	
+}
+
+//change选项绑定事件
 function isChange(){
 	$.CurrentNavtab.find("#j_payment_beneficiaryChange").on('ifChecked',function(){
 		$.CurrentNavtab.find("#j_payment_beneficiary_tr").attr("style","background-color: #9ACD32");
@@ -64,7 +145,7 @@ function isChange(){
 
 
 function showButton(status,print){
-	if(status=='-1'){//新建
+	if(status==''){//新建
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -90,7 +171,7 @@ function showButton(status,print){
 		$.CurrentNavtab.find('#j_file_upload1').show();
 		$.CurrentNavtab.find('#j_file_download1').hide();
 		$.CurrentNavtab.find('#j_file_download1').hide();
-	}else if(status="4"){//财务处理
+	}else if(status=="4"){//财务处理
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -110,7 +191,7 @@ function showButton(status,print){
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$
-	}else if(status="1"){//部门经理审批
+	}else if(status=="1"){//部门经理审批
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').show();
@@ -123,7 +204,7 @@ function showButton(status,print){
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
-	}else if(status="2"){//审批通过
+	}else if(status=="2"){//审批通过
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -136,7 +217,7 @@ function showButton(status,print){
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
-	}else if(status="3"){//审批未通过，单据作废，
+	}else if(status=="3"){//审批未通过，单据作废，
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -149,7 +230,7 @@ function showButton(status,print){
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
-	}else if(status="5"){//单据作废
+	}else if(status=="5"){//单据作废
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -202,48 +283,60 @@ function dataToFace(){
     $.CurrentNavtab.find("#j_payment_paymentSubject").selectpicker().selectpicker('val','${param.paymentSubject}').selectpicker('refresh');
     $.CurrentNavtab.find("#j_payment_paymentTerm").selectpicker().selectpicker('val','${param.paymentTerm}').selectpicker('refresh');
     
-	$.CurrentNavtab.find("#j_payment_paymentDays_1").selectpicker('val','${param.paymentDays_1}');
-    $.CurrentNavtab.find('#j_payment_paymentDays_1').selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_paymentDays_1").selectpicker().selectpicker('val','${param.paymentDays_1}').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_1").val('${param.receivingOrApprovalDate_1}');
 	$.CurrentNavtab.find("#j_payment_PONo_1").val('${param.PONo_1}');
-	$.CurrentNavtab.find("#j_payment_currency_1").selectpicker('val','${param.currency_1}').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_1").val('${param.amount_1}');
-		
+	$.CurrentNavtab.find("#j_payment_currency_1").selectpicker().selectpicker('val','${param.currency_1}').selectpicker('refresh');
+	if('${param.amount_1}'!=''&&'${param.amount_1}'!=null){
+		$.CurrentNavtab.find("#j_payment_amount_1").val('${param.amount_1}');
+	}
 	$.CurrentNavtab.find("#j_payment_paymentDays_2").selectpicker().selectpicker('val','${param.paymentDays_2}').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_2").val('${param.receivingOrApprovalDate_2}');
 	$.CurrentNavtab.find("#j_payment_PONo_2").val('${param.PONo_2}');
 	$.CurrentNavtab.find("#j_payment_currency_2").selectpicker().selectpicker('val','${param.currency_2}').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_2").val('${param.amount_2}');
+	if('${param.amount_2}'!=''&&'${param.amount_2}'!=null){
+		$.CurrentNavtab.find("#j_payment_amount_2").val('${param.amount_2}');
+	}
 		
 	$.CurrentNavtab.find("#j_payment_paymentDays_3").selectpicker().selectpicker('val','${param.paymentDays_3}').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_3").val('${param.receivingOrApprovalDate_3}');
 	$.CurrentNavtab.find("#j_payment_PONo_3").val('${param.PONo_3}');
 	$.CurrentNavtab.find("#j_payment_currency_3").selectpicker().selectpicker('val','${param.currency_3}').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_3").val('${param.amount_3}');
+	if('${param.amount_3}'!=''&&'${param.amount_3}'!=null){
+		$.CurrentNavtab.find("#j_payment_amount_3").val('${param.amount_3}');
+	}
 		
 	$.CurrentNavtab.find("#j_payment_paymentDays_4").selectpicker().selectpicker('val','${param.paymentDays_4}').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_4").val('${param.receivingOrApprovalDate_4}');
 	$.CurrentNavtab.find("#j_payment_PONo_4").val('${param.PONo_4}');
 	$.CurrentNavtab.find("#j_payment_currency_4").selectpicker().selectpicker('val','${param.currency_4}').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_4").val('${param.amount_4}');
+	if('${param.amount_4}'!=''&&'${param.amount_4}'!=null){
+		$.CurrentNavtab.find("#j_payment_amount_4").val('${param.amount_4}');
+	}
 		
 	$.CurrentNavtab.find("#j_payment_paymentDays_5").selectpicker().selectpicker('val','${param.paymentDays_5}').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_5").val('${param.receivingOrApprovalDate_5}');
 	$.CurrentNavtab.find("#j_payment_PONo_5").val('${param.PONo_5}');
 	$.CurrentNavtab.find("#j_payment_currency_5").selectpicker().selectpicker('val','${param.currency_5}').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_5").val('${param.amount_5}');
+	if('${param.amount_5}'!=''&&'${param.amount_5}'!=null){
+		$.CurrentNavtab.find("#j_payment_amount_5").val('${param.amount_5}');
+	}
 		
 	$.CurrentNavtab.find("#j_payment_paymentDays_6").selectpicker().selectpicker('val','${param.paymentDays_6}').selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_6").val('${param.receivingOrApprovalDate_6}');
 	$.CurrentNavtab.find("#j_payment_PONo_6").val('${param.PONo_6}');
 	$.CurrentNavtab.find("#j_payment_currency_6").selectpicker().selectpicker('val','${param.currency_6}').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_amount_6").val('${param.amount_6}');
+	if('${param.amount_6}'!=''&&'${param.amount_6}'!=null){
+		$.CurrentNavtab.find("#j_payment_amount_6").val('${param.amount_6}');
+	}
 		
 	$.CurrentNavtab.find("#j_payment_supplierCode").val('${param.supplierCode}');
 	$.CurrentNavtab.find("#j_payment_refNoofBank").val('${param.refNoofBank}');
 	$.CurrentNavtab.find("#j_payment_usageDescription").val('${param.usageDescription}');
-	$.CurrentNavtab.find("#j_payment_amountInFigures").val('${param.amountInFigures}');
-
+	if('${param.amountInFigures}'!=''&&'${param.amountInFigures}'!=null){
+		$.CurrentNavtab.find("#j_payment_amountInFigures").val('${param.amountInFigures}');
+	}
+	
 	$.CurrentNavtab.find("#j_payment_documentAudit").val('${param.documentAudit}');
 	$.CurrentNavtab.find("#j_payment_deptManager").val('${param.deptManager}');
 		
@@ -254,6 +347,22 @@ function dataToFace(){
 	$.CurrentNavtab.find("#j_payment_id").val('${param.id}');
 	$.CurrentNavtab.find("#j_payment_status").val('${param.status}');
 	
+}
+
+
+function faceToDate(){
+	var o=$.CurrentNavtab.find("#j_payment_form").serializeJson();
+	o.beneficiary=$.CurrentNavtab.find('#j_payment_beneficiary').find("option:selected").text();
+	o.UID='${user.uid}';
+	o.UName='${user.name}';
+	o.departmentName='${user.department.name}';
+	o.departmentID='${user.department.did}';
+		
+	o.invoice=$.CurrentNavtab.find("#j_file_Invoice").html();
+	o.contract=$.CurrentNavtab.find("#j_file_Contract").html();
+	o.other=$.CurrentNavtab.find("#j_file_Other").html();	
+
+	return o;
 }
 
 //金额变动

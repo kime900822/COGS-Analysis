@@ -54,10 +54,15 @@ public class PaymentDAOImpl extends HibernateDaoSupport implements PaymentDAO {
 	}
 
 	@Override
-	public List queryHql(String hql) {
+	public List<Payment> queryHql(String hql) {
 		Session session=this.getSessionFactory().openSession();
 		return session.createQuery(hql).list();
 	}
 
+	@Override
+	public List<Payment> queryHql(String hql, Integer pageSize, Integer pageCurrent) {
+		Session session=this.getSessionFactory().openSession();
+		return session.createQuery(hql).setFirstResult((pageCurrent-1)*pageSize).setMaxResults(pageSize).list();
+	}
 	
 }

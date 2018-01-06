@@ -23,18 +23,22 @@ public interface PaymentBIZ {
 	
 	public String getMaxCode();
 
-	void accPayment(Payment payment) throws Exception;
+	public void accPayment(Payment payment) throws Exception;
 
-	void assignPayment(Payment payment) throws Exception;
+	public void assignPayment(Payment payment) throws Exception;
 
-	void approvePayment(Payment payment) throws Exception;
+	public void approvePayment(Payment payment) throws Exception;
 
-	void invalidPayment(Payment payment) throws Exception;
+	public void invalidPayment(Payment payment) throws Exception;
 
-	void returnPayment(Payment payment) throws Exception;
+	public void returnPayment(Payment payment) throws Exception;
 
-	void rejectPayment(Payment payment) throws Exception;
+	public void rejectPayment(Payment payment) throws Exception;
 
-	void printPayment(Payment payment) throws Exception;
+	public void printPayment(Payment payment) throws Exception;
+
+	public List<Payment> getPaymentByHql(String hql, Integer pageSize, Integer pageCurrent);
+
+	public List<Payment> getPaymentByHql(String hql);
 	
 }

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kime.action.ActionBase;
 import com.kime.action.DictAction;
 import com.kime.biz.DictBIZ;
@@ -44,8 +45,7 @@ public class PaymentAction extends ActionBase {
 	
 	private File file;
 	private String fileFileName;
-
-
+	
 	public DictBIZ getDictBIZ() {
 		return dictBIZ;
 	}
@@ -100,41 +100,41 @@ public class PaymentAction extends ActionBase {
 	private String receivingOrApprovalDate_1;
 	private String PONo_1;
 	private String currency_1;
-	private double amount_1;
+	private String amount_1;
 	
 	private String paymentDays_2;
 	private String receivingOrApprovalDate_2;
 	private String PONo_2;
 	private String currency_2;
-	private double amount_2;
+	private String amount_2;
 	
 	private String paymentDays_3;
 	private String receivingOrApprovalDate_3;
 	private String PONo_3;
 	private String currency_3;
-	private double amount_3;
+	private String amount_3;
 	
 	private String paymentDays_4;
 	private String receivingOrApprovalDate_4;
 	private String PONo_4;
 	private String currency_4;
-	private double amount_4;
+	private String amount_4;
 	
 	private String paymentDays_5;
 	private String receivingOrApprovalDate_5;
 	private String PONo_5;
 	private String currency_5;
-	private double amount_5;
+	private String amount_5;
 	
 	private String paymentDays_6;
 	private String receivingOrApprovalDate_6;
 	private String PONo_6;
 	private String currency_6;
-	private double amount_6;
+	private String amount_6;
 	
 	
 	private String usageDescription;
-	private double amountInFigures;
+	private String amountInFigures;
 	private String documentAudit;
 	private String status;
 	private String invoice;
@@ -407,41 +407,49 @@ public class PaymentAction extends ActionBase {
 	public void setCurrency_6(String currency_6) {
 		this.currency_6 = currency_6;
 	}
-	public double getAmount_1() {
+
+ 
+	public String getAmount_1() {
 		return amount_1;
 	}
-	public void setAmount_1(double amount_1) {
+	public void setAmount_1(String amount_1) {
 		this.amount_1 = amount_1;
 	}
-	public double getAmount_2() {
+	public String getAmount_2() {
 		return amount_2;
 	}
-	public void setAmount_2(double amount_2) {
+	public void setAmount_2(String amount_2) {
 		this.amount_2 = amount_2;
 	}
-	public double getAmount_3() {
+	public String getAmount_3() {
 		return amount_3;
 	}
-	public void setAmount_3(double amount_3) {
+	public void setAmount_3(String amount_3) {
 		this.amount_3 = amount_3;
 	}
-	public double getAmount_4() {
+	public String getAmount_4() {
 		return amount_4;
 	}
-	public void setAmount_4(double amount_4) {
+	public void setAmount_4(String amount_4) {
 		this.amount_4 = amount_4;
 	}
-	public double getAmount_5() {
+	public String getAmount_5() {
 		return amount_5;
 	}
-	public void setAmount_5(double amount_5) {
+	public void setAmount_5(String amount_5) {
 		this.amount_5 = amount_5;
 	}
-	public double getAmount_6() {
+	public String getAmount_6() {
 		return amount_6;
 	}
-	public void setAmount_6(double amount_6) {
+	public void setAmount_6(String amount_6) {
 		this.amount_6 = amount_6;
+	}
+	public String getAmountInFigures() {
+		return amountInFigures;
+	}
+	public void setAmountInFigures(String amountInFigures) {
+		this.amountInFigures = amountInFigures;
 	}
 	public String getUsageDescription() {
 		return usageDescription;
@@ -449,12 +457,7 @@ public class PaymentAction extends ActionBase {
 	public void setUsageDescription(String usageDescription) {
 		this.usageDescription = usageDescription;
 	}
-	public double getAmountInFigures() {
-		return amountInFigures;
-	}
-	public void setAmountInFigures(double amountInFigures) {
-		this.amountInFigures = amountInFigures;
-	}
+	
 	public String getDocumentAudit() {
 		return documentAudit;
 	}
@@ -552,15 +555,50 @@ public class PaymentAction extends ActionBase {
     }
 	
 	
+//	@Action(value="savePayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+//			params={
+//					"inputName", "reslutJson"
+//			})})
+//	public String savePayment() throws UnsupportedEncodingException{
+//		try {
+//			Payment payment=paramToPayment();
+//			payment.setStatus(PaymentStatus.SAVEPAYMENT);
+//			List<Dict> lDicts=dictBIZ.getDict(" where key='"+paymentSubject+"'");
+//			if (!"".equals(lDicts.get(0).getValue())&&lDicts.get(0).getValue()!=null) {
+////				payment.setDocumentAudit(lDicts.get(0).getValue());
+//				paymentBIZ.savePayment(payment);
+//
+//				
+//				result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
+//				result.setStatusCode("200");
+//				logUtil.logInfo("新增付款申请单:"+payment.getId());
+//			}else{
+//				result.setMessage(Message.SAVE_MESSAGE_PAYMENT_ERROR);
+//				result.setStatusCode("300");
+//				logUtil.logInfo("新增付款申异常:为维护对应财务人员");
+//			}
+//			
+//		} catch (Exception e) {
+//			logUtil.logInfo("新增付款申请单异常:"+e.getMessage());
+//			result.setMessage(e.getMessage());
+//			result.setStatusCode("300");
+//		}
+//		
+//		reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8")); 	
+//		return SUCCESS;
+//	}
+	
+	
 	@Action(value="savePayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
 			params={
 					"inputName", "reslutJson"
 			})})
 	public String savePayment() throws UnsupportedEncodingException{
 		try {
-			Payment payment=paramToPayment();
+			Payment payment=new Gson().fromJson(json, Payment.class);
+			
 			payment.setStatus(PaymentStatus.SAVEPAYMENT);
-			List<Dict> lDicts=dictBIZ.getDict(" where key='"+paymentSubject+"'");
+			List<Dict> lDicts=dictBIZ.getDict(" where key='"+payment.getPaymentSubject()+"'");
 			if (!"".equals(lDicts.get(0).getValue())&&lDicts.get(0).getValue()!=null) {
 //				payment.setDocumentAudit(lDicts.get(0).getValue());
 				paymentBIZ.savePayment(payment);
@@ -584,6 +622,8 @@ public class PaymentAction extends ActionBase {
 		reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8")); 	
 		return SUCCESS;
 	}
+	
+	
 	
 	@Action(value="printPayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
 			params={
@@ -816,22 +856,22 @@ public class PaymentAction extends ActionBase {
 	public String getPayment() throws UnsupportedEncodingException{
 	
 		User user=(User)session.getAttribute("user");
-		String where="";
+		String hql="";
 			
-		if ("new".equals(queryType)) {
-			where=" where status='0' and UID='"+user.getUid()+"'";
+		if ("all".equals(queryType)) {
+			hql="  select P from Payment P ";
 		}
 		if ("acc".equals(queryType)) {
-			where=" where status='1' and documentAudit='"+user.getUid()+"'";
+			hql="  select  P from Payment P, Dict D where P.status='4' AND D.type='PAYMENT' AND P.paymentSubject=D.key AND D.value='"+user.getUid()+"'";
 		}
 		if ("sign".equals(queryType)) {
-			where=" where status='2' and deptManager='"+user.getUid()+"'";
+			hql="  select  P from Payment P, SignMan S  where P.status='1' and P.departmentID=S.did And S.uid='"+user.getUid()+"'";
 		}
 		if ("user".equals(queryType)) {
-			where=" where UID='"+user.getUid()+"'";
+			hql=" select P from Payment P where P.UID='"+user.getUid()+"'";
 		}
-		List<Payment> list=paymentBIZ.getPayment(where, Integer.parseInt(pageSize),Integer.parseInt(pageCurrent));
-		int total=paymentBIZ.getPayment(where).size();
+		List<Payment> list=paymentBIZ.getPaymentByHql(hql, Integer.parseInt(pageSize),Integer.parseInt(pageCurrent));
+		int total=paymentBIZ.getPaymentByHql(hql).size();
 		
 		queryResult.setList(list);
 		queryResult.setTotalRow(total);
@@ -843,7 +883,7 @@ public class PaymentAction extends ActionBase {
 		String r=callback+"("+new Gson().toJson(queryResult)+")";
 		
 		reslutJson=new ByteArrayInputStream(r.getBytes("UTF-8")); 
-		logUtil.logInfo("查询付款申请单:"+where);
+		logUtil.logInfo("查询付款申请单:"+hql);
 		return SUCCESS;
 	}
 	
