@@ -19,18 +19,6 @@ $(function(){
 	});
 	
 
-	
-	BJUI.ajax('doajax', {
-	    url: 'getAllBeneficiary.action',
-	    loadingmask: true,
-	    okCallback: function(json, options) {
-            $.each(json, function (i, item) {
-                $.CurrentNavtab.find('#j_payment_beneficiary').append("<option value='" + item.accno + "'>" + item.name + "</option>")           
-            })
-            $.CurrentNavtab.find('#j_payment_beneficiary').selectpicker().selectpicker('val','${param.beneficiaryAccountNO}').selectpicker('refresh');
-            changeBeneficiary();
-	    }
-	});	
 
 	$.CurrentNavtab.find('#payment-save').click(function(){		
 		savePayment();
@@ -44,19 +32,59 @@ $(function(){
 		approvePayment();
 	});
 	
-	$.CurrentNavtab.find('#payment-Reject').click(function(){		
-		RejectPayment();
+	$.CurrentNavtab.find('#payment-reject').click(function(){		
+		rejectPayment();
+	});
+	
+	$.CurrentNavtab.find('#payment-assign').click(function(){		
+		assignPayment();
+	});
+	
+	$.CurrentNavtab.find('#payment-acc').click(function(){		
+		accPayment();
+	});
+	
+	$.CurrentNavtab.find('#payment-print').click(function(){		
+		window.open("sign\\payment\\paymentPrint.jsp");  
+	});
+	
+	$.CurrentNavtab.find('#payment-invalid').click(function(){		
+		invalidPayment();
+	});
+	
+	$.CurrentNavtab.find('#payment-return').click(function(){		
+		returnPayment();
 	});
 		
+
 	if('${param.id}'!=null&&'${param.id}'!=''){
 		dataToFace();
+	}else{
+		addBeneficiary('');
+		showButton('','');
 	}
 	
-	showButton('${param.status}','${param.isPrint}')
+
 	//初始化金额
 	changeAmount();
 	isChange();
+	
+
 })
+
+function addBeneficiary(o){
+	BJUI.ajax('doajax', {
+	    url: 'getAllBeneficiary.action',
+	    loadingmask: true,
+	    okCallback: function(json, options) {
+            $.each(json, function (i, item) {
+                $.CurrentNavtab.find('#j_payment_beneficiary').append("<option value='" + item.accno + "'>" + item.name + "</option>")           
+            })
+            $.CurrentNavtab.find('#j_payment_beneficiary').selectpicker().selectpicker('val',o).selectpicker('refresh');
+            changeBeneficiary();
+	    }
+	});	
+}
 
 
 function savePayment(){
@@ -69,6 +97,7 @@ function savePayment(){
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
+            	 $.CurrentNavtab.find('#payment-submit').show();
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -85,6 +114,8 @@ function submitPayment(){
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
+            	 $.CurrentNavtab.find('#payment-save').hide();
+         		 $.CurrentNavtab.find('#payment-submit').hide();
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -101,6 +132,8 @@ function approvePayment(){
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
+            	 $.CurrentNavtab.find('#payment-approve').hide();
+         		 $.CurrentNavtab.find('#payment-reject').hide();
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -117,6 +150,8 @@ function rejectPayment(){
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
+            	 $.CurrentNavtab.find('#payment-approve').hide();
+         		 $.CurrentNavtab.find('#payment-reject').hide();
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -125,6 +160,75 @@ function rejectPayment(){
 	
 }
 
+function accPayment(){
+	BJUI.ajax('doajax', {
+	    url: 'accPayment.action',
+	    loadingmask: true,
+	    data:{id:$.CurrentNavtab.find("#j_payment_id").val(),documentAudit:'${user.name}'},	    
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+            	 BJUI.alertmsg('info', json.message); 
+            	 $.CurrentNavtab.find('#payment-assign').hide();
+         		 $.CurrentNavtab.find('#payment-acc').hide();
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	});	
+	
+}
+
+
+function assignPayment(){
+	BJUI.ajax('doajax', {
+	    url: 'assignPayment.action',
+	    loadingmask: true,
+	    data:{id:$.CurrentNavtab.find("#j_payment_id").val()},	    
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+            	 BJUI.alertmsg('info', json.message); 
+            	 $.CurrentNavtab.find('#payment-assign').hide();
+         		 $.CurrentNavtab.find('#payment-acc').hide();
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	});	
+	
+}
+
+function returnPayment(){
+	BJUI.ajax('doajax', {
+	    url: 'returnPayment.action',
+	    loadingmask: true,
+	    data:{id:$.CurrentNavtab.find("#j_payment_id").val(),returnDescription:CurrentNavtab.find("#payment-returnDescription").val()},	    
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+            	 BJUI.alertmsg('info', json.message); 
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	});	
+	
+}
+
+
+function invalidPayment(){
+	BJUI.ajax('doajax', {
+	    url: 'returnPayment.action',
+	    loadingmask: true,
+	    data:{id:$.CurrentNavtab.find("#j_payment_id").val(),invalidDescription:CurrentNavtab.find("#payment-invalidDescription").val()},	    
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+            	 BJUI.alertmsg('info', json.message); 
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	});	
+	
+}
 //change选项绑定事件
 function isChange(){
 	$.CurrentNavtab.find("#j_payment_beneficiaryChange").on('ifChecked',function(){
@@ -144,13 +248,15 @@ function isChange(){
 
 
 
-function showButton(status,print){
-	if(status==''){//新建
+function showButton(state,print){
+		
+	if(state==''){//新建 退回
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
-		$.CurrentNavtab.find('#payment-Reject').hide();
+		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
+		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-Print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
@@ -158,12 +264,13 @@ function showButton(status,print){
 		$.CurrentNavtab.find('#j_file_upload1').show();
 		$.CurrentNavtab.find('#j_file_download1').hide();
 		$.CurrentNavtab.find('#j_file_download1').hide();
-	}else if(status=='0'){//保存后可提交
+	}else if(state=='0'&&'${param.UID}'=='${user.uid}'){//保存后可提交
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').show();
 		$.CurrentNavtab.find('#payment-approve').hide();
-		$.CurrentNavtab.find('#payment-Reject').hide();
+		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
+		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-Print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
@@ -171,12 +278,13 @@ function showButton(status,print){
 		$.CurrentNavtab.find('#j_file_upload1').show();
 		$.CurrentNavtab.find('#j_file_download1').hide();
 		$.CurrentNavtab.find('#j_file_download1').hide();
-	}else if(status=="4"){//财务处理
+	}else if(state=="4"&&'${param.documentAuditID}'=='${user.uid}'){//财务处理完成
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
-		$.CurrentNavtab.find('#payment-Reject').hide();
-		$.CurrentNavtab.find('#payment-assign').show();
+		$.CurrentNavtab.find('#payment-reject').hide();
+		$.CurrentNavtab.find('#payment-assign').hide();
+		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-Print').hide();
 		if(print=='1'){
 			$.CurrentNavtab.find('#payment-invalid-tr').show();
@@ -185,18 +293,20 @@ function showButton(status,print){
 			$.CurrentNavtab.find('#payment-invalid-tr').hide();
 			$.CurrentNavtab.find('#payment-return-tr').hide();					
 		}
-		$.CurrentNavtab.find('#j_payment_refNoofBank').removeAttr('readonly').attr('data-rule','required');
 		$.CurrentNavtab.find('#j_file_upload2').hide();
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
-		$
-	}else if(status=="1"){//部门经理审批
+		$('input').attr('disabled','disabled');
+		$('select').attr('disabled','disabled');
+		
+	}else if(state=="1"&&'${param.deptManagerID}'=='${user.uid}'){//部门经理审批
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').show();
-		$.CurrentNavtab.find('#payment-Reject').show();
+		$.CurrentNavtab.find('#payment-reject').show();
 		$.CurrentNavtab.find('#payment-assign').hide();
+		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-Print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();		
@@ -204,12 +314,34 @@ function showButton(status,print){
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
-	}else if(status=="2"){//审批通过
+		$('input').attr('disabled','disabled');
+		$('select').attr('disabled','disabled');
+	}else if(state=="2"&&'${param.documentAuditID}'=='${user.uid}'){//审批通过 财务处理
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
-		$.CurrentNavtab.find('#payment-Reject').hide();
+		$.CurrentNavtab.find('#payment-reject').hide();
+		$.CurrentNavtab.find('#payment-assign').show();
+		$.CurrentNavtab.find('#payment-acc').show();
+		$.CurrentNavtab.find('#payment-Print').hide();
+		$.CurrentNavtab.find('#payment-invalid-tr').hide();
+		$.CurrentNavtab.find('#payment-return-tr').hide();	
+		$.CurrentNavtab.find('#j_file_upload2').hide();
+		$.CurrentNavtab.find('#j_file_upload1').hide();
+		$.CurrentNavtab.find('#j_file_download1').show();
+		$.CurrentNavtab.find('#j_file_download1').show();
+		$.CurrentNavtab.find('#j_payment_documentAudit').val('${user.name}')
+		$('input').attr('disabled','disabled');
+		$('select').attr('disabled','disabled');
+		$.CurrentNavtab.find('#j_payment_refNoofBank').removeAttr('disabled');
+		$.CurrentNavtab.find('#j_payment_refNoofBank').removeAttr('readonly').attr('data-rule','required');
+	}else if(state=="2"&&'${param.UID}'=='${user.uid}'){//审批通过 普通员工打印
+		$.CurrentNavtab.find('#payment-save').hide();
+		$.CurrentNavtab.find('#payment-submit').hide();
+		$.CurrentNavtab.find('#payment-approve').hide();
+		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
+		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-Print').show();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
@@ -217,12 +349,15 @@ function showButton(status,print){
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
-	}else if(status=="3"){//审批未通过，单据作废，
+		$('input').attr('disabled','disabled');
+		$('select').attr('disabled','disabled');
+	}else if(state=="3"){//审批未通过，单据作废，
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
-		$.CurrentNavtab.find('#payment-Reject').hide();
+		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
+		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-Print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
@@ -230,12 +365,15 @@ function showButton(status,print){
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
-	}else if(status=="5"){//单据作废
+		$('input').attr('disabled','disabled');
+		$('select').attr('disabled','disabled');
+	}else if(state=="5"){//单据作废
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
-		$.CurrentNavtab.find('#payment-Reject').hide();
+		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
+		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-Print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
@@ -243,6 +381,24 @@ function showButton(status,print){
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download1').show();
+		$('input').attr('disabled','disabled');
+		$('select').attr('disabled','disabled');
+	}else{
+		$.CurrentNavtab.find('#payment-save').hide();
+		$.CurrentNavtab.find('#payment-submit').hide();
+		$.CurrentNavtab.find('#payment-approve').hide();
+		$.CurrentNavtab.find('#payment-reject').hide();
+		$.CurrentNavtab.find('#payment-assign').hide();
+		$.CurrentNavtab.find('#payment-acc').hide();
+		$.CurrentNavtab.find('#payment-Print').hide();
+		$.CurrentNavtab.find('#payment-invalid-tr').hide();
+		$.CurrentNavtab.find('#payment-return-tr').hide();	
+		$.CurrentNavtab.find('#j_file_upload2').hide();
+		$.CurrentNavtab.find('#j_file_upload1').hide();
+		$.CurrentNavtab.find('#j_file_download1').hide();
+		$.CurrentNavtab.find('#j_file_download1').hide();
+		$('input').attr('disabled','disabled');
+		$('select').attr('disabled','disabled');
 	}
 	
 	
@@ -254,98 +410,112 @@ function changeBeneficiary(){
 }
 
 function dataToFace(){
-	$.CurrentNavtab.find("#j_payment_applicationDate").val('${param.applicationDate}');
-	$.CurrentNavtab.find("#j_payment_requestPaymentDate").val('${param.requestPaymentDate}');
-	$.CurrentNavtab.find("#j_payment_contacturalPaymentDate").val('${param.contacturalPaymentDate}');
-	$.CurrentNavtab.find("#j_payment_code").val('${param.code}');
-	if('${param.payType}'=='Cash'){
-		$.CurrentNavtab.find("#j_payment_cash").iCheck('check'); 
-	}else if('${param.payType}'=='Banking'){
-		$.CurrentNavtab.find("#j_payment_banking").iCheck('check'); 
-	}else if('${param.payType}'=='Advance'){
-		$.CurrentNavtab.find("#j_payment_advanceWriteoff").iCheck('check'); 
-	}
-	if('${param.urgent}'=='1'){
-		$.CurrentNavtab.find("#j_payment_urgent").iCheck('check'); 
-	}
-	$.CurrentNavtab.find("#j_payment_UID").val('${param.UID}'+'-'+'${param.UName}');
-	$.CurrentNavtab.find("#j_payment_departmentID").val('${param.departmentName}'+'-'+'${param.departmentID}');
-	//$.CurrentNavtab.find('#j_payment_beneficiary').selectpicker().selectpicker('val','${param.beneficiary}').selectpicker('refresh');
-    //changeBeneficiary();
-    if('${param.beneficiaryChange}'=='1'){
-		$.CurrentNavtab.find("#j_payment_beneficiaryChange").iCheck('check'); 
-		$.CurrentNavtab.find("#j_payment_beneficiary_tr").attr("style","background-color: #9ACD32");
-	}
-    if('${param.beneficiaryAccountNOChange}'=='1'){
-		$.CurrentNavtab.find("#j_payment_beneficiaryAccountNOChange").iCheck('check'); 
-		$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO_tr").attr("style","background-color: #EEC900");
-	}
-    $.CurrentNavtab.find("#j_payment_paymentSubject").selectpicker().selectpicker('val','${param.paymentSubject}').selectpicker('refresh');
-    $.CurrentNavtab.find("#j_payment_paymentTerm").selectpicker().selectpicker('val','${param.paymentTerm}').selectpicker('refresh');
-    
-	$.CurrentNavtab.find("#j_payment_paymentDays_1").selectpicker().selectpicker('val','${param.paymentDays_1}').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_1").val('${param.receivingOrApprovalDate_1}');
-	$.CurrentNavtab.find("#j_payment_PONo_1").val('${param.PONo_1}');
-	$.CurrentNavtab.find("#j_payment_currency_1").selectpicker().selectpicker('val','${param.currency_1}').selectpicker('refresh');
-	if('${param.amount_1}'!=''&&'${param.amount_1}'!=null){
-		$.CurrentNavtab.find("#j_payment_amount_1").val('${param.amount_1}');
-	}
-	$.CurrentNavtab.find("#j_payment_paymentDays_2").selectpicker().selectpicker('val','${param.paymentDays_2}').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_2").val('${param.receivingOrApprovalDate_2}');
-	$.CurrentNavtab.find("#j_payment_PONo_2").val('${param.PONo_2}');
-	$.CurrentNavtab.find("#j_payment_currency_2").selectpicker().selectpicker('val','${param.currency_2}').selectpicker('refresh');
-	if('${param.amount_2}'!=''&&'${param.amount_2}'!=null){
-		$.CurrentNavtab.find("#j_payment_amount_2").val('${param.amount_2}');
-	}
-		
-	$.CurrentNavtab.find("#j_payment_paymentDays_3").selectpicker().selectpicker('val','${param.paymentDays_3}').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_3").val('${param.receivingOrApprovalDate_3}');
-	$.CurrentNavtab.find("#j_payment_PONo_3").val('${param.PONo_3}');
-	$.CurrentNavtab.find("#j_payment_currency_3").selectpicker().selectpicker('val','${param.currency_3}').selectpicker('refresh');
-	if('${param.amount_3}'!=''&&'${param.amount_3}'!=null){
-		$.CurrentNavtab.find("#j_payment_amount_3").val('${param.amount_3}');
-	}
-		
-	$.CurrentNavtab.find("#j_payment_paymentDays_4").selectpicker().selectpicker('val','${param.paymentDays_4}').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_4").val('${param.receivingOrApprovalDate_4}');
-	$.CurrentNavtab.find("#j_payment_PONo_4").val('${param.PONo_4}');
-	$.CurrentNavtab.find("#j_payment_currency_4").selectpicker().selectpicker('val','${param.currency_4}').selectpicker('refresh');
-	if('${param.amount_4}'!=''&&'${param.amount_4}'!=null){
-		$.CurrentNavtab.find("#j_payment_amount_4").val('${param.amount_4}');
-	}
-		
-	$.CurrentNavtab.find("#j_payment_paymentDays_5").selectpicker().selectpicker('val','${param.paymentDays_5}').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_5").val('${param.receivingOrApprovalDate_5}');
-	$.CurrentNavtab.find("#j_payment_PONo_5").val('${param.PONo_5}');
-	$.CurrentNavtab.find("#j_payment_currency_5").selectpicker().selectpicker('val','${param.currency_5}').selectpicker('refresh');
-	if('${param.amount_5}'!=''&&'${param.amount_5}'!=null){
-		$.CurrentNavtab.find("#j_payment_amount_5").val('${param.amount_5}');
-	}
-		
-	$.CurrentNavtab.find("#j_payment_paymentDays_6").selectpicker().selectpicker('val','${param.paymentDays_6}').selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_6").val('${param.receivingOrApprovalDate_6}');
-	$.CurrentNavtab.find("#j_payment_PONo_6").val('${param.PONo_6}');
-	$.CurrentNavtab.find("#j_payment_currency_6").selectpicker().selectpicker('val','${param.currency_6}').selectpicker('refresh');
-	if('${param.amount_6}'!=''&&'${param.amount_6}'!=null){
-		$.CurrentNavtab.find("#j_payment_amount_6").val('${param.amount_6}');
-	}
-		
-	$.CurrentNavtab.find("#j_payment_supplierCode").val('${param.supplierCode}');
-	$.CurrentNavtab.find("#j_payment_refNoofBank").val('${param.refNoofBank}');
-	$.CurrentNavtab.find("#j_payment_usageDescription").val('${param.usageDescription}');
-	if('${param.amountInFigures}'!=''&&'${param.amountInFigures}'!=null){
-		$.CurrentNavtab.find("#j_payment_amountInFigures").val('${param.amountInFigures}');
-	}
 	
-	$.CurrentNavtab.find("#j_payment_documentAudit").val('${param.documentAudit}');
-	$.CurrentNavtab.find("#j_payment_deptManager").val('${param.deptManager}');
-		
-	$.CurrentNavtab.find("#j_file_Invoice").attr("href",'${param.invoice}').html('${param.invoice}');
-	$.CurrentNavtab.find("#j_file_Contract").attr("href",'${param.contract}').html('${param.contract}');
-	$.CurrentNavtab.find("#j_file_Other").attr("href",'${param.other}').html('${param.other}');
-		
-	$.CurrentNavtab.find("#j_payment_id").val('${param.id}');
-	$.CurrentNavtab.find("#j_payment_status").val('${param.status}');
+	BJUI.ajax('doajax', {
+	    url: 'getPaymentByID.action',
+	    loadingmask: true,
+	    data:{id:'${param.id}'},	    
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+            	$.CurrentNavtab.find("#j_payment_applicationDate").val(json.applicationDate);
+            	$.CurrentNavtab.find("#j_payment_requestPaymentDate").val(json.requestPaymentDate);
+            	$.CurrentNavtab.find("#j_payment_contacturalPaymentDate").val(json.contacturalPaymentDate);
+            	$.CurrentNavtab.find("#j_payment_code").val(json.code);
+            	if(json.payType=='Cash'){
+            		$.CurrentNavtab.find("#j_payment_cash").iCheck('check'); 
+            	}else if(json.payType=='Banking'){
+            		$.CurrentNavtab.find("#j_payment_banking").iCheck('check'); 
+            	}else if(json.payType=='Advance'){
+            		$.CurrentNavtab.find("#j_payment_advanceWriteoff").iCheck('check'); 
+            	}
+            	if(json.urgent=='1'){
+            		$.CurrentNavtab.find("#j_payment_urgent").iCheck('check'); 
+            	}
+            	$.CurrentNavtab.find("#j_payment_UID").val(json.UID+'-'+json.UName);
+            	$.CurrentNavtab.find("#j_payment_departmentID").val(json.departmentName+'-'+json.departmentID);
+            	addBeneficiary(json.beneficiaryAccountNO);
+                if(json.beneficiaryChange=='1'){
+            		$.CurrentNavtab.find("#j_payment_beneficiaryChange").iCheck('check'); 
+            		$.CurrentNavtab.find("#j_payment_beneficiary_tr").attr("style","background-color: #9ACD32");
+            	}
+                if(json.beneficiaryAccountNOChange=='1'){
+            		$.CurrentNavtab.find("#j_payment_beneficiaryAccountNOChange").iCheck('check'); 
+            		$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO_tr").attr("style","background-color: #EEC900");
+            	}
+                $.CurrentNavtab.find("#j_payment_paymentSubject").selectpicker().selectpicker('val',json.paymentSubject).selectpicker('refresh');
+                $.CurrentNavtab.find("#j_payment_paymentTerm").selectpicker().selectpicker('val',json.paymentTerm).selectpicker('refresh');
+                
+            	$.CurrentNavtab.find("#j_payment_paymentDays_1").selectpicker().selectpicker('val',json.paymentDays_1).selectpicker('refresh');
+            	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_1").val(json.receivingOrApprovalDate_1);
+            	$.CurrentNavtab.find("#j_payment_PONo_1").val(json.PONo_1);
+            	$.CurrentNavtab.find("#j_payment_currency_1").selectpicker().selectpicker('val',json.currency_1).selectpicker('refresh');
+            	if(json.amount_1!=''&&json.amount_1!=null){
+            		$.CurrentNavtab.find("#j_payment_amount_1").val(json.amount_1);
+            	}
+            	$.CurrentNavtab.find("#j_payment_paymentDays_2").selectpicker().selectpicker('val',json.paymentDays_2).selectpicker('refresh');
+            	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_2").val(json.receivingOrApprovalDate_2);
+            	$.CurrentNavtab.find("#j_payment_PONo_2").val(json.PONo_2);
+            	$.CurrentNavtab.find("#j_payment_currency_2").selectpicker().selectpicker('val',json.currency_2).selectpicker('refresh');
+            	if(json.amount_2!=''&&json.amount_2!=null){
+            		$.CurrentNavtab.find("#j_payment_amount_2").val(json.amount_2);
+            	}
+            		
+            	$.CurrentNavtab.find("#j_payment_paymentDays_3").selectpicker().selectpicker('val',json.paymentDays_3).selectpicker('refresh');
+            	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_3").val(json.receivingOrApprovalDate_3);
+            	$.CurrentNavtab.find("#j_payment_PONo_3").val(json.PONo_3);
+            	$.CurrentNavtab.find("#j_payment_currency_3").selectpicker().selectpicker('val',json.currency_3).selectpicker('refresh');
+            	if(json.amount_3!=''&&json.amount_3!=null){
+            		$.CurrentNavtab.find("#j_payment_amount_3").val(json.amount_3);
+            	}
+            		
+            	$.CurrentNavtab.find("#j_payment_paymentDays_4").selectpicker().selectpicker('val',json.paymentDays_4).selectpicker('refresh');
+            	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_4").val(json.receivingOrApprovalDate_4);
+            	$.CurrentNavtab.find("#j_payment_PONo_4").val(json.PONo_4);
+            	$.CurrentNavtab.find("#j_payment_currency_4").selectpicker().selectpicker('val',json.currency_4).selectpicker('refresh');
+            	if(json.amount_4!=''&& json.amount_4==null){
+            		$.CurrentNavtab.find("#j_payment_amount_4").val(json.amount_4);
+            	}
+            		
+            	$.CurrentNavtab.find("#j_payment_paymentDays_5").selectpicker().selectpicker('val',json.paymentDays_5).selectpicker('refresh');
+            	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_5").val(json.receivingOrApprovalDate_5);
+            	$.CurrentNavtab.find("#j_payment_PONo_5").val(json.PONo_5);
+            	$.CurrentNavtab.find("#j_payment_currency_5").selectpicker().selectpicker('val',json.currency_5).selectpicker('refresh');
+            	if(json.amount_5!=''&& json.amount_5!=null){
+            		$.CurrentNavtab.find("#j_payment_amount_5").val(json.amount_5);
+            	}
+            		
+            	$.CurrentNavtab.find("#j_payment_paymentDays_6").selectpicker().selectpicker('val',json.paymentDays_6).selectpicker('refresh');
+            	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_6").val(json.receivingOrApprovalDate_6);
+            	$.CurrentNavtab.find("#j_payment_PONo_6").val(json.PONo_6);
+            	$.CurrentNavtab.find("#j_payment_currency_6").selectpicker().selectpicker('val',json.currency_6).selectpicker('refresh');
+            	if(json.amount_6!=''&& json.amount_6!=null){
+            		$.CurrentNavtab.find("#j_payment_amount_6").val(json.amount_6);
+            	}
+            		
+            	$.CurrentNavtab.find("#j_payment_supplierCode").val(json.supplierCode);
+            	$.CurrentNavtab.find("#j_payment_refNoofBank").val(json.refNoofBank);
+            	$.CurrentNavtab.find("#j_payment_usageDescription").val(json.usageDescription);
+            	if(json.amountInFigures!=''&&json.amountInFigures!=null){
+            		$.CurrentNavtab.find("#j_payment_amountInFigures").val(json.amountInFigures);
+            	}
+            	
+            	$.CurrentNavtab.find("#j_payment_documentAudit").val(json.documentAudit);
+            	$.CurrentNavtab.find("#j_payment_deptManager").val(json.deptManager);
+            		
+            	$.CurrentNavtab.find("#j_file_Invoice").attr("href",json.invoice).html(json.invoice);
+            	$.CurrentNavtab.find("#j_file_Contract").attr("href",json.contract).html(json.contract);
+            	$.CurrentNavtab.find("#j_file_Other").attr("href",json.other).html(json.other);
+            		
+            	$.CurrentNavtab.find("#j_payment_id").val(json.id);
+            	$.CurrentNavtab.find("#j_payment_state").val(json.state);
+            	showButton(json.state,json.isPrint);
+            	changeAmount();
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	});	
+
 	
 }
 
@@ -358,9 +528,9 @@ function faceToDate(){
 	o.departmentName='${user.department.name}';
 	o.departmentID='${user.department.did}';
 		
-	o.invoice=$.CurrentNavtab.find("#j_file_Invoice").html();
-	o.contract=$.CurrentNavtab.find("#j_file_Contract").html();
-	o.other=$.CurrentNavtab.find("#j_file_Other").html();	
+	o.invoice=$.CurrentNavtab.find("#j_payment_update_invoice").val();
+	o.contract=$.CurrentNavtab.find("#j_payment_update_contract").val();
+	o.other=$.CurrentNavtab.find("#j_payment_update_other").val();	
 
 	return o;
 }
@@ -412,23 +582,23 @@ function changeAmount(){
     <div class="bs-example" style="width:800px">
         <form id="j_payment_form" data-toggle="ajaxform">
 			<input type="hidden" name="id" id="j_payment_id" value="">
-			<input type="hidden" name="status" id="j_payment_status" value="">
+			<input type="hidden" name="state" id="j_payment_state" value="">
             <div class="bjui-row-0" align="center">
             <h2 class="row-label">Payment Application Form 付款申请单</h2><br> 
             </div>
 			<table class="table" style="font-size:8px;">
 				<tr>
 					<td width="200px">Application Date<br>申请日期）</td>
-					<td width="200px"><input type="text" name="applicationDate" id="j_payment_applicationDate" value="" data-toggle="datepicker" data-rule="required;date"></td>
+					<td width="200px"><input type="text" name="applicationDate" data-nobtn="true" id="j_payment_applicationDate" value="" data-toggle="datepicker" data-rule="required;date"></td>
 					<td width="200px">Request Payment Date<br>(要求付款日期）</td>
-					<td width="200px"><input type="text" name="requestPaymentDate" id="j_payment_requestPaymentDate" value="" data-toggle="datepicker" data-rule="required;date"></td>					
+					<td width="200px"><input type="text" name="requestPaymentDate" data-nobtn="true" id="j_payment_requestPaymentDate" value="" data-toggle="datepicker" data-rule="required;date"></td>					
 				</tr>
 				<tr>
 					<td>
 						Contactural Payment Date<br>（合同付款日期）
 					</td>
 					<td>
-						<input type="text" name="contacturalPaymentDate" value="" id="j_payment_contacturalPaymentDate"  data-toggle="datepicker" data-rule="required;date">
+						<input type="text" name="contacturalPaymentDate" value="" data-nobtn="true" id="j_payment_contacturalPaymentDate"  data-toggle="datepicker" data-rule="required;date">
 					</td>
 					<td>
 						CODE(流水码)
@@ -565,7 +735,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_1" id="j_payment_receivingOrApprovalDate_1" value="" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_1" data-nobtn="true" id="j_payment_receivingOrApprovalDate_1" value="" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_01 child_row">
@@ -624,7 +794,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_2" id="j_payment_receivingOrApprovalDate_2" value="" size="17" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_2" data-nobtn="true" id="j_payment_receivingOrApprovalDate_2" value="" size="17" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_02 child_row">
@@ -682,7 +852,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_3" id="j_payment_receivingOrApprovalDate_3" size="17"  value="" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_3" data-nobtn="true" id="j_payment_receivingOrApprovalDate_3" size="17"  value="" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_03 child_row">
@@ -740,7 +910,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_4" size="17" id="j_payment_receivingOrApprovalDate_4" value="" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_4" data-nobtn="true" size="17" id="j_payment_receivingOrApprovalDate_4" value="" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_04 child_row">
@@ -798,7 +968,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_5" id="j_payment_receivingOrApprovalDate_5" size="17" value="" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_5" data-nobtn="true" id="j_payment_receivingOrApprovalDate_5" size="17" value="" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_05 child_row">
@@ -856,7 +1026,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_6" id="j_payment_receivingOrApprovalDate_6" size="17" value="" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_6" data-nobtn="true" id="j_payment_receivingOrApprovalDate_6" size="17" value="" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_06 child_row">
@@ -919,7 +1089,7 @@ function changeAmount(){
 						支付用途 <br>Usage Description
 					</td>
 					<td colspan="3">
-						<textarea name="usageDescription" cols="60" rows="1" id="j_payment_usageDescription" data-toggle="autoheight"></textarea>
+						<input type="text"  name="usageDescription" value="" size="57" id="j_payment_usageDescription" ></input>
 					</td>
 				</tr>
 				<tr>
@@ -955,7 +1125,7 @@ function changeAmount(){
 						Attachment1 Invoice<br>（附件：发票）
 					</td>
 					<td>
-						<input name="file_Invoice" data-name="custom.pic" data-toggle="webuploader" data-options="
+						<input name="file_Invoice"  id="j_payment_update_invoice"  data-name="custom.pic" data-toggle="webuploader" data-options="
 	                        {
 	                            pick: {label: '点击选择文件'},
 	                            server: 'savefile.action',
@@ -976,7 +1146,7 @@ function changeAmount(){
 						Attachment2 Contract<br>（附件：合同）
 					</td>
 					<td>
-						<input name="file_Contract" data-name="custom.pic" data-toggle="webuploader" data-options="
+						<input name="file_Contract" id="j_payment_update_contract"  data-name="custom.pic" data-toggle="webuploader" data-options="
 	                        {
 	                            pick: {label: '点击选择文件'},
 	                            server: 'savefile.action',
@@ -999,7 +1169,7 @@ function changeAmount(){
 						Attachment3 Other<br>（附件：其他）
 					</td>
 					<td>
-						<input name="file_Other" data-name="custom.pic" data-toggle="webuploader" data-options="
+						<input name="file_Other" id="j_payment_update_other" data-name="custom.pic" data-toggle="webuploader" data-options="
 	                        {
 	                            pick: {label: '点击选择文件'},
 	                            server: 'savefile.action',
@@ -1053,21 +1223,22 @@ function changeAmount(){
 	            		<button type="button" id="payment-save" class="btn-default" data-icon="save" >Save(保存)</button>
 	            		<button type="button" id="payment-submit" class="btn-default" data-icon="arrow-up" >Submit(送审)</button>
 	            		<button type="button" id="payment-approve" class="btn-default" data-icon="check" >Approve(同意)</button>
-	            		<button type="button" id="payment-Reject" class="btn-default" data-icon="close" >Reject(拒绝)</button>
+	            		<button type="button" id="payment-reject" class="btn-default" data-icon="close" >Reject(拒绝)</button>
 	            		<button type="button" id="payment-assign" class="btn-default" data-icon="undo" >Assign(转交)</button>
-	            		<button type="button" id="payment-Print" class="btn-default" data-icon="print" >Print Out(打印)</button><br>
+	            		<button type="button" id="payment-acc" class="btn-default" data-icon="check" >Approve(同意)</button>
+	            		<button type="button" id="payment-print" class="btn-default" data-icon="print" >Print Out(打印)</button><br>
             		</td>				
 				</tr>
 				<tr id="payment-invalid-tr">
             		<td colspan="4" align="center">
             			<button type="button" id="payment-invalid" class="btn-default" data-icon="close">Doc. Invalid(作废)</button>
-            			<textarea name="invalidDescription" cols="30" rows="1" data-toggle="autoheight"></textarea><br><br>
+            			<textarea name="invalidDescription"  id="payment-invalidDescription" cols="30" rows="1" data-toggle="autoheight"></textarea><br><br>
             		</td>
             	</tr>
             	<tr id="payment-return-tr">
             		<td colspan="4" align="center">
             			<button type="button" id="payment-return" class="btn-default" data-icon="arrow-down">Doc. Return(退回)</button>
-            			<textarea name="returnDescription" cols="30" rows="1" data-toggle="autoheight"></textarea>
+            			<textarea name="returnDescription" id="payment-returnDescription" cols="30" rows="1" data-toggle="autoheight"></textarea>
             		</td>
             	</tr>
 				

@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kime.biz.DictBIZ;
 import com.kime.biz.UserBIZ;
+import com.kime.dao.DictDAO;
 import com.kime.dao.UserDAO;
+import com.kime.model.Dict;
 import com.kime.model.User;
 import com.kime.utils.mail.SendMail;
 import com.sign.biz.PaymentBIZ;
@@ -26,7 +29,18 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	private PaymentDAO paymentDao;
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private DictDAO dictDAO;
 	
+	
+	public DictDAO getDictDAO() {
+		return dictDAO;
+	}
+
+	public void setDictDAO(DictDAO dictDAO) {
+		this.dictDAO = dictDAO;
+	}
+
 	public UserDAO getUserDAO() {
 		return userDAO;
 	}
@@ -45,7 +59,6 @@ public class PaymentBIZImpl implements PaymentBIZ {
 
 	@Override
 	public ByteArrayInputStream export() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -58,9 +71,11 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void submitPayment(Payment payment) throws Exception {
-		paymentDao.update(payment);
 		List<User> lUsers=userDAO.queryByHql(" select U from User U,SignMan S where U.uid=S.uid AND S.did='"+payment.getDepartmentID()+"'");
 		if (lUsers.size()>0) {
+			payment.setDeptManagerID(lUsers.get(0).getUid());
+			payment.setDeptManager(lUsers.get(0).getName());
+			paymentDao.update(payment);
 			SendMail.SendMail(lUsers.get(0).getEmail(), "有新的待签核付款申请单", "有'"+payment.getUName()+"' 的付款申请单待签核！");	
 		}else{
 			throw new Exception("对应签核人员未维护，邮件发送失败");
@@ -69,14 +84,8 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
-	public void accPayment(Payment payment) throws Exception {
+	public void accPayment(Payment payment) {
 		paymentDao.update(payment);
-		List<User> lUsers=userDAO.queryByHql(" select U from User U,SignMan S where U.uid=S.uid AND S.did='"+payment.getDepartmentID()+"'");
-		if (lUsers.size()>0) {
-			SendMail.SendMail(lUsers.get(0).getEmail(), "有新的待签核付款申请单", "有'"+payment.getUName()+"' 的付款申请单待签核！");	
-		}else{
-			throw new Exception("对应签核人员未维护，邮件发送失败");
-		}
 	}
 
 	@Override
@@ -88,7 +97,11 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void approvePayment(Payment payment) throws Exception {
-		paymentDao.update(payment);
+		List<Dict> lDicts=dictDAO.query(" where key='"+payment.getPaymentSubject()+"'");
+		if (!lDicts.get(0).getValue().equals("")&&lDicts.get(0).getValue()!=null) {
+			payment.setDocumentAuditID(lDicts.get(0).getValue());
+			paymentDao.update(payment);
+		}
 	}
 	
 	

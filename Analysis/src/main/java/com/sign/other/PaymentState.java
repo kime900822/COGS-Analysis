@@ -1,6 +1,6 @@
 package com.sign.other;
 
-public class PaymentStatus {
+public class PaymentState {
 
 	/**
 	 * 已保存状态

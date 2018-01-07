@@ -5,9 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -17,19 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kime.action.ActionBase;
-import com.kime.action.DictAction;
 import com.kime.biz.DictBIZ;
 import com.kime.infoenum.Message;
 import com.kime.model.Dict;
 import com.kime.model.User;
-import com.kime.utils.mail.MailSenderInfo;
-import com.kime.utils.mail.SimpleMailSender;
 import com.sign.biz.PaymentBIZ;
 import com.sign.model.Payment;
 import com.sign.other.FileSave;
-import com.sign.other.PaymentStatus;
+import com.sign.other.PaymentState;
 
 @Controller
 public class PaymentAction extends ActionBase {
@@ -136,17 +129,31 @@ public class PaymentAction extends ActionBase {
 	private String usageDescription;
 	private String amountInFigures;
 	private String documentAudit;
-	private String status;
+	private String documentAuditID;
+	private String state;
 	private String invoice;
 	private String contract;
 	private String other;
 	private String invalidDescription;
 	private String returnDescription;
 	private String deptManager;
+	private String deptManagerID;
 	private String financeSupervisor;
 	private String financeManager;
 	private String generalManager;
 	
+	public String getDocumentAuditID() {
+		return documentAuditID;
+	}
+	public void setDocumentAuditID(String documentAuditID) {
+		this.documentAuditID = documentAuditID;
+	}
+	public String getDeptManagerID() {
+		return deptManagerID;
+	}
+	public void setDeptManagerID(String deptManagerID) {
+		this.deptManagerID = deptManagerID;
+	}
 	public String getPaymentTerm() {
 		return paymentTerm;
 	}
@@ -464,11 +471,11 @@ public class PaymentAction extends ActionBase {
 	public void setDocumentAudit(String documentAudit) {
 		this.documentAudit = documentAudit;
 	}
-	public String getStatus() {
-		return status;
+	public String getState() {
+		return state;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setState(String state) {
+		this.state = state;
 	}
 	public String getInvoice() {
 		return invoice;
@@ -555,40 +562,6 @@ public class PaymentAction extends ActionBase {
     }
 	
 	
-//	@Action(value="savePayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
-//			params={
-//					"inputName", "reslutJson"
-//			})})
-//	public String savePayment() throws UnsupportedEncodingException{
-//		try {
-//			Payment payment=paramToPayment();
-//			payment.setStatus(PaymentStatus.SAVEPAYMENT);
-//			List<Dict> lDicts=dictBIZ.getDict(" where key='"+paymentSubject+"'");
-//			if (!"".equals(lDicts.get(0).getValue())&&lDicts.get(0).getValue()!=null) {
-////				payment.setDocumentAudit(lDicts.get(0).getValue());
-//				paymentBIZ.savePayment(payment);
-//
-//				
-//				result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
-//				result.setStatusCode("200");
-//				logUtil.logInfo("新增付款申请单:"+payment.getId());
-//			}else{
-//				result.setMessage(Message.SAVE_MESSAGE_PAYMENT_ERROR);
-//				result.setStatusCode("300");
-//				logUtil.logInfo("新增付款申异常:为维护对应财务人员");
-//			}
-//			
-//		} catch (Exception e) {
-//			logUtil.logInfo("新增付款申请单异常:"+e.getMessage());
-//			result.setMessage(e.getMessage());
-//			result.setStatusCode("300");
-//		}
-//		
-//		reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8")); 	
-//		return SUCCESS;
-//	}
-	
-	
 	@Action(value="savePayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
 			params={
 					"inputName", "reslutJson"
@@ -597,10 +570,10 @@ public class PaymentAction extends ActionBase {
 		try {
 			Payment payment=new Gson().fromJson(json, Payment.class);
 			
-			payment.setStatus(PaymentStatus.SAVEPAYMENT);
+			payment.setState(PaymentState.SAVEPAYMENT);
 			List<Dict> lDicts=dictBIZ.getDict(" where key='"+payment.getPaymentSubject()+"'");
 			if (!"".equals(lDicts.get(0).getValue())&&lDicts.get(0).getValue()!=null) {
-//				payment.setDocumentAudit(lDicts.get(0).getValue());
+				//payment.setDocumentAudit(lDicts.get(0).getValue());
 				paymentBIZ.savePayment(payment);
 
 				
@@ -631,7 +604,7 @@ public class PaymentAction extends ActionBase {
 			})})
 	public String printPayment() throws UnsupportedEncodingException{
 		try {
-			Payment payment=paramToPayment();
+			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setIsPrint("1");
 			payment.setCode(paymentBIZ.getMaxCode());
 			
@@ -657,7 +630,7 @@ public class PaymentAction extends ActionBase {
 	public String accPayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setStatus(PaymentStatus.ACCPAYMENT);
+			payment.setState(PaymentState.ACCPAYMENT);
 			payment.setDocumentAudit(documentAudit);
 			
 			paymentBIZ.accPayment(payment);
@@ -708,7 +681,7 @@ public class PaymentAction extends ActionBase {
 	public String submitPayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setStatus(PaymentStatus.SUBPAYMENT);
+			payment.setState(PaymentState.SUBPAYMENT);
 			
 			paymentBIZ.submitPayment(payment);
 			
@@ -732,7 +705,7 @@ public class PaymentAction extends ActionBase {
 	public String approvePayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setStatus(PaymentStatus.APPROVEPAYMENT);
+			payment.setState(PaymentState.APPROVEPAYMENT);
 			
 			paymentBIZ.approvePayment(payment);
 			
@@ -756,7 +729,7 @@ public class PaymentAction extends ActionBase {
 	public String invalidPayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setStatus(PaymentStatus.INVALIDPAYMENT);
+			payment.setState(PaymentState.INVALIDPAYMENT);
 			payment.setInvalidDescription(invalidDescription);
 			
 			paymentBIZ.invalidPayment(payment);
@@ -781,7 +754,7 @@ public class PaymentAction extends ActionBase {
 	public String returnPayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setStatus(PaymentStatus.RETURNPAYMENT);
+			payment.setState(PaymentState.RETURNPAYMENT);
 			payment.setReturnDescription(returnDescription);
 			
 			
@@ -807,7 +780,7 @@ public class PaymentAction extends ActionBase {
 	public String rejectPayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setStatus(PaymentStatus.REJECTPAYMENT);
+			payment.setState(PaymentState.REJECTPAYMENT);
 			
 			paymentBIZ.rejectPayment(payment);
 			
@@ -834,17 +807,15 @@ public class PaymentAction extends ActionBase {
 		Payment payment=new Payment();		
 		try {
 			payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			
-			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
-			result.setStatusCode("200");
+			reslutJson=new ByteArrayInputStream(new Gson().toJson(payment).getBytes("UTF-8")); 	
 			logUtil.logInfo("查询付款申请单:"+payment.getId());
 		} catch (Exception e) {
 			logUtil.logInfo("查询付款申请单异常:"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");
+			reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8")); 	
 		}
 		
-		reslutJson=new ByteArrayInputStream(new Gson().toJson(payment).getBytes("UTF-8")); 	
 		return SUCCESS;
 	}
 	
@@ -862,10 +833,10 @@ public class PaymentAction extends ActionBase {
 			hql="  select P from Payment P ";
 		}
 		if ("acc".equals(queryType)) {
-			hql="  select  P from Payment P, Dict D where P.status='4' AND D.type='PAYMENT' AND P.paymentSubject=D.key AND D.value='"+user.getUid()+"'";
+			hql="  select  P from Payment P, Dict D where (P.state='2' or P.state='4') AND D.type='PAYMENT' AND P.paymentSubject=D.key AND D.value='"+user.getUid()+"'";
 		}
 		if ("sign".equals(queryType)) {
-			hql="  select  P from Payment P, SignMan S  where P.status='1' and P.departmentID=S.did And S.uid='"+user.getUid()+"'";
+			hql="  select  P from Payment P, SignMan S  where P.state='1' and P.departmentID=S.did And S.uid='"+user.getUid()+"'";
 		}
 		if ("user".equals(queryType)) {
 			hql=" select P from Payment P where P.UID='"+user.getUid()+"'";
@@ -887,78 +858,5 @@ public class PaymentAction extends ActionBase {
 		return SUCCESS;
 	}
 	
-	
-	public Payment paramToPayment(){
-		Payment payment=new Payment();
-		User user=(User)session.getAttribute("user");
-		if (!"".equals(id)&&id!=null) {
-			payment.setId(id);
-			
-		}
-		payment.setUID(user.getUid());
-		payment.setUName(user.getName());
-		payment.setDepartmentID(user.getDepartment().getDid());
-		payment.setDepartmentName(user.getDepartment().getName());
-		payment.setApplicationDate(applicationDate);
-		payment.setRequestPaymentDate(requestPaymentDate);
-		payment.setContacturalPaymentDate(contacturalPaymentDate);
-		payment.setUrgent(urgent==null?"0":urgent);
-		payment.setPayType(payType);
-		payment.setBeneficiary(beneficiary);
-		payment.setBeneficiaryAccountNO(beneficiaryAccountNO);
-		payment.setBeneficiaryChange(beneficiaryChange==null?"0":beneficiaryChange);
-		payment.setBeneficiaryAccountNOChange(beneficiaryAccountNOChange==null?"0":beneficiaryAccountNOChange);
-		payment.setSupplierCode(supplierCode);
-		payment.setRefNoofBank(refNoofBank);
-		payment.setPaymentSubject(paymentSubject);
-		payment.setPaymentTerm(paymentTerm);
-		
-		payment.setPaymentDays_1(paymentDays_1);
-		payment.setReceivingOrApprovalDate_1(receivingOrApprovalDate_1);
-		payment.setPONo_1(PONo_1);
-		payment.setCurrency_1(currency_1);
-		payment.setAmount_1(amount_1);
-		
-		payment.setPaymentDays_2(paymentDays_2);
-		payment.setReceivingOrApprovalDate_2(receivingOrApprovalDate_2);
-		payment.setPONo_2(PONo_2);
-		payment.setCurrency_2(currency_2);
-		payment.setAmount_2(amount_2);
-		
-		payment.setPaymentDays_3(paymentDays_3);
-		payment.setReceivingOrApprovalDate_3(receivingOrApprovalDate_3);
-		payment.setPONo_3(PONo_3);
-		payment.setCurrency_3(currency_3);
-		payment.setAmount_3(amount_3);
-		
-		payment.setPaymentDays_4(paymentDays_4);
-		payment.setReceivingOrApprovalDate_4(receivingOrApprovalDate_4);
-		payment.setPONo_4(PONo_4);
-		payment.setCurrency_4(currency_4);
-		payment.setAmount_4(amount_4);
-		
-		payment.setPaymentDays_5(paymentDays_5);
-		payment.setReceivingOrApprovalDate_5(receivingOrApprovalDate_5);
-		payment.setPONo_5(PONo_5);
-		payment.setCurrency_5(currency_5);
-		payment.setAmount_5(amount_5);
-		
-		payment.setPaymentDays_6(paymentDays_6);
-		payment.setReceivingOrApprovalDate_6(receivingOrApprovalDate_6);
-		payment.setPONo_6(PONo_6);
-		payment.setCurrency_6(currency_6);
-		payment.setAmount_6(amount_6);
-		
-		payment.setUsageDescription(usageDescription);
-		payment.setAmountInFigures(amountInFigures);
-		payment.setDocumentAudit(documentAudit);
-		payment.setInvoice(invoice);
-		payment.setContract(contract);
-		payment.setOther(other);
-		
-		return payment;
-		
-		
-	}
 	
 }

@@ -326,16 +326,22 @@ public class Payment {
 	private String amountInFigures;
 	
 	/**
-	 * 单据审核人
+	 * 财务审核人
 	 */
 	@Column
 	private String documentAudit;
 	
 	/**
+	 * 财务审核人ID
+	 */
+	@Column
+	private String documentAuditID;
+	
+	/**
 	 * 单据状态
 	 */
 	@Column
-	private String status;
+	private String state;
 	
 	/**
 	 * 发票地址
@@ -374,6 +380,12 @@ public class Payment {
 	private String deptManager;
 	
 	/**
+	 * 部门经理ID
+	 */
+	@Column
+	private String deptManagerID;
+	
+	/**
 	 * 财务主管
 	 */
 	@Column
@@ -396,6 +408,22 @@ public class Payment {
 	 */
 	@Column
 	private String isPrint;
+
+	public String getDocumentAuditID() {
+		return documentAuditID;
+	}
+
+	public void setDocumentAuditID(String documentAuditID) {
+		this.documentAuditID = documentAuditID;
+	}
+
+	public String getDeptManagerID() {
+		return deptManagerID;
+	}
+
+	public void setDeptManagerID(String deptManagerID) {
+		this.deptManagerID = deptManagerID;
+	}
 
 	public String getId() {
 		return id;
@@ -558,12 +586,13 @@ public class Payment {
 		this.documentAudit = documentAudit;
 	}
 
-	public String getStatus() {
-		return status;
+
+	public String getState() {
+		return state;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public String getInvoice() {

@@ -1,74 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-    
-    
-<!-- bootstrap - css -->
-<link href="../../B-JUI/themes/css/bootstrap.css" rel="stylesheet">
-<!-- core - css -->
-<link href="../../B-JUI/themes/css/style.css" rel="stylesheet">
-<link href="../../B-JUI/themes/blue/core.css" id="bjui-link-theme" rel="stylesheet">
-<link href="../../B-JUI/themes/css/fontsize.css" id="bjui-link-theme" rel="stylesheet">
-<!-- plug - css -->
-<link href="../../B-JUI/plugins/kindeditor_4.1.11/themes/default/default.css" rel="stylesheet">
-<link href="../../B-JUI/plugins/colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
-<link href="../../B-JUI/plugins/nice-validator-1.0.7/jquery.validator.css" rel="stylesheet">
-<link href="../../B-JUI/plugins/bootstrapSelect/bootstrap-select.css" rel="stylesheet">
-<link href="../../B-JUI/plugins/webuploader/webuploader.css" rel="stylesheet">
-<link href="../../B-JUI/themes/css/FA/css/font-awesome.min.css" rel="stylesheet">
-<!-- Favicons -->
-<link rel="apple-touch-icon-precomposed" href="images/logo2.png">
-<link rel="shortcut icon" href="images/logo2.png">
-<!--[if lte IE 7]>
-<link href="../../B-JUI/themes/css/ie7.css" rel="stylesheet">
-<![endif]-->
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lte IE 9]>
-    <script src="../../B-JUI/other/html5shiv.min.js"></script>
-    <script src="../../B-JUI/other/respond.min.js"></script>
-<![endif]-->
-<!-- jquery -->
-<script src="../../B-JUI/js/jquery-1.11.3.min.js"></script>
-<script src="../../B-JUI/js/jquery.cookie.js"></script>
-<!--[if lte IE 9]>
-<script src="../../B-JUI/other/jquery.iframe-transport.js"></script>
-<![endif]-->
-<!-- ../../B-JUI -->
-<%-- <script src="../../B-JUI/js/bjui-all.min.js"></script> --%>
-<script src="../../B-JUI/js/bjui-all.js"></script>
-<!-- plugins -->
-<!-- swfupload for kindeditor -->
-<script src="../../B-JUI/plugins/swfupload/swfupload.js"></script>
-<!-- Webuploader -->
-<script src="../../B-JUI/plugins/webuploader/webuploader.js"></script>
-<!-- kindeditor -->
-<script src="../../B-JUI/plugins/kindeditor_4.1.11/kindeditor-all-min.js"></script>
-<script src="../../B-JUI/plugins/kindeditor_4.1.11/lang/zh-CN.js"></script>
-<!-- colorpicker -->
-<script src="../../B-JUI/plugins/colorpicker/js/bootstrap-colorpicker.min.js"></script>
-<!-- ztree -->
-<script src="../../B-JUI/plugins/ztree/jquery.ztree.all-3.5.js"></script>
-<!-- nice validate -->
-<script src="../../B-JUI/plugins/nice-validator-1.0.7/jquery.validator.js"></script>
-<script src="../../B-JUI/plugins/nice-validator-1.0.7/jquery.validator.themes.js"></script>
-<!-- bootstrap plugins -->
-<script src="../../B-JUI/plugins/bootstrap.min.js"></script>
-<script src="../../B-JUI/plugins/bootstrapSelect/bootstrap-select.min.js"></script>
-<script src="../../B-JUI/plugins/bootstrapSelect/defaults-zh_CN.min.js"></script>
-<!-- icheck -->
-<script src="../../B-JUI/plugins/icheck/icheck.min.js"></script>
-<!-- HighCharts -->
-<script src="../../B-JUI/plugins/highcharts/highcharts.js"></script>
-<script src="../../B-JUI/plugins/highcharts/highcharts-3d.js"></script>
-<script src="../../B-JUI/plugins/highcharts/themes/gray.js"></script>
-<!-- other plugins -->
-<script src="../../B-JUI/plugins/other/jquery.autosize.js"></script>
-<link href="../../B-JUI/plugins/uploadify/css/uploadify.css" rel="stylesheet">
-<script src="../../B-JUI/plugins/uploadify/scripts/jquery.uploadify.min.js"></script>
-<script src="../../B-JUI/plugins/download/jquery.fileDownload.js"></script>
-<!-- util -->
-<script src="../../B-JUI/js/util.js"></script>
-
 <script type="text/javascript">
 $(function(){
 	
@@ -89,6 +20,8 @@ $(function(){
 		$.CurrentNavtab.find("#j_payment_form").attr("action", "savePayment.action").submit();
 	})
 	
+	
+	//$.CurrentNavtab.find('#j_payment_amountInFigures').html(smalltoBIG(521212));
 })
 
 	function changeBeneficiary(){
@@ -100,19 +33,20 @@ $(function(){
 
 </script>
 <div class="bjui-pageContent">
-    <div  style="width:800px">
+    <div class="bs-example" style="width:1340px">
         <form action="../../json/ajaxDone.json" id="j_payment_form" data-toggle="ajaxform">
 			
-			<table class="table" style="font-size:5px;">
+			<table class="table">
 				<tr>
-					<td width="100px" align="left"><img  style="width:300px;height:50px;" alt="payment" src="../../images/paymentlogo.png"></td>
-					<td width="600px"  align="center"><h4 align="center">Cimtas(NingBo) Steel Processing CO.,LTD 庆达西（宁波）钢构制造有限公司</h4>
+					<td width="200px" align="left"><img  style="width:300px;height:50px;" alt="payment" src="images/paymentlogo.png"></td>
+					<td width="700px"  align="center"><h4 align="center">Cimtas(NingBo) Steel Processing CO.,LTD 庆达西（宁波）钢构制造有限公司</h4>
 					<h5 align="center">Paymengt Application Form 付款申请单</h5>
 					</td>
 					<td width="100px"  align="left"><br><p id="flow-id">流水码:</p> <br /></td>
 				</tr>
 			</table>		
-			<table class="table" style="font-size:5px;">
+			<br />
+			<table class="table">
 				<tr>
 					<td width="120px">Application Date<br/>(申请日期)</td>
 					<td width="200px"><input type="text" name="applicationDate" id="j_payment_applicationDate" value="" data-toggle="datepicker" data-rule="required;date"></td>
@@ -136,7 +70,7 @@ $(function(){
 				</tr>
 			</table>            
 
-			<table class="table" border="1" cellspacing="0" bordercolor="#ddd" style="font-size:5px;">
+			<table class="table" border="1" cellspacing="0" bordercolor="#ddd" style="font-size:8px;">
 				<tr>
 					<td colspan="2" style="background:#8EE5EE">申请人:</td>
 					<td colspan="2" style="text-align:center;border-bottom:0px" >${user.uid}</td>
@@ -314,7 +248,7 @@ $(function(){
 				</tr>		
 			</table>
 			<br>
-			<table class="table" style="font-size:5px;">
+			<table class="table"  >
 				<tr>
 					<td width="25%">General Manager:<br/>总经理</td>
 					<td width="25%">Finance Manager:<br/>财务经理</td>
@@ -323,13 +257,99 @@ $(function(){
 				</tr>
 			</table>
 			<br/>
-			<table class="table" style="font-size:5px;">
+			<table class="table">
+				<tr>
+					<td align="right">
+						Attachment1 Invoice<br>（附件：发票）
+					</td>
+					<td align="left" >
+		               <input name="file_Invoice" data-name="custom.pic" data-toggle="webuploader" data-options="
+                        {
+                            pick: {label: '点击选择文件'},
+                            server: 'savefile.action',
+                            fileNumLimit: 1,
+                            formData: {},
+                            required: false,
+                            uploaded: '',
+                            basePath: '',
+                            accept: {
+                                title: '发票',
+                                extensions: 'xls,xlsx,doc,docx',
+                                mimeTypes: '.xls,.xlsx,.doc,.docx'
+                            }
+                        }"
+                    >
+	                </td>
+       				<td align="right">
+						Attachment2 Contract<br>（附件：合同）
+					</td>
+	       			<td align="left">
+		                <input name="file_Invoice" data-name="custom.pic" data-toggle="webuploader" data-options="
+                        {
+                            pick: {label: '点击选择文件'},
+                            server: 'savefile.action',
+                            fileNumLimit: 1,
+                            formData: {},
+                            required: false,
+                            uploaded: '',
+                            basePath: '',
+                            accept: {
+                                title: '发票',
+                                extensions: 'xls,xlsx,doc,docx',
+                                mimeTypes: '.xls,.xlsx,.doc,.docx'
+                            }
+                        }"
+                    >
+	                </td>
+       				<td align="right">
+						Attachment3 Other<br>（附件：其他）
+					</td>
+	       			<td align="left">
+		               <input name="file_Invoice" data-name="custom.pic" data-toggle="webuploader" data-options="
+                        {
+                            pick: {label: '点击选择文件'},
+                            server: 'savefile.action',
+                            fileNumLimit: 1,
+                            formData: {},
+                            required: false,
+                            uploaded: '',
+                            basePath: '',
+                            accept: {
+                                title: '发票',
+                                extensions: 'xls,xlsx,doc,docx',
+                                mimeTypes: '.xls,.xlsx,.doc,.docx'
+                            }
+                        }"
+                    >
+					</td>
+				</tr>
 				<tr>
 					<td></td>
 					<td colspan="4">
+						<button type="button" id="payment-save" class="btn-default" data-icon="save" size="">Save(保存)</button>
+	            		<button type="button" id="payment-submit" class="btn-default" data-icon="arrow-up" size="">Submit(送审)</button>
+	            		<button type="button" id="payment-approve" class="btn-default" data-icon="check" size="">Approve(同意)</button>
+	            		<button type="button" id="payment-Reject" class="btn-default" data-icon="close" size="">Reject(拒绝)</button>
 	            		<button type="button" id="payment-Print" class="btn-default" data-icon="print" size="">Print Out(打印)</button>
+	            		<button type="button" id="payment-assign" class="btn-default" data-icon="undo" size="">Assign(转交)</button>
 					</td>
 					<td></td>			
+				</tr>
+				<tr>
+					<td></td>	
+					<td colspan="4">
+						<button type="button" id="payment-invalid" class="btn-default" data-icon="close">Doc. Invalid(作废)</button>
+            			<textarea name="invalidDescription" cols="30" rows="1" data-toggle="autoheight"></textarea>
+					</td>
+					<td></td>		
+				</tr>
+				<tr>
+					<td></td>	
+					<td colspan="4">
+						<button type="button" id="payment-return" class="btn-default" data-icon="arrow-down">Doc. Return(退回)</button>
+            			<textarea name="rReturnDescription" cols="30" rows="1" data-toggle="autoheight"></textarea>
+					</td>
+					<td></td>		
 				</tr>
 			</table>
         </form>
