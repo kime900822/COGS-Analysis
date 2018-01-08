@@ -5,7 +5,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -569,22 +572,36 @@ public class PaymentAction extends ActionBase {
 	public String savePayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=new Gson().fromJson(json, Payment.class);
-			
-			payment.setState(PaymentState.SAVEPAYMENT);
-			List<Dict> lDicts=dictBIZ.getDict(" where key='"+payment.getPaymentSubject()+"'");
-			if (!"".equals(lDicts.get(0).getValue())&&lDicts.get(0).getValue()!=null) {
-				//payment.setDocumentAudit(lDicts.get(0).getValue());
-				paymentBIZ.savePayment(payment);
-
-				
+			if (!payment.getId().equals("")&&payment.getId()!=null) {
+				paymentBIZ.updatePayment(payment);
 				result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 				result.setStatusCode("200");
-				logUtil.logInfo("新增付款申请单:"+payment.getId());
+				Map<String, String> map=new HashMap<>();
+				map.put("id", payment.getId());
+				result.setParams(map);
+				logUtil.logInfo("更新付款申请单:"+payment.getId());			
 			}else{
-				result.setMessage(Message.SAVE_MESSAGE_PAYMENT_ERROR);
-				result.setStatusCode("300");
-				logUtil.logInfo("新增付款申异常:为维护对应财务人员");
+				payment.setState(PaymentState.SAVEPAYMENT);
+				payment.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+				List<Dict> lDicts=dictBIZ.getDict(" where key='"+payment.getPaymentSubject()+"'");
+				if (!"".equals(lDicts.get(0).getValue())&&lDicts.get(0).getValue()!=null) {
+					//payment.setDocumentAudit(lDicts.get(0).getValue());
+					paymentBIZ.savePayment(payment);
+
+					
+					result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
+					result.setStatusCode("200");
+					Map<String, String> map=new HashMap<>();
+					map.put("id", payment.getId());
+					result.setParams(map);
+					logUtil.logInfo("新增付款申请单:"+payment.getId());
+				}else{
+					result.setMessage(Message.SAVE_MESSAGE_PAYMENT_ERROR);
+					result.setStatusCode("300");
+					logUtil.logInfo("新增付款申异常:为维护对应财务人员");
+				}
 			}
+
 			
 		} catch (Exception e) {
 			logUtil.logInfo("新增付款申请单异常:"+e.getMessage());
@@ -704,8 +721,11 @@ public class PaymentAction extends ActionBase {
 			})})
 	public String approvePayment() throws UnsupportedEncodingException{
 		try {
+			User user=(User)session.getAttribute("user");
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setState(PaymentState.APPROVEPAYMENT);
+			payment.setDeptManager(user.getUid());
+			payment.setDeptManager(user.getName());
 			
 			paymentBIZ.approvePayment(payment);
 			

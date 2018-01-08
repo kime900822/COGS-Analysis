@@ -165,7 +165,7 @@ public class RoleAction extends ActionBase {
 		try {
 			for (Role r : lRoles) {
 				if (r.getRid()==null||"".equals(r.getRid())) {
-					r.setRid(UUID.randomUUID().toString().replaceAll("-", ""));;
+					r.setRid(UUID.randomUUID().toString().replaceAll("-", ""));
 					int i=roleBIZ.getRole(" WHERE name='"+r.getName()+"'").size();
 					if (i>0) {
 						result.setMessage(Message.SAVE_MESSAGE_ERROR_ROLE_1);

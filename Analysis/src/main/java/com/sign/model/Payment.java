@@ -19,8 +19,8 @@ public class Payment {
 	 * id
 	 */
 	@Id
-	@GeneratedValue(generator="uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid")
+	@GeneratedValue(generator="assigned")
+	@GenericGenerator(name = "assigned", strategy = "assigned")
 	private String id;
 	
 	/**

@@ -30,6 +30,7 @@ import com.kime.model.Result;
 import com.kime.model.Role;
 import com.kime.model.User;
 import com.kime.utils.PropertiesUtil;
+import com.mysql.cj.api.x.io.MessageWriter;
 import com.opensymphony.xwork2.ActionSupport;
 
 
@@ -255,10 +256,11 @@ public class MenuAction extends ActionBase {
 			result.setStatusCode("300");
 			result.setMessage(Message.MOD_MESSAGE_ERROR_MENU_1);
 		}else{
-			Role role=(Role)roleBIZ.getRole(" WHERE NAME='"+menu.getType()+"' ").get(0);
-			role.setMenuid(menu.getId());
+			
 			if (menu.isUsed()) {
 				try {
+					Role role=(Role)roleBIZ.getRole(" WHERE NAME='"+menu.getType()+"' ").get(0);
+					role.setMenuid(menu.getId());
 					roleBIZ.save(role);
 					result.setStatusCode("200");
 					result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
@@ -270,6 +272,7 @@ public class MenuAction extends ActionBase {
 				}
 			}else{
 				try {
+					Role role=(Role)roleBIZ.getRole(" WHERE NAME='"+menu.getType()+"' AND menuid='"+menu.getId()+"' ").get(0);
 					roleBIZ.delete(role);
 					logUtil.logInfo(role.getName()+" 移除权限:"+menu.getName());
 					result.setStatusCode("200");

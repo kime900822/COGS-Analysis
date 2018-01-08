@@ -67,6 +67,12 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	public void savePayment(Payment payment){
 		paymentDao.save(payment);
 	}
+	
+	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
+	public void updatePayment(Payment payment){
+		paymentDao.update(payment);
+	}
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )

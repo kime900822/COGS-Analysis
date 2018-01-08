@@ -1,6 +1,8 @@
 package com.kime.model;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -8,6 +10,16 @@ import org.springframework.stereotype.Component;
 public class Result implements Serializable {
 	private String statusCode;
 	private String message;
+	private Map<String,String> params;
+	
+	
+
+	public Map<String, String> getParams() {
+		return params;
+	}
+	public void setParams(Map<String, String> params) {
+		this.params = params;
+	}
 	public String getStatusCode() {
 		return statusCode;
 	}

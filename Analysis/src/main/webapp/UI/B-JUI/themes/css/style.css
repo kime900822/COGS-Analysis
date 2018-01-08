@@ -1,5 +1,5 @@
 @charset "utf-8";
-body{font-family:"Verdana", "Tahoma", "Lucida Grande", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;}
+body{font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;}
 *:focus{outline:0 !important;}
 html{height:100%;}
 body{overflow:hidden;}
@@ -34,8 +34,8 @@ fieldset .bjui-row{padding:0;}
 
 .table-parent { background:#FFF38F;cursor:pointer;} 
 .table-odd { background:#c0c0c0;}
-.table-selected { background:#ffbf16;color:#fff;} 
-.child_row{background:#ccffff;}
+.table-selected { background:#ffcf51;color:#fff;} 
+.child_row{background:#ffffcc;}
 
 
 .bjui-row .row-label,

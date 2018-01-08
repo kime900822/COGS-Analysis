@@ -98,6 +98,7 @@ function savePayment(){
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
             	 $.CurrentNavtab.find('#payment-submit').show();
+            	 $.CurrentNavtab.find("#j_payment_id").val(json.params.id);
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -271,7 +272,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
-		$.CurrentNavtab.find('#payment-Print').hide();
+		$.CurrentNavtab.find('#payment-print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').show();
@@ -285,7 +286,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
-		$.CurrentNavtab.find('#payment-Print').hide();
+		$.CurrentNavtab.find('#payment-print').hide();
 		if(print=='1'){
 			$.CurrentNavtab.find('#payment-invalid-tr').show();
 			$.CurrentNavtab.find('#payment-return-tr').show();		
@@ -307,7 +308,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#payment-reject').show();
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
-		$.CurrentNavtab.find('#payment-Print').hide();
+		$.CurrentNavtab.find('#payment-print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();		
 		$.CurrentNavtab.find('#j_file_upload2').hide();
@@ -323,7 +324,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').show();
 		$.CurrentNavtab.find('#payment-acc').show();
-		$.CurrentNavtab.find('#payment-Print').hide();
+		$.CurrentNavtab.find('#payment-print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').hide();
@@ -342,7 +343,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
-		$.CurrentNavtab.find('#payment-Print').show();
+		$.CurrentNavtab.find('#payment-print').show();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').hide();
@@ -358,7 +359,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
-		$.CurrentNavtab.find('#payment-Print').hide();
+		$.CurrentNavtab.find('#payment-print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').hide();
@@ -374,7 +375,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
-		$.CurrentNavtab.find('#payment-Print').hide();
+		$.CurrentNavtab.find('#payment-print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').hide();
@@ -390,7 +391,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
-		$.CurrentNavtab.find('#payment-Print').hide();
+		$.CurrentNavtab.find('#payment-print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').hide();
@@ -535,6 +536,8 @@ function faceToDate(){
 	return o;
 }
 
+
+
 //金额变动
 function changeAmount(){
 	var amount1=$.CurrentNavtab.find("#j_payment_amount_1").val();
@@ -546,65 +549,74 @@ function changeAmount(){
 	var total=0;
 	if(amount1!=""){
 		total+=parseFloat(amount1);
+		$.CurrentNavtab.find("#row_01_title").html("PO&nbsp1 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_1").val()+"&nbsp&nbsp"+amount1);
 	}
 	if(amount2!=""){
 		total+=parseFloat(amount2);
+		$.CurrentNavtab.find("#row_02_title").html("PO&nbsp2 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_2").val()+"&nbsp&nbsp"+amount2);
 	}
 	if(amount3!=""){
 		total+=parseFloat(amount3);
+		$.CurrentNavtab.find("#row_03_title").html("PO&nbsp3 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_3").val()+"&nbsp&nbsp"+amount3);
 	}
 	if(amount4!=""){
 		total+=parseFloat(amount4);
+		$.CurrentNavtab.find("#row_04_title").html("PO&nbsp4 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_4").val()+"&nbsp&nbsp"+amount4);
 	}
 	if(amount5!=""){
 		total+=parseFloat(amount5);
+		$.CurrentNavtab.find("#row_05_title").html("PO&nbsp5 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_5").val()+"&nbsp&nbsp"+amount5);
 	}
 	if(amount6!=""){
 		total+=parseFloat(amount6);
+		$.CurrentNavtab.find("#row_06_title").html("PO&nbsp6 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_6").val()+"&nbsp&nbsp"+amount6);
 	}
 	$.CurrentNavtab.find("#j_payment_amountInFigures").val(total);
 	$.CurrentNavtab.find("#j_payment_amountInWords").val(smalltoBIG(total));
-	
-	$.CurrentNavtab.find("#row_01_title").html("PO&nbsp1 &nbsp&nbsp&nbsp&nbsp Amount(金额):"+amount1);
-	$.CurrentNavtab.find("#row_02_title").html("PO&nbsp2 &nbsp&nbsp&nbsp&nbsp Amount(金额):"+amount2);
-	$.CurrentNavtab.find("#row_03_title").html("PO&nbsp3 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+amount3);
-	$.CurrentNavtab.find("#row_04_title").html("PO&nbsp4 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+amount4);
-	$.CurrentNavtab.find("#row_05_title").html("PO&nbsp5 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+amount5);
-	$.CurrentNavtab.find("#row_06_title").html("PO&nbsp6 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+amount6);
 	
 	
 	
 }
 
+function changeCurrency(o){
+	var a=$(o).val();
+	$.CurrentNavtab.find("#j_payment_currency_1").selectpicker().selectpicker('val',a).selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_currency_2").selectpicker().selectpicker('val',a).selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_currency_3").selectpicker().selectpicker('val',a).selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_currency_4").selectpicker().selectpicker('val',a).selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_currency_5").selectpicker().selectpicker('val',a).selectpicker('refresh');
+	$.CurrentNavtab.find("#j_payment_currency_6").selectpicker().selectpicker('val',a).selectpicker('refresh');
+	changeAmount();
+}
 
 </script>
 <div class="bjui-pageContent">
-    <div class="bs-example" style="width:800px">
+    <div class="bs-example" style="width:1000px">
         <form id="j_payment_form" data-toggle="ajaxform">
 			<input type="hidden" name="id" id="j_payment_id" value="">
 			<input type="hidden" name="state" id="j_payment_state" value="">
             <div class="bjui-row-0" align="center">
             <h2 class="row-label">Payment Application Form 付款申请单</h2><br> 
             </div>
-			<table class="table" style="font-size:8px;">
+			<table class="table" style="font-size:12px;">
 				<tr>
-					<td width="200px">Application Date<br>申请日期）</td>
-					<td width="200px"><input type="text" name="applicationDate" data-nobtn="true" id="j_payment_applicationDate" value="" data-toggle="datepicker" data-rule="required;date"></td>
-					<td width="200px">Request Payment Date<br>(要求付款日期）</td>
-					<td width="200px"><input type="text" name="requestPaymentDate" data-nobtn="true" id="j_payment_requestPaymentDate" value="" data-toggle="datepicker" data-rule="required;date"></td>					
+					<td width="250px">Application Date<br>（申请日期）</td>
+					<td width="250px"><input type="text" size="19" name="applicationDate" data-nobtn="true" id="j_payment_applicationDate" value="" data-toggle="datepicker" data-rule="required;date"></td>
+					<td width="250px">Request Payment Date<br>(要求付款日期）</td>
+					<td width="250px"><input type="text" size="19" name="requestPaymentDate" data-nobtn="true" id="j_payment_requestPaymentDate" value="" data-toggle="datepicker" data-rule="required;date"></td>					
 				</tr>
 				<tr>
 					<td>
 						Contactural Payment Date<br>（合同付款日期）
 					</td>
 					<td>
-						<input type="text" name="contacturalPaymentDate" value="" data-nobtn="true" id="j_payment_contacturalPaymentDate"  data-toggle="datepicker" data-rule="required;date">
+						<input type="text" name="contacturalPaymentDate" size="19" value="" data-nobtn="true" id="j_payment_contacturalPaymentDate"  data-toggle="datepicker" data-rule="required;date">
 					</td>
 					<td>
 						CODE(流水码)
 					</td>
 					<td>
-						<input type="text" name="code" value="" readonly="" id="j_payment_code" size="17">
+						<input type="text" name="code" value="" readonly="" id="j_payment_code" size="19">
 					</td>					
 				</tr>
 				<tr>
@@ -636,13 +648,13 @@ function changeAmount(){
 						申请人<br>Applicant:
 					</td>
 					<td>
-						<input type="text" name="UID" value="${user.uid}-${user.name}" id="j_payment_UID" readonly="" data-rule="required" size="17">
+						<input type="text" name="UID" value="${user.uid}-${user.name}" id="j_payment_UID" readonly="" data-rule="required" size="19">
 					</td>
 					<td>
 						所属部门<br>Department of Applicant:
 					</td>
 					<td>
-						<input type="text" name="departmentID" value="${user.department.name}-${user.department.did}" id="j_payment_departmentID" readonly="" data-rule="required" size="17">
+						<input type="text" name="departmentID" value="${user.department.name}-${user.department.did}" id="j_payment_departmentID" readonly="" data-rule="required" size="19">
 					</td>					
 				</tr>
 				<tr>
@@ -650,7 +662,7 @@ function changeAmount(){
 						收款人（全称）<br>Beneficiary:
 					</td>
 					<td id="j_payment_beneficiary_tr">
-						<select name="beneficiary" id="j_payment_beneficiary" data-toggle="selectpicker" data-rule="required" onchange="changeBeneficiary()" data-width="170px">
+						<select name="beneficiary" id="j_payment_beneficiary" data-toggle="selectpicker" data-rule="required" onchange="changeBeneficiary()" data-width="190px">
                         	<option value=""></option>
                     	</select>
 					</td>
@@ -658,7 +670,7 @@ function changeAmount(){
 						银行及帐号<br>Beneficiary Account NO.
 					</td>
 					<td id="j_payment_beneficiaryAccountNO_tr">
-						<input type="text" name="beneficiaryAccountNO" id="j_payment_beneficiaryAccountNO" value="" readonly=""  size="17">
+						<input type="text" name="beneficiaryAccountNO" id="j_payment_beneficiaryAccountNO" value="" readonly=""  size="19">
 					</td>					
 				</tr>
 				<tr>
@@ -682,7 +694,7 @@ function changeAmount(){
 						付款项目<br>Payment Subject
 					</td>
 					<td>
-						<select name="paymentSubject" data-toggle="selectpicker" id="j_payment_paymentSubject"  data-rule="required" data-width="170px">
+						<select name="paymentSubject" data-toggle="selectpicker" id="j_payment_paymentSubject"  data-rule="required" data-width="190px">
 	                        <option value=""></option>
 	                        <option value="1">Fixed Asset 固定资产</option>
 	                        <option value="2">Raw Material 原材料</option>
@@ -697,7 +709,7 @@ function changeAmount(){
 						结算期<br>Payment Term
 					</td>	
 					<td>
-						<select name="paymentTerm" data-toggle="selectpicker" id="j_payment_paymentTerm"  data-rule="required" data-width="170px" >
+						<select name="paymentTerm" data-toggle="selectpicker" id="j_payment_paymentTerm"  data-rule="required" data-width="190px" >
 	                        <option value=""></option>
 	                        <option value="1">Advance预付款</option>
 	                        <option value="2">Payment at sight 见票即付</option>
@@ -708,13 +720,16 @@ function changeAmount(){
                     	</select>
 					</td>				
 				</tr>
+				
+				
+				
 				<tr>
 					<td colspan="4">
 						<table id="payterm" class="table" width="100%">
 							<!-- Advance预付款 -->
 							<tr class="table-parent" id="row_01">
 								<td colspan="4">
-									<label id="row_01_title">Advance预付款</label>
+									<label id="row_01_title">PO&nbsp1</label>
 								</td>
 							</tr>
 							<tr class="child_row_01 child_row">
@@ -722,7 +737,7 @@ function changeAmount(){
 									结算期 <br>Payment Term
 								</td>
 								<td>
-									<select name="paymentDays_1" id="j_payment_paymentDays_1" data-toggle="selectpicker" data-width="170px" >
+									<select name="paymentDays_1" id="j_payment_paymentDays_1" data-toggle="selectpicker" data-width="190px" >
 				                        <option value=""></option>
 				                        <option value="30">30Days</option>
 				                        <option value="45">45Days</option>
@@ -735,7 +750,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_1" data-nobtn="true" id="j_payment_receivingOrApprovalDate_1" value="" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_1" size="19" data-nobtn="true" id="j_payment_receivingOrApprovalDate_1" value="" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_01 child_row">
@@ -743,13 +758,13 @@ function changeAmount(){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_1" id="j_payment_PONo_1"  value="" size="17" >
+									<input type="text" name="PONo_1" id="j_payment_PONo_1"  value="" size="19" >
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
 								</td>
 								<td>
-									<select name="currency_1" data-toggle="selectpicker" id="j_payment_currency_1" data-width="170px">
+									<select name="currency_1" data-toggle="selectpicker" id="j_payment_currency_1" data-width="190px" onchange="changeCurrency(this)">
 				                        <option value=""></option>
 				                        <option value="RMB">RMB</option>
 				                        <option value="USD">USD</option>
@@ -763,7 +778,7 @@ function changeAmount(){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_1" id="j_payment_amount_1" value="" data-rule="number" onchange="changeAmount()" size="17">
+									<input type="text" name="amount_1" id="j_payment_amount_1" value="" data-rule="number" onchange="changeAmount()" size="19">
 								</td>
 								<td colspan="2">
 								</td>
@@ -773,7 +788,7 @@ function changeAmount(){
 							<!-- Payment at sight 见票即付-->
 							<tr class="table-parent" id="row_02">
 								<td colspan="4">
-									<label id="row_02_title">Payment at sight 见票即付</label>					
+									<label id="row_02_title">PO&nbsp2</label>					
 								</td>
 							</tr>
 							<tr class="child_row_02 child_row">
@@ -781,7 +796,7 @@ function changeAmount(){
 									结算期 <br>Payment Term
 								</td>
 								<td>
-									<select name="paymentDays_2" id="j_payment_paymentDays_2" data-toggle="selectpicker" data-width="170px" >
+									<select name="paymentDays_2" id="j_payment_paymentDays_2" data-toggle="selectpicker" data-width="190px" >
 				                        <option value=""></option>
 				                        <option value="30">30Days</option>
 				                        <option value="45">45Days</option>
@@ -794,7 +809,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_2" data-nobtn="true" id="j_payment_receivingOrApprovalDate_2" value="" size="17" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_2" data-nobtn="true" id="j_payment_receivingOrApprovalDate_2" value="" size="19" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_02 child_row">
@@ -802,13 +817,13 @@ function changeAmount(){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo"  value="" size="17" >
+									<input type="text" name="PONo"  value="" size="19" >
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
 								</td>
 								<td>
-									<select name="currency_2" id="j_payment_currency_2" data-toggle="selectpicker" data-width="170px">
+									<select name="currency_2" id="j_payment_currency_2" data-toggle="selectpicker" data-width="190px" onchange="changeCurrency(this)">
 				                        <option value=""></option>
 				                        <option value="RMB">RMB</option>
 				                        <option value="USD">USD</option>
@@ -822,7 +837,7 @@ function changeAmount(){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_2" id="j_payment_amount_2" value="" data-rule="number" size="17" onchange="changeAmount()">
+									<input type="text" name="amount_2" id="j_payment_amount_2" value="" data-rule="number" size="19" onchange="changeAmount()">
 								</td>
 								<td colspan="2">
 								</td>
@@ -831,7 +846,7 @@ function changeAmount(){
 							<!-- Upon receiving 收货后 -->
 							<tr class="table-parent" id="row_03">
 								<td colspan="4">
-									<label id="row_03_title">Upon receiving 收货后</label>						
+									<label id="row_03_title">PO&nbsp3</label>						
 								</td>
 							</tr>
 							<tr class="child_row_03 child_row">
@@ -839,7 +854,7 @@ function changeAmount(){
 									结算期 <br>Payment Term
 								</td>
 								<td>
-									<select name="paymentDays_3" id="j_payment_paymentDays_3" data-toggle="selectpicker" data-width="170px" >
+									<select name="paymentDays_3" id="j_payment_paymentDays_3" data-toggle="selectpicker" data-width="190px" >
 				                        <option value=""></option>
 				                        <option value="30">30Days</option>
 				                        <option value="45">45Days</option>
@@ -852,7 +867,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_3" data-nobtn="true" id="j_payment_receivingOrApprovalDate_3" size="17"  value="" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_3" size="19" data-nobtn="true" id="j_payment_receivingOrApprovalDate_3" size="19"  value="" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_03 child_row">
@@ -860,13 +875,13 @@ function changeAmount(){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_3" id="j_payment_PONo_3" size="17" value="" >
+									<input type="text" name="PONo_3" id="j_payment_PONo_3" size="19" value="" >
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
 								</td>
 								<td>
-									<select name="currency_3" id="j_payment_currency_3" data-width="170px" data-toggle="selectpicker" >
+									<select name="currency_3" id="j_payment_currency_3" data-width="190px" data-toggle="selectpicker" onchange="changeCurrency(this)">
 				                        <option value=""></option>
 				                        <option value="RMB">RMB</option>
 				                        <option value="USD">USD</option>
@@ -880,7 +895,7 @@ function changeAmount(){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_3" id="j_payment_amount_3" value="" size="17" data-rule="number" onchange="changeAmount();" >
+									<input type="text" name="amount_3" id="j_payment_amount_3" value="" size="19" data-rule="number" onchange="changeAmount();" >
 								</td>
 								<td colspan="2">
 								</td>
@@ -889,7 +904,7 @@ function changeAmount(){
 							<!-- Upon Approval 验收后 -->
 							<tr class="table-parent" id="row_04">
 								<td colspan="4">
-									<label id="row_04_title">Upon Approval 验收后</label>				
+									<label id="row_04_title">PO&nbsp4</label>				
 								</td>
 							</tr>
 							<tr class="child_row_04 child_row">
@@ -897,7 +912,7 @@ function changeAmount(){
 									结算期 <br>Payment Term
 								</td>
 								<td>
-									<select name="paymentDays_4" id="j_payment_paymentDays_4" data-toggle="selectpicker" data-width="170px" >
+									<select name="paymentDays_4" id="j_payment_paymentDays_4" data-toggle="selectpicker" data-width="190px" >
 				                        <option value=""></option>
 				                        <option value="30">30Days</option>
 				                        <option value="45">45Days</option>
@@ -910,7 +925,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_4" data-nobtn="true" size="17" id="j_payment_receivingOrApprovalDate_4" value="" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_4" size="19" data-nobtn="true" size="19" id="j_payment_receivingOrApprovalDate_4" value="" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_04 child_row">
@@ -918,13 +933,13 @@ function changeAmount(){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_4" id="j_payment_PONo_4" size="17" value="" >
+									<input type="text" name="PONo_4" id="j_payment_PONo_4" size="19" value="" >
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
 								</td>
 								<td>
-									<select name="currency_4" id="j_payment_currency_4" data-width="170px" data-toggle="selectpicker" >
+									<select name="currency_4" id="j_payment_currency_4" data-width="190px" data-toggle="selectpicker" onchange="changeCurrency(this)">
 				                        <option value=""></option>
 				                        <option value="RMB">RMB</option>
 				                        <option value="USD">USD</option>
@@ -938,7 +953,7 @@ function changeAmount(){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_4" id="j_payment_amount_4" size="17" value="" data-rule="number" onchange="changeAmount()" >
+									<input type="text" name="amount_4" id="j_payment_amount_4" size="19" value="" data-rule="number" onchange="changeAmount()" >
 								</td>
 								<td colspan="2">
 								</td>
@@ -947,7 +962,7 @@ function changeAmount(){
 							<!-- Upon invoice 见票后 -->
 							<tr class="table-parent" id="row_05">
 								<td colspan="4">
-									<label id="row_05_title">Upon invoice 见票后</label>							 
+									<label id="row_05_title">PO&nbsp5</label>							 
 								</td>
 							</tr>
 							<tr class="child_row_05 child_row">
@@ -955,7 +970,7 @@ function changeAmount(){
 									结算期 <br>Payment Term
 								</td>
 								<td>
-									<select name="paymentDays_5" id="j_payment_paymentDays_5" data-toggle="selectpicker" data-width="170px" >
+									<select name="paymentDays_5" id="j_payment_paymentDays_5" data-toggle="selectpicker" data-width="190px" >
 				                        <option value=""></option>
 				                        <option value="30">30Days</option>
 				                        <option value="45">45Days</option>
@@ -968,7 +983,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_5" data-nobtn="true" id="j_payment_receivingOrApprovalDate_5" size="17" value="" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_5" size="19" data-nobtn="true" id="j_payment_receivingOrApprovalDate_5" size="19" value="" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_05 child_row">
@@ -976,13 +991,13 @@ function changeAmount(){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_5" id="j_payment_PONo_5" size="17" value="" >
+									<input type="text" name="PONo_5" id="j_payment_PONo_5" size="19" value="" >
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
 								</td>
 								<td>
-									<select name="currency_5" id="j_payment_currency_5" data-width="170px" data-toggle="selectpicker" >
+									<select name="currency_5" id="j_payment_currency_5" data-width="190px" data-toggle="selectpicker" onchange="changeCurrency(this)">
 				                        <option value=""></option>
 				                        <option value="RMB">RMB</option>
 				                        <option value="USD">USD</option>
@@ -996,7 +1011,7 @@ function changeAmount(){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_5" id="j_payment_amount_5" size="17" value="" data-rule="number" onchange="changeAmount()" >
+									<input type="text" name="amount_5" id="j_payment_amount_5" size="19" value="" data-rule="number" onchange="changeAmount()" >
 								</td>
 								<td colspan="2">
 								</td>
@@ -1005,7 +1020,7 @@ function changeAmount(){
 							<!-- Other 其他 -->
 							<tr class="table-parent" id="row_06">
 								<td colspan="4">
-									<label id="row_06_title">Other 其他</label>						
+									<label id="row_06_title">PO&nbsp6</label>						
 								</td>
 							</tr>
 							<tr class="child_row_06 child_row">
@@ -1013,7 +1028,7 @@ function changeAmount(){
 									结算期 <br>Payment Term
 								</td>
 								<td>
-									<select name="paymentDays_6" id="j_payment_paymentDays_6" data-toggle="selectpicker" data-width="170px" >
+									<select name="paymentDays_6" id="j_payment_paymentDays_6" data-toggle="selectpicker" data-width="190px" >
 				                        <option value=""></option>
 				                        <option value="30">30Days</option>
 				                        <option value="45">45Days</option>
@@ -1026,7 +1041,7 @@ function changeAmount(){
 									收货或验收日期<br>Receiving or Approval date
 								</td>
 								<td>
-									<input type="text" name="receivingOrApprovalDate_6" data-nobtn="true" id="j_payment_receivingOrApprovalDate_6" size="17" value="" data-toggle="datepicker" data-rule="date">
+									<input type="text" name="receivingOrApprovalDate_6" size="19" data-nobtn="true" id="j_payment_receivingOrApprovalDate_6" size="19" value="" data-toggle="datepicker" data-rule="date">
 								</td>
 							</tr>
 							<tr class="child_row_06 child_row">
@@ -1034,13 +1049,13 @@ function changeAmount(){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_6" id="j_payment_PONo_6" size="17" value="" >
+									<input type="text" name="PONo_6" id="j_payment_PONo_6" size="19" value="" >
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
 								</td>
 								<td>
-									<select name="currency_6" id="j_payment_currency_6" data-toggle="selectpicker" data-width="170px" >
+									<select name="currency_6" id="j_payment_currency_6" data-toggle="selectpicker" data-width="190px" onchange="changeCurrency(this)">
 				                        <option value=""></option>
 				                        <option value="RMB">RMB</option>
 				                        <option value="USD">USD</option>
@@ -1054,7 +1069,7 @@ function changeAmount(){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_6" id="j_payment_amount_6" value="" data-rule="number" size="17" onchange="changeAmount()" >
+									<input type="text" name="amount_6" id="j_payment_amount_6" value="" data-rule="number" size="19" onchange="changeAmount()" >
 								</td>
 								<td colspan="2">
 								</td>
@@ -1075,13 +1090,13 @@ function changeAmount(){
 						供应商代码<br>Supplier Code
 					</td>
 					<td>
-						<input type="text" name="supplierCode" id="j_payment_supplierCode" value="" size="17" data-rule="required">
+						<input type="text" name="supplierCode" id="j_payment_supplierCode" value="" size="19" data-rule="required">
 					</td>
 					<td>
 						银行交易编码<br>Ref. No. of Bank
 					</td>
 					<td>
-						<input type="text" name="refNoofBank" value="" id="j_payment_refNoofBank" size="17"  readonly="">
+						<input type="text" name="refNoofBank" value="" id="j_payment_refNoofBank" size="19"  readonly="">
 					</td>
 				</tr>
 				<tr>
@@ -1089,7 +1104,7 @@ function changeAmount(){
 						支付用途 <br>Usage Description
 					</td>
 					<td colspan="3">
-						<input type="text"  name="usageDescription" value="" size="57" id="j_payment_usageDescription" ></input>
+						<input type="text"  name="usageDescription" value="" size="60" id="j_payment_usageDescription" ></input>
 					</td>
 				</tr>
 				<tr>
@@ -1097,13 +1112,13 @@ function changeAmount(){
 						金额(小写)<br>Amount in figures:
 					</td>
 					<td>
-						<input type="text" name="amountInFigures" size="17" id="j_payment_amountInFigures" value="" readonly="" >
+						<input type="text" name="amountInFigures" size="19" id="j_payment_amountInFigures" value="" readonly="" >
 					</td>
 					<td>
 						金额（大写）<br>Amount in words:
 					</td>
 					<td>
-						<input type="text" name="amountInWords" size="17" id="j_payment_amountInWords" value="" readonly="" >
+						<input type="text" name="amountInWords" size="19" id="j_payment_amountInWords" value="" readonly="" >
 					</td>
 				</tr>
 				<tr>
@@ -1111,13 +1126,13 @@ function changeAmount(){
 						单据审核<br>Document Audit:
 					</td>
 					<td>
-						<input type="text" name="documentAudit" size="17" id="j_payment_documentAudit" value="" readonly=""  >
+						<input type="text" name="documentAudit" size="19" id="j_payment_documentAudit" value="" readonly=""  >
 					</td>
 					<td>
 						部门经理<br>Dept. Manager:
 					</td>
 					<td>
-						<input type="text" name="deptManager" size="17" id="j_payment_deptManager" value="" readonly="" >
+						<input type="text" name="deptManager" size="19" id="j_payment_deptManager" value="" readonly="" >
 					</td>  
 				</tr>
 				<tr id="j_file_upload1">
@@ -1125,7 +1140,7 @@ function changeAmount(){
 						Attachment1 Invoice<br>（附件：发票）
 					</td>
 					<td>
-						<input name="file_Invoice"  id="j_payment_update_invoice"  data-name="custom.pic" data-toggle="webuploader" data-options="
+						<input name="invoice"  id="j_payment_update_invoice"  data-name="custom.pic" data-toggle="webuploader" data-options="
 	                        {
 	                            pick: {label: '点击选择文件'},
 	                            server: 'savefile.action',
@@ -1146,7 +1161,7 @@ function changeAmount(){
 						Attachment2 Contract<br>（附件：合同）
 					</td>
 					<td>
-						<input name="file_Contract" id="j_payment_update_contract"  data-name="custom.pic" data-toggle="webuploader" data-options="
+						<input name="contract" id="j_payment_update_contract"  data-name="custom.pic" data-toggle="webuploader" data-options="
 	                        {
 	                            pick: {label: '点击选择文件'},
 	                            server: 'savefile.action',
@@ -1169,7 +1184,7 @@ function changeAmount(){
 						Attachment3 Other<br>（附件：其他）
 					</td>
 					<td>
-						<input name="file_Other" id="j_payment_update_other" data-name="custom.pic" data-toggle="webuploader" data-options="
+						<input name="other" id="j_payment_update_other" data-name="custom.pic" data-toggle="webuploader" data-options="
 	                        {
 	                            pick: {label: '点击选择文件'},
 	                            server: 'savefile.action',

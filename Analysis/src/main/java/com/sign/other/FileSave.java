@@ -70,8 +70,9 @@ public class FileSave {
     			}
         		
      
+        }else{
+        	return dir.getPath();        	
         }
-		return null;
         
     }
 }

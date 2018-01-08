@@ -40,5 +40,7 @@ public interface PaymentBIZ {
 	public List<Payment> getPaymentByHql(String hql, Integer pageSize, Integer pageCurrent);
 
 	public List<Payment> getPaymentByHql(String hql);
+
+	public void updatePayment(Payment payment);
 	
 }
