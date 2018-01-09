@@ -12,7 +12,7 @@
 <!-- plug - css -->
 <link href="../../B-JUI/plugins/kindeditor_4.1.11/themes/default/default.css" rel="stylesheet">
 <link href="../../B-JUI/plugins/colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
-<link href="../../B-JUI/plugins/nice-validator-1.0.7/jquery.validator.css" rel="stylesheet">
+<link href="../../B-JUI/plugins/nice-validator-1.0.7/jquery.htmlidator.css" rel="stylesheet">
 <link href="../../B-JUI/plugins/bootstrapSelect/bootstrap-select.css" rel="stylesheet">
 <link href="../../B-JUI/plugins/webuploader/webuploader.css" rel="stylesheet">
 <link href="../../B-JUI/themes/css/FA/css/font-awesome.min.css" rel="stylesheet">
@@ -49,8 +49,8 @@
 <!-- ztree -->
 <script src="../../B-JUI/plugins/ztree/jquery.ztree.all-3.5.js"></script>
 <!-- nice validate -->
-<script src="../../B-JUI/plugins/nice-validator-1.0.7/jquery.validator.js"></script>
-<script src="../../B-JUI/plugins/nice-validator-1.0.7/jquery.validator.themes.js"></script>
+<script src="../../B-JUI/plugins/nice-validator-1.0.7/jquery.htmlidator.js"></script>
+<script src="../../B-JUI/plugins/nice-validator-1.0.7/jquery.htmlidator.themes.js"></script>
 <!-- bootstrap plugins -->
 <script src="../../B-JUI/plugins/bootstrap.min.js"></script>
 <script src="../../B-JUI/plugins/bootstrapSelect/bootstrap-select.min.js"></script>
@@ -80,26 +80,140 @@ $(function(){
 	    loadingmask: false,
 	    okCallback: function(json, options) {
             $.each(json, function (i, item) {
-                $.CurrentNavtab.find('#j_payment_beneficiary').append("<option value='" + item.accno + "'>" + item.name + "</option>")           
+                $('#beneficiary').append("<option value='" + item.accno + "'>" + item.name + "</option>")           
             })
-            $.CurrentNavtab.find('#j_payment_beneficiary').selectpicker('val','${param.beneficiary}');
-            $.CurrentNavtab.find('#j_payment_beneficiary').selectpicker('refresh');
+            $('#beneficiary').selectpicker('val','${param.beneficiary}');
+            $('#beneficiary').selectpicker('refresh');
 	    }
 	})	
 
-	$.CurrentNavtab.find('#payment-save').click(function(){
+	$('#payment-save').click(function(){
 		
-		$.CurrentNavtab.find("#j_payment_form").attr("action", "savePayment.action").submit();
+		$("#form").attr("action", "savePayment.action").submit();
 	})
+	
+	
+	
+	dataToFace();
 	
 })
 
-	function changeBeneficiary(){
-		$.CurrentNavtab.find('#j_payment_beneficiaryAccountNO').val($.CurrentNavtab.find('#j_payment_beneficiary').val())
-		
+function dataToFace(){
 	
+	BJUI.ajax('doajax', {
+	    url: 'getPaymentByID.action',
+	    loadingmask: true,
+	    data:{id:'${param.id}'},	    
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+            	$("#applicationDate").html(json.applicationDate);
+            	$("#requestPaymentDate").html(json.requestPaymentDate);
+            	$("#contacturalPaymentDate").html(json.contacturalPaymentDate);
+            	$("#code").html(json.code);
+            	if(json.payType=='Cash'){
+            		$("#cash").attr('checked',true);
+            	}else if(json.payType=='Banking'){
+            		$("#banking").attr('checked',true);
+            	}else if(json.payType=='AdvanceWriteoff'){
+            		$("#AdvanceWriteoff").attr('checked',true);
+            	}
+            	if(json.urgent=='1'){
+            		$("#urgent")html("●");
+            	}
+            	$("#UID").html(json.UID+'<br>'+json.UName);
+            	$("#departmentID").html(json.departmentName+'<br>'+json.departmentID);
+            	$("#beneficiary").html(json.beneficiary)
+            	$("#beneficiaryAccountNO").html(json.beneficiaryAccountNO)
+                if(json.beneficiaryChange=='1'){
+            		$("#beneficiaryChange").html("●"); 
+            		$("#beneficiary_td").attr("style","background-color: #9ACD32");
+            	}
+                if(json.beneficiaryAccountNOChange=='1'){
+            		$("#beneficiaryAccountNOChange").html("●") 
+            		$("#beneficiaryAccountNO_td").attr("style","background-color: #EEC900");
+            	}
+                $("#paymentSubject"+json.paymentSubject).html("Y")  
+                if(json.paymentDays_1!=""&&json.paymentDays_1!=null){
+                	$("#paymentDays_1").html(json.paymentDays_1+"days");
+                }
+                if(json.paymentDays_2!=""&&json.paymentDays_2!=null){
+                	$("#paymentDays_2").html(json.paymentDays_2+"days");
+                }
+                if(json.paymentDays_3!=""&&json.paymentDays_3!=null){
+                	$("#paymentDays_3").html(json.paymentDays_3+"days");
+                }
+                if(json.paymentDays_4!=""&&json.paymentDays_4!=null){
+                	$("#paymentDays_4").html(json.paymentDays_4+"days");
+                }
+                if(json.paymentDays_5!=""&&json.paymentDays_5!=null){
+                	$("#paymentDays_5").html(json.paymentDays_5+"days");
+                }
+                if(json.paymentDays_6!=""&&json.paymentDays_6!=null){
+                	$("#paymentDays_6").html(json.paymentDays_6+"days");
+                }
+
+               
+            	$("#receivingOrApprovalDate_1").html(json.receivingOrApprovalDate_1);
+            	$("#PONo_1").html(json.PONo_1);
+            	$("#currency_1").html(json.currency_1);
+            	if(json.amount_1!=''&&json.amount_1!=null){
+            		$("#amount_1").html(json.amount_1);
+            	}
+    
+            	$("#receivingOrApprovalDate_2").html(json.receivingOrApprovalDate_2);
+            	$("#PONo_2").html(json.PONo_2);
+            	$("#currency_2").html(json.currency_2);
+            	if(json.amount_2!=''&&json.amount_2!=null){
+            		$("#amount_2").html(json.amount_2);
+            	}           		
+
+            	$("#receivingOrApprovalDate_3").html(json.receivingOrApprovalDate_3);
+            	$("#PONo_3").html(json.PONo_3);
+            	$("#currency_3").html(json.currency_3);
+            	if(json.amount_3!=''&&json.amount_3!=null){
+            		$("#amount_3").html(json.amount_3);
+            	}
+            		
+            	$("#receivingOrApprovalDate_4").html(json.receivingOrApprovalDate_4);
+            	$("#PONo_4").html(json.PONo_4);
+            	$("#currency_4").html(json.currency_4);
+            	if(json.amount_4!=''&& json.amount_4==null){
+            		$("#amount_4").html(json.amount_4);
+            	}
+            		
+            	$("#receivingOrApprovalDate_5").html(json.receivingOrApprovalDate_5);
+            	$("#PONo_5").html(json.PONo_5);
+            	$("#currency_5").html(json.currency_5);
+            	if(json.amount_5!=''&& json.amount_5!=null){
+            		$("#amount_5").html(json.amount_5);
+            	}
+            		
+            	$("#receivingOrApprovalDate_6").html(json.receivingOrApprovalDate_6);
+            	$("#PONo_6").html(json.PONo_6);
+            	$("#currency_6").html(json.currency_6);
+            	if(json.amount_6!=''&& json.amount_6!=null){
+            		$("#amount_6").html(json.amount_6);
+            	}
+            		
+            	$("#supplierCode").html(json.supplierCode);
+            	$("#refNoofBank").html(json.refNoofBank);
+            	$("#usageDescription").html(json.usageDescription);
+            	if(json.amountInFigures!=''&&json.amountInFigures!=null){
+            		$("#amountInFigures").html(json.amountInFigures);
+            		$("#amountInWords").html(formatCurrency(json.amountInFigures));
+            	}
+            	
+            	$("#documentAudit").html(json.documentAudit);
+            	$("#deptManager").html(json.deptManager);
+
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	});	
+
 	
-	}
+}
 
 </script>
 
@@ -107,7 +221,7 @@ $(function(){
 			<table  style="font-size:9px;">
 				<tr height="9px">
 					<td colspan="2" align="right" >
-						<p id="print-payment-id" >流水码:</p>
+						<p>流水码:</p><label id="code">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
 					</td>
 				</tr>
 				<tr>
@@ -118,22 +232,22 @@ $(function(){
 				</tr>
 				<tr>
 					<td colspan="2" align="right" style="">
-						<p id="print-payment-Urgent" style="font-size:9px">Urgent:</p>
+						<p style="font-size:9px">Urgent:</p><label id="urgent">&nbsp</label>
 					</td>
 				</tr>
 			</table>		
 			<table style="font-size:9px;">
 				<tr>
-					<td width="300px" id="j_payment_applicationDate" >Application Date(申请日期)</td>
-					<td width="400px" id="j_payment_requestPaymentDate">Request Payment Date(要求付款日期）</td>
-					<td width="400px" id="j_payment_contacturalPaymentDate">Contactural Payment Date(合同付款日期)</td>
+					<td width="300px" >Application Date(申请日期)<label id="applicationDate"></label></td>
+					<td width="400px" >Request Payment Date(要求付款日期）<label id="requestPaymentDate"></label></td>
+					<td width="400px" >Contactural Payment Date(合同付款日期)<label id="contacturalPaymentDate"></label></td>
 					<td width="100px"></td>
 				</tr>
 				<tr>
 					<td colspan="4">
-						<input type="checkbox" id="j_payment_payType" >支付现金 Cash &nbsp&nbsp&nbsp&nbsp
-						<input type="checkbox" id="j_payment_payType" >银行支付 Banking &nbsp&nbsp&nbsp&nbsp
-						<input type="checkbox" id="j_custom_cash">核销预付 Advance Write-off (Amount) . &nbsp&nbsp&nbsp&nbsp
+						<input type="checkbox" id="cash" >支付现金 Cash &nbsp&nbsp&nbsp&nbsp
+						<input type="checkbox" id="Banking" >银行支付 Banking &nbsp&nbsp&nbsp&nbsp
+						<input type="checkbox" id="AdvanceWriteoff">核销预付 Advance Write-off (Amount) . &nbsp&nbsp&nbsp&nbsp
 					</td>
 				</tr>
 			</table>            
@@ -156,32 +270,34 @@ $(function(){
 				</tr>
 				<tr>
 					<td colspan="2" rowspan="2" style="background:#B7DEE8">申请人:<br>Application:</td>
-					<td colspan="2" rowspan="2" style="text-align:center;border-bottom:0px" >${user.uid}</td>
+					<td colspan="2" rowspan="2" style="text-align:center;border-bottom:0px" ><label id="UID"></label></td>
 					<td colspan="4" rowspan="2" style="background:#B7DEE8">收款人（全称）:<br>Beneficiary:</td>
-					<td colspan="2" rowspan="2">
+					<td colspan="2" rowspan="2"  id="beneficiary_td">
+						<label id="beneficiary"></label>
                     </td>
 					<td align="center" style="background:#B7DEE8;text-align:center;">change<br/>变更</td>
 					<td rowspan="2" style="background:#B7DEE8;text-align:center;">供应商代码:<br/>Supplier Code:</td>
-					<td rowspan="2" style="text-align:center"> </td>
+					<td rowspan="2" style="text-align:center"><label id="supplierCode"></label> </td>
 				</tr>
 				<tr >
 					<td style="text-align:center">
-					<input type="checkbox" id="j_payment_payType" >
+						<input type="checkbox" id="beneficiaryChange" >
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" rowspan="2" style="background:#B7DEE8">所属部门:<br>Department of Applicant:</td>
-					<td colspan="2" rowspan="2" style="text-align:center">${user.department.name}</td>
+					<td colspan="2" rowspan="2" style="text-align:center"><label id="departmentID"></label></td>
 					<td colspan="4" rowspan="2" style="background:#B7DEE8">银行及帐号:<br>Beneficiary Account NO:</td>
-					<td colspan="2" rowspan="2">
+					<td colspan="2" rowspan="2" id="beneficiaryAccountNO_td">
+						<label id="beneficiaryAccountNO"></label>
 					</td>
 					<td align="center" style="background:#B7DEE8;text-align:center;">change<br/>变更</td>
 					<td rowspan="2" style="background:#B7DEE8;text-align:center;">银行交易编码:<br/>Ref. No. of Bank:</td>
-					<td rowspan="2" ></td>
+					<td rowspan="2" ><label id="refNoofBank"></label></td>
 				</tr>
 				<tr >
 					<td style="text-align:center">
-					<input type="checkbox" id="j_payment_payType" >
+						<input type="checkbox" id="beneficiaryAccountNOChange" >
 					</td>
 				</tr>
 				<tr>
@@ -192,73 +308,73 @@ $(function(){
 					<td align="center" style="background:#B7DEE8">币别<br/>Currency</td>
 					<td align="center" style="background:#B7DEE8">金额<br/>Amount</td>
 					<td rowspan="8" align="center" width="100px">支付用途<br/>Usage<br/>Description</td>
-					<td colspan="4" rowspan="8"></td>
+					<td colspan="4" rowspan="8"><label id="usageDescription"></label></td>
 				</tr>
 				
 				
 				
 				<tr>
-					<td align="center"><input type="radio" name="cash" id="j_payment_subject" data-toggle="icheck" value="true" ></td>
+					<td align="center"><label id="paymentSubject_1"></label></td>
 					<td>Fixed Asset 固定资产</td>
-					<td>days</td>
+					<td><label id="paymentDays_1"></label></td>
 					<td align="right">Advance<br/>预付款</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td><label id="receivingOrApprovalDate_1"></label></td>
+					<td><label id="PONo_1"></label></td>
+					<td><label id="currency_1"></label></td>
+					<td><label id="amount_1"></label></td>
 				</tr>	
 				<tr>
-					<td align="center"><input type="radio" name="cash" id="j_payment_subject" data-toggle="icheck" value="true" ></td>
+					<td align="center"><label id="paymentSubject_2"></label></td>
 					<td>Raw Material 原材料</td>
-					<td>days</td>
+					<td><label id="paymentDays_2"></label></td>
 					<td align="right">Payment at sight<br/>见票即付</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td><label id="receivingOrApprovalDate_2"></label></td>
+					<td><label id="PONo_2"></label></td>
+					<td><label id="currency_2"></label></td>
+					<td><label id="amount_2"></label></td>
 				</tr>	
 				<tr>
-					<td align="center"><input type="radio" name="cash" id="j_payment_subject" data-toggle="icheck" value="true" ></td>
+					<td align="center"><label id="paymentSubject_3"></label></td>
 					<td>Consumable 消耗品</td>
-					<td>days</td>
+					<td><label id="paymentDays_3"></label></td>
 					<td align="right">Upon receiving<br/>收货后</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td><label id="receivingOrApprovalDate_3"></label></td>
+					<td><label id="PONo_3"></label></td>
+					<td><label id="currency_3"></label></td>
+					<td><label id="amount_3"></label></td>
 				</tr>	
 				<tr>
-					<td align="center"><input type="radio" name="cash" id="j_payment_subject" data-toggle="icheck" value="true" ></td>
+					<td align="center"><label id="paymentSubject_4"></label></td>
 					<td>Subcontractor 外包</td>
-					<td>days</td>
+					<td><label id="paymentDays_4"></label></td>
 					<td align="right">Upon Approval<br/>验收后</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td><label id="receivingOrApprovalDate_4"></label></td>
+					<td><label id="PONo_4"></label></td>
+					<td><label id="currency_4"></label></td>
+					<td><label id="amount_4"></label></td>
 				</tr>	
 				<tr>
-					<td align="center"><input type="radio" name="cash" id="j_payment_subject" data-toggle="icheck" value="true" ></td>
+					<td align="center"><label id="paymentSubject_5"></label></td>
 					<td>Service 服务</td>
-					<td>days</td>
+					<td><label id="paymentDays_5"></label></td>
 					<td align="right">Upon invoice<br/>见票后</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td><label id="receivingOrApprovalDate_5"></label></td>
+					<td><label id="PONo_5"></label></td>
+					<td><label id="currency_5"></label></td>
+					<td><label id="amount_5"></label></td>
 				</tr>	
 				<tr>
-					<td align="center"><input type="radio" name="cash" id="j_payment_subject" data-toggle="icheck" value="true" ></td>
-					<td>Petty Cash备用金</td>
-					<td>days</td>
+					<td align="center"><label id="paymentSubject_6"></label></td>
+					<td>Petty Cash 备用金</td>
+					<td><label id="paymentDays_6"></label></td>
 					<td align="right">Other<br/>其他</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td><label id="receivingOrApprovalDate_6"></label></td>
+					<td><label id="PONo_6"></label></td>
+					<td><label id="currency_6"></label></td>
+					<td><label id="amount_6"></label></td>
 				</tr>	
 				<tr>
-					<td align="center"><input type="radio" name="cash" id="j_payment_subject" data-toggle="icheck" value="true" ></td>
+					<td align="center"><label id="paymentSubject_7"></label></td>
 					<td>Other 其他</td>
 					<td></td>
 					<td align="right"><br/><br/></td>
@@ -271,20 +387,21 @@ $(function(){
 				</tr>		
 				<tr>
 					<td colspan="2" align="right" style="background:#B7DEE8">金额(小写)<br/>Amount in figures:</td>
-					<td colspan="6"><label name="amountInFigures" id="j_payment_amountInFigures"></label></td>
+					<td colspan="6"><label id="amountInFigures"></label></td>
 					<td align="right" style="background:#B7DEE8">金额(大写)<br/>Amount in words:</td>
-					<td colspan="2"><label name="AmountInWords" id="j_payment_AmountInWords"></label></td>
+					<td colspan="2"><label id="amountInWords"></label></td>
 					<td align="right" style="background:#B7DEE8">Document Audit:<br/>单据审核</td>
-					<td></td>
+					<td><label id="documentAudit"></label></td>
 				</tr>		
 			</table>
 			<br>
-			<table width="1200px" style="font-size:9px;">
+			<table width="1200px" style="font-size:9px">
 				<tr>
 					<td width="25%">General Manager:<br/>总经理</td>
 					<td width="25%">Finance Manager:<br/>财务经理</td>
 					<td width="25%">Finance Supervisor:<br/>财务主管</td>
-					<td width="25%">Dept. Manager:<br/>部门经理</td>				
+					<td width="12.5%">Dept. Manager:<br/>部门经理</td>		
+					<td width="12.5%"><label id="deptManager"></label></td>		
 				</tr>
 			</table>
     </div>

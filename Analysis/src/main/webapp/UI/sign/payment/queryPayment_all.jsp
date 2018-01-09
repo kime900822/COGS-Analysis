@@ -15,7 +15,7 @@ function datagrid_paymentSubject() {
 }
 </script>
 <div class="bjui-pageHeader" style="background-color:#fefefe; border-bottom:none;">
-<form data-toggle="ajaxsearch" data-options="{searchDatagrid:$.CurrentNavtab.find('#datagrid-user-filter')}">
+<form data-toggle="ajaxsearch" data-options="{searchDatagrid:$.CurrentNavtab.find('#datagrid-payment-all-filter')}">
     <fieldset>
         <legend style="font-weight:normal;">Search：</legend>
         <div style="margin:0; padding:1px 5px 5px;">
@@ -25,7 +25,7 @@ function datagrid_paymentSubject() {
         		<span>Application Date：</span>
         		</td>
         		<td width="180px">
-            	<input type="text" name="applicationDate" id="j_payment_applicationDate" value="" data-toggle="datepicker" data-rule="date">
+            	<input type="text" name="applicationDate" id="q_payment_applicationDate" value="" data-toggle="datepicker" data-rule="date">
         		</td>
         		<td width="80px">
         		<span>Code：</span>
@@ -81,7 +81,7 @@ function datagrid_paymentSubject() {
 </form>
 </div>
 <div class="bjui-pageContent" id="div-user">
-    <table class="table table-bordered" id="datagrid-user-filter" data-toggle="datagrid" data-options="{
+    <table class="table table-bordered" id="datagrid-payment-all-filter" data-toggle="datagrid" data-options="{
         height: '100%',
         gridTitle : 'Payment management',
         dataUrl: 'getPayment.action?queryType=all',

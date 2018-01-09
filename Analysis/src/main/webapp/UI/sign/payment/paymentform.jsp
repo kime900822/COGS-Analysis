@@ -44,8 +44,8 @@ $(function(){
 		accPayment();
 	});
 	
-	$.CurrentNavtab.find('#payment-print').click(function(){		
-		window.open("sign\\payment\\paymentPrint.jsp");  
+	$.CurrentNavtab.find('#payment-print').click(function(){	
+		printPayment();
 	});
 	
 	$.CurrentNavtab.find('#payment-invalid').click(function(){		
@@ -68,7 +68,6 @@ $(function(){
 	//初始化金额
 	changeAmount();
 	isChange();
-	
 
 })
 
@@ -134,6 +133,7 @@ function approvePayment(){
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
             	 $.CurrentNavtab.find('#payment-approve').hide();
+            	 $.CurrentNavtab.find('#payment-print').show();
          		 $.CurrentNavtab.find('#payment-reject').hide();
             }else{
             	 BJUI.alertmsg('error', json.message); 
@@ -230,6 +230,24 @@ function invalidPayment(){
 	});	
 	
 }
+
+function printPayment(pid){
+	var pid=$.CurrentNavtab.find("#j_payment_id").val();
+	BJUI.ajax('doajax', {
+	    url: 'printPayment.action',
+	    loadingmask: true,
+	    data:{id:pid},	    
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+        		window.open("sign\\payment\\paymentPrint.jsp?id="+pid);  
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	});	
+	
+}
+
 //change选项绑定事件
 function isChange(){
 	$.CurrentNavtab.find("#j_payment_beneficiaryChange").on('ifChecked',function(){
@@ -258,13 +276,13 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
-		$.CurrentNavtab.find('#payment-Print').hide();
+		$.CurrentNavtab.find('#payment-print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').show();
 		$.CurrentNavtab.find('#j_file_upload1').show();
 		$.CurrentNavtab.find('#j_file_download1').hide();
-		$.CurrentNavtab.find('#j_file_download1').hide();
+		$.CurrentNavtab.find('#j_file_download2').hide();
 	}else if(state=='0'&&'${param.UID}'=='${user.uid}'){//保存后可提交
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').show();
@@ -278,7 +296,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#j_file_upload2').show();
 		$.CurrentNavtab.find('#j_file_upload1').show();
 		$.CurrentNavtab.find('#j_file_download1').hide();
-		$.CurrentNavtab.find('#j_file_download1').hide();
+		$.CurrentNavtab.find('#j_file_download2').hide();
 	}else if(state=="4"&&'${param.documentAuditID}'=='${user.uid}'){//财务处理完成
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -286,7 +304,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
-		$.CurrentNavtab.find('#payment-print').hide();
+		$.CurrentNavtab.find('#payment-print').show();
 		if(print=='1'){
 			$.CurrentNavtab.find('#payment-invalid-tr').show();
 			$.CurrentNavtab.find('#payment-return-tr').show();		
@@ -297,10 +315,26 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#j_file_upload2').hide();
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$('input').attr('disabled','disabled');
-		$('select').attr('disabled','disabled');
+		$.CurrentNavtab.find('#j_file_download2').show();
+		$("input[id*='j_payment']").attr('disabled','disabled');
+		$("select[id*='j_payment']").attr('disabled','disabled');
 		
+	}else if(state=="4"&&'${param.documentAuditID}'!='${user.uid}'){//财务处理完成  非财务人员查看。可打印
+		$.CurrentNavtab.find('#payment-save').hide();
+		$.CurrentNavtab.find('#payment-submit').hide();
+		$.CurrentNavtab.find('#payment-approve').hide();
+		$.CurrentNavtab.find('#payment-reject').hide();
+		$.CurrentNavtab.find('#payment-assign').hide();
+		$.CurrentNavtab.find('#payment-acc').hide();
+		$.CurrentNavtab.find('#payment-print').show();
+		$.CurrentNavtab.find('#payment-invalid-tr').hide();
+		$.CurrentNavtab.find('#payment-return-tr').hide();					
+		$.CurrentNavtab.find('#j_file_upload2').hide();
+		$.CurrentNavtab.find('#j_file_upload1').hide();
+		$.CurrentNavtab.find('#j_file_download1').show();
+		$.CurrentNavtab.find('#j_file_download2').show();
+		$("input[id*='j_payment']").attr('disabled','disabled');
+		$("select[id*='j_payment']").attr('disabled','disabled');		
 	}else if(state=="1"&&'${param.deptManagerID}'=='${user.uid}'){//部门经理审批
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -314,9 +348,9 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#j_file_upload2').hide();
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$('input').attr('disabled','disabled');
-		$('select').attr('disabled','disabled');
+		$.CurrentNavtab.find('#j_file_downloa2').show();
+		$("input[id*='j_payment']").attr('disabled','disabled');
+		$("select[id*='j_payment']").attr('disabled','disabled');
 	}else if(state=="2"&&'${param.documentAuditID}'=='${user.uid}'){//审批通过 财务处理
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -324,19 +358,19 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').show();
 		$.CurrentNavtab.find('#payment-acc').show();
-		$.CurrentNavtab.find('#payment-print').hide();
+		$.CurrentNavtab.find('#payment-print').show();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').hide();
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download1').show();
+		$.CurrentNavtab.find('#j_file_download2').show();
 		$.CurrentNavtab.find('#j_payment_documentAudit').val('${user.name}')
-		$('input').attr('disabled','disabled');
-		$('select').attr('disabled','disabled');
+		$("input[id*='j_payment']").attr('disabled','disabled');
+		$("select[id*='j_payment']").attr('disabled','disabled');
 		$.CurrentNavtab.find('#j_payment_refNoofBank').removeAttr('disabled');
 		$.CurrentNavtab.find('#j_payment_refNoofBank').removeAttr('readonly').attr('data-rule','required');
-	}else if(state=="2"&&'${param.UID}'=='${user.uid}'){//审批通过 普通员工打印
+/* 	}else if(state=="2"&&'${param.UID}'=='${user.uid}'){//审批通过 普通员工打印
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -349,9 +383,9 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#j_file_upload2').hide();
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$('input').attr('disabled','disabled');
-		$('select').attr('disabled','disabled');
+		$.CurrentNavtab.find('#j_file_download2').show();
+		$("input[id*='j_payment']").attr('disabled','disabled');
+		$("select[id*='j_payment']").attr('disabled','disabled'); */
 	}else if(state=="3"){//审批未通过，单据作废，
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -365,9 +399,9 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#j_file_upload2').hide();
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$('input').attr('disabled','disabled');
-		$('select').attr('disabled','disabled');
+		$.CurrentNavtab.find('#j_file_download2').show();
+		$("input[id*='j_payment']").attr('disabled','disabled');
+		$("select[id*='j_payment']").attr('disabled','disabled');
 	}else if(state=="5"){//单据作废
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -381,9 +415,9 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#j_file_upload2').hide();
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$('input').attr('disabled','disabled');
-		$('select').attr('disabled','disabled');
+		$.CurrentNavtab.find('#j_file_download2').show();
+		$("input[id*='j_payment']").attr('disabled','disabled');
+		$("select[id*='j_payment']").attr('disabled','disabled');
 	}else{
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -397,9 +431,9 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#j_file_upload2').hide();
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').hide();
-		$.CurrentNavtab.find('#j_file_download1').hide();
-		$('input').attr('disabled','disabled');
-		$('select').attr('disabled','disabled');
+		$.CurrentNavtab.find('#j_file_download2').hide();
+		$("input[id*='j_payment']").attr('disabled','disabled');
+		$("select[id*='j_payment']").attr('disabled','disabled');
 	}
 	
 	
@@ -451,14 +485,14 @@ function dataToFace(){
             	$.CurrentNavtab.find("#j_payment_PONo_1").val(json.PONo_1);
             	$.CurrentNavtab.find("#j_payment_currency_1").selectpicker().selectpicker('val',json.currency_1).selectpicker('refresh');
             	if(json.amount_1!=''&&json.amount_1!=null){
-            		$.CurrentNavtab.find("#j_payment_amount_1").val(json.amount_1);
+            		$.CurrentNavtab.find("#j_payment_amount_1_t").val(json.amount_1);
             	}
             	$.CurrentNavtab.find("#j_payment_paymentDays_2").selectpicker().selectpicker('val',json.paymentDays_2).selectpicker('refresh');
             	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_2").val(json.receivingOrApprovalDate_2);
             	$.CurrentNavtab.find("#j_payment_PONo_2").val(json.PONo_2);
             	$.CurrentNavtab.find("#j_payment_currency_2").selectpicker().selectpicker('val',json.currency_2).selectpicker('refresh');
             	if(json.amount_2!=''&&json.amount_2!=null){
-            		$.CurrentNavtab.find("#j_payment_amount_2").val(json.amount_2);
+            		$.CurrentNavtab.find("#j_payment_amount_2_t").val(json.amount_2);
             	}
             		
             	$.CurrentNavtab.find("#j_payment_paymentDays_3").selectpicker().selectpicker('val',json.paymentDays_3).selectpicker('refresh');
@@ -466,7 +500,7 @@ function dataToFace(){
             	$.CurrentNavtab.find("#j_payment_PONo_3").val(json.PONo_3);
             	$.CurrentNavtab.find("#j_payment_currency_3").selectpicker().selectpicker('val',json.currency_3).selectpicker('refresh');
             	if(json.amount_3!=''&&json.amount_3!=null){
-            		$.CurrentNavtab.find("#j_payment_amount_3").val(json.amount_3);
+            		$.CurrentNavtab.find("#j_payment_amount_3_t").val(json.amount_3);
             	}
             		
             	$.CurrentNavtab.find("#j_payment_paymentDays_4").selectpicker().selectpicker('val',json.paymentDays_4).selectpicker('refresh');
@@ -474,7 +508,7 @@ function dataToFace(){
             	$.CurrentNavtab.find("#j_payment_PONo_4").val(json.PONo_4);
             	$.CurrentNavtab.find("#j_payment_currency_4").selectpicker().selectpicker('val',json.currency_4).selectpicker('refresh');
             	if(json.amount_4!=''&& json.amount_4==null){
-            		$.CurrentNavtab.find("#j_payment_amount_4").val(json.amount_4);
+            		$.CurrentNavtab.find("#j_payment_amount_4_t").val(json.amount_4);
             	}
             		
             	$.CurrentNavtab.find("#j_payment_paymentDays_5").selectpicker().selectpicker('val',json.paymentDays_5).selectpicker('refresh');
@@ -482,7 +516,7 @@ function dataToFace(){
             	$.CurrentNavtab.find("#j_payment_PONo_5").val(json.PONo_5);
             	$.CurrentNavtab.find("#j_payment_currency_5").selectpicker().selectpicker('val',json.currency_5).selectpicker('refresh');
             	if(json.amount_5!=''&& json.amount_5!=null){
-            		$.CurrentNavtab.find("#j_payment_amount_5").val(json.amount_5);
+            		$.CurrentNavtab.find("#j_payment_amount_5_t").val(json.amount_5);
             	}
             		
             	$.CurrentNavtab.find("#j_payment_paymentDays_6").selectpicker().selectpicker('val',json.paymentDays_6).selectpicker('refresh');
@@ -490,7 +524,7 @@ function dataToFace(){
             	$.CurrentNavtab.find("#j_payment_PONo_6").val(json.PONo_6);
             	$.CurrentNavtab.find("#j_payment_currency_6").selectpicker().selectpicker('val',json.currency_6).selectpicker('refresh');
             	if(json.amount_6!=''&& json.amount_6!=null){
-            		$.CurrentNavtab.find("#j_payment_amount_6").val(json.amount_6);
+            		$.CurrentNavtab.find("#j_payment_amount_6_t").val(json.amount_6);
             	}
             		
             	$.CurrentNavtab.find("#j_payment_supplierCode").val(json.supplierCode);
@@ -540,38 +574,72 @@ function faceToDate(){
 
 //金额变动
 function changeAmount(){
-	var amount1=$.CurrentNavtab.find("#j_payment_amount_1").val();
-	var amount2=$.CurrentNavtab.find("#j_payment_amount_2").val();
-	var amount3=$.CurrentNavtab.find("#j_payment_amount_3").val();
-	var amount4=$.CurrentNavtab.find("#j_payment_amount_4").val();
-	var amount5=$.CurrentNavtab.find("#j_payment_amount_5").val();
-	var amount6=$.CurrentNavtab.find("#j_payment_amount_6").val();
+	
+	
+	
+	var amount1=$.CurrentNavtab.find("#j_payment_amount_1_t").val().replace(",", "").replace(" ", "");
+	var amount2=$.CurrentNavtab.find("#j_payment_amount_2_t").val().replace(",", "").replace(" ", "");
+	var amount3=$.CurrentNavtab.find("#j_payment_amount_3_t").val().replace(",", "").replace(" ", "");
+	var amount4=$.CurrentNavtab.find("#j_payment_amount_4_t").val().replace(",", "").replace(" ", "");
+	var amount5=$.CurrentNavtab.find("#j_payment_amount_5_t").val().replace(",", "").replace(" ", "");
+	var amount6=$.CurrentNavtab.find("#j_payment_amount_6_t").val().replace(",", "").replace(" ", "");
+	
+	
+	$.CurrentNavtab.find("#j_payment_amount_1").val(amount1)
+	$.CurrentNavtab.find("#j_payment_amount_2").val(amount2)
+	$.CurrentNavtab.find("#j_payment_amount_3").val(amount3)
+	$.CurrentNavtab.find("#j_payment_amount_4").val(amount4)
+	$.CurrentNavtab.find("#j_payment_amount_5").val(amount5)
+	$.CurrentNavtab.find("#j_payment_amount_6").val(amount6)
+	
+	var c1=$.CurrentNavtab.find("#j_payment_amount_1_t").val(formatCurrency(amount1)).val()
+	var c2=$.CurrentNavtab.find("#j_payment_amount_2_t").val(formatCurrency(amount2)).val()
+	var c3=$.CurrentNavtab.find("#j_payment_amount_3_t").val(formatCurrency(amount3)).val()
+	var c4=$.CurrentNavtab.find("#j_payment_amount_4_t").val(formatCurrency(amount4)).val()
+	var c5=$.CurrentNavtab.find("#j_payment_amount_5_t").val(formatCurrency(amount5)).val()
+	var c6=$.CurrentNavtab.find("#j_payment_amount_6_t").val(formatCurrency(amount6)).val()
+	
+	
 	var total=0;
-	if(amount1!=""){
+	if(amount1!="0.00"&&amount1!=""){
 		total+=parseFloat(amount1);
-		$.CurrentNavtab.find("#row_01_title").html("PO&nbsp1 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_1").val()+"&nbsp&nbsp"+amount1);
+		$.CurrentNavtab.find("#row_01_title").html("PO&nbsp1 &nbsp&nbsp&nbsp&nbsp PONo:"+$.CurrentNavtab.find("#j_payment_PONo_1").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_1").val()+"&nbsp&nbsp"+c1);
+	}else{
+		$.CurrentNavtab.find("#row_01_title").html("PO&nbsp1");
 	}
-	if(amount2!=""){
+	if(amount2!="0.00"&&amount2!=""){
 		total+=parseFloat(amount2);
-		$.CurrentNavtab.find("#row_02_title").html("PO&nbsp2 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_2").val()+"&nbsp&nbsp"+amount2);
+		$.CurrentNavtab.find("#row_02_title").html("PO&nbsp2 &nbsp&nbsp&nbsp&nbsp PONo:"+$.CurrentNavtab.find("#j_payment_PONo_2").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_2").val()+"&nbsp&nbsp"+c2);
+	}else{
+		$.CurrentNavtab.find("#row_02_title").html("PO&nbsp2");
 	}
-	if(amount3!=""){
+	if(amount3!="0.00"&&amount3!=""){
 		total+=parseFloat(amount3);
-		$.CurrentNavtab.find("#row_03_title").html("PO&nbsp3 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_3").val()+"&nbsp&nbsp"+amount3);
+		$.CurrentNavtab.find("#row_03_title").html("PO&nbsp3 &nbsp&nbsp&nbsp&nbsp PONo:"+$.CurrentNavtab.find("#j_payment_PONo_3").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_3").val()+"&nbsp&nbsp"+c3);
+	}else{
+		$.CurrentNavtab.find("#row_03_title").html("PO&nbsp3");
 	}
-	if(amount4!=""){
+	if(amount4!="0.00"&&amount4!=""){
 		total+=parseFloat(amount4);
-		$.CurrentNavtab.find("#row_04_title").html("PO&nbsp4 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_4").val()+"&nbsp&nbsp"+amount4);
+		$.CurrentNavtab.find("#row_04_title").html("PO&nbsp4 &nbsp&nbsp&nbsp&nbsp PONo:"+$.CurrentNavtab.find("#j_payment_PONo_4").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_4").val()+"&nbsp&nbsp"+c4);
+	}else{
+		$.CurrentNavtab.find("#row_04_title").html("PO&nbsp4");
 	}
-	if(amount5!=""){
+	if(amount5!="0.00"&&amount5!=""){
 		total+=parseFloat(amount5);
-		$.CurrentNavtab.find("#row_05_title").html("PO&nbsp5 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_5").val()+"&nbsp&nbsp"+amount5);
+		$.CurrentNavtab.find("#row_05_title").html("PO&nbsp5 &nbsp&nbsp&nbsp&nbsp PONo:"+$.CurrentNavtab.find("#j_payment_PONo_5").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_5").val()+"&nbsp&nbsp"+c5);
+	}else{
+		$.CurrentNavtab.find("#row_05_title").html("PO&nbsp5");
 	}
-	if(amount6!=""){
+	if(amount6!="0.00"&&amount6!=""){
 		total+=parseFloat(amount6);
-		$.CurrentNavtab.find("#row_06_title").html("PO&nbsp6 &nbsp&nbsp&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_6").val()+"&nbsp&nbsp"+amount6);
+		$.CurrentNavtab.find("#row_06_title").html("PO&nbsp6 &nbsp&nbsp&nbsp&nbsp PONo:"+$.CurrentNavtab.find("#j_payment_PONo_6").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_6").val()+"&nbsp&nbsp"+c6);
+	}else{
+		$.CurrentNavtab.find("#row_06_title").html("PO&nbsp6");
 	}
+	
 	$.CurrentNavtab.find("#j_payment_amountInFigures").val(total);
+	$.CurrentNavtab.find("#j_payment_amountInFigures_t").val(formatCurrency(total));
 	$.CurrentNavtab.find("#j_payment_amountInWords").val(smalltoBIG(total));
 	
 	
@@ -587,6 +655,18 @@ function changeCurrency(o){
 	$.CurrentNavtab.find("#j_payment_currency_5").selectpicker().selectpicker('val',a).selectpicker('refresh');
 	$.CurrentNavtab.find("#j_payment_currency_6").selectpicker().selectpicker('val',a).selectpicker('refresh');
 	changeAmount();
+}
+
+function checkPoNO(o){
+	 var str = $(o).val();
+     var ret =  /^[A-Z]{2}\d{5}$/;
+     if(!ret.test(str)){
+    	 $.CurrentNavtab.find(o).val("")
+    	 BJUI.alertmsg('error', 'Plese Enter Right Type! Like YY00000'); 
+     }
+     changeAmount();
+
+     
 }
 
 </script>
@@ -630,7 +710,7 @@ function changeCurrency(o){
 						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_banking" value="Banking" data-label="银行支付 <br>Banking">
 					</td>	
 					<td>
-						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_advanceWriteoff" value="Advance" data-label="核销预付  <br>Advance Write-off (Amount)">
+						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_advanceWriteoff" value="AdvanceWriteoff" data-label="核销预付  <br>Advance Write-off (Amount)">
 					</td>				
 				</tr>
 				<tr>
@@ -678,13 +758,13 @@ function changeCurrency(o){
 						收款人变更<br>Change
 					</td>
 					<td>
-						<input onclick="alert(11);" type="checkbox" name="beneficiaryChange" id="j_payment_beneficiaryChange" data-toggle="icheck" value="1" data-label="">
+						<input  type="checkbox" name="beneficiaryChange" id="j_payment_beneficiaryChange" data-toggle="icheck" value="1" data-label="">
 					</td>
 					<td>
 						银行及账号变更<br>Change
 					</td>
 					<td>
-						<input onclick="changAccAndBank();" type="checkbox" name="beneficiaryAccountNOChange" id="j_payment_beneficiaryAccountNOChange" data-toggle="icheck" value="1" data-label="">
+						<input  type="checkbox" name="beneficiaryAccountNOChange" id="j_payment_beneficiaryAccountNOChange" data-toggle="icheck" value="1" data-label="">
 					</td>					
 				</tr>
 				
@@ -701,7 +781,7 @@ function changeCurrency(o){
 	                        <option value="3">Consumable 消耗品</option>
 	                        <option value="4">Subcontractor 外包</option>
 	                        <option value="5">Service 服务</option>
-	                        <option value="6">Petty Cash备用金</option>
+	                        <option value="6">Petty Cash 备用金</option>
 	                        <option value="7">Other 其他</option>
                     	</select>
 					</td>
@@ -711,7 +791,7 @@ function changeCurrency(o){
 					<td>
 						<select name="paymentTerm" data-toggle="selectpicker" id="j_payment_paymentTerm"  data-rule="required" data-width="190px" >
 	                        <option value=""></option>
-	                        <option value="1">Advance预付款</option>
+	                        <option value="1">Advance 预付款</option>
 	                        <option value="2">Payment at sight 见票即付</option>
 	                        <option value="3">Upon receiving 收货后</option>
 	                        <option value="4">Upon Approval 验收后</option>
@@ -758,7 +838,7 @@ function changeCurrency(o){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_1" id="j_payment_PONo_1"  value="" size="19" >
+									<input type="text" name="PONo_1" id="j_payment_PONo_1"  value="" size="19" onchange="checkPoNO(this)">
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
@@ -778,7 +858,8 @@ function changeCurrency(o){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_1" id="j_payment_amount_1" value="" data-rule="number" onchange="changeAmount()" size="19">
+									<input type="text" name="amount_1_t" id="j_payment_amount_1_t" value="" data-rule="number" onchange="changeAmount()" size="19">
+									<input type="hidden" name="amount_1" id="j_payment_amount_1" value="">
 								</td>
 								<td colspan="2">
 								</td>
@@ -817,7 +898,7 @@ function changeCurrency(o){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo"  value="" size="19" >
+									<input type="text" name="PONo_2" id="j_payment_PONo_2"  value="" size="19" onchange="checkPoNO(this)">
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
@@ -837,7 +918,8 @@ function changeCurrency(o){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_2" id="j_payment_amount_2" value="" data-rule="number" size="19" onchange="changeAmount()">
+									<input type="text" name="amount_2_t" id="j_payment_amount_2_t" value="" data-rule="number" size="19" onchange="changeAmount()">
+									<input type="hidden" name="amount_2" id="j_payment_amount_2" value="">
 								</td>
 								<td colspan="2">
 								</td>
@@ -875,7 +957,7 @@ function changeCurrency(o){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_3" id="j_payment_PONo_3" size="19" value="" >
+									<input type="text" name="PONo_3" id="j_payment_PONo_3" size="19" value="" onchange="checkPoNO(this)">
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
@@ -895,7 +977,8 @@ function changeCurrency(o){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_3" id="j_payment_amount_3" value="" size="19" data-rule="number" onchange="changeAmount();" >
+									<input type="text" name="amount_3_t" id="j_payment_amount_3_t" value="" size="19" data-rule="number" onchange="changeAmount();" >
+									<input type="hidden" name="amount_3" id="j_payment_amount_3" value="">
 								</td>
 								<td colspan="2">
 								</td>
@@ -933,7 +1016,7 @@ function changeCurrency(o){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_4" id="j_payment_PONo_4" size="19" value="" >
+									<input type="text" name="PONo_4" id="j_payment_PONo_4" size="19" value="" onchange="checkPoNO(this)">
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
@@ -953,7 +1036,8 @@ function changeCurrency(o){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_4" id="j_payment_amount_4" size="19" value="" data-rule="number" onchange="changeAmount()" >
+									<input type="text" name="amount_4_t" id="j_payment_amount_4_t" size="19" value="" data-rule="number" onchange="changeAmount()" >
+									<input type="hidden" name="amount_4" id="j_payment_amount_4" value="">
 								</td>
 								<td colspan="2">
 								</td>
@@ -991,7 +1075,7 @@ function changeCurrency(o){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_5" id="j_payment_PONo_5" size="19" value="" >
+									<input type="text" name="PONo_5" id="j_payment_PONo_5" size="19" value="" onchange="checkPoNO(this)">
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
@@ -1011,7 +1095,8 @@ function changeCurrency(o){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_5" id="j_payment_amount_5" size="19" value="" data-rule="number" onchange="changeAmount()" >
+									<input type="text" name="amount_5_t" id="j_payment_amount_5_t" size="19" value="" data-rule="number" onchange="changeAmount()" >
+									<input type="hidden" name="amount_5" id="j_payment_amount_5" value="">
 								</td>
 								<td colspan="2">
 								</td>
@@ -1049,7 +1134,7 @@ function changeCurrency(o){
 									订单号<br>PO No.
 								</td>
 								<td>
-									<input type="text" name="PONo_6" id="j_payment_PONo_6" size="19" value="" >
+									<input type="text" name="PONo_6" id="j_payment_PONo_6" size="19" value="" onchange="checkPoNO(this)" >
 								</td>
 								<td>
 									<label class="row-label">币别<br>Currency</label>
@@ -1069,7 +1154,8 @@ function changeCurrency(o){
 									金额<br>Amount
 								</td>
 								<td>
-									<input type="text" name="amount_6" id="j_payment_amount_6" value="" data-rule="number" size="19" onchange="changeAmount()" >
+									<input type="text" name="amount_6_t" id="j_payment_amount_6_t" value="" data-rule="number" size="19" onchange="changeAmount()" >
+									<input type="hidden" name="amount_6" id="j_payment_amount_6" value="">
 								</td>
 								<td colspan="2">
 								</td>
@@ -1112,7 +1198,8 @@ function changeCurrency(o){
 						金额(小写)<br>Amount in figures:
 					</td>
 					<td>
-						<input type="text" name="amountInFigures" size="19" id="j_payment_amountInFigures" value="" readonly="" >
+						<input type="text" name="amountInFigures_t" size="19" id="j_payment_amountInFigures_t" value="" readonly="" >
+						<input type="hidden" name="amountInFigures" id="j_payment_amountInFigures" value="">
 					</td>
 					<td>
 						金额（大写）<br>Amount in words:
@@ -1137,82 +1224,37 @@ function changeCurrency(o){
 				</tr>
 				<tr id="j_file_upload1">
 					<td>
-						Attachment1 Invoice<br>（附件：发票）
+						Attachment1 Invoice （附件：发票）
 					</td>
 					<td>
-						<input name="invoice"  id="j_payment_update_invoice"  data-name="custom.pic" data-toggle="webuploader" data-options="
-	                        {
-	                            pick: {label: '点击选择文件'},
-	                            server: 'savefile.action',
-	                            fileNumLimit: 1,
-	                            formData: {},
-	                            required: false,
-	                            uploaded: '',
-	                            basePath: '',
-	                            accept: {
-	                                title: '发票',
-	                                extensions: 'xls,xlsx,doc,docx',
-	                                mimeTypes: '.xls,.xlsx,.doc,.docx'
-	                            }
-	                        }"
-                    	>
+						<input type="file" name="upfile_invoice"  data-rule="">
 					</td>
 					<td>
-						Attachment2 Contract<br>（附件：合同）
+						Attachment2 Contract （附件：合同）
 					</td>
 					<td>
-						<input name="contract" id="j_payment_update_contract"  data-name="custom.pic" data-toggle="webuploader" data-options="
-	                        {
-	                            pick: {label: '点击选择文件'},
-	                            server: 'savefile.action',
-	                            fileNumLimit: 1,
-	                            formData: {},
-	                            required: false,
-	                            uploaded: '',
-	                            basePath: '',
-	                            accept: {
-	                                title: '发票',
-	                                extensions: 'xls,xlsx,doc,docx',
-	                                mimeTypes: '.xls,.xlsx,.doc,.docx'
-	                            }
-	                        }"
-                    	>
+						<input type="file" name="upfile_contract"  data-rule="">
 					</td>
 				</tr>
 				<tr id="j_file_upload2">
 					<td>
-						Attachment3 Other<br>（附件：其他）
+						Attachment3 Other （附件：其他）
 					</td>
 					<td>
-						<input name="other" id="j_payment_update_other" data-name="custom.pic" data-toggle="webuploader" data-options="
-	                        {
-	                            pick: {label: '点击选择文件'},
-	                            server: 'savefile.action',
-	                            fileNumLimit: 1,
-	                            formData: {},
-	                            required: false,
-	                            uploaded: '',
-	                            basePath: '',
-	                            accept: {
-	                                title: '发票',
-	                                extensions: 'xls,xlsx,doc,docx',
-	                                mimeTypes: '.xls,.xlsx,.doc,.docx'
-	                            }
-	                        }"
-                    	>
+						<input type="file" name="upfile_other"   data-rule="">
 					</td>
 					<td colspan="2">
 					</td>
 				</tr>
 				<tr id="j_file_download1">
 					<td>
-						Attachment1 Invoice<br>（附件：发票）
+						Attachment1 Invoice （附件：发票）
 					</td>
 					<td>
 						<a id ="j_file_Invoice"></a>
 					</td>
 					<td>
-						Attachment2 Contract<br>（附件：合同）
+						Attachment2 Contract （附件：合同）
 					</td>
 					<td>
 						<a id ="j_file_Contract"></a>
@@ -1221,7 +1263,7 @@ function changeCurrency(o){
 				</tr>
 				<tr id="j_file_download2">
 					<td>
-						Attachment3 Other<br>（附件：其他）
+						Attachment3 Other （附件：其他）
 					</td>
 					<td>
 						<a id ="j_file_other"></a>

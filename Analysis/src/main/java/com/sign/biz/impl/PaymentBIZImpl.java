@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kime.biz.DictBIZ;
 import com.kime.biz.UserBIZ;
+import com.kime.dao.CommonDAO;
 import com.kime.dao.DictDAO;
 import com.kime.dao.UserDAO;
 import com.kime.model.Dict;
@@ -31,8 +32,18 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	private UserDAO userDAO;
 	@Autowired
 	private DictDAO dictDAO;
+	@Autowired
+	private CommonDAO commonDAO;
 	
 	
+	public CommonDAO getCommonDAO() {
+		return commonDAO;
+	}
+
+	public void setCommonDAO(CommonDAO commonDAO) {
+		this.commonDAO = commonDAO;
+	}
+
 	public DictDAO getDictDAO() {
 		return dictDAO;
 	}
@@ -168,10 +179,12 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	public String getMaxCode() {
 		Date d=new Date();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMM");
-		String hql="SELECT MAX(CODE) FROM PAYMENT";
-		List<Object> list= paymentDao.queryHql(hql);
+		String hql="SELECT MAX(P.code) FROM Payment p";
+		List<Object[]> list= commonDAO.queryByHql(hql);
 		if (list.size()>0) {
-			return  String.valueOf(Integer.valueOf(list.get(0).toString())+1);
+			if (!list.get(0)[0].equals("")&&list.get(0)[0]!=null) {
+				return  String.valueOf(Integer.valueOf(list.get(0)[0].toString())+1);
+			}		
 		}
 			return sdf.format(d)+"0001";
 	}

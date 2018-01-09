@@ -44,7 +44,7 @@ public class Payment {
 	/**
 	 * 流水码
 	 */
-	@Column
+	@Column(name="`code`")
 	private String code;
 	
 	/**

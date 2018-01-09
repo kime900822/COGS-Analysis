@@ -13,6 +13,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.convention.annotation.Action;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -76,6 +77,12 @@ public class PaymentAction extends ActionBase {
 	private String queryType;
 	private String id;
 	private String applicationDate;
+	//用于查询
+	private String applicationDate_f;
+	private String applicationDate_t;
+	private String amount;
+	
+	
 	private String requestPaymentDate;
 	private String contacturalPaymentDate;
 	private String code;
@@ -145,6 +152,25 @@ public class PaymentAction extends ActionBase {
 	private String financeManager;
 	private String generalManager;
 	
+	
+	public String getAmount() {
+		return amount;
+	}
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+	public String getApplicationDate_f() {
+		return applicationDate_f;
+	}
+	public void setApplicationDate_f(String applicationDate_f) {
+		this.applicationDate_f = applicationDate_f;
+	}
+	public String getApplicationDate_t() {
+		return applicationDate_t;
+	}
+	public void setApplicationDate_t(String applicationDate_t) {
+		this.applicationDate_t = applicationDate_t;
+	}
 	public String getDocumentAuditID() {
 		return documentAuditID;
 	}
@@ -776,7 +802,10 @@ public class PaymentAction extends ActionBase {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setState(PaymentState.RETURNPAYMENT);
 			payment.setReturnDescription(returnDescription);
-			
+			payment.setDeptManager("");
+			payment.setDeptManagerID("");
+			payment.setDocumentAuditID("");
+			payment.setDocumentAudit("");
 			
 			paymentBIZ.returnPayment(payment);
 			
@@ -800,7 +829,11 @@ public class PaymentAction extends ActionBase {
 	public String rejectPayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setState(PaymentState.REJECTPAYMENT);
+			payment.setState(PaymentState.SAVEPAYMENT);
+			payment.setDeptManager("");
+			payment.setDeptManagerID("");
+			payment.setDocumentAuditID("");
+			payment.setDocumentAudit("");
 			
 			paymentBIZ.rejectPayment(payment);
 			
@@ -848,18 +881,50 @@ public class PaymentAction extends ActionBase {
 	
 		User user=(User)session.getAttribute("user");
 		String hql="";
+		
+		String where="";
+		
+		if (!"".equals(applicationDate_f)&&applicationDate_f!=null) {
+			where += " P.applicationDate>='"+applicationDate_f+"'";
+		}
+		if (!"".equals(applicationDate_t)&&applicationDate_t!=null) {
+			if (!"".equals(where)) {
+				where +=" and ";
+			}
+			where += " P.applicationDate <= '"+applicationDate_t+"'";
+		}
+		if (!"".equals(code)&&code!=null) {
+			if (!"".equals(where)) {
+				where +=" and ";
+			}
+			where += " P.code = '"+code+"'";
+		}
+		
+		if (!"".equals(urgent)&&urgent!=null) {
+			if (!"".equals(where)) {
+				where +=" and ";
+			}
+			where += " P.urgent = '"+urgent+"'";
+		}
+		if (!"".equals(amount)&&amount!=null) {
+			if (!"".equals(where)) {
+				where +=" and ";
+			}
+			where += " (P.amount_1 = '"+amount+"' or P.amount_2 = '"+amount+"' or P.amount_3 = '"+amount+"' or P.amount_4 = '"+amount+"' or P.amount_5 = '"+amount+"' or P.amount_6 = '"+amount+"'";
+		}
+		
 			
 		if ("all".equals(queryType)) {
-			hql="  select P from Payment P ";
+			hql="  select P from Payment P order By P.applicationDate desc";
 		}
 		if ("acc".equals(queryType)) {
-			hql="  select  P from Payment P, Dict D where (P.state='2' or P.state='4') AND D.type='PAYMENT' AND P.paymentSubject=D.key AND D.value='"+user.getUid()+"'";
+			hql="  select  P from Payment P, Dict D where (P.state='2' or P.state='4') AND D.type='PAYMENT' AND P.paymentSubject=D.key AND D.value='"+user.getUid()+"' order By P.applicationDate desc";
 		}
 		if ("sign".equals(queryType)) {
-			hql="  select  P from Payment P, SignMan S  where P.state='1' and P.departmentID=S.did And S.uid='"+user.getUid()+"'";
+			hql="  select  P from Payment P, SignMan S  where P.state='1' and P.departmentID=S.did And S.uid='"+user.getUid()+"' order By P.applicationDate desc";
 		}
 		if ("user".equals(queryType)) {
-			hql=" select P from Payment P where P.UID='"+user.getUid()+"'";
+			hql=" select P from Payment P where P.UID='"+user.getUid()+"' order By P.applicationDate desc";
 		}
 		List<Payment> list=paymentBIZ.getPaymentByHql(hql, Integer.parseInt(pageSize),Integer.parseInt(pageCurrent));
 		int total=paymentBIZ.getPaymentByHql(hql).size();
