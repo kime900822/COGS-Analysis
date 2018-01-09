@@ -231,7 +231,7 @@ function invalidPayment(){
 	
 }
 
-function printPayment(pid){
+function printPayment(){
 	var pid=$.CurrentNavtab.find("#j_payment_id").val();
 	BJUI.ajax('doajax', {
 	    url: 'printPayment.action',
@@ -239,7 +239,9 @@ function printPayment(pid){
 	    data:{id:pid},	    
 	    okCallback: function(json, options) {
             if(json.status='200'){
-        		window.open("sign\\payment\\paymentPrint.jsp?id="+pid);  
+            	window.open("sign\\payment\\paymentPrint.jsp?id="+pid);  
+            	$.CurrentNavtab.find("#j_payment_code").val(json.params.code);
+        		
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }

@@ -179,11 +179,12 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	public String getMaxCode() {
 		Date d=new Date();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMM");
-		String hql="SELECT MAX(P.code) FROM Payment p";
-		List<Object[]> list= commonDAO.queryByHql(hql);
-		if (list.size()>0) {
-			if (!list.get(0)[0].equals("")&&list.get(0)[0]!=null) {
-				return  String.valueOf(Integer.valueOf(list.get(0)[0].toString())+1);
+		String hql="SELECT MAX(P.code) FROM Payment P";
+		List list= commonDAO.queryByHql(hql);
+		if (list.size()>0) { 
+			String mcode=(String)list.get(0);
+			if (!mcode.equals("")&&mcode!=null) {
+				return  String.valueOf(Integer.valueOf(mcode)+1);
 			}		
 		}
 			return sdf.format(d)+"0001";

@@ -648,13 +648,16 @@ public class PaymentAction extends ActionBase {
 	public String printPayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setIsPrint("1");
-			payment.setCode(paymentBIZ.getMaxCode());
-			
-			paymentBIZ.printPayment(payment);
-			
+			if (!payment.getIsPrint().equals("1")) {
+				payment.setIsPrint("1");
+				payment.setCode(paymentBIZ.getMaxCode());		
+				paymentBIZ.printPayment(payment);
+			}
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
+			Map<String, String> map=new HashMap<>();
+			map.put("code", payment.getCode());
+			result.setParams(map);
 			logUtil.logInfo("打印付款申请单:"+payment.getId());
 		} catch (Exception e) {
 			logUtil.logInfo("打印付款申请单异常:"+e.getMessage());
