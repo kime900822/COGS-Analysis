@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <script type="text/javascript">
 $(function(){
-	
 	//初始化全部缩进
 	$('tr.table-parent').each(
 			function(){
@@ -181,7 +180,18 @@ function accPayment(){
 
 
 function assignPayment(){
-	BJUI.ajax('doajax', {
+	
+	var r=BJUI.dialog({
+	    id:'assign',
+	    data:{id:$.CurrentNavtab.find("#j_payment_id").val()},
+	    url:'sign/payment/paymentAssign.jsp',
+	    width:550,
+	    height:200,
+	    title:'Assign'
+	});
+
+	
+/* 	BJUI.ajax('doajax', {
 	    url: 'assignPayment.action',
 	    loadingmask: true,
 	    data:{id:$.CurrentNavtab.find("#j_payment_id").val()},	    
@@ -194,7 +204,7 @@ function assignPayment(){
             	 BJUI.alertmsg('error', json.message); 
             }
 	    }
-	});	
+	});	 */
 	
 }
 
@@ -271,7 +281,6 @@ function isChange(){
 
 
 function showButton(state,print){
-		
 	if(state==''){//新建 退回
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').hide();

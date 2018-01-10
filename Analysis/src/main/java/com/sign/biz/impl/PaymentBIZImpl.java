@@ -118,6 +118,8 @@ public class PaymentBIZImpl implements PaymentBIZ {
 		if (!lDicts.get(0).getValue().equals("")&&lDicts.get(0).getValue()!=null) {
 			payment.setDocumentAuditID(lDicts.get(0).getValue());
 			paymentDao.update(payment);
+			User user=(User)userDAO.query(" where id='"+payment.getUID()+"'").get(0);
+			SendMail.SendMail(user.getEmail(), "付款申请单签核完成", "你有付款申请单签核完成可打印，请登录系统查看！");	
 		}
 	}
 	
@@ -126,6 +128,8 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void invalidPayment(Payment payment) throws Exception {
 		paymentDao.update(payment);
+		User user=(User)userDAO.query(" where id='"+payment.getUID()+"'").get(0);
+		SendMail.SendMail(user.getEmail(), "有付款申请单作废", "你有付款申请单作废，请登录系统查看！");
 	}
 	
 	@Override
@@ -139,6 +143,8 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void returnPayment(Payment payment) throws Exception {
 		paymentDao.update(payment);
+		User user=(User)userDAO.query(" where id='"+payment.getUID()+"'").get(0);
+		SendMail.SendMail(user.getEmail(), "有付款申请单被退回", "你有付款申请单被退回，请登录系统查看！");
 	}
 	
 	@Override
