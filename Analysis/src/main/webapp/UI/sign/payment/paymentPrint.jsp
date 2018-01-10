@@ -76,7 +76,8 @@ tr { font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑
 <script type="text/javascript">
 $(function(){
 	dataToFace();
-	
+	$("input").attr('disabled','disabled');
+	$("select").attr('disabled','disabled');
 })
 
 function dataToFace(){

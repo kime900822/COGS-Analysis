@@ -187,7 +187,8 @@ function assignPayment(){
 	    url:'sign/payment/paymentAssign.jsp',
 	    width:550,
 	    height:200,
-	    title:'Assign'
+	    title:'Assign',
+	    onClose:function(){BJUI.navtab('reload')}
 	});
 
 	
@@ -215,7 +216,8 @@ function returnPayment(){
 	    data:{id:$.CurrentNavtab.find("#j_payment_id").val(),returnDescription:CurrentNavtab.find("#payment-returnDescription").val()},	    
 	    okCallback: function(json, options) {
             if(json.status='200'){
-            	 BJUI.alertmsg('info', json.message); 
+            	 BJUI.alertmsg('info', json.message);
+            	 showButton('5','');
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -233,6 +235,7 @@ function invalidPayment(){
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
+            	 showButton('5','');
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -280,7 +283,7 @@ function isChange(){
 
 
 
-function showButton(state,print){
+function showButton(state,print,uid,documentAuditid,deptManagerid){
 	if(state==''){//新建 退回
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -295,7 +298,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#j_file_upload1').show();
 		$.CurrentNavtab.find('#j_file_download1').hide();
 		$.CurrentNavtab.find('#j_file_download2').hide();
-	}else if(state=='0'&&'${param.UID}'=='${user.uid}'){//保存后可提交
+	}else if(state=='0'&&uid=='${user.uid}'){//保存后可提交
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').show();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -309,7 +312,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#j_file_upload1').show();
 		$.CurrentNavtab.find('#j_file_download1').hide();
 		$.CurrentNavtab.find('#j_file_download2').hide();
-	}else if(state=="4"&&'${param.documentAuditID}'=='${user.uid}'){//财务处理完成
+	}else if(state=="4"&&documentAuditid=='${user.uid}'){//财务处理完成
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -331,7 +334,7 @@ function showButton(state,print){
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
 		
-	}else if(state=="4"&&'${param.documentAuditID}'!='${user.uid}'){//财务处理完成  非财务人员查看。可打印
+	}else if(state=="4"&&documentAuditid!='${user.uid}'){//财务处理完成  非财务人员查看。可打印
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -347,7 +350,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#j_file_download2').show();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');		
-	}else if(state=="1"&&'${param.deptManagerID}'=='${user.uid}'){//部门经理审批
+	}else if(state=="1"&&deptManagerid=='${user.uid}'){//部门经理审批
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').show();
@@ -363,7 +366,7 @@ function showButton(state,print){
 		$.CurrentNavtab.find('#j_file_downloa2').show();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
-	}else if(state=="2"&&'${param.documentAuditID}'=='${user.uid}'){//审批通过 财务处理
+	}else if(state=="2"&&documentAuditid=='${user.uid}'){//审批通过 财务处理
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -555,7 +558,7 @@ function dataToFace(){
             		
             	$.CurrentNavtab.find("#j_payment_id").val(json.id);
             	$.CurrentNavtab.find("#j_payment_state").val(json.state);
-            	showButton(json.state,json.isPrint);
+            	showButton(json.state,json.isPrint,json.UID,json.documentAuditID,json.deptManagerID);
             	changeAmount();
             }else{
             	 BJUI.alertmsg('error', json.message); 
