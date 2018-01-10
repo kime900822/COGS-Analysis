@@ -75,25 +75,6 @@ tr { font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑
 
 <script type="text/javascript">
 $(function(){
-	BJUI.ajax('doajax', {
-	    url: 'getAllBeneficiary.action',
-	    loadingmask: false,
-	    okCallback: function(json, options) {
-            $.each(json, function (i, item) {
-                $('#beneficiary').append("<option value='" + item.accno + "'>" + item.name + "</option>")           
-            })
-            $('#beneficiary').selectpicker('val','${param.beneficiary}');
-            $('#beneficiary').selectpicker('refresh');
-	    }
-	})	
-
-	$('#payment-save').click(function(){
-		
-		$("#form").attr("action", "savePayment.action").submit();
-	})
-	
-	
-	
 	dataToFace();
 	
 })
@@ -118,7 +99,7 @@ function dataToFace(){
             		$("#AdvanceWriteoff").attr('checked',true);
             	}
             	if(json.urgent=='1'){
-            		$("#urgent")html("●");
+            		$("#urgent").html("●");
             	}
             	$("#UID").html(json.UID+'<br>'+json.UName);
             	$("#departmentID").html(json.departmentName+'<br>'+json.departmentID);
@@ -132,7 +113,7 @@ function dataToFace(){
             		$("#beneficiaryAccountNOChange").html("●") 
             		$("#beneficiaryAccountNO_td").attr("style","background-color: #EEC900");
             	}
-                $("#paymentSubject"+json.paymentSubject).html("Y")  
+                $("#paymentSubject_"+json.paymentSubject).html("Y")  
                 if(json.paymentDays_1!=""&&json.paymentDays_1!=null){
                 	$("#paymentDays_1").html(json.paymentDays_1+"days");
                 }
@@ -199,12 +180,12 @@ function dataToFace(){
             	$("#refNoofBank").html(json.refNoofBank);
             	$("#usageDescription").html(json.usageDescription);
             	if(json.amountInFigures!=''&&json.amountInFigures!=null){
-            		$("#amountInFigures").html(json.amountInFigures);
-            		$("#amountInWords").html(formatCurrency(json.amountInFigures));
+            		$("#amountInFigures").html("&nbsp&nbsp"+formatCurrency(json.amountInFigures));
+            		$("#amountInWords").html("&nbsp&nbsp"+smalltoBIG(json.amountInFigures));
             	}
             	
-            	$("#documentAudit").html(json.documentAudit);
-            	$("#deptManager").html(json.deptManager);
+            	$("#documentAudit").html("&nbsp&nbsp"+json.documentAudit);
+            	$("#deptManager").html("&nbsp&nbsp"+json.deptManager);
 
             }else{
             	 BJUI.alertmsg('error', json.message); 
@@ -219,28 +200,35 @@ function dataToFace(){
 
     <div  style="width:1200px;padding:20px" >
 			<table  style="font-size:9px;">
+				<tr>
+					<td  width="200px"></td>
+					<td  width="950px"></td>
+					<td  width="50px"></td>
+				</tr>
 				<tr height="9px">
 					<td colspan="2" align="right" >
-						<p>流水码:</p><label id="code">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+						<p>流水码:</p>
 					</td>
+					<td align="center"><label id="code"></label></td>
 				</tr>
 				<tr>
 					<td width="200px" align="left"><img  style="width:300px;height:50px;" alt="payment" src="../../images/printLogo.png"></td>
-					<td width="1000px"  align="center"><h4 align="center" style="font-weight:bold">Cimtas(NingBo) Steel Processing CO.,LTD 庆达西（宁波）钢构制造有限公司</h4>
+					<td colspan="2"  align="center"><h4 align="center" style="font-weight:bold">Cimtas(NingBo) Steel Processing CO.,LTD 庆达西（宁波）钢构制造有限公司</h4>
 					<h5 align="center" style="font-weight:bold">Paymengt Application Form 付款申请单</h5>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="right" style="">
-						<p style="font-size:9px">Urgent:</p><label id="urgent">&nbsp</label>
+						<p style="font-size:9px">Urgent:</p>
 					</td>
+					<td align="center" width="40px"><label id="urgent"></label></td>
 				</tr>
 			</table>		
 			<table style="font-size:9px;">
 				<tr>
-					<td width="300px" >Application Date(申请日期)<label id="applicationDate"></label></td>
-					<td width="400px" >Request Payment Date(要求付款日期）<label id="requestPaymentDate"></label></td>
-					<td width="400px" >Contactural Payment Date(合同付款日期)<label id="contacturalPaymentDate"></label></td>
+					<td width="300px" >Application Date(申请日期):<label id="applicationDate"></label></td>
+					<td width="400px" >Request Payment Date(要求付款日期):<label id="requestPaymentDate"></label></td>
+					<td width="400px" >Contactural Payment Date(合同付款日期):<label id="contacturalPaymentDate"></label></td>
 					<td width="100px"></td>
 				</tr>
 				<tr>
@@ -256,8 +244,8 @@ function dataToFace(){
 				<tr>
 					<th width="30px"></th>
 					<th width="140px"></th>
-					<th width="30px"></th>
-					<th width="140px"></th>
+					<th width="50px"></th>
+					<th width="120px"></th>
 					<th width="100px"></th>
 					<th width="60px"></th>
 					<th width="80px"></th>
@@ -281,7 +269,7 @@ function dataToFace(){
 				</tr>
 				<tr >
 					<td style="text-align:center">
-						<input type="checkbox" id="beneficiaryChange" >
+						<label id="beneficiaryChange" ></label>
 					</td>
 				</tr>
 				<tr>
@@ -297,7 +285,7 @@ function dataToFace(){
 				</tr>
 				<tr >
 					<td style="text-align:center">
-						<input type="checkbox" id="beneficiaryAccountNOChange" >
+						<label id="beneficiaryAccountNOChange" ></label>
 					</td>
 				</tr>
 				<tr>
@@ -313,7 +301,7 @@ function dataToFace(){
 				
 				
 				
-				<tr>
+				<tr  align="center">
 					<td align="center"><label id="paymentSubject_1"></label></td>
 					<td>Fixed Asset 固定资产</td>
 					<td><label id="paymentDays_1"></label></td>
@@ -323,7 +311,7 @@ function dataToFace(){
 					<td><label id="currency_1"></label></td>
 					<td><label id="amount_1"></label></td>
 				</tr>	
-				<tr>
+				<tr align="center">
 					<td align="center"><label id="paymentSubject_2"></label></td>
 					<td>Raw Material 原材料</td>
 					<td><label id="paymentDays_2"></label></td>
@@ -333,7 +321,7 @@ function dataToFace(){
 					<td><label id="currency_2"></label></td>
 					<td><label id="amount_2"></label></td>
 				</tr>	
-				<tr>
+				<tr align="center">
 					<td align="center"><label id="paymentSubject_3"></label></td>
 					<td>Consumable 消耗品</td>
 					<td><label id="paymentDays_3"></label></td>
@@ -343,7 +331,7 @@ function dataToFace(){
 					<td><label id="currency_3"></label></td>
 					<td><label id="amount_3"></label></td>
 				</tr>	
-				<tr>
+				<tr align="center">
 					<td align="center"><label id="paymentSubject_4"></label></td>
 					<td>Subcontractor 外包</td>
 					<td><label id="paymentDays_4"></label></td>
@@ -353,7 +341,7 @@ function dataToFace(){
 					<td><label id="currency_4"></label></td>
 					<td><label id="amount_4"></label></td>
 				</tr>	
-				<tr>
+				<tr align="center">
 					<td align="center"><label id="paymentSubject_5"></label></td>
 					<td>Service 服务</td>
 					<td><label id="paymentDays_5"></label></td>
@@ -363,7 +351,7 @@ function dataToFace(){
 					<td><label id="currency_5"></label></td>
 					<td><label id="amount_5"></label></td>
 				</tr>	
-				<tr>
+				<tr align="center">
 					<td align="center"><label id="paymentSubject_6"></label></td>
 					<td>Petty Cash 备用金</td>
 					<td><label id="paymentDays_6"></label></td>
@@ -373,7 +361,7 @@ function dataToFace(){
 					<td><label id="currency_6"></label></td>
 					<td><label id="amount_6"></label></td>
 				</tr>	
-				<tr>
+				<tr align="center">
 					<td align="center"><label id="paymentSubject_7"></label></td>
 					<td>Other 其他</td>
 					<td></td>

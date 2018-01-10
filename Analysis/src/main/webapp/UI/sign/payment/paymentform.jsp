@@ -236,7 +236,8 @@ function printPayment(){
 	BJUI.ajax('doajax', {
 	    url: 'printPayment.action',
 	    loadingmask: true,
-	    data:{id:pid},	    
+	    data:{id:pid},	   
+	    okalert:false,
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	window.open("sign\\payment\\paymentPrint.jsp?id="+pid);  
