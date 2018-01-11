@@ -385,7 +385,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$("select[id*='j_payment']").attr('disabled','disabled');
 		$.CurrentNavtab.find('#j_payment_refNoofBank').removeAttr('disabled');
 		$.CurrentNavtab.find('#j_payment_refNoofBank').removeAttr('readonly').attr('data-rule','required');
-/* 	}else if(state=="2"&&'${param.UID}'=='${user.uid}'){//审批通过 普通员工打印
+ 	}else if(state=="2"&&documentAuditid!='${user.uid}'){//审批通过 普通员工打印
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -400,7 +400,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download2').show();
 		$("input[id*='j_payment']").attr('disabled','disabled');
-		$("select[id*='j_payment']").attr('disabled','disabled'); */
+		$("select[id*='j_payment']").attr('disabled','disabled'); 
 	}else if(state=="3"){//审批未通过，单据作废，
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
