@@ -674,7 +674,7 @@ function changeCurrency(o){
 
 function checkPoNO(o){
 	 var str = $(o).val();
-     var ret =  /^[A-Z]{2}\d{5}$/;
+     var ret =  /^[A-Z]{2}\d{7}$/;
      if(!ret.test(str)){
     	 $.CurrentNavtab.find(o).val("")
     	 BJUI.alertmsg('error', 'Plese Enter Right Type! Like YY00000'); 
