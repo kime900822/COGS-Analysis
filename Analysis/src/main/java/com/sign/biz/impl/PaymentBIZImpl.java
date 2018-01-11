@@ -1,9 +1,11 @@
 package com.sign.biz.impl;
 
 import java.io.ByteArrayInputStream;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,11 @@ import com.kime.biz.UserBIZ;
 import com.kime.dao.CommonDAO;
 import com.kime.dao.DictDAO;
 import com.kime.dao.UserDAO;
+import com.kime.infoenum.Message;
 import com.kime.model.Dict;
 import com.kime.model.User;
+import com.kime.utils.PropertiesUtil;
+import com.kime.utils.TypeChangeUtil;
 import com.kime.utils.mail.SendMail;
 import com.sign.biz.PaymentBIZ;
 import com.sign.dao.PaymentDAO;
@@ -93,7 +98,8 @@ public class PaymentBIZImpl implements PaymentBIZ {
 			payment.setDeptManagerID(lUsers.get(0).getUid());
 			payment.setDeptManager(lUsers.get(0).getName());
 			paymentDao.update(payment);
-			SendMail.SendMail(lUsers.get(0).getEmail(), "有新的待签核付款申请单", "有'"+payment.getUName()+"' 的付款申请单待签核！");	
+			//SendMail.SendMail(lUsers.get(0).getEmail(), "Payment application system inform", "Dear sir,<br><br> You have got a payment approval request from <u><b>\""+payment.getUName()+"\"</b></u> . <br><br>Approval Website:<a href='"+PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")+"'>Analysis</a>");	
+			SendMail.SendMail(lUsers.get(0).getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfSubmit"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfSubmit"), payment.getUName(),PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")));	
 		}else{
 			throw new Exception("对应签核人员未维护，邮件发送失败");
 		}
@@ -119,7 +125,8 @@ public class PaymentBIZImpl implements PaymentBIZ {
 			payment.setDocumentAuditID(lDicts.get(0).getValue());
 			paymentDao.update(payment);
 			User user=(User)userDAO.query(" where id='"+payment.getUID()+"'").get(0);
-			SendMail.SendMail(user.getEmail(), "付款申请单签核完成", "你有付款申请单签核完成可打印，请登录系统查看！");	
+			//SendMail.SendMail(user.getEmail(), "Payment application system inform", "Dear sir,<br><br>Your application form which amount is <u><b>"+TypeChangeUtil.formatMoney(payment.getAmountInFigures(),2,payment.getCurrency_1())+"</b></u> have been approved by <u><b>"+payment.getDeptManager()+"</b></u>");	
+			SendMail.SendMail(user.getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfApprove"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfApprove"), TypeChangeUtil.formatMoney(payment.getAmountInFigures(),2,payment.getCurrency_1()),payment.getDeptManager()));	
 		}
 	}
 	
@@ -129,7 +136,7 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	public void invalidPayment(Payment payment) throws Exception {
 		paymentDao.update(payment);
 		User user=(User)userDAO.query(" where id='"+payment.getUID()+"'").get(0);
-		SendMail.SendMail(user.getEmail(), "有付款申请单作废", "你有付款申请单作废，请登录系统查看！");
+		//SendMail.SendMail(user.getEmail(), "Payment application system inform", "你有付款申请单作废，请登录系统查看！");
 	}
 	
 	@Override
@@ -144,7 +151,7 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	public void returnPayment(Payment payment) throws Exception {
 		paymentDao.update(payment);
 		User user=(User)userDAO.query(" where id='"+payment.getUID()+"'").get(0);
-		SendMail.SendMail(user.getEmail(), "有付款申请单被退回", "你有付款申请单被退回，请登录系统查看！");
+		//SendMail.SendMail(user.getEmail(), "Payment application system inform", "你有付款申请单被退回，请登录系统查看！");
 	}
 	
 	@Override

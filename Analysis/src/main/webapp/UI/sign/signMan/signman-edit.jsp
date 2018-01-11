@@ -42,7 +42,7 @@
 			    		$.CurrentDialog.find('#j_signman_edit_uname').val(json[0].name); 
 			    	}                         
 			    	else{
-			    		BJUI.alertmsg('error', userid+'不存在'); 
+			    		BJUI.alertmsg('error','userid不存在'); 
 			    	}
 			    }
 			})

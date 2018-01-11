@@ -115,6 +115,8 @@ function submitPayment(){
             	 BJUI.alertmsg('info', json.message); 
             	 $.CurrentNavtab.find('#payment-save').hide();
          		 $.CurrentNavtab.find('#payment-submit').hide();
+         		 $("input[id*='j_payment']").attr('disabled','disabled');
+        		 $("select[id*='j_payment']").attr('disabled','disabled');
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -618,37 +620,37 @@ function changeAmount(){
 	var total=0;
 	if(amount1!="0.00"&&amount1!=""){
 		total+=parseFloat(amount1);
-		$.CurrentNavtab.find("#row_01_title").html("PO&nbsp1 &nbsp&nbsp&nbsp&nbsp PONo:"+$.CurrentNavtab.find("#j_payment_PONo_1").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_1").val()+"&nbsp&nbsp"+c1);
+		$.CurrentNavtab.find("#row_01_title").html("PO&nbsp1 &nbsp&nbsp&nbsp&nbsp PO No:"+$.CurrentNavtab.find("#j_payment_PONo_1").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_1").val()+"&nbsp&nbsp"+c1);
 	}else{
 		$.CurrentNavtab.find("#row_01_title").html("PO&nbsp1");
 	}
 	if(amount2!="0.00"&&amount2!=""){
 		total+=parseFloat(amount2);
-		$.CurrentNavtab.find("#row_02_title").html("PO&nbsp2 &nbsp&nbsp&nbsp&nbsp PONo:"+$.CurrentNavtab.find("#j_payment_PONo_2").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_2").val()+"&nbsp&nbsp"+c2);
+		$.CurrentNavtab.find("#row_02_title").html("PO&nbsp2 &nbsp&nbsp&nbsp&nbsp PO No:"+$.CurrentNavtab.find("#j_payment_PONo_2").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_2").val()+"&nbsp&nbsp"+c2);
 	}else{
 		$.CurrentNavtab.find("#row_02_title").html("PO&nbsp2");
 	}
 	if(amount3!="0.00"&&amount3!=""){
 		total+=parseFloat(amount3);
-		$.CurrentNavtab.find("#row_03_title").html("PO&nbsp3 &nbsp&nbsp&nbsp&nbsp PONo:"+$.CurrentNavtab.find("#j_payment_PONo_3").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_3").val()+"&nbsp&nbsp"+c3);
+		$.CurrentNavtab.find("#row_03_title").html("PO&nbsp3 &nbsp&nbsp&nbsp&nbsp PO No:"+$.CurrentNavtab.find("#j_payment_PONo_3").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_3").val()+"&nbsp&nbsp"+c3);
 	}else{
 		$.CurrentNavtab.find("#row_03_title").html("PO&nbsp3");
 	}
 	if(amount4!="0.00"&&amount4!=""){
 		total+=parseFloat(amount4);
-		$.CurrentNavtab.find("#row_04_title").html("PO&nbsp4 &nbsp&nbsp&nbsp&nbsp PONo:"+$.CurrentNavtab.find("#j_payment_PONo_4").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_4").val()+"&nbsp&nbsp"+c4);
+		$.CurrentNavtab.find("#row_04_title").html("PO&nbsp4 &nbsp&nbsp&nbsp&nbsp PO No:"+$.CurrentNavtab.find("#j_payment_PONo_4").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_4").val()+"&nbsp&nbsp"+c4);
 	}else{
 		$.CurrentNavtab.find("#row_04_title").html("PO&nbsp4");
 	}
 	if(amount5!="0.00"&&amount5!=""){
 		total+=parseFloat(amount5);
-		$.CurrentNavtab.find("#row_05_title").html("PO&nbsp5 &nbsp&nbsp&nbsp&nbsp PONo:"+$.CurrentNavtab.find("#j_payment_PONo_5").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_5").val()+"&nbsp&nbsp"+c5);
+		$.CurrentNavtab.find("#row_05_title").html("PO&nbsp5 &nbsp&nbsp&nbsp&nbsp PO No:"+$.CurrentNavtab.find("#j_payment_PONo_5").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_5").val()+"&nbsp&nbsp"+c5);
 	}else{
 		$.CurrentNavtab.find("#row_05_title").html("PO&nbsp5");
 	}
 	if(amount6!="0.00"&&amount6!=""){
 		total+=parseFloat(amount6);
-		$.CurrentNavtab.find("#row_06_title").html("PO&nbsp6 &nbsp&nbsp&nbsp&nbsp PONo:"+$.CurrentNavtab.find("#j_payment_PONo_6").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_6").val()+"&nbsp&nbsp"+c6);
+		$.CurrentNavtab.find("#row_06_title").html("PO&nbsp6 &nbsp&nbsp&nbsp&nbsp PO No:"+$.CurrentNavtab.find("#j_payment_PONo_6").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_6").val()+"&nbsp&nbsp"+c6);
 	}else{
 		$.CurrentNavtab.find("#row_06_title").html("PO&nbsp6");
 	}

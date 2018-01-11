@@ -730,7 +730,6 @@ public class PaymentAction extends ActionBase {
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setState(PaymentState.SUBPAYMENT);
-			
 			paymentBIZ.submitPayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);

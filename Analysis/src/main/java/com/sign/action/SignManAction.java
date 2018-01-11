@@ -66,34 +66,44 @@ public class SignManAction extends ActionBase {
 			})})
 	public String editSignMan() throws UnsupportedEncodingException{
 		
-		SignMan signMan=new SignMan();
-		signMan.setDid(did);
-		if (!"".equals(sid)&&sid!=null) {
-			signMan.setSid(sid);
+		List<SignMan> lSignMan=signManBIZ.getSianMan("where sid='"+sid+"'");
+		if (lSignMan.size()>0) {
+			
+			result.setMessage("This department has been maintained");
+			result.setStatusCode("300");
+			reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8"));  
 		}else{
-			signMan.setSid(UUID.randomUUID().toString().replaceAll("-", ""));
-		}	
-		signMan.setType(type);
-		signMan.setUid(uid);
-		
-		
-		try {
-			if (sid==null||"".equals(sid)) {
-				signManBIZ.save(signMan);
+			
+			SignMan signMan=new SignMan();
+			signMan.setDid(did);
+			if (!"".equals(sid)&&sid!=null) {
+				signMan.setSid(sid);
 			}else{
-				signManBIZ.update(signMan);
-			}			
-			logUtil.logInfo("修改审核信息，id:"+signMan.getSid());
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			logUtil.logInfo("修改审核信息，异常:"+e1.getMessage());
+				signMan.setSid(UUID.randomUUID().toString().replaceAll("-", ""));
+			}	
+			signMan.setType(type);
+			signMan.setUid(uid);
+			
+			
+			try {
+				if (sid==null||"".equals(sid)) {
+					signManBIZ.save(signMan);
+				}else{
+					signManBIZ.update(signMan);
+				}			
+				logUtil.logInfo("修改审核信息，id:"+signMan.getSid());
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				logUtil.logInfo("修改审核信息，异常:"+e1.getMessage());
+			}
+			signMan=signManBIZ.getSianMan(" where sid='"+signMan.getSid()+"'").get(0);
+			signMan.setUname(signMan.getUser().getName());
+			signMan.setDname(signMan.getDepartment().getName());
+			
+			String r=callback+"("+new Gson().toJson(signMan)+")";
+			reslutJson=new ByteArrayInputStream(r.getBytes("UTF-8"));  
 		}
-		signMan=signManBIZ.getSianMan(" where sid='"+signMan.getSid()+"'").get(0);
-		signMan.setUname(signMan.getUser().getName());
-		signMan.setDname(signMan.getDepartment().getName());
 		
-		String r=callback+"("+new Gson().toJson(signMan)+")";
-		reslutJson=new ByteArrayInputStream(r.getBytes("UTF-8"));  
 		
 		return SUCCESS;
 
