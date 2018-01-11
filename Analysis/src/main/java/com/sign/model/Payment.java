@@ -347,19 +347,19 @@ public class Payment {
 	 * 发票地址
 	 */
 	@Column
-	private String invoice;
+	private String file_invoice="";
 	
 	/**
 	 * 合同地址
 	 */
 	@Column
-	private String contract;
+	private String file_contract="";
 	
 	/**
 	 * 其他附件地址
 	 */
 	@Column
-	private String other;
+	private String file_other="";
 	
 	/**
 	 * 作废原因
@@ -408,6 +408,21 @@ public class Payment {
 	 */
 	@Column
 	private String isPrint;
+
+	/**
+	 * 创建时间
+	 */
+	@Column
+	private String dateTemp;
+	
+	
+	public String getDateTemp() {
+		return dateTemp;
+	}
+
+	public void setDateTemp(String dateTemp) {
+		this.dateTemp = dateTemp;
+	}
 
 	public String getDocumentAuditID() {
 		return documentAuditID;
@@ -595,28 +610,29 @@ public class Payment {
 		this.state = state;
 	}
 
-	public String getInvoice() {
-		return invoice;
+
+	public String getFile_invoice() {
+		return file_invoice;
 	}
 
-	public void setInvoice(String invoice) {
-		this.invoice = invoice;
+	public void setFile_invoice(String file_invoice) {
+		this.file_invoice = file_invoice;
 	}
 
-	public String getContract() {
-		return contract;
+	public String getFile_contract() {
+		return file_contract;
 	}
 
-	public void setContract(String contract) {
-		this.contract = contract;
+	public void setFile_contract(String file_contract) {
+		this.file_contract = file_contract;
 	}
 
-	public String getOther() {
-		return other;
+	public String getFile_other() {
+		return file_other;
 	}
 
-	public void setOther(String other) {
-		this.other = other;
+	public void setFile_other(String file_other) {
+		this.file_other = file_other;
 	}
 
 	public String getInvalidDescription() {

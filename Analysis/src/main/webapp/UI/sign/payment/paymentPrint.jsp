@@ -93,11 +93,11 @@ function dataToFace(){
             	$("#contacturalPaymentDate").html(json.contacturalPaymentDate);
             	$("#code").html(json.code);
             	if(json.payType=='Cash'){
-            		$("#cash").attr('checked',true);
+            		$("#Cash").attr('checked','checked');
             	}else if(json.payType=='Banking'){
-            		$("#banking").attr('checked',true);
+            		$("#Banking").attr('checked','checked');
             	}else if(json.payType=='AdvanceWriteoff'){
-            		$("#AdvanceWriteoff").attr('checked',true);
+            		$("#AdvanceWriteoff").attr('checked','checked');
             	}
             	if(json.urgent=='1'){
             		$("#urgent").html("●");

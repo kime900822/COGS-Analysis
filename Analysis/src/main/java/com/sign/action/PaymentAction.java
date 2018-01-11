@@ -23,6 +23,7 @@ import com.kime.biz.DictBIZ;
 import com.kime.infoenum.Message;
 import com.kime.model.Dict;
 import com.kime.model.User;
+import com.kime.utils.CommonUtil;
 import com.sign.biz.PaymentBIZ;
 import com.sign.model.Payment;
 import com.sign.other.FileSave;
@@ -40,9 +41,22 @@ public class PaymentAction extends ActionBase {
     @Autowired
     private DictBIZ dictBIZ;
 	
-	private File file;
-	private String fileFileName;
+	private File Filedata;
+	private String Filename;
 	
+
+	public String getFilename() {
+		return Filename;
+	}
+	public void setFilename(String filename) {
+		Filename = filename;
+	}
+	public File getFiledata() {
+		return Filedata;
+	}
+	public void setFiledata(File filedata) {
+		Filedata = filedata;
+	}
 	public DictBIZ getDictBIZ() {
 		return dictBIZ;
 	}
@@ -61,18 +75,7 @@ public class PaymentAction extends ActionBase {
 	public void setFileSave(FileSave fileSave) {
 		this.fileSave = fileSave;
 	}
-	public String getFileFileName() {
-		return fileFileName;
-	}
-	public void setFileFileName(String fileFileName) {
-		this.fileFileName = fileFileName;
-	}
-	public File getFile() {
-		return file;
-	}
-	public void setFile(File file) {
-		this.file = file;
-	}
+
 
 	private String queryType;
 	private String id;
@@ -141,9 +144,9 @@ public class PaymentAction extends ActionBase {
 	private String documentAudit;
 	private String documentAuditID;
 	private String state;
-	private String invoice;
-	private String contract;
-	private String other;
+	private String file_invoice;
+	private String file_contract;
+	private String file_other;
 	private String invalidDescription;
 	private String returnDescription;
 	private String deptManager;
@@ -506,23 +509,24 @@ public class PaymentAction extends ActionBase {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public String getInvoice() {
-		return invoice;
+	
+	public String getFile_invoice() {
+		return file_invoice;
 	}
-	public void setInvoice(String invoice) {
-		this.invoice = invoice;
+	public void setFile_invoice(String file_invoice) {
+		this.file_invoice = file_invoice;
 	}
-	public String getContract() {
-		return contract;
+	public String getFile_contract() {
+		return file_contract;
 	}
-	public void setContract(String contract) {
-		this.contract = contract;
+	public void setFile_contract(String file_contract) {
+		this.file_contract = file_contract;
 	}
-	public String getOther() {
-		return other;
+	public String getFile_other() {
+		return file_other;
 	}
-	public void setOther(String other) {
-		this.other = other;
+	public void setFile_other(String file_other) {
+		this.file_other = file_other;
 	}
 	public String getInvalidDescription() {
 		return invalidDescription;
@@ -570,10 +574,14 @@ public class PaymentAction extends ActionBase {
 			})})
     public String savefile() throws FileNotFoundException, IOException{
         try {
-	    	if (file!=null) {
-	            if (fileSave.fleSave(file, fileFileName)) {
+	    	if (Filedata!=null) {
+	    		String path=fileSave.fileSave(Filedata, Filename);
+	            if (path!=null) {
 	            	result.setMessage("upload Success!");
 					result.setStatusCode("200");
+					Map<String, String> map=new HashMap<>();
+					map.put("url", path);
+					result.setParams(map);
 				}else{			
 					result.setMessage(Message.UPLOAD_MESSAGE_ERROE);
 					result.setStatusCode("300");	
@@ -599,6 +607,16 @@ public class PaymentAction extends ActionBase {
 		try {
 			Payment payment=new Gson().fromJson(json, Payment.class);
 			if (!payment.getId().equals("")&&payment.getId()!=null) {
+				if (file_invoice!=null&&!"".equals(file_invoice)) {
+					payment.setFile_invoice(fileSave.getFilePath(file_invoice));
+				}
+				if (file_contract!=null&&!"".equals(file_contract)) {
+					payment.setFile_contract(fileSave.getFilePath(file_contract));
+				}
+				if (file_other!=null&&!"".equals(file_other)) {
+					payment.setFile_other(fileSave.getFilePath(file_other));
+				}
+				
 				paymentBIZ.updatePayment(payment);
 				result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 				result.setStatusCode("200");
@@ -607,8 +625,18 @@ public class PaymentAction extends ActionBase {
 				result.setParams(map);
 				logUtil.logInfo("更新付款申请单:"+payment.getId());			
 			}else{
+				if (file_invoice!=null&&!"".equals(file_invoice)) {
+					payment.setFile_invoice(fileSave.getFilePath(file_invoice));
+				}
+				if (file_contract!=null&&!"".equals(file_contract)) {
+					payment.setFile_contract(fileSave.getFilePath(file_contract));
+				}
+				if (file_other!=null&&!"".equals(file_other)) {
+					payment.setFile_other(fileSave.getFilePath(file_other));
+				}
 				payment.setState(PaymentState.SAVEPAYMENT);
 				payment.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+				payment.setDateTemp(CommonUtil.getDateTemp());
 				List<Dict> lDicts=dictBIZ.getDict(" where key='"+payment.getPaymentSubject()+"'");
 				if (!"".equals(lDicts.get(0).getValue())&&lDicts.get(0).getValue()!=null) {
 					//payment.setDocumentAudit(lDicts.get(0).getValue());
@@ -864,6 +892,7 @@ public class PaymentAction extends ActionBase {
 		Payment payment=new Payment();		
 		try {
 			payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
+			String string=new Gson().toJson(payment);
 			reslutJson=new ByteArrayInputStream(new Gson().toJson(payment).getBytes("UTF-8")); 	
 			logUtil.logInfo("查询付款申请单:"+payment.getId());
 		} catch (Exception e) {
@@ -907,16 +936,16 @@ public class PaymentAction extends ActionBase {
 		
 			
 		if ("all".equals(queryType)) {
-			hql="  select P from Payment P where 1=1 "+where+"order By P.applicationDate desc";
+			hql="  select P from Payment P,User U where P.UID=U.uid "+where+" AND U.did='"+user.getDid()+"' order By P.dateTemp desc";
 		}
 		if ("acc".equals(queryType)) {
-			hql="  select  P from Payment P where (P.state='2' or P.state='4') AND P.documentAuditID='"+user.getUid()+"' order By P.applicationDate desc";
+			hql="  select  P from Payment P where (P.state='2' or P.state='4') AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
 		}
 		if ("sign".equals(queryType)) {
-			hql="  select  P from Payment P, SignMan S  where P.state='1' and P.departmentID=S.did And S.uid='"+user.getUid()+"' order By P.applicationDate desc";
+			hql="  select  P from Payment P, SignMan S  where P.state='1' and P.departmentID=S.did And S.uid='"+user.getUid()+"' order By P.dateTemp desc";
 		}
 		if ("user".equals(queryType)) {
-			hql=" select P from Payment P where P.UID='"+user.getUid()+"' "+where+" order By P.applicationDate desc";
+			hql=" select P from Payment P where P.UID='"+user.getUid()+"' "+where+" order By P.dateTemp desc";
 		}
 		List<Payment> list=paymentBIZ.getPaymentByHql(hql, Integer.parseInt(pageSize),Integer.parseInt(pageCurrent));
 		int total=paymentBIZ.getPaymentByHql(hql).size();

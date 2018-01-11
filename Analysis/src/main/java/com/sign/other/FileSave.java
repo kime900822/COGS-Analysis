@@ -27,24 +27,24 @@ public class FileSave {
 
 
 
-	public boolean fleSave(File upfile,String filename){
+	public String fileSave(File upfile,String filename){
 		String filepath=judeDirExists();
 
 			if (filepath!=null) {
 				File file=new File(filepath+"/"+filename);
 		        if (file.exists()) {
-		        	return false;
+		        	return null;
 		        } else {
 		        	if (upfile.renameTo(file)) {
 		        		logUtil.logInfo("上传文件:"+file.getPath());
-		        		return true;
+		        		return file.getPath();
 					}else{
-						return false;				
+						return null;				
 					}
 		        	
 		        }
 			}else{
-				return false;
+				return null;
 			}
 
 			
@@ -54,6 +54,10 @@ public class FileSave {
 		
 	}
 	
+	public String getFilePath(String filename){
+		String filepath=judeDirExists();
+		return filepath+"/"+filename;		
+	}
     
     
     // 判断文件夹是否存在

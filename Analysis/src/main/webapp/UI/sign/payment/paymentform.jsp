@@ -2,6 +2,45 @@
     pageEncoding="UTF-8"%>
 <script type="text/javascript">
 $(function(){
+	
+	 $("#upfile_invoice").uploadify({
+	        height        : 30,
+	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
+	        uploader      : 'savefile.action',
+	        width         : 120,
+	        onUploadSuccess:function(file, data, response){
+	        	$.CurrentNavtab.find('#upfile_invoice_name').html(file.name)
+
+	        	
+	        }
+	    });
+	 
+	 $("#upfile_contract").uploadify({
+	        height        : 30,
+	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
+	        uploader      : 'savefile.action',
+	        width         : 120,
+	        onUploadSuccess:function(file, data, response){
+	        	$.CurrentNavtab.find('#upfile_contract_name').html(file.name)
+
+	        	
+	        }
+	    });
+
+	 
+	 $("#upfile_other").uploadify({
+	        height        : 30,
+	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
+	        uploader      : 'savefile.action',
+	        width         : 120,
+	        onUploadSuccess:function(file, data, response){
+	        	$.CurrentNavtab.find('#upfile_other_name').html(file.name)
+
+	        	
+	        }
+	    });
+
+
 	//初始化全部缩进
 	$('tr.table-parent').each(
 			function(){
@@ -91,7 +130,7 @@ function savePayment(){
 	BJUI.ajax('doajax', {
 	    url: 'savePayment.action',
 	    loadingmask: true,
-	    data:{json:JSON.stringify(o)},	    
+	    data:{json:JSON.stringify(o),file_invoice:$.CurrentNavtab.find('#upfile_invoice_name').html(),file_contract:$.CurrentNavtab.find('#upfile_contract_name').html(),file_other:$.CurrentNavtab.find('#upfile_other_name').html()},	    
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
@@ -298,7 +337,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').show();
 		$.CurrentNavtab.find('#j_file_upload1').show();
-		$.CurrentNavtab.find('#j_file_download1').hide();
+		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download2').hide();
 	}else if(state=='0'&&uid=='${user.uid}'){//保存后可提交
 		$.CurrentNavtab.find('#payment-save').show();
@@ -554,9 +593,21 @@ function dataToFace(){
             	$.CurrentNavtab.find("#j_payment_documentAudit").val(json.documentAudit);
             	$.CurrentNavtab.find("#j_payment_deptManager").val(json.deptManager);
             		
-            	$.CurrentNavtab.find("#j_file_Invoice").attr("href",json.invoice).html(json.invoice);
-            	$.CurrentNavtab.find("#j_file_Contract").attr("href",json.contract).html(json.contract);
-            	$.CurrentNavtab.find("#j_file_Other").attr("href",json.other).html(json.other);
+            	if(json.file_invoice!=undefined&&json.file_invoice!=""){
+            		var filename=json.file_invoice.split('/')[1];
+            		$.CurrentNavtab.find("#j_file_invoice").attr("href",json.file_invoice).html(filename);  
+            		$.CurrentNavtab.find("#upfile_invoice_name").html(filename);  
+            	}
+            	if(json.file_other!=undefined&&json.file_other!=""){
+            		var filename=json.file_other.split('/')[1];
+            		$.CurrentNavtab.find("#j_file_other").attr("href",json.file_other).html(filename);           
+            		$.CurrentNavtab.find("#upfile_other_name").html(filename);  
+            	}
+            	if(json.file_contract!=undefined&&json.file_contract!=""){
+            		var filename=json.file_contract.split('/')[1];
+            		$.CurrentNavtab.find("#j_file_contract").attr("href",json.file_contract).html(filename);    
+            		$.CurrentNavtab.find("#upfile_contract_name").html(filename);  
+            	}
             		
             	$.CurrentNavtab.find("#j_payment_id").val(json.id);
             	$.CurrentNavtab.find("#j_payment_state").val(json.state);
@@ -1239,26 +1290,29 @@ function checkPoNO(o){
 						<input type="text" name="deptManager" size="19" id="j_payment_deptManager" value="" readonly="" >
 					</td>  
 				</tr>
-				<tr id="j_file_upload1">
+				<tr id="j_file_upload1" height="80px">
 					<td>
 						Attachment1 Invoice （附件：发票）
 					</td>
 					<td>
-						<input type="file" name="upfile_invoice"  data-rule="">
+						<div id="upfile_invoice"   data-rule=""></div>
+						<label id="upfile_invoice_name"></label>
 					</td>
 					<td>
 						Attachment2 Contract （附件：合同）
 					</td>
 					<td>
-						<input type="file" name="upfile_contract"  data-rule="">
+						<div id="upfile_contract"   data-rule=""></div>
+						<label id="upfile_contract_name"></label>
 					</td>
 				</tr>
-				<tr id="j_file_upload2">
+				<tr id="j_file_upload2"  height="80px">
 					<td>
 						Attachment3 Other （附件：其他）
 					</td>
 					<td>
-						<input type="file" name="upfile_other"   data-rule="">
+						<div id="upfile_other"   data-rule=""></div>
+						<label id="upfile_other_name"></label>
 					</td>
 					<td colspan="2">
 					</td>
@@ -1268,13 +1322,13 @@ function checkPoNO(o){
 						Attachment1 Invoice （附件：发票）
 					</td>
 					<td>
-						<a id ="j_file_Invoice"></a>
+						<a id ="j_file_invoice"></a>
 					</td>
 					<td>
 						Attachment2 Contract （附件：合同）
 					</td>
 					<td>
-						<a id ="j_file_Contract"></a>
+						<a id ="j_file_contract"></a>
 					</td>
 				
 				</tr>
