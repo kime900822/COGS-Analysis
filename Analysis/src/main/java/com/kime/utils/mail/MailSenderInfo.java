@@ -24,6 +24,15 @@ public class MailSenderInfo {
     private String content;    
     // 邮件附件的文件名    
     private String[] attachFileNames;      
+    
+    private String SSLSocketFactory=PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "SSLSocketFactory");    
+    
+    private String fallback=PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "fallback");  
+    
+    private String socketFactoryport=PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "socketFactoryport"); 
+    
+    private String protocol=PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "protocol"); 
+    
     /**   
       * 获得邮件会话属性   
       */    
@@ -32,6 +41,11 @@ public class MailSenderInfo {
       p.put("mail.smtp.host", this.mailServerHost);    
       p.put("mail.smtp.port", this.mailServerPort);    
       p.put("mail.smtp.auth", validate ? "true" : "false");    
+      //ssl连接发送邮件
+      p.put("mail.smtp.socketFactory.class", this.SSLSocketFactory);
+      p.put("mail.smtp.socketFactory.fallback", this.fallback);
+      p.put("mail.smtp.socketFactory.port", this.socketFactoryport);
+      p.put("mail.transport.protocol", this.protocol);
       return p;    
     }    
     public String getMailServerHost() {    
