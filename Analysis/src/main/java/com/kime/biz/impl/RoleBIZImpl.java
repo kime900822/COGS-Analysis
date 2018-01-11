@@ -44,6 +44,7 @@ public class RoleBIZImpl implements RoleBIZ {
 		List<Role> lRoles=roleDao.query(" WHERE NAME='"+tmp.getName()+"'");
 		for (Role r : lRoles) {
 			r.setName(role.getName());
+			r.setDescription(role.getDescription());
 			roleDao.update(r);
 		}
 		

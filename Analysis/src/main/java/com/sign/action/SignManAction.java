@@ -88,6 +88,7 @@ public class SignManAction extends ActionBase {
 			e1.printStackTrace();
 			logUtil.logInfo("修改审核信息，异常:"+e1.getMessage());
 		}
+		signMan=signManBIZ.getSianMan(" where sid='"+signMan.getSid()+"'").get(0);
 		signMan.setUname(signMan.getUser().getName());
 		signMan.setDname(signMan.getDepartment().getName());
 		
