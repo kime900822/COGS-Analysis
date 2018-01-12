@@ -94,6 +94,9 @@ $(function(){
 		returnPayment();
 	});
 		
+	$.CurrentNavtab.find('#payment-delete').click(function(){		
+		deletePayment();
+	});
 
 	if('${param.id}'!=null&&'${param.id}'!=''){
 		dataToFace();
@@ -136,6 +139,26 @@ function savePayment(){
             	 BJUI.alertmsg('info', json.message); 
             	 $.CurrentNavtab.find('#payment-submit').show();
             	 $.CurrentNavtab.find("#j_payment_id").val(json.params.id);
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	});		
+}
+
+
+
+function deletePayment(){
+	BJUI.ajax('doajax', {
+	    url: 'deletePayment.action',
+	    loadingmask: true,
+	    data:{id:$.CurrentNavtab.find("#j_payment_id").val()},	    
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+            	 BJUI.alertmsg('info', json.message); 
+            	 $.CurrentNavtab.find('#payment-delete').hide();
+         		 $("input[id*='j_payment']").attr('disabled','disabled');
+        		 $("select[id*='j_payment']").attr('disabled','disabled');
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -333,6 +356,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-print').hide();
+		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').show();
@@ -347,6 +371,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-print').hide();
+		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').show();
@@ -360,6 +385,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-reject').hide();
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
+		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-print').show();
 		if(print=='1'){
 			$.CurrentNavtab.find('#payment-invalid-tr').show();
@@ -386,6 +412,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();					
 		$.CurrentNavtab.find('#j_file_upload2').hide();
+		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download2').show();
@@ -398,6 +425,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-reject').show();
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
+		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();		
@@ -415,6 +443,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-assign').show();
 		$.CurrentNavtab.find('#payment-acc').show();
 		$.CurrentNavtab.find('#payment-print').show();
+		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').hide();
@@ -438,6 +467,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').hide();
 		$.CurrentNavtab.find('#j_file_upload1').hide();
+		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#j_file_download1').show();
 		$.CurrentNavtab.find('#j_file_download2').show();
 		$("input[id*='j_payment']").attr('disabled','disabled');
@@ -450,6 +480,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-print').hide();
+		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').hide();
@@ -466,6 +497,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-print').hide();
+		$.CurrentNavtab.find('#payment-delete').show();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$.CurrentNavtab.find('#j_file_upload2').hide();
@@ -488,6 +520,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#j_file_download1').hide();
 		$.CurrentNavtab.find('#j_file_download2').hide();
+		$.CurrentNavtab.find('#payment-delete').hide();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
 	}
@@ -652,14 +685,6 @@ function changeAmount(){
 	var amount5=$.CurrentNavtab.find("#j_payment_amount_5_t").val().replace(",", "").replace(" ", "");
 	var amount6=$.CurrentNavtab.find("#j_payment_amount_6_t").val().replace(",", "").replace(" ", "");
 	
-	
-	$.CurrentNavtab.find("#j_payment_amount_1").val(amount1)
-	$.CurrentNavtab.find("#j_payment_amount_2").val(amount2)
-	$.CurrentNavtab.find("#j_payment_amount_3").val(amount3)
-	$.CurrentNavtab.find("#j_payment_amount_4").val(amount4)
-	$.CurrentNavtab.find("#j_payment_amount_5").val(amount5)
-	$.CurrentNavtab.find("#j_payment_amount_6").val(amount6)
-	
 	var c1=$.CurrentNavtab.find("#j_payment_amount_1_t").val(formatCurrency(amount1)).val()
 	var c2=$.CurrentNavtab.find("#j_payment_amount_2_t").val(formatCurrency(amount2)).val()
 	var c3=$.CurrentNavtab.find("#j_payment_amount_3_t").val(formatCurrency(amount3)).val()
@@ -670,36 +695,42 @@ function changeAmount(){
 	
 	var total=0;
 	if(amount1!="0.00"&&amount1!=""){
+		$.CurrentNavtab.find("#j_payment_amount_1").val(amount1)
 		total+=parseFloat(amount1);
 		$.CurrentNavtab.find("#row_01_title").html("PO&nbsp1 &nbsp&nbsp&nbsp&nbsp PO No:"+$.CurrentNavtab.find("#j_payment_PONo_1").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_1").val()+"&nbsp&nbsp"+c1);
 	}else{
 		$.CurrentNavtab.find("#row_01_title").html("PO&nbsp1");
 	}
 	if(amount2!="0.00"&&amount2!=""){
+		$.CurrentNavtab.find("#j_payment_amount_2").val(amount2)
 		total+=parseFloat(amount2);
 		$.CurrentNavtab.find("#row_02_title").html("PO&nbsp2 &nbsp&nbsp&nbsp&nbsp PO No:"+$.CurrentNavtab.find("#j_payment_PONo_2").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_2").val()+"&nbsp&nbsp"+c2);
 	}else{
 		$.CurrentNavtab.find("#row_02_title").html("PO&nbsp2");
 	}
 	if(amount3!="0.00"&&amount3!=""){
+		$.CurrentNavtab.find("#j_payment_amount_3").val(amount3)
 		total+=parseFloat(amount3);
 		$.CurrentNavtab.find("#row_03_title").html("PO&nbsp3 &nbsp&nbsp&nbsp&nbsp PO No:"+$.CurrentNavtab.find("#j_payment_PONo_3").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_3").val()+"&nbsp&nbsp"+c3);
 	}else{
 		$.CurrentNavtab.find("#row_03_title").html("PO&nbsp3");
 	}
 	if(amount4!="0.00"&&amount4!=""){
+		$.CurrentNavtab.find("#j_payment_amount_4").val(amount4)
 		total+=parseFloat(amount4);
 		$.CurrentNavtab.find("#row_04_title").html("PO&nbsp4 &nbsp&nbsp&nbsp&nbsp PO No:"+$.CurrentNavtab.find("#j_payment_PONo_4").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_4").val()+"&nbsp&nbsp"+c4);
 	}else{
 		$.CurrentNavtab.find("#row_04_title").html("PO&nbsp4");
 	}
 	if(amount5!="0.00"&&amount5!=""){
+		$.CurrentNavtab.find("#j_payment_amount_5").val(amount5)
 		total+=parseFloat(amount5);
 		$.CurrentNavtab.find("#row_05_title").html("PO&nbsp5 &nbsp&nbsp&nbsp&nbsp PO No:"+$.CurrentNavtab.find("#j_payment_PONo_5").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_5").val()+"&nbsp&nbsp"+c5);
 	}else{
 		$.CurrentNavtab.find("#row_05_title").html("PO&nbsp5");
 	}
 	if(amount6!="0.00"&&amount6!=""){
+		$.CurrentNavtab.find("#j_payment_amount_6").val(amount6)
 		total+=parseFloat(amount6);
 		$.CurrentNavtab.find("#row_06_title").html("PO&nbsp6 &nbsp&nbsp&nbsp&nbsp PO No:"+$.CurrentNavtab.find("#j_payment_PONo_6").val()+"&nbsp&nbsp  Amount(金额):"+$.CurrentNavtab.find("#j_payment_currency_6").val()+"&nbsp&nbsp"+c6);
 	}else{
@@ -1355,6 +1386,7 @@ function checkPoNO(o){
 	            		<button type="button" id="payment-assign" class="btn-default" data-icon="undo" >Assign(转交)</button>
 	            		<button type="button" id="payment-acc" class="btn-default" data-icon="check" >Approve(同意)</button>
 	            		<button type="button" id="payment-print" class="btn-default" data-icon="print" >Print Out(打印)</button><br>
+	            		<button type="button" id="payment-delete" class="btn-default" data-icon="close" >Delete(删除)</button>
             		</td>				
 				</tr>
 				<tr id="payment-invalid-tr">

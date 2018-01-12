@@ -43,4 +43,5 @@ public interface PaymentBIZ {
 
 	public void updatePayment(Payment payment);
 	
+	public void deletePayment(Payment payment);
 }

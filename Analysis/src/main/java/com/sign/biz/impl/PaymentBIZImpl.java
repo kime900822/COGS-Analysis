@@ -203,6 +203,13 @@ public class PaymentBIZImpl implements PaymentBIZ {
 			return sdf.format(d)+"0001";
 	}
 
+	@Override
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
+	public void deletePayment(Payment payment) {
+		paymentDao.delete(payment);
+		
+	}
+
 	
 	
 }

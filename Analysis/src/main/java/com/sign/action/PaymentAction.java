@@ -724,6 +724,28 @@ public class PaymentAction extends ActionBase {
 	}
 	
 	
+	@Action(value="deletePayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String deletePayment() throws UnsupportedEncodingException{
+			try {
+				Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
+				paymentBIZ.deletePayment(payment);
+				
+				result.setMessage(Message.DEL_MESSAGE_SUCCESS);
+				result.setStatusCode("200");
+				logUtil.logInfo("删除付款申请单:"+payment.getId());
+			} catch (Exception e) {
+				logUtil.logInfo("删除付款申请单异常:"+e.getMessage());
+				result.setMessage(e.getMessage());
+				result.setStatusCode("300");
+			}
+	
+		reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8")); 	
+		return SUCCESS;
+	}
+	
 	@Action(value="assignPayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
 			params={
 					"inputName", "reslutJson"

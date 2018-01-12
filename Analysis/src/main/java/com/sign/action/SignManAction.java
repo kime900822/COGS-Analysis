@@ -65,44 +65,56 @@ public class SignManAction extends ActionBase {
 					"inputName", "reslutJson"
 			})})
 	public String editSignMan() throws UnsupportedEncodingException{
-		
-		List<SignMan> lSignMan=signManBIZ.getSianMan("where sid='"+sid+"'");
-		if (lSignMan.size()>0) {
 			
-			result.setMessage("This department has been maintained");
-			result.setStatusCode("300");
-			reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8"));  
-		}else{
-			
-			SignMan signMan=new SignMan();
-			signMan.setDid(did);
-			if (!"".equals(sid)&&sid!=null) {
-				signMan.setSid(sid);
-			}else{
-				signMan.setSid(UUID.randomUUID().toString().replaceAll("-", ""));
-			}	
-			signMan.setType(type);
-			signMan.setUid(uid);
-			
-			
-			try {
-				if (sid==null||"".equals(sid)) {
+		SignMan signMan = new SignMan();
+		boolean t=true;
+		signMan.setDid(did);
+		if (!"".equals(sid) && sid != null) {
+			signMan.setSid(sid);
+		} else {
+			signMan.setSid(UUID.randomUUID().toString().replaceAll("-", ""));
+		}
+		signMan.setType(type);
+		signMan.setUid(uid);
+
+		try {
+			if (sid == null || "".equals(sid)) {
+				List<SignMan> lSignMan = signManBIZ.getSianMan("where did='" + did + "'");
+				if (lSignMan.size() > 0) {
+					t=false;
+					result.setMessage("This department has been maintained");
+					result.setStatusCode("300");
+				} else {
 					signManBIZ.save(signMan);
+					logUtil.logInfo("新增审核信息，id:" + signMan.getSid());
+				}
+			} else {
+				List<SignMan> lSignMan = signManBIZ.getSianMan("where did='" + did + "' and sid <>'"+sid+"'");
+				if (lSignMan.size() > 0) {
+					t=false;
+					result.setMessage("This department has been maintained");
+					result.setStatusCode("300");
 				}else{
 					signManBIZ.update(signMan);
-				}			
-				logUtil.logInfo("修改审核信息，id:"+signMan.getSid());
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				logUtil.logInfo("修改审核信息，异常:"+e1.getMessage());
+					logUtil.logInfo("修改审核信息，id:" + signMan.getSid());
+				}				
 			}
-			signMan=signManBIZ.getSianMan(" where sid='"+signMan.getSid()+"'").get(0);
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			logUtil.logInfo("修改审核信息，异常:" + e1.getMessage());
+		}
+		
+		if (t) {
+			signMan = signManBIZ.getSianMan(" where sid='" + signMan.getSid() + "'").get(0);
 			signMan.setUname(signMan.getUser().getName());
 			signMan.setDname(signMan.getDepartment().getName());
-			
-			String r=callback+"("+new Gson().toJson(signMan)+")";
-			reslutJson=new ByteArrayInputStream(r.getBytes("UTF-8"));  
-		}
+
+			String r = callback + "(" + new Gson().toJson(signMan) + ")";
+			reslutJson = new ByteArrayInputStream(r.getBytes("UTF-8"));
+		}else{
+			reslutJson = new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8"));
+		}		
 		
 		
 		return SUCCESS;

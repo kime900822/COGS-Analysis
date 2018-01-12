@@ -4,7 +4,10 @@ function smalltoBIG(n)
         var fraction = ['角', '分'];    
         var digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];    
         var unit = [ ['元', '万', '亿'], ['', '拾', '佰', '仟']  ];    
-        var head = n < 0? '欠': '';    
+        var head = n < 0? '欠': '';  
+        if((n+'').indexOf('.')!=-1){
+        	n=n+'00000001'
+        }
         n =  parseFloat(Math.abs(n));    
       
         var s = '';    

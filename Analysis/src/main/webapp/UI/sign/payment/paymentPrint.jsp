@@ -9,16 +9,7 @@
 <link href="../../B-JUI/themes/css/style.css" rel="stylesheet">
 <link href="../../B-JUI/themes/blue/core.css" id="bjui-link-theme" rel="stylesheet">
 <link href="../../B-JUI/themes/css/fontsize.css" id="bjui-link-theme" rel="stylesheet">
-<!-- plug - css -->
-<link href="../../B-JUI/plugins/kindeditor_4.1.11/themes/default/default.css" rel="stylesheet">
-<link href="../../B-JUI/plugins/colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
-<link href="../../B-JUI/plugins/nice-validator-1.0.7/jquery.htmlidator.css" rel="stylesheet">
-<link href="../../B-JUI/plugins/bootstrapSelect/bootstrap-select.css" rel="stylesheet">
-<link href="../../B-JUI/plugins/webuploader/webuploader.css" rel="stylesheet">
-<link href="../../B-JUI/themes/css/FA/css/font-awesome.min.css" rel="stylesheet">
-<!-- Favicons -->
-<link rel="apple-touch-icon-precomposed" href="images/logo2.png">
-<link rel="shortcut icon" href="images/logo2.png">
+
 <!--[if lte IE 7]>
 <link href="../../B-JUI/themes/css/ie7.css" rel="stylesheet">
 <![endif]-->
@@ -36,41 +27,22 @@
 <!-- ../../B-JUI -->
 <%-- <script src="../../B-JUI/js/bjui-all.min.js"></script> --%>
 <script src="../../B-JUI/js/bjui-all.js"></script>
-<!-- plugins -->
-<!-- swfupload for kindeditor -->
-<script src="../../B-JUI/plugins/swfupload/swfupload.js"></script>
-<!-- Webuploader -->
-<script src="../../B-JUI/plugins/webuploader/webuploader.js"></script>
-<!-- kindeditor -->
-<script src="../../B-JUI/plugins/kindeditor_4.1.11/kindeditor-all-min.js"></script>
-<script src="../../B-JUI/plugins/kindeditor_4.1.11/lang/zh-CN.js"></script>
-<!-- colorpicker -->
-<script src="../../B-JUI/plugins/colorpicker/js/bootstrap-colorpicker.min.js"></script>
-<!-- ztree -->
-<script src="../../B-JUI/plugins/ztree/jquery.ztree.all-3.5.js"></script>
-<!-- nice validate -->
-<script src="../../B-JUI/plugins/nice-validator-1.0.7/jquery.htmlidator.js"></script>
-<script src="../../B-JUI/plugins/nice-validator-1.0.7/jquery.htmlidator.themes.js"></script>
-<!-- bootstrap plugins -->
-<script src="../../B-JUI/plugins/bootstrap.min.js"></script>
-<script src="../../B-JUI/plugins/bootstrapSelect/bootstrap-select.min.js"></script>
-<script src="../../B-JUI/plugins/bootstrapSelect/defaults-zh_CN.min.js"></script>
-<!-- icheck -->
-<script src="../../B-JUI/plugins/icheck/icheck.min.js"></script>
-<!-- HighCharts -->
-<script src="../../B-JUI/plugins/highcharts/highcharts.js"></script>
-<script src="../../B-JUI/plugins/highcharts/highcharts-3d.js"></script>
-<script src="../../B-JUI/plugins/highcharts/themes/gray.js"></script>
-<!-- other plugins -->
-<script src="../../B-JUI/plugins/other/jquery.autosize.js"></script>
-<link href="../../B-JUI/plugins/uploadify/css/uploadify.css" rel="stylesheet">
-<script src="../../B-JUI/plugins/uploadify/scripts/jquery.uploadify.min.js"></script>
-<script src="../../B-JUI/plugins/download/jquery.fileDownload.js"></script>
+
 <!-- util -->
 <script src="../../B-JUI/js/util.js"></script>
 
-<style>
+<style type="text/css">
 tr { font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;font-weight:bold} 
+.bg { background:#B7DEE8 }
+.Beneficiarychange{background-color: #9ACD32}
+.BeneficiaryIDchange{background-color: #EEC900}
+</style>
+
+<style type="text/css" media="print">
+tr { font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;font-weight:bold} 
+.bg { background:#B7DEE8 }
+.Beneficiarychange{background-color: #9ACD32}
+.BeneficiaryIDchange{background-color: #EEC900}
 </style>
 
 <script type="text/javascript">
@@ -108,11 +80,11 @@ function dataToFace(){
             	$("#beneficiaryAccountNO").html(json.beneficiaryAccountNO)
                 if(json.beneficiaryChange=='1'){
             		$("#beneficiaryChange").html("●"); 
-            		$("#beneficiary_td").attr("style","background-color: #9ACD32");
+            		$("#beneficiary_td").attr("class","Beneficiarychange");
             	}
                 if(json.beneficiaryAccountNOChange=='1'){
             		$("#beneficiaryAccountNOChange").html("●") 
-            		$("#beneficiaryAccountNO_td").attr("style","background-color: #EEC900");
+            		$("#beneficiaryAccountNO_td").attr("class","BeneficiaryIDchange");
             	}
                 $("#paymentSubject_"+json.paymentSubject).html("Y")  
                 if(json.paymentDays_1!=""&&json.paymentDays_1!=null){
@@ -135,53 +107,59 @@ function dataToFace(){
                 }
 
                
-            	$("#receivingOrApprovalDate_1").html(json.receivingOrApprovalDate_1);
-            	$("#PONo_1").html(json.PONo_1);
-            	$("#currency_1").html(json.currency_1);
-            	if(json.amount_1!=''&&json.amount_1!=null){
-            		$("#amount_1").html(json.amount_1);
+            	
+            	if(json.amount_1!=''&&json.amount_1!=null&&json.amount_1!='0.00'){
+            		$("#amount_1").html(formatCurrency(json.amount_1));
+            		$("#receivingOrApprovalDate_1").html(json.receivingOrApprovalDate_1);
+                	$("#PONo_1").html(json.PONo_1);
+                	$("#currency_1").html(json.currency_1);
             	}
     
-            	$("#receivingOrApprovalDate_2").html(json.receivingOrApprovalDate_2);
-            	$("#PONo_2").html(json.PONo_2);
-            	$("#currency_2").html(json.currency_2);
-            	if(json.amount_2!=''&&json.amount_2!=null){
-            		$("#amount_2").html(json.amount_2);
+            	
+            	if(json.amount_2!=''&&json.amount_2!=null&&json.amount_2!='0.00'){
+            		$("#amount_2").html(formatCurrency(json.amount_2));
+            		$("#receivingOrApprovalDate_2").html(json.receivingOrApprovalDate_2);
+                	$("#PONo_2").html(json.PONo_2);
+                	$("#currency_2").html(json.currency_2);
             	}           		
 
-            	$("#receivingOrApprovalDate_3").html(json.receivingOrApprovalDate_3);
-            	$("#PONo_3").html(json.PONo_3);
-            	$("#currency_3").html(json.currency_3);
-            	if(json.amount_3!=''&&json.amount_3!=null){
-            		$("#amount_3").html(json.amount_3);
+            	
+            	if(json.amount_3!=''&&json.amount_3!=null&&json.amount_3!='0.00'){
+            		$("#amount_3").html(formatCurrency(json.amount_3));
+            		$("#receivingOrApprovalDate_3").html(json.receivingOrApprovalDate_3);
+                	$("#PONo_3").html(json.PONo_3);
+                	$("#currency_3").html(json.currency_3);
             	}
             		
-            	$("#receivingOrApprovalDate_4").html(json.receivingOrApprovalDate_4);
-            	$("#PONo_4").html(json.PONo_4);
-            	$("#currency_4").html(json.currency_4);
-            	if(json.amount_4!=''&& json.amount_4==null){
-            		$("#amount_4").html(json.amount_4);
+            	
+            	if(json.amount_4!=''&& json.amount_4==null&&json.amount_4!='0.00'){
+            		$("#amount_4").html(formatCurrency(json.amount_4));
+            		$("#receivingOrApprovalDate_4").html(json.receivingOrApprovalDate_4);
+                	$("#PONo_4").html(json.PONo_4);
+                	$("#currency_4").html(json.currency_4);
             	}
             		
-            	$("#receivingOrApprovalDate_5").html(json.receivingOrApprovalDate_5);
-            	$("#PONo_5").html(json.PONo_5);
-            	$("#currency_5").html(json.currency_5);
-            	if(json.amount_5!=''&& json.amount_5!=null){
-            		$("#amount_5").html(json.amount_5);
+            	
+            	if(json.amount_5!=''&& json.amount_5!=null&&json.amount_5!='0.00'){
+            		$("#amount_5").html(formatCurrency(json.amount_5));
+            		$("#receivingOrApprovalDate_5").html(json.receivingOrApprovalDate_5);
+                	$("#PONo_5").html(json.PONo_5);
+                	$("#currency_5").html(json.currency_5);
             	}
             		
-            	$("#receivingOrApprovalDate_6").html(json.receivingOrApprovalDate_6);
-            	$("#PONo_6").html(json.PONo_6);
-            	$("#currency_6").html(json.currency_6);
-            	if(json.amount_6!=''&& json.amount_6!=null){
-            		$("#amount_6").html(json.amount_6);
+            	
+            	if(json.amount_6!=''&& json.amount_6!=null&&json.amount_6!='0.00'){
+            		$("#amount_6").html(formatCurrency(json.amount_6));
+            		$("#receivingOrApprovalDate_6").html(json.receivingOrApprovalDate_6);
+                	$("#PONo_6").html(json.PONo_6);
+                	$("#currency_6").html(json.currency_6);
             	}
             		
             	$("#supplierCode").html(json.supplierCode);
             	$("#refNoofBank").html(json.refNoofBank);
             	$("#usageDescription").html(json.usageDescription);
             	if(json.amountInFigures!=''&&json.amountInFigures!=null){
-            		$("#amountInFigures").html("&nbsp&nbsp"+formatCurrency(json.amountInFigures));
+            		$("#amountInFigures").html(formatCurrency(json.amountInFigures)+"&nbsp&nbsp");
             		$("#amountInWords").html("&nbsp&nbsp"+smalltoBIG(json.amountInFigures));
             	}
             	
@@ -200,13 +178,13 @@ function dataToFace(){
 </script>
 
     <div  style="width:1200px;padding:20px" >
-			<table  style="font-size:9px;">
+			<table  style="font-size:10px;">
 				<tr>
 					<td  width="200px"></td>
-					<td  width="950px"></td>
-					<td  width="50px"></td>
+					<td  width="930px"></td>
+					<td  width="70px"></td>
 				</tr>
-				<tr height="9px">
+				<tr height="10px">
 					<td colspan="2" align="right" >
 						<p>流水码:</p>
 					</td>
@@ -220,83 +198,92 @@ function dataToFace(){
 				</tr>
 				<tr>
 					<td colspan="2" align="right" style="">
-						<p style="font-size:9px">Urgent:</p>
+						<p style="font-size:10px" align="right">Urgent:</p>
 					</td>
-					<td align="center" width="40px"><label id="urgent"></label></td>
+					<td align="center" width="40px" align="left"><label id="urgent"></label></td>
 				</tr>
 			</table>		
-			<table style="font-size:9px;">
+			<table style="font-size:10px;">
 				<tr>
-					<td width="300px" >Application Date(申请日期):<label id="applicationDate"></label></td>
-					<td width="400px" >Request Payment Date(要求付款日期):<label id="requestPaymentDate"></label></td>
-					<td width="400px" >Contactural Payment Date(合同付款日期):<label id="contacturalPaymentDate"></label></td>
+					<td width="160px" >Application Date(申请日期):</td>
+					<td width="140px" align="left"><label id="applicationDate"></label></td>
+					<td width="210px" >Request Payment Date(要求付款日期):</td>
+					<td width="190px"  align="left"><label id="requestPaymentDate"></label></td>
+					<td width="230px" >Contactural Payment Date(合同付款日期):</td>
+					<td width="170px" align="left"><label id="contacturalPaymentDate"></label></td>
 					<td width="100px"></td>
 				</tr>
 				<tr>
-					<td colspan="4">
-						<input type="checkbox" id="cash" >支付现金 Cash &nbsp&nbsp&nbsp&nbsp
-						<input type="checkbox" id="Banking" >银行支付 Banking &nbsp&nbsp&nbsp&nbsp
+					<td>
+						<input type="checkbox" id="Cash" >支付现金 Cash 
+					</td>
+					<td colspan="2">
+						<input type="checkbox" id="Banking" >银行支付 Banking
+					</td>
+					<td >
+					</td>
+					<td colspan="3">
 						<input type="checkbox" id="AdvanceWriteoff">核销预付 Advance Write-off (Amount) . &nbsp&nbsp&nbsp&nbsp
 					</td>
 				</tr>
 			</table>            
 
-			<table width="1200px" border="2" cellspacing="1" bordercolor="black" style="font-size:9px;">
+			<table width="1200px" border="2" cellspacing="1" bordercolor="black" style="font-size:10px;">
 				<tr>
 					<th width="30px"></th>
 					<th width="140px"></th>
 					<th width="50px"></th>
 					<th width="120px"></th>
 					<th width="100px"></th>
+					<th width="50px"></th>
 					<th width="60px"></th>
-					<th width="80px"></th>
-					<th width="80px"></th>
+					<th width="110px"></th>
 					<th width="100px"></th>
 					<th width="160px"></th>
 					<th width="50px"></th>
 					<th width="130px"></th>
 					<th width="100px"></th>
 				</tr>
-				<tr>
-					<td colspan="2" rowspan="2" style="background:#B7DEE8">申请人:<br>Application:</td>
+				<tr height="20px">
+					<td colspan="2" rowspan="2" class="bg">&nbsp申请人:<br>&nbspApplication:</td>
 					<td colspan="2" rowspan="2" style="text-align:center;border-bottom:0px" ><label id="UID"></label></td>
-					<td colspan="4" rowspan="2" style="background:#B7DEE8">收款人（全称）:<br>Beneficiary:</td>
+					<td colspan="4" rowspan="2" class="bg">&nbsp收款人（全称）:<br>&nbspBeneficiary:</td>
 					<td colspan="2" rowspan="2"  id="beneficiary_td">
 						<label id="beneficiary"></label>
                     </td>
-					<td align="center" style="background:#B7DEE8;text-align:center;">change<br/>变更</td>
-					<td rowspan="2" style="background:#B7DEE8;text-align:center;">供应商代码:<br/>Supplier Code:</td>
+					<td align="center" style="text-align:center;" class="bg">change<br/>变更</td>
+					<td rowspan="2" style="text-align:center;" class="bg">供应商代码:<br/>Supplier Code:</td>
 					<td rowspan="2" style="text-align:center"><label id="supplierCode"></label> </td>
 				</tr>
-				<tr >
+				<tr height="20px">
 					<td style="text-align:center">
 						<label id="beneficiaryChange" ></label>
 					</td>
 				</tr>
-				<tr>
-					<td colspan="2" rowspan="2" style="background:#B7DEE8">所属部门:<br>Department of Applicant:</td>
+				<tr height="20px">
+					<td colspan="2" rowspan="2" class="bg">&nbsp所属部门:<br>&nbspDepartment of Applicant:</td>
 					<td colspan="2" rowspan="2" style="text-align:center"><label id="departmentID"></label></td>
-					<td colspan="4" rowspan="2" style="background:#B7DEE8">银行及帐号:<br>Beneficiary Account NO:</td>
+					<td colspan="4" rowspan="2" class="bg">&nbsp银行及帐号:<br>&nbspBeneficiary Account NO:</td>
 					<td colspan="2" rowspan="2" id="beneficiaryAccountNO_td">
 						<label id="beneficiaryAccountNO"></label>
 					</td>
-					<td align="center" style="background:#B7DEE8;text-align:center;">change<br/>变更</td>
-					<td rowspan="2" style="background:#B7DEE8;text-align:center;">银行交易编码:<br/>Ref. No. of Bank:</td>
+					<td align="center" style="text-align:center;" class="bg">change<br/>变更</td>
+					<td rowspan="2" style="text-align:center;" class="bg">银行交易编码:<br/>Ref. No. of Bank:</td>
 					<td rowspan="2" ><label id="refNoofBank"></label></td>
 				</tr>
-				<tr >
+				<tr height="20px">
 					<td style="text-align:center">
 						<label id="beneficiaryAccountNOChange" ></label>
 					</td>
 				</tr>
-				<tr>
-					<td colspan="2" align="center" style="background:#B7DEE8">付款项目<br/>Payment Subject</td>
-					<td colspan="2" align="center" style="background:#B7DEE8">结算期 <br/>Payment Term</td>
-					<td align="center" style="background:#B7DEE8" width="100px">收货或验收日期<br/>Receiving or Approval date</td>
-					<td align="center" style="background:#B7DEE8" width="100px">订单号<br/>PO No.</td>
-					<td align="center" style="background:#B7DEE8">币别<br/>Currency</td>
-					<td align="center" style="background:#B7DEE8">金额<br/>Amount</td>
-					<td rowspan="8" align="center" width="100px">支付用途<br/>Usage<br/>Description</td>
+				<tr height="20px">
+					<td colspan="2" align="center" class="bg">付款项目<br/>Payment Subject</td>
+					<td colspan="2" align="center" class="bg">结算期 <br/>Payment Term</td>
+					<td align="center" class="bg" >收货或验收日期<br/>Receiving or Approval date</td>
+					<td align="center" class="bg" >订单号<br/>PO No.</td>
+					<td align="center" class="bg">币别<br/>Currency</td>
+					<td align="center" class="bg">金额<br/>Amount</td>
+					<td rowspan="8" align="center"  >支付用途<br/>Usage<br/>Description</td>
 					<td colspan="4" rowspan="8"><label id="usageDescription"></label></td>
 				</tr>
 				
@@ -304,9 +291,9 @@ function dataToFace(){
 				
 				<tr  align="center">
 					<td align="center"><label id="paymentSubject_1"></label></td>
-					<td>Fixed Asset 固定资产</td>
+					<td align="left">&nbsp Fixed Asset 固定资产</td>
 					<td><label id="paymentDays_1"></label></td>
-					<td align="right">Advance<br/>预付款</td>
+					<td align="right">Advance &nbsp<br/>预付款 &nbsp</td>
 					<td><label id="receivingOrApprovalDate_1"></label></td>
 					<td><label id="PONo_1"></label></td>
 					<td><label id="currency_1"></label></td>
@@ -314,9 +301,9 @@ function dataToFace(){
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_2"></label></td>
-					<td>Raw Material 原材料</td>
+					<td align="left">&nbsp Raw Material 原材料</td>
 					<td><label id="paymentDays_2"></label></td>
-					<td align="right">Payment at sight<br/>见票即付</td>
+					<td align="right">Payment at sight &nbsp<br/>见票即付 &nbsp</td>
 					<td><label id="receivingOrApprovalDate_2"></label></td>
 					<td><label id="PONo_2"></label></td>
 					<td><label id="currency_2"></label></td>
@@ -324,9 +311,9 @@ function dataToFace(){
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_3"></label></td>
-					<td>Consumable 消耗品</td>
+					<td align="left">&nbspConsumable 消耗品</td>
 					<td><label id="paymentDays_3"></label></td>
-					<td align="right">Upon receiving<br/>收货后</td>
+					<td align="right">Upon receiving&nbsp<br/>收货后&nbsp</td>
 					<td><label id="receivingOrApprovalDate_3"></label></td>
 					<td><label id="PONo_3"></label></td>
 					<td><label id="currency_3"></label></td>
@@ -334,9 +321,9 @@ function dataToFace(){
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_4"></label></td>
-					<td>Subcontractor 外包</td>
+					<td align="left">&nbspSubcontractor 外包</td>
 					<td><label id="paymentDays_4"></label></td>
-					<td align="right">Upon Approval<br/>验收后</td>
+					<td align="right">Upon Approval&nbsp<br/>验收后&nbsp</td>
 					<td><label id="receivingOrApprovalDate_4"></label></td>
 					<td><label id="PONo_4"></label></td>
 					<td><label id="currency_4"></label></td>
@@ -344,9 +331,9 @@ function dataToFace(){
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_5"></label></td>
-					<td>Service 服务</td>
+					<td align="left">&nbspService 服务</td>
 					<td><label id="paymentDays_5"></label></td>
-					<td align="right">Upon invoice<br/>见票后</td>
+					<td align="right">Upon invoice&nbsp<br/>见票后&nbsp</td>
 					<td><label id="receivingOrApprovalDate_5"></label></td>
 					<td><label id="PONo_5"></label></td>
 					<td><label id="currency_5"></label></td>
@@ -354,9 +341,9 @@ function dataToFace(){
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_6"></label></td>
-					<td>Petty Cash 备用金</td>
+					<td align="left">&nbspPetty Cash 备用金</td>
 					<td><label id="paymentDays_6"></label></td>
-					<td align="right">Other<br/>其他</td>
+					<td align="right">Other&nbsp<br/>其他&nbsp</td>
 					<td><label id="receivingOrApprovalDate_6"></label></td>
 					<td><label id="PONo_6"></label></td>
 					<td><label id="currency_6"></label></td>
@@ -364,7 +351,7 @@ function dataToFace(){
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_7"></label></td>
-					<td>Other 其他</td>
+					<td align="left">&nbspOther 其他</td>
 					<td></td>
 					<td align="right"><br/><br/></td>
 					<td></td>
@@ -375,22 +362,22 @@ function dataToFace(){
 					<td></td>
 				</tr>		
 				<tr>
-					<td colspan="2" align="right" style="background:#B7DEE8">金额(小写)<br/>Amount in figures:</td>
-					<td colspan="6"><label id="amountInFigures"></label></td>
-					<td align="right" style="background:#B7DEE8">金额(大写)<br/>Amount in words:</td>
+					<td colspan="2" class="bg">金额(小写)<br/>Amount in figures:</td>
+					<td colspan="6" align="right"><label id="amountInFigures"></label></td>
+					<td align="right" class="bg">金额(大写)<br/>Amount in words:</td>
 					<td colspan="2"><label id="amountInWords"></label></td>
-					<td align="right" style="background:#B7DEE8">Document Audit:<br/>单据审核</td>
+					<td align="right" class="bg" >Document Audit:<br/>单据审核</td>
 					<td><label id="documentAudit"></label></td>
 				</tr>		
 			</table>
 			<br>
-			<table width="1200px" style="font-size:9px">
+			<table width="1200px" style="font-size:10px">
 				<tr>
 					<td width="25%">General Manager:<br/>总经理</td>
 					<td width="25%">Finance Manager:<br/>财务经理</td>
 					<td width="25%">Finance Supervisor:<br/>财务主管</td>
-					<td width="12.5%">Dept. Manager:<br/>部门经理</td>		
-					<td width="12.5%"><label id="deptManager"></label></td>		
+					<td width="10%">Dept. Manager:<br/>部门经理</td>		
+					<td width="15%" align="left"><label id="deptManager"></label></td>		
 				</tr>
 			</table>
     </div>
