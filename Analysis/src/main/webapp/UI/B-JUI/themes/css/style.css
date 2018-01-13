@@ -38,6 +38,10 @@ fieldset .bjui-row{padding:0;}
 .child_row{background:#b7dbff;}
 
 
+a {
+  cursor:pointer;
+}
+
 .bjui-row .row-label,
 .bjui-row .row-input{display:inline-block; margin-bottom:10px; color:#000; font-size:12px; letter-spacing:0; vertical-align:top;  /*float:left; margin-bottom:10px; color:#000;*/}
 .bjui-row .row-label{clear:left; padding-left:8px; padding-right:8px; width:35%; text-align:right; color:#777; font-weight:normal;}

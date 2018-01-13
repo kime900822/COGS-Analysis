@@ -3,38 +3,36 @@
 <script type="text/javascript">
 $(function(){
 	
-	 $("#upfile_invoice").uploadify({
+	$.CurrentNavtab.find('#upfile_invoice').uploadify({
 	        height        : 30,
 	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
 	        uploader      : 'savefile.action',
 	        width         : 120,
 	        onUploadSuccess:function(file, data, response){
-	        	$.CurrentNavtab.find('#upfile_invoice_name').html(file.name)
-
-	        	
+	        	$.CurrentNavtab.find('#upfile_invoice_list').append(fileToTr(file.name,file.name));	        	
 	        }
 	    });
 	 
-	 $("#upfile_contract").uploadify({
+	$.CurrentNavtab.find('#upfile_contract').uploadify({
 	        height        : 30,
 	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
 	        uploader      : 'savefile.action',
 	        width         : 120,
 	        onUploadSuccess:function(file, data, response){
-	        	$.CurrentNavtab.find('#upfile_contract_name').html(file.name)
+	        	$.CurrentNavtab.find('#upfile_contract_list').append(fileToTr(file.name,file.name));	        	
 
 	        	
 	        }
 	    });
 
 	 
-	 $("#upfile_other").uploadify({
+	$.CurrentNavtab.find('#upfile_other').uploadify({
 	        height        : 30,
 	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
 	        uploader      : 'savefile.action',
 	        width         : 120,
 	        onUploadSuccess:function(file, data, response){
-	        	$.CurrentNavtab.find('#upfile_other_name').html(file.name)
+	        	$.CurrentNavtab.find('#upfile_other_list').append(fileToTr(file.name,file.name));	        	
 
 	        	
 	        }
@@ -128,12 +126,11 @@ function addBeneficiary(o){
 
 
 function savePayment(){
-	
 	var o=faceToDate();	
 	BJUI.ajax('doajax', {
 	    url: 'savePayment.action',
 	    loadingmask: true,
-	    data:{json:JSON.stringify(o),file_invoice:$.CurrentNavtab.find('#upfile_invoice_name').html(),file_contract:$.CurrentNavtab.find('#upfile_contract_name').html(),file_other:$.CurrentNavtab.find('#upfile_other_name').html()},	    
+	    data:{json:JSON.stringify(o),file_invoice:listToString($.CurrentNavtab.find('#upfile_invoice_list')),file_contract:listToString($.CurrentNavtab.find('#upfile_contract_list')),file_other:listToString($.CurrentNavtab.find('#upfile_other_list'))},	    
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
@@ -345,6 +342,35 @@ function isChange(){
 	
 }
 
+//删除当前所在行
+function deleteFile(o){
+	$.CurrentNavtab.find(o).parent().parent().remove();	
+	
+}
+
+function getFile(path){
+	BJUI.ajax('ajaxdownload', {
+	    url:'getFile.action',
+	    data:{dfile:path}
+	})
+	
+}
+
+function listToString(id){
+	var tr=$.CurrentNavtab.find(id).find('tr');
+	var s="";
+	$.each(tr,function(i,n){
+		if(i>0){
+			s=s+$.CurrentNavtab.find(n).children().eq(0).children().html()+"|";		
+		}
+	})
+	return s;
+}
+
+
+function fileToTr(name,path){
+	return "<tr><td align='center'><a onclick=\"getFile('"+path.replace('\\','\\\\')+"')\">"+name+"</></td><td align='center'><a onclick='deleteFile(this)'>删除</a></td></tr>"
+}
 
 
 function showButton(state,print,uid,documentAuditid,deptManagerid){
@@ -359,10 +385,6 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
-		$.CurrentNavtab.find('#j_file_upload2').show();
-		$.CurrentNavtab.find('#j_file_upload1').show();
-		$.CurrentNavtab.find('#j_file_download1').hide();
-		$.CurrentNavtab.find('#j_file_download2').hide();
 	}else if(state=='0'&&uid=='${user.uid}'){//保存后可提交
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').show();
@@ -374,10 +396,6 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
-		$.CurrentNavtab.find('#j_file_upload2').show();
-		$.CurrentNavtab.find('#j_file_upload1').show();
-		$.CurrentNavtab.find('#j_file_download1').hide();
-		$.CurrentNavtab.find('#j_file_download2').hide();
 	}else if(state=="4"&&documentAuditid=='${user.uid}'){//财务处理完成
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -394,13 +412,11 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 			$.CurrentNavtab.find('#payment-invalid-tr').hide();
 			$.CurrentNavtab.find('#payment-return-tr').hide();					
 		}
-		$.CurrentNavtab.find('#j_file_upload2').hide();
-		$.CurrentNavtab.find('#j_file_upload1').hide();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download2').show();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
-		
+		$.CurrentNavtab.find('#upfile_other').hide();
+		$.CurrentNavtab.find('#upfile_contract').hide();
+		$.CurrentNavtab.find('#upfile_invoice').hide();
 	}else if(state=="4"&&documentAuditid!='${user.uid}'){//财务处理完成  非财务人员查看。可打印
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -411,13 +427,12 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-print').show();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();					
-		$.CurrentNavtab.find('#j_file_upload2').hide();
 		$.CurrentNavtab.find('#payment-delete').hide();
-		$.CurrentNavtab.find('#j_file_upload1').hide();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download2').show();
 		$("input[id*='j_payment']").attr('disabled','disabled');
-		$("select[id*='j_payment']").attr('disabled','disabled');		
+		$("select[id*='j_payment']").attr('disabled','disabled');	
+		$.CurrentNavtab.find('#upfile_other').hide();
+		$.CurrentNavtab.find('#upfile_contract').hide();
+		$.CurrentNavtab.find('#upfile_invoice').hide();
 	}else if(state=="1"&&deptManagerid=='${user.uid}'){//部门经理审批
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -429,12 +444,11 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();		
-		$.CurrentNavtab.find('#j_file_upload2').hide();
-		$.CurrentNavtab.find('#j_file_upload1').hide();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_downloa2').show();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
+		$.CurrentNavtab.find('#upfile_other').hide();
+		$.CurrentNavtab.find('#upfile_contract').hide();
+		$.CurrentNavtab.find('#upfile_invoice').hide();
 	}else if(state=="2"&&documentAuditid=='${user.uid}'){//审批通过 财务处理
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -446,15 +460,14 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
-		$.CurrentNavtab.find('#j_file_upload2').hide();
-		$.CurrentNavtab.find('#j_file_upload1').hide();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download2').show();
 		$.CurrentNavtab.find('#j_payment_documentAudit').val('${user.name}')
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
 		$.CurrentNavtab.find('#j_payment_refNoofBank').removeAttr('disabled');
 		$.CurrentNavtab.find('#j_payment_refNoofBank').removeAttr('readonly').attr('data-rule','required');
+		$.CurrentNavtab.find('#upfile_other').hide();
+		$.CurrentNavtab.find('#upfile_contract').hide();
+		$.CurrentNavtab.find('#upfile_invoice').hide();
  	}else if(state=="2"&&documentAuditid!='${user.uid}'){//审批通过 普通员工打印
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -465,13 +478,12 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-print').show();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
-		$.CurrentNavtab.find('#j_file_upload2').hide();
-		$.CurrentNavtab.find('#j_file_upload1').hide();
 		$.CurrentNavtab.find('#payment-delete').hide();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download2').show();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled'); 
+		$.CurrentNavtab.find('#upfile_other').hide();
+		$.CurrentNavtab.find('#upfile_contract').hide();
+		$.CurrentNavtab.find('#upfile_invoice').hide();
 	}else if(state=="3"){//审批未通过，单据作废，
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -483,12 +495,11 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
-		$.CurrentNavtab.find('#j_file_upload2').hide();
-		$.CurrentNavtab.find('#j_file_upload1').hide();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download2').show();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
+		$.CurrentNavtab.find('#upfile_other').hide();
+		$.CurrentNavtab.find('#upfile_contract').hide();
+		$.CurrentNavtab.find('#upfile_invoice').hide();
 	}else if(state=="5"){//单据作废
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -500,12 +511,11 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-delete').show();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
-		$.CurrentNavtab.find('#j_file_upload2').hide();
-		$.CurrentNavtab.find('#j_file_upload1').hide();
-		$.CurrentNavtab.find('#j_file_download1').show();
-		$.CurrentNavtab.find('#j_file_download2').show();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
+		$.CurrentNavtab.find('#upfile_other').hide();
+		$.CurrentNavtab.find('#upfile_contract').hide();
+		$.CurrentNavtab.find('#upfile_invoice').hide();
 	}else{
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -516,13 +526,12 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-print').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
-		$.CurrentNavtab.find('#j_file_upload2').hide();
-		$.CurrentNavtab.find('#j_file_upload1').hide();
-		$.CurrentNavtab.find('#j_file_download1').hide();
-		$.CurrentNavtab.find('#j_file_download2').hide();
 		$.CurrentNavtab.find('#payment-delete').hide();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
+		$.CurrentNavtab.find('#upfile_other').hide();
+		$.CurrentNavtab.find('#upfile_contract').hide();
+		$.CurrentNavtab.find('#upfile_invoice').hide();
 	}
 	
 	
@@ -627,19 +636,32 @@ function dataToFace(){
             	$.CurrentNavtab.find("#j_payment_deptManager").val(json.deptManager);
             		
             	if(json.file_invoice!=undefined&&json.file_invoice!=""){
-            		var filename=json.file_invoice.split('/')[1];
-            		$.CurrentNavtab.find("#j_file_invoice").attr("href",json.file_invoice).html(filename);  
-            		$.CurrentNavtab.find("#upfile_invoice_name").html(filename);  
+            		var file=json.file_invoice.split('|');
+            		$.each(file,function(i,n){
+            			var filename=n.split('/')[1];
+            			if(filename!=undefined){
+            				$.CurrentNavtab.find('#upfile_invoice_list').append(fileToTr(filename,n));	   
+            			}
+            		})
             	}
             	if(json.file_other!=undefined&&json.file_other!=""){
-            		var filename=json.file_other.split('/')[1];
-            		$.CurrentNavtab.find("#j_file_other").attr("href",json.file_other).html(filename);           
-            		$.CurrentNavtab.find("#upfile_other_name").html(filename);  
+            		var file=json.file_other.split('|');
+            		$.each(file,function(i,n){
+            			var filename=n.split('/')[1];
+            			if(filename!=undefined){
+            				$.CurrentNavtab.find('#upfile_other_list').append(fileToTr(filename,n));	 
+            			}
+            		})
             	}
             	if(json.file_contract!=undefined&&json.file_contract!=""){
-            		var filename=json.file_contract.split('/')[1];
-            		$.CurrentNavtab.find("#j_file_contract").attr("href",json.file_contract).html(filename);    
-            		$.CurrentNavtab.find("#upfile_contract_name").html(filename);  
+            		var file=json.file_contract.split('|');
+            		$.each(file,function(i,n){
+            			var filename=n.split('/')[1];
+            			if(filename!=undefined){
+            				$.CurrentNavtab.find('#upfile_contract_list').append(fileToTr(filename,n));
+            			}
+            			
+            		})
             	}
             		
             	$.CurrentNavtab.find("#j_payment_id").val(json.id);
@@ -1321,60 +1343,55 @@ function checkPoNO(o){
 						<input type="text" name="deptManager" size="19" id="j_payment_deptManager" value="" readonly="" >
 					</td>  
 				</tr>
-				<tr id="j_file_upload1" height="80px">
+				<tr>
 					<td>
 						Attachment1 Invoice （附件：发票）
 					</td>
 					<td>
-						<div id="upfile_invoice"   data-rule=""></div>
-						<label id="upfile_invoice_name"></label>
+						<input type="button" id="upfile_invoice" />
 					</td>
+					<td colspan="2" >
+						<table class="table" id="upfile_invoice_list" >	
+							<tr>
+								<th width="400px" align="center">文件名</th>
+								<th width="100px" align="center">删除</th>
+							</tr>									
+						</table>
+					</td>
+				</tr>
+				<tr>
 					<td>
 						Attachment2 Contract （附件：合同）
 					</td>
 					<td>
-						<div id="upfile_contract"   data-rule=""></div>
-						<label id="upfile_contract_name"></label>
+						<input type="button" id="upfile_contract" />
+					</td>
+					<td	colspan="2">
+						<table class="table" id="upfile_contract_list" >	
+							<tr>
+								<th width="400px" align="center">文件名</th>
+								<th width="100px" align="center">删除</th>
+							</tr>									
+						</table>
 					</td>
 				</tr>
-				<tr id="j_file_upload2"  height="80px">
+				<tr>
 					<td>
 						Attachment3 Other （附件：其他）
 					</td>
 					<td>
-						<div id="upfile_other"   data-rule=""></div>
-						<label id="upfile_other_name"></label>
+						<input type="button" id="upfile_other" />
 					</td>
 					<td colspan="2">
+						<table class="table" id="upfile_other_list" >	
+							<tr>
+								<th width="400px" align="center">文件名</th>
+								<th width="100px" align="center">删除</th>
+							</tr>									
+						</table>
 					</td>
 				</tr>
-				<tr id="j_file_download1">
-					<td>
-						Attachment1 Invoice （附件：发票）
-					</td>
-					<td>
-						<a id ="j_file_invoice"></a>
-					</td>
-					<td>
-						Attachment2 Contract （附件：合同）
-					</td>
-					<td>
-						<a id ="j_file_contract"></a>
-					</td>
-				
-				</tr>
-				<tr id="j_file_download2">
-					<td>
-						Attachment3 Other （附件：其他）
-					</td>
-					<td>
-						<a id ="j_file_other"></a>
-					</td>
-					<td colspan="2">
-					</td>
-				
-				</tr>
-				
+
 				
 				
 				<tr>

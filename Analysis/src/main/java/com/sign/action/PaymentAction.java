@@ -1,7 +1,9 @@
 package com.sign.action;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -43,8 +45,14 @@ public class PaymentAction extends ActionBase {
 	
 	private File Filedata;
 	private String Filename;
-	
+	private String dfile;
 
+	public String getDfile() {
+		return dfile;
+	}
+	public void setDfile(String dfile) {
+		this.dfile = dfile;
+	}
 	public String getFilename() {
 		return Filename;
 	}
@@ -598,6 +606,38 @@ public class PaymentAction extends ActionBase {
     	return SUCCESS;
     }
 	
+	
+	@Action(value="getFile",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson",
+					"contentType","application/octet-stream",
+					"contentDisposition","attachment;filename=%{fileName}",
+					"bufferSize","1024"
+			})})
+    public String getFile() throws FileNotFoundException, IOException{
+        try {
+	    	if (dfile!=null) {   
+	    		String[] f=dfile.split("/");
+	    		if (f.length>0 ) {
+	    			fileName=f[f.length-1];
+	    		}else{
+	    			fileName=dfile;
+	    		}
+	    		byte[] file=fileSave.getFile(dfile);    		
+	    		ByteArrayInputStream is = new ByteArrayInputStream(file);    		
+	    		reslutJson = is; 	
+			}else{
+				result.setMessage("No File download");
+				result.setStatusCode("300");
+		        reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8"));  
+			}
+		} catch (Exception e) {
+			result.setMessage(e.getMessage());
+			result.setStatusCode("300");
+	        reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8"));  
+		}
+    	return SUCCESS;
+    }
 	
 	@Action(value="savePayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
 			params={
