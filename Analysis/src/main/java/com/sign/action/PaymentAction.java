@@ -618,7 +618,7 @@ public class PaymentAction extends ActionBase {
         try {
 	    	if (dfile!=null) {   
 	    		String[] f=dfile.split("/");
-	    		if (f.length>0 ) {
+	    		if (f.length>1 ) {
 	    			fileName=f[f.length-1];
 	    		}else{
 	    			fileName=dfile;

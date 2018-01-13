@@ -62,8 +62,8 @@ public class FileSave {
 	public byte[] getFile(String fileName){
 		String filepath=judeDirExists();
 			if (filepath!=null) {
-				if (fileName.split("/").length>0 ) {
-					return getBytes(fileName);		
+				if (fileName.split("/").length>1 ) {
+					return getBytes(getFilePathDown(fileName));		
 				}else{
 					return getBytes(filepath+"/"+fileName);	
 				}				
@@ -94,9 +94,17 @@ public class FileSave {
         return buffer;  
     }
 	
+    //保存时使用
 	public String getFilePath(String filename){
 		String filepath=judeDirExists();
-		return filepath+"/"+filename;		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+    	Date date=new Date();
+		return sdf.format(date)+"/"+filename;		
+	}
+	
+	//下载时使用
+	public String getFilePathDown(String filename){
+		return PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "filepath")+filename;	
 	}
     
     
