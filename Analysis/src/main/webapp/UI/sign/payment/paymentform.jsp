@@ -1,7 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <script type="text/javascript">
 $(function(){
+	var today = new Date().formatDate('yyyy-MM-dd');
+	$.CurrentNavtab.find('#j_payment_applicationDate').val(today);
+	$.CurrentNavtab.find('#j_payment_requestPaymentDate').val(today);
+	$.CurrentNavtab.find('#j_payment_contacturalPaymentDate').val(today);
+	
+	
 	
 	$.CurrentNavtab.find('#upfile_invoice').uploadify({
 	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
@@ -116,8 +123,14 @@ $(function(){
 	//初始化金额
 	changeAmount();
 	isChange();
+	changePaymentTerm();
 
 })
+
+function checkForm(){
+	
+}
+
 
 function savePayment(){
 	var o=faceToDate();	
@@ -217,6 +230,21 @@ function rejectPayment(){
 	
 }
 
+function changePaymentTerm(){
+	var term=$.CurrentNavtab.find("#j_payment_paymentTerm").val();
+	if(term=='1'||term=='2'||term=='6'){
+		for (var i=1;i<7;i++){
+			$.CurrentNavtab.find('#j_payment_paymentDays_'+i).find('option').remove().selectpicker('refresh');
+			$.CurrentNavtab.find('#j_payment_paymentDays_'+i).append("<option value='Y'>Y</option>").selectpicker('refresh');
+		}
+	}else{
+		for (var i=1;i<7;i++){
+			$.CurrentNavtab.find('#j_payment_paymentDays_'+i).find('option').remove().selectpicker('refresh');
+			$.CurrentNavtab.find('#j_payment_paymentDays_'+i).append("<option value=''></option>").append("<option value='30'>30Days</option>").append("<option value='45'>45Days</option>").append("<option value='60'>60Days</option>").append("<option value='90'>90Days</option>").append("<option value='120'>120Days</option>").selectpicker('refresh');
+		}		
+	}	
+}
+
 function accPayment(){
 	BJUI.ajax('doajax', {
 	    url: 'accPayment.action',
@@ -247,23 +275,6 @@ function assignPayment(){
 	    title:'Assign',
 	    onClose:function(){BJUI.navtab('reload')}
 	});
-
-	
-/* 	BJUI.ajax('doajax', {
-	    url: 'assignPayment.action',
-	    loadingmask: true,
-	    data:{id:$.CurrentNavtab.find("#j_payment_id").val()},	    
-	    okCallback: function(json, options) {
-            if(json.status='200'){
-            	 BJUI.alertmsg('info', json.message); 
-            	 $.CurrentNavtab.find('#payment-assign').hide();
-         		 $.CurrentNavtab.find('#payment-acc').hide();
-            }else{
-            	 BJUI.alertmsg('error', json.message); 
-            }
-	    }
-	});	 */
-	
 }
 
 function returnPayment(){
@@ -365,7 +376,7 @@ function listToString(id){
 
 
 function fileToTr(name,path){
-	return "<tr><td align='center'><a onclick=\"getFile('"+path.replace('\\','\\\\')+"')\">"+name+"</></td><td align='center'><a onclick='deleteFile(this)'>删除</a></td></tr>"
+	return "<tr><td align='center'><a onclick=\"getFile('"+path.replace('\\','\\\\')+"')\">"+name+"</></td><td align='center'><a onclick='deleteFile(this)'>Delete</a></td></tr>"
 }
 
 
@@ -542,10 +553,6 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 	
 }
 
-function changeBeneficiary(){
-	$.CurrentNavtab.find('#j_payment_beneficiaryAccountNO').val($.CurrentNavtab.find('#j_payment_beneficiary').val())
-}
-
 function dataToFace(){
 	
 	BJUI.ajax('doajax', {
@@ -582,6 +589,8 @@ function dataToFace(){
             	}
                 $.CurrentNavtab.find("#j_payment_paymentSubject").selectpicker().selectpicker('val',json.paymentSubject).selectpicker('refresh');
                 $.CurrentNavtab.find("#j_payment_paymentTerm").selectpicker().selectpicker('val',json.paymentTerm).selectpicker('refresh');
+                changePaymentTerm();
+                
                 
             	$.CurrentNavtab.find("#j_payment_paymentDays_1").selectpicker().selectpicker('val',json.paymentDays_1).selectpicker('refresh');
             	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_1").val(json.receivingOrApprovalDate_1);
@@ -774,13 +783,18 @@ function changeAmount(){
 
 function changeCurrency(o){
 	var a=$(o).val();
-	$.CurrentNavtab.find("#j_payment_currency_1").selectpicker().selectpicker('val',a).selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_currency_2").selectpicker().selectpicker('val',a).selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_currency_3").selectpicker().selectpicker('val',a).selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_currency_4").selectpicker().selectpicker('val',a).selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_currency_5").selectpicker().selectpicker('val',a).selectpicker('refresh');
-	$.CurrentNavtab.find("#j_payment_currency_6").selectpicker().selectpicker('val',a).selectpicker('refresh');
+	for(var i=1;i<7;i++){
+		$.CurrentNavtab.find("#j_payment_currency_"+i).selectpicker().selectpicker('val',a).selectpicker('refresh');
+		
+	}
 	changeAmount();
+}
+
+function changeTerm(o){
+	var a=$(o).val();
+	for(var i=1;i<7;i++){
+		$.CurrentNavtab.find("#j_payment_paymentDays_"+i).selectpicker().selectpicker('val',a).selectpicker('refresh');		
+	}
 }
 
 function checkPoNO(o){
@@ -820,11 +834,9 @@ function checkSupplierCode(o){
                 	$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO").val(json.accno);
                 }
     	    }
-    	});	
-    	
-    	
+    	});	  	
     }    
-}
+};
 
 </script>
 <div class="bjui-pageContent">
@@ -858,7 +870,7 @@ function checkSupplierCode(o){
 				</tr>
 				<tr>
 					<td>
-						支付方式
+						支付方式*
 					</td>
 					<td>
 						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_cash" value="Cash" data-label="支付现金 <br>Cash">
@@ -936,7 +948,7 @@ function checkSupplierCode(o){
 				<!-- 付款   -->
 				<tr>
 					<td>
-						付款项目<br>Payment Subject
+						付款项目*<br>Payment Subject*
 					</td>
 					<td>
 						<select name="paymentSubject" data-toggle="selectpicker" id="j_payment_paymentSubject"  data-rule="required" data-width="190px">
@@ -954,7 +966,7 @@ function checkSupplierCode(o){
 						结算期<br>Payment Term
 					</td>	
 					<td>
-						<select name="paymentTerm" data-toggle="selectpicker" id="j_payment_paymentTerm"  data-rule="required" data-width="190px" >
+						<select name="paymentTerm" data-toggle="selectpicker" id="j_payment_paymentTerm"  data-rule="required" data-width="190px" onchange="changePaymentTerm();" >
 	                        <option value=""></option>
 	                        <option value="1">Advance 预付款</option>
 	                        <option value="2">Payment at sight 见票即付</option>
@@ -982,13 +994,7 @@ function checkSupplierCode(o){
 									结算期 <br>Payment Term
 								</td>
 								<td>
-									<select name="paymentDays_1" id="j_payment_paymentDays_1" data-toggle="selectpicker" data-width="190px" >
-				                        <option value=""></option>
-				                        <option value="30">30Days</option>
-				                        <option value="45">45Days</option>
-				                        <option value="60">60Days</option>
-				                        <option value="90">90Days</option>
-				                        <option value="120">120Days</option>
+									<select name="paymentDays_1" id="j_payment_paymentDays_1" data-toggle="selectpicker" data-width="190px" onchange="changeTerm(this);">
 			                    	</select>
 								</td>
 								<td>
@@ -1006,7 +1012,7 @@ function checkSupplierCode(o){
 									<input type="text" name="PONo_1" id="j_payment_PONo_1"  value="" size="19" onchange="checkPoNO(this)">
 								</td>
 								<td>
-									<label class="row-label">币别<br>Currency</label>
+									<label class="row-label">币别*<br>Currency*</label>
 								</td>
 								<td>
 									<select name="currency_1" data-toggle="selectpicker" id="j_payment_currency_1" data-width="190px" onchange="changeCurrency(this)">
@@ -1020,7 +1026,7 @@ function checkSupplierCode(o){
 							</tr>
 							<tr class="child_row_01 child_row">
 								<td>
-									金额<br>Amount
+									金额*<br>Amount*
 								</td>
 								<td>
 									<input type="text" name="amount_1_t" id="j_payment_amount_1_t" value="" data-rule="number" onchange="changeAmount()" size="19">
@@ -1042,13 +1048,7 @@ function checkSupplierCode(o){
 									结算期 <br>Payment Term
 								</td>
 								<td>
-									<select name="paymentDays_2" id="j_payment_paymentDays_2" data-toggle="selectpicker" data-width="190px" >
-				                        <option value=""></option>
-				                        <option value="30">30Days</option>
-				                        <option value="45">45Days</option>
-				                        <option value="60">60Days</option>
-				                        <option value="90">90Days</option>
-				                        <option value="120">120Days</option>
+									<select name="paymentDays_2" id="j_payment_paymentDays_2" data-toggle="selectpicker" data-width="190px" onchange="changeTerm(this);">
 			                    	</select>
 								</td>
 								<td>
@@ -1066,7 +1066,7 @@ function checkSupplierCode(o){
 									<input type="text" name="PONo_2" id="j_payment_PONo_2"  value="" size="19" onchange="checkPoNO(this)">
 								</td>
 								<td>
-									<label class="row-label">币别<br>Currency</label>
+									<label class="row-label">币别*<br>Currency*</label>
 								</td>
 								<td>
 									<select name="currency_2" id="j_payment_currency_2" data-toggle="selectpicker" data-width="190px" onchange="changeCurrency(this)">
@@ -1080,7 +1080,7 @@ function checkSupplierCode(o){
 							</tr>
 							<tr class="child_row_02 child_row">
 								<td>
-									金额<br>Amount
+									金额*<br>Amount*
 								</td>
 								<td>
 									<input type="text" name="amount_2_t" id="j_payment_amount_2_t" value="" data-rule="number" size="19" onchange="changeAmount()">
@@ -1101,13 +1101,7 @@ function checkSupplierCode(o){
 									结算期 <br>Payment Term
 								</td>
 								<td>
-									<select name="paymentDays_3" id="j_payment_paymentDays_3" data-toggle="selectpicker" data-width="190px" >
-				                        <option value=""></option>
-				                        <option value="30">30Days</option>
-				                        <option value="45">45Days</option>
-				                        <option value="60">60Days</option>
-				                        <option value="90">90Days</option>
-				                        <option value="120">120Days</option>
+									<select name="paymentDays_3" id="j_payment_paymentDays_3" data-toggle="selectpicker" data-width="190px" onchange="changeTerm(this);">
 			                    	</select>
 								</td>
 								<td>
@@ -1125,7 +1119,7 @@ function checkSupplierCode(o){
 									<input type="text" name="PONo_3" id="j_payment_PONo_3" size="19" value="" onchange="checkPoNO(this)">
 								</td>
 								<td>
-									<label class="row-label">币别<br>Currency</label>
+									<label class="row-label">币别*<br>Currency*</label>
 								</td>
 								<td>
 									<select name="currency_3" id="j_payment_currency_3" data-width="190px" data-toggle="selectpicker" onchange="changeCurrency(this)">
@@ -1139,7 +1133,7 @@ function checkSupplierCode(o){
 							</tr>
 							<tr class="child_row_03 child_row">
 								<td>
-									金额<br>Amount
+									金额*<br>Amount*
 								</td>
 								<td>
 									<input type="text" name="amount_3_t" id="j_payment_amount_3_t" value="" size="19" data-rule="number" onchange="changeAmount();" >
@@ -1160,13 +1154,7 @@ function checkSupplierCode(o){
 									结算期 <br>Payment Term
 								</td>
 								<td>
-									<select name="paymentDays_4" id="j_payment_paymentDays_4" data-toggle="selectpicker" data-width="190px" >
-				                        <option value=""></option>
-				                        <option value="30">30Days</option>
-				                        <option value="45">45Days</option>
-				                        <option value="60">60Days</option>
-				                        <option value="90">90Days</option>
-				                        <option value="120">120Days</option>
+									<select name="paymentDays_4" id="j_payment_paymentDays_4" data-toggle="selectpicker" data-width="190px" onchange="changeTerm(this);">
 			                    	</select>
 								</td>
 								<td>
@@ -1184,7 +1172,7 @@ function checkSupplierCode(o){
 									<input type="text" name="PONo_4" id="j_payment_PONo_4" size="19" value="" onchange="checkPoNO(this)">
 								</td>
 								<td>
-									<label class="row-label">币别<br>Currency</label>
+									<label class="row-label">币别*<br>Currency*</label>
 								</td>
 								<td>
 									<select name="currency_4" id="j_payment_currency_4" data-width="190px" data-toggle="selectpicker" onchange="changeCurrency(this)">
@@ -1198,7 +1186,7 @@ function checkSupplierCode(o){
 							</tr>
 							<tr class="child_row_04 child_row">
 								<td>
-									金额<br>Amount
+									金额*<br>Amount*
 								</td>
 								<td>
 									<input type="text" name="amount_4_t" id="j_payment_amount_4_t" size="19" value="" data-rule="number" onchange="changeAmount()" >
@@ -1219,13 +1207,7 @@ function checkSupplierCode(o){
 									结算期 <br>Payment Term
 								</td>
 								<td>
-									<select name="paymentDays_5" id="j_payment_paymentDays_5" data-toggle="selectpicker" data-width="190px" >
-				                        <option value=""></option>
-				                        <option value="30">30Days</option>
-				                        <option value="45">45Days</option>
-				                        <option value="60">60Days</option>
-				                        <option value="90">90Days</option>
-				                        <option value="120">120Days</option>
+									<select name="paymentDays_5" id="j_payment_paymentDays_5" data-toggle="selectpicker" data-width="190px" onchange="changeTerm(this);" >
 			                    	</select>
 								</td>
 								<td>
@@ -1243,7 +1225,7 @@ function checkSupplierCode(o){
 									<input type="text" name="PONo_5" id="j_payment_PONo_5" size="19" value="" onchange="checkPoNO(this)">
 								</td>
 								<td>
-									<label class="row-label">币别<br>Currency</label>
+									<label class="row-label">币别*<br>Currency*</label>
 								</td>
 								<td>
 									<select name="currency_5" id="j_payment_currency_5" data-width="190px" data-toggle="selectpicker" onchange="changeCurrency(this)">
@@ -1257,7 +1239,7 @@ function checkSupplierCode(o){
 							</tr>
 							<tr class="child_row_05 child_row">
 								<td>
-									金额<br>Amount
+									金额*<br>Amount*
 								</td>
 								<td>
 									<input type="text" name="amount_5_t" id="j_payment_amount_5_t" size="19" value="" data-rule="number" onchange="changeAmount()" >
@@ -1279,12 +1261,6 @@ function checkSupplierCode(o){
 								</td>
 								<td>
 									<select name="paymentDays_6" id="j_payment_paymentDays_6" data-toggle="selectpicker" data-width="190px" >
-				                        <option value=""></option>
-				                        <option value="30">30Days</option>
-				                        <option value="45">45Days</option>
-				                        <option value="60">60Days</option>
-				                        <option value="90">90Days</option>
-				                        <option value="120">120Days</option>
 			                    	</select>
 								</td>
 								<td>
@@ -1302,7 +1278,7 @@ function checkSupplierCode(o){
 									<input type="text" name="PONo_6" id="j_payment_PONo_6" size="19" value="" onchange="checkPoNO(this)" >
 								</td>
 								<td>
-									<label class="row-label">币别<br>Currency</label>
+									<label class="row-label">币别*<br>Currency*</label>
 								</td>
 								<td>
 									<select name="currency_6" id="j_payment_currency_6" data-toggle="selectpicker" data-width="190px" onchange="changeCurrency(this)">
@@ -1316,7 +1292,7 @@ function checkSupplierCode(o){
 							</tr>
 							<tr class="child_row_06 child_row">
 								<td>
-									金额<br>Amount
+									金额*<br>Amount*
 								</td>
 								<td>
 									<input type="text" name="amount_6_t" id="j_payment_amount_6_t" value="" data-rule="number" size="19" onchange="changeAmount()" >
@@ -1346,7 +1322,7 @@ function checkSupplierCode(o){
 				</tr>
 				<tr>
 					<td>
-						支付用途 <br>Usage Description
+						支付用途 *<br>Usage Description*
 					</td>
 					<td colspan="3">
 						<textarea cols="80" rows="3" id="j_payment_usageDescription"  name="usageDescription" data-toggle="autoheight"></textarea>
@@ -1391,8 +1367,8 @@ function checkSupplierCode(o){
 					<td colspan="2" >
 						<table class="table" id="upfile_invoice_list" >	
 							<tr>
-								<th width="400px" align="center">文件名</th>
-								<th width="100px" align="center">删除</th>
+								<th width="400px" align="center">File Name</th>
+								<th width="100px" align="center">Delete</th>
 							</tr>									
 						</table>
 					</td>
@@ -1407,8 +1383,8 @@ function checkSupplierCode(o){
 					<td	colspan="2">
 						<table class="table" id="upfile_contract_list" >	
 							<tr>
-								<th width="400px" align="center">文件名</th>
-								<th width="100px" align="center">删除</th>
+								<th width="400px" align="center">File Name</th>
+								<th width="100px" align="center">Delete</th>
 							</tr>									
 						</table>
 					</td>
@@ -1423,8 +1399,8 @@ function checkSupplierCode(o){
 					<td colspan="2">
 						<table class="table" id="upfile_other_list" >	
 							<tr>
-								<th width="400px" align="center">文件名</th>
-								<th width="100px" align="center">删除</th>
+								<th width="400px" align="center">File Name</th>
+								<th width="100px" align="center">Delete</th>
 							</tr>									
 						</table>
 					</td>

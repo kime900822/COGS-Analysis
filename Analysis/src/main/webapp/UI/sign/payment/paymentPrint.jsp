@@ -86,8 +86,13 @@ function dataToFace(){
             		$("#beneficiaryAccountNOChange").html("●") 
             		$("#beneficiaryAccountNO_td").attr("class","BeneficiaryIDchange");
             	}
+                
+                
+                
                 $("#paymentSubject_"+json.paymentSubject).html("Y")  
-                if(json.paymentDays_1!=""&&json.paymentDays_1!=null){
+                $("#paymentDays_"+json.paymentTerm).html(json.paymentDays_1)  
+                
+/*                 if(json.paymentDays_1!=""&&json.paymentDays_1!=null){
                 	$("#paymentDays_1").html(json.paymentDays_1+"days");
                 }
                 if(json.paymentDays_2!=""&&json.paymentDays_2!=null){
@@ -105,7 +110,7 @@ function dataToFace(){
                 if(json.paymentDays_6!=""&&json.paymentDays_6!=null){
                 	$("#paymentDays_6").html(json.paymentDays_6+"days");
                 }
-
+ */
                
             	
             	if(json.amount_1!=''&&json.amount_1!=null&&json.amount_1!='0.00'){
@@ -205,30 +210,30 @@ function dataToFace(){
 			</table>		
 			<table style="font-size:10px;">
 				<tr>
-					<td width="160px" >Application Date(申请日期):</td>
+					<td width="160px" ><label>Application Date(申请日期):</label></td>
 					<td width="140px" align="left"><label id="applicationDate"></label></td>
-					<td width="210px" >Request Payment Date(要求付款日期):</td>
+					<td width="210px" ><label>Request Payment Date(要求付款日期):</label></td>
 					<td width="190px"  align="left"><label id="requestPaymentDate"></label></td>
-					<td width="230px" >Contactural Payment Date(合同付款日期):</td>
+					<td width="230px" ><label>Contactural Payment Date(合同付款日期):</label></td>
 					<td width="170px" align="left"><label id="contacturalPaymentDate"></label></td>
 					<td width="100px"></td>
 				</tr>
 				<tr height="30px">
 					<td>
-						<input type="checkbox" id="Cash" >支付现金 Cash 
+						<input type="checkbox" id="Cash" ><label>&nbsp&nbsp支付现金 Cash</label>
 					</td>
 					<td colspan="2">
-						<input type="checkbox" id="Banking" >银行支付 Banking
+						<input type="checkbox" id="Banking" ><label>&nbsp&nbsp银行支付 Banking</label>
 					</td>
 					<td >
 					</td>
 					<td colspan="3">
-						<input type="checkbox" id="AdvanceWriteoff">核销预付 Advance Write-off (Amount) . &nbsp&nbsp&nbsp&nbsp
+						<input type="checkbox" id="AdvanceWriteoff"><label>&nbsp&nbsp核销预付 Advance Write-off (Amount) .&nbsp&nbsp&nbsp&nbsp</label> 
 					</td>
 				</tr>
 			</table>            
 			
-			<table width="1200px" border="2" cellspacing="1" bordercolor="black" style="font-size:10px;">
+			<table width="1200px" border="1" cellspacing="0" bordercolor="black" style="font-size:10px;">
 				<tr>
 					<th width="30px"></th>
 					<th width="140px"></th>
@@ -353,7 +358,7 @@ function dataToFace(){
 					<td align="center"><label id="paymentSubject_7"></label></td>
 					<td align="left">&nbspOther 其他</td>
 					<td></td>
-					<td align="right"><br/><br/></td>
+					<td align="right">&nbsp<br>&nbsp</td>
 					<td></td>
 					<td></td>
 					<td> 
@@ -370,10 +375,9 @@ function dataToFace(){
 					<td><label id="documentAudit"></label></td>
 				</tr>		
 			</table>
-			<br>
 			<table width="1200px" style="font-size:10px">
-				<tr>
-					<td width="25%">General Manager:<br/>总经理</td>
+				<tr >
+					<td width="25%" height="40px">General Manager:<br/>总经理</td>
 					<td width="25%">Finance Manager:<br/>财务经理</td>
 					<td width="25%">Finance Supervisor:<br/>财务主管</td>
 					<td width="10%">Dept. Manager:<br/>部门经理</td>		
