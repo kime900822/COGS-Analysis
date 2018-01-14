@@ -109,6 +109,7 @@ $(function(){
 	if('${param.id}'!=null&&'${param.id}'!=''){
 		dataToFace();
 	}else{
+		addBeneficiary('');
 		showButton('','');
 	}
 	
@@ -118,6 +119,21 @@ $(function(){
 	isChange();
 
 })
+
+function addBeneficiary(o){
+	BJUI.ajax('doajax', {
+	    url: 'getAllBeneficiary.action',
+	    loadingmask: true,
+	    okCallback: function(json, options) {
+            $.each(json, function (i, item) {
+                $.CurrentNavtab.find('#j_payment_beneficiary').append("<option value='" + item.accno + "'>" + item.name + "</option>")           
+            })
+            $.CurrentNavtab.find('#j_payment_beneficiary').selectpicker().selectpicker('val',o).selectpicker('refresh');
+            changeBeneficiary();
+	    }
+	});	
+}
+
 
 function savePayment(){
 	var o=faceToDate();	
@@ -410,7 +426,6 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		}
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
-		 $("textarea[id*='j_payment']").attr('disabled','disabled')
 		$.CurrentNavtab.find('#upfile_other').hide();
 		$.CurrentNavtab.find('#upfile_contract').hide();
 		$.CurrentNavtab.find('#upfile_invoice').hide();
@@ -427,7 +442,6 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-delete').hide();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');	
-		 $("textarea[id*='j_payment']").attr('disabled','disabled')
 		$.CurrentNavtab.find('#upfile_other').hide();
 		$.CurrentNavtab.find('#upfile_contract').hide();
 		$.CurrentNavtab.find('#upfile_invoice').hide();
@@ -444,7 +458,6 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-return-tr').hide();		
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
-		 $("textarea[id*='j_payment']").attr('disabled','disabled')
 		$.CurrentNavtab.find('#upfile_other').hide();
 		$.CurrentNavtab.find('#upfile_contract').hide();
 		$.CurrentNavtab.find('#upfile_invoice').hide();
@@ -462,7 +475,6 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#j_payment_documentAudit').val('${user.name}')
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
-		$("textarea[id*='j_payment']").attr('disabled','disabled')
 		$.CurrentNavtab.find('#j_payment_refNoofBank').removeAttr('disabled');
 		$.CurrentNavtab.find('#j_payment_refNoofBank').removeAttr('readonly').attr('data-rule','required');
 		$.CurrentNavtab.find('#upfile_other').hide();
@@ -481,7 +493,6 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-delete').hide();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled'); 
-		$("textarea[id*='j_payment']").attr('disabled','disabled')
 		$.CurrentNavtab.find('#upfile_other').hide();
 		$.CurrentNavtab.find('#upfile_contract').hide();
 		$.CurrentNavtab.find('#upfile_invoice').hide();
@@ -498,7 +509,6 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
-		$("textarea[id*='j_payment']").attr('disabled','disabled')
 		$.CurrentNavtab.find('#upfile_other').hide();
 		$.CurrentNavtab.find('#upfile_contract').hide();
 		$.CurrentNavtab.find('#upfile_invoice').hide();
@@ -515,7 +525,6 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
-		$("textarea[id*='j_payment']").attr('disabled','disabled')
 		$.CurrentNavtab.find('#upfile_other').hide();
 		$.CurrentNavtab.find('#upfile_contract').hide();
 		$.CurrentNavtab.find('#upfile_invoice').hide();
@@ -532,7 +541,6 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-delete').hide();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
-		$("textarea[id*='j_payment']").attr('disabled','disabled')
 		$.CurrentNavtab.find('#upfile_other').hide();
 		$.CurrentNavtab.find('#upfile_contract').hide();
 		$.CurrentNavtab.find('#upfile_invoice').hide();
@@ -569,9 +577,8 @@ function dataToFace(){
             		$.CurrentNavtab.find("#j_payment_urgent").iCheck('check'); 
             	}
             	$.CurrentNavtab.find("#j_payment_UID").val(json.UID+'-'+json.UName);
-            	$.CurrentNavtab.find("#j_payment_departmentID").val(json.departmentName+'-'+json.departmentID);            	
-            	$.CurrentNavtab.find("#j_payment_beneficiary").val(json.beneficiary);
-            	$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO").val(json.beneficiaryAccountNO);
+            	$.CurrentNavtab.find("#j_payment_departmentID").val(json.departmentName+'-'+json.departmentID);
+            	addBeneficiary(json.beneficiaryAccountNO);
                 if(json.beneficiaryChange=='1'){
             		$.CurrentNavtab.find("#j_payment_beneficiaryChange").iCheck('check'); 
             		$.CurrentNavtab.find("#j_payment_beneficiary_tr").attr("style","background-color: #9ACD32");
@@ -795,37 +802,6 @@ function checkPoNO(o){
      
 }
 
-
-function checkSupplierCode(o){
-	 var str = $(o).val();
-    var ret =  /^\d{5,6}$/;
-    if(!ret.test(str)){
-   	 $.CurrentNavtab.find(o).val("")
-   	 BJUI.alertmsg('error', 'Plese Enter Right Type'); 
-    }else{
-    	BJUI.ajax('doajax', {
-    	    url: 'getBeneficiaryByCode.action',
-    	    loadingmask: true,
-    	    data:{supplierCode:str},	   
-    	    okalert:false,
-    	    okCallback: function(json, options) {
-                if(json.statue=='300'){
-                	BJUI.alertmsg('error', " Code is not maintain!"); 
-                	$.CurrentNavtab.find(o).val("");
-                	$.CurrentNavtab.find("#j_payment_beneficiary").val('');
-                 	$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO").val('');
-                	
-                }else{
-                	$.CurrentNavtab.find("#j_payment_beneficiary").val(json.name);
-                	$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO").val(json.accno);
-                }
-    	    }
-    	});	
-    	
-    	
-    }    
-}
-
 </script>
 <div class="bjui-pageContent">
     <div class="bs-example" style="width:1000px">
@@ -896,20 +872,12 @@ function checkSupplierCode(o){
 				</tr>
 				<tr>
 					<td>
-						供应商代码<br>Supplier Code
-					</td>
-					<td>
-						<input type="text" name="supplierCode" id="j_payment_supplierCode" value="" size="19" data-rule="required" onchange="checkSupplierCode(this);">
-					</td>
-					<td colspan="2">
-					</td>
-				</tr>
-				<tr>
-					<td>
 						收款人（全称）<br>Beneficiary:
 					</td>
 					<td id="j_payment_beneficiary_tr">
-						<input type="text" name="beneficiary" id="j_payment_beneficiary" value="" readonly=""  size="19">
+						<select name="beneficiary" id="j_payment_beneficiary" data-toggle="selectpicker" data-rule="required" onchange="changeBeneficiary()" data-width="190px">
+                        	<option value=""></option>
+                    	</select>
 					</td>
 					<td>
 						银行及帐号<br>Beneficiary Account NO.
@@ -1338,6 +1306,12 @@ function checkSupplierCode(o){
 				
 				<tr>
 					<td>
+						供应商代码<br>Supplier Code
+					</td>
+					<td>
+						<input type="text" name="supplierCode" id="j_payment_supplierCode" value="" size="19" data-rule="required">
+					</td>
+					<td>
 						银行交易编码<br>Ref. No. of Bank
 					</td>
 					<td>
@@ -1386,7 +1360,7 @@ function checkSupplierCode(o){
 						Attachment1 Invoice （附件：发票）
 					</td>
 					<td>
-						<input type="button" id="upfile_invoice" />
+						<div id="upfile_invoice" > </div>
 					</td>
 					<td colspan="2" >
 						<table class="table" id="upfile_invoice_list" >	
@@ -1402,7 +1376,7 @@ function checkSupplierCode(o){
 						Attachment2 Contract （附件：合同）
 					</td>
 					<td>
-						<input type="button" id="upfile_contract" />
+						<div id="upfile_contract" > </div>
 					</td>
 					<td	colspan="2">
 						<table class="table" id="upfile_contract_list" >	
@@ -1418,7 +1392,7 @@ function checkSupplierCode(o){
 						Attachment3 Other （附件：其他）
 					</td>
 					<td>
-						<input type="button" id="upfile_other" />
+						<div id="upfile_other" > </div>
 					</td>
 					<td colspan="2">
 						<table class="table" id="upfile_other_list" >	

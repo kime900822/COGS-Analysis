@@ -16,13 +16,22 @@ public class Beneficiary {
 
 	@Column
 	private String name;
+	@Column
+	private String accno;
 	@Id
 	@GeneratedValue(generator="assigned")
 	@GenericGenerator(name = "assigned", strategy = "assigned")
-	private String accno;
+	private String supplierCode;
 	@Transient
 	private String addFlag;
 	
+	
+	public String getSupplierCode() {
+		return supplierCode;
+	}
+	public void setSupplierCode(String supplierCode) {
+		this.supplierCode = supplierCode;
+	}
 	public String getAddFlag() {
 		return addFlag;
 	}

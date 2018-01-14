@@ -3,7 +3,9 @@ package com.sign.action;
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,15 @@ public class BeneficiaryAction extends ActionBase {
 	private String name;
 	private String accno;	
 	private String addFlag;
+	private String supplierCode;
+	
+
+	public String getSupplierCode() {
+		return supplierCode;
+	}
+	public void setSupplierCode(String supplierCode) {
+		this.supplierCode = supplierCode;
+	}
 	public BeneficiaryBIZ getBeneficiaryBIZ() {
 		return beneficiaryBIZ;
 	}
@@ -164,6 +175,26 @@ public class BeneficiaryAction extends ActionBase {
 		
 		List<Beneficiary> list=beneficiaryBIZ.queryBeneficiary("");
 		reslutJson=new ByteArrayInputStream(new Gson().toJson(list).getBytes("UTF-8"));
+		
+		return SUCCESS;
+	}
+	
+	@Action(value="getBeneficiaryByCode",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String getBeneficiaryByCode() throws UnsupportedEncodingException{
+		
+		List<Beneficiary> list=beneficiaryBIZ.queryBeneficiary(" where supplierCode='"+supplierCode+"'");
+		if (list.size()>0) {
+			reslutJson=new ByteArrayInputStream(new Gson().toJson(list.get(0)).getBytes("UTF-8"));
+		}else{
+			Map<String, String> map=new HashMap<>();
+			map.put("statue", "300");
+			result.setMessage(" Code is not maintain!");
+			reslutJson=new ByteArrayInputStream(new Gson().toJson(map).getBytes("UTF-8"));
+		}
+		
 		
 		return SUCCESS;
 	}
