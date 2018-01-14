@@ -5,7 +5,6 @@ $(function(){
 	
 	$.CurrentNavtab.find('#upfile_invoice').uploadify({
 	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
-	        cancelImage   : 'B-JUI/plugins/uploadify/uploadify-cancel.png',  
 	        uploader      : 'savefile.action',
 	        width         : 120,
 	        progressData: 'speed',
@@ -21,7 +20,6 @@ $(function(){
 	 
 	$.CurrentNavtab.find('#upfile_contract').uploadify({
 	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
-	        cancelImage   : 'B-JUI/plugins/uploadify/uploadify-cancel.png', 
 	        uploader      : 'savefile.action',
 	        width         : 120,
 	        progressData: 'speed',
@@ -39,7 +37,6 @@ $(function(){
 	 
 	$.CurrentNavtab.find('#upfile_other').uploadify({
 	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
-	        cancelImage   : 'B-JUI/plugins/uploadify/uploadify-cancel.png', 
 	        uploader      : 'savefile.action',
 	        width         : 120,
 	        progressData: 'speed',
