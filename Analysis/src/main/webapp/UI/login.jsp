@@ -70,8 +70,8 @@
 <script src="B-JUI/plugins/highcharts/themes/gray.js"></script>
 <!-- other plugins -->
 <script src="B-JUI/plugins/other/jquery.autosize.js"></script>
-<link href="B-JUI/plugins/uploadify/css/uploadify.css" rel="stylesheet">
-<script src="B-JUI/plugins/uploadify/scripts/jquery.uploadify.min.js"></script>
+<link href="B-JUI/plugins/uploadify/uploadify.css" rel="stylesheet">
+<script src="B-JUI/plugins/uploadify/jquery.uploadify.min.js"></script>
 <script src="B-JUI/plugins/download/jquery.fileDownload.js"></script>
 
 <style type="text/css">

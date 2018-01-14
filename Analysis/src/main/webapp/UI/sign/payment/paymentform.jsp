@@ -4,53 +4,39 @@
 $(function(){
 	
 	$.CurrentNavtab.find('#upfile_invoice').uploadify({
-	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
-	        uploader      : 'savefile.action',
-	        width         : 120,
-	        progressData: 'speed',
-	        onUploadSuccess:function(file, data, response){
-	        	if(data.statusCode='200'){
-	        		$.CurrentNavtab.find('#upfile_invoice_list').append(fileToTr(file.name,file.name));	    
-	        	}else{
-	        		BJUI.alertmsg('error', data.message); 
-	        	}
-	        	    	
-	        }
-	    });
-	 
-	$.CurrentNavtab.find('#upfile_contract').uploadify({
-	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
-	        uploader      : 'savefile.action',
-	        width         : 120,
-	        progressData: 'speed',
-	        onUploadSuccess:function(file, data, response){
-	        	if(data.statusCode='200'){
-	        		$.CurrentNavtab.find('#upfile_contract_list').append(fileToTr(file.name,file.name));
-	        	}else{
-	        		BJUI.alertmsg('error', data.message); 
-	        	}
+        height        : 30,
+        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
+        uploader      : 'savefile.action',
+        width         : 120,
+        onUploadSuccess:function(file, data, response){
+        	$.CurrentNavtab.find('#upfile_invoice_list').append(fileToTr(file.name,file.name));	        	
+        }
+    });
+ 
+$.CurrentNavtab.find('#upfile_contract').uploadify({
+        height        : 30,
+        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
+        uploader      : 'savefile.action',
+        width         : 120,
+        onUploadSuccess:function(file, data, response){
+        	$.CurrentNavtab.find('#upfile_contract_list').append(fileToTr(file.name,file.name));	        	
 
-	        	
-	        }
-	    });
+        	
+        }
+    });
 
-	 
-	$.CurrentNavtab.find('#upfile_other').uploadify({
-	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
-	        uploader      : 'savefile.action',
-	        width         : 120,
-	        progressData: 'speed',
-	        onUploadSuccess:function(file, data, response){
-	        	if(data.statusCode='200'){
-	        		$.CurrentNavtab.find('#upfile_other_list').append(fileToTr(file.name,file.name));	
-	        	}else{
-	        		BJUI.alertmsg('error', data.message); 
-	        	}
+ 
+$.CurrentNavtab.find('#upfile_other').uploadify({
+        height        : 30,
+        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
+        uploader      : 'savefile.action',
+        width         : 120,
+        onUploadSuccess:function(file, data, response){
+        	$.CurrentNavtab.find('#upfile_other_list').append(fileToTr(file.name,file.name));	        	
 
-	        	
-	        }
-	    });
-
+        	
+        }
+    });
 
 	//初始化全部缩进
 	$('tr.table-parent').each(
