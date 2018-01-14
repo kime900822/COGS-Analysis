@@ -587,9 +587,6 @@ public class PaymentAction extends ActionBase {
 	            if (path!=null) {
 	            	result.setMessage("upload Success!");
 					result.setStatusCode("200");
-					Map<String, String> map=new HashMap<>();
-					map.put("url", path);
-					result.setParams(map);
 				}else{			
 					result.setMessage(Message.UPLOAD_MESSAGE_ERROE);
 					result.setStatusCode("300");	
@@ -645,16 +642,31 @@ public class PaymentAction extends ActionBase {
 			})})
 	public String savePayment() throws UnsupportedEncodingException{
 		try {
-			Payment payment=new Gson().fromJson(json, Payment.class);
+			Payment payment=new Gson().fromJson(json, Payment.class);		
 			if (!payment.getId().equals("")&&payment.getId()!=null) {
 				if (file_invoice!=null&&!"".equals(file_invoice)) {
-					payment.setFile_invoice(fileSave.getFilePath(file_invoice));
+					String filenames="";
+					String[] files=file_invoice.split("\\|");
+					for (String string : files) {
+						filenames+=fileSave.getFilePath(string)+"|";
+					}
+					payment.setFile_invoice(filenames);
 				}
 				if (file_contract!=null&&!"".equals(file_contract)) {
-					payment.setFile_contract(fileSave.getFilePath(file_contract));
+					String filenames="";
+					String[] files=file_contract.split("\\|");
+					for (String string : files) {
+						filenames+=fileSave.getFilePath(string)+"|";
+					}
+					payment.setFile_contract(filenames);
 				}
 				if (file_other!=null&&!"".equals(file_other)) {
-					payment.setFile_other(fileSave.getFilePath(file_other));
+					String filenames="";
+					String[] files=file_other.split("\\|");
+					for (String string : files) {
+						filenames+=fileSave.getFilePath(string)+"|";
+					}
+					payment.setFile_other(filenames);
 				}
 				
 				paymentBIZ.updatePayment(payment);

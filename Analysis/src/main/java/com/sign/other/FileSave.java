@@ -96,7 +96,6 @@ public class FileSave {
 	
     //保存时使用
 	public String getFilePath(String filename){
-		String filepath=judeDirExists();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
     	Date date=new Date();
 		return sdf.format(date)+"/"+filename;		

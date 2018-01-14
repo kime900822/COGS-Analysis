@@ -4,22 +4,33 @@
 $(function(){
 	
 	$.CurrentNavtab.find('#upfile_invoice').uploadify({
-	        height        : 30,
 	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
+	        cancelImage   : 'B-JUI/plugins/uploadify/uploadify-cancel.png',  
 	        uploader      : 'savefile.action',
 	        width         : 120,
+	        progressData: 'speed',
 	        onUploadSuccess:function(file, data, response){
-	        	$.CurrentNavtab.find('#upfile_invoice_list').append(fileToTr(file.name,file.name));	        	
+	        	if(data.statusCode='200'){
+	        		$.CurrentNavtab.find('#upfile_invoice_list').append(fileToTr(file.name,file.name));	    
+	        	}else{
+	        		BJUI.alertmsg('error', data.message); 
+	        	}
+	        	    	
 	        }
 	    });
 	 
 	$.CurrentNavtab.find('#upfile_contract').uploadify({
-	        height        : 30,
 	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
+	        cancelImage   : 'B-JUI/plugins/uploadify/uploadify-cancel.png', 
 	        uploader      : 'savefile.action',
 	        width         : 120,
+	        progressData: 'speed',
 	        onUploadSuccess:function(file, data, response){
-	        	$.CurrentNavtab.find('#upfile_contract_list').append(fileToTr(file.name,file.name));	        	
+	        	if(data.statusCode='200'){
+	        		$.CurrentNavtab.find('#upfile_contract_list').append(fileToTr(file.name,file.name));
+	        	}else{
+	        		BJUI.alertmsg('error', data.message); 
+	        	}
 
 	        	
 	        }
@@ -27,12 +38,17 @@ $(function(){
 
 	 
 	$.CurrentNavtab.find('#upfile_other').uploadify({
-	        height        : 30,
 	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
+	        cancelImage   : 'B-JUI/plugins/uploadify/uploadify-cancel.png', 
 	        uploader      : 'savefile.action',
 	        width         : 120,
+	        progressData: 'speed',
 	        onUploadSuccess:function(file, data, response){
-	        	$.CurrentNavtab.find('#upfile_other_list').append(fileToTr(file.name,file.name));	        	
+	        	if(data.statusCode='200'){
+	        		$.CurrentNavtab.find('#upfile_other_list').append(fileToTr(file.name,file.name));	
+	        	}else{
+	        		BJUI.alertmsg('error', data.message); 
+	        	}
 
 	        	
 	        }
@@ -156,6 +172,7 @@ function deletePayment(){
             	 $.CurrentNavtab.find('#payment-delete').hide();
          		 $("input[id*='j_payment']").attr('disabled','disabled');
         		 $("select[id*='j_payment']").attr('disabled','disabled');
+        		 $("textarea[id*='j_payment']").attr('disabled','disabled')
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -176,6 +193,7 @@ function submitPayment(){
          		 $.CurrentNavtab.find('#payment-submit').hide();
          		 $("input[id*='j_payment']").attr('disabled','disabled');
         		 $("select[id*='j_payment']").attr('disabled','disabled');
+        		 $("textarea[id*='j_payment']").attr('disabled','disabled')
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -558,7 +576,7 @@ function dataToFace(){
             		$.CurrentNavtab.find("#j_payment_cash").iCheck('check'); 
             	}else if(json.payType=='Banking'){
             		$.CurrentNavtab.find("#j_payment_banking").iCheck('check'); 
-            	}else if(json.payType=='Advance'){
+            	}else if(json.payType=='AdvanceWriteoff'){
             		$.CurrentNavtab.find("#j_payment_advanceWriteoff").iCheck('check'); 
             	}
             	if(json.urgent=='1'){
@@ -1311,7 +1329,7 @@ function checkPoNO(o){
 						支付用途 <br>Usage Description
 					</td>
 					<td colspan="3">
-						<input type="text"  name="usageDescription" value="" size="60" id="j_payment_usageDescription" ></input>
+						<textarea cols="80" rows="3" id="j_payment_usageDescription"  name="usageDescription" data-toggle="autoheight"></textarea>
 					</td>
 				</tr>
 				<tr>
