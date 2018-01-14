@@ -186,7 +186,7 @@ function dataToFace(){
 				</tr>
 				<tr height="10px">
 					<td colspan="2" align="right" >
-						<p>流水码:</p>
+						<label>流水码:</label>
 					</td>
 					<td align="center"><label id="code"></label></td>
 				</tr>
@@ -213,7 +213,7 @@ function dataToFace(){
 					<td width="170px" align="left"><label id="contacturalPaymentDate"></label></td>
 					<td width="100px"></td>
 				</tr>
-				<tr>
+				<tr height="30px">
 					<td>
 						<input type="checkbox" id="Cash" >支付现金 Cash 
 					</td>
@@ -227,7 +227,7 @@ function dataToFace(){
 					</td>
 				</tr>
 			</table>            
-
+			
 			<table width="1200px" border="2" cellspacing="1" bordercolor="black" style="font-size:10px;">
 				<tr>
 					<th width="30px"></th>
@@ -362,7 +362,7 @@ function dataToFace(){
 					<td></td>
 				</tr>		
 				<tr>
-					<td colspan="2" class="bg">金额(小写)<br/>Amount in figures:</td>
+					<td colspan="2" class="bg" align="right">金额(小写)<br/>Amount in figures:</td>
 					<td colspan="6" align="right"><label id="amountInFigures"></label></td>
 					<td align="right" class="bg">金额(大写)<br/>Amount in words:</td>
 					<td colspan="2"><label id="amountInWords"></label></td>
