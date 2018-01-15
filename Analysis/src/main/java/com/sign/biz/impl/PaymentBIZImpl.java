@@ -101,7 +101,21 @@ public class PaymentBIZImpl implements PaymentBIZ {
 			//SendMail.SendMail(lUsers.get(0).getEmail(), "Payment application system inform", "Dear sir,<br><br> You have got a payment approval request from <u><b>\""+payment.getUName()+"\"</b></u> . <br><br>Approval Website:<a href='"+PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")+"'>Analysis</a>");	
 			SendMail.SendMail(lUsers.get(0).getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfSubmit"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfSubmit"), payment.getUName(),PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")));	
 		}else{
-			throw new Exception("对应签核人员未维护，邮件发送失败");
+			List<Dict> lDicts=commonDAO.queryByHql(" select D from Dict D where D.key='"+payment.getUID()+"'");
+			if (lDicts.size()>0) {
+				List<User> list=userDAO.query(" where uid='"+lDicts.get(0).getValue()+"'");
+				if (list.size()>0) {
+					payment.setDeptManagerID(list.get(0).getUid());
+					payment.setDeptManager(list.get(0).getName());
+					paymentDao.update(payment);
+					//SendMail.SendMail(lUsers.get(0).getEmail(), "Payment application system inform", "Dear sir,<br><br> You have got a payment approval request from <u><b>\""+payment.getUName()+"\"</b></u> . <br><br>Approval Website:<a href='"+PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")+"'>Analysis</a>");	
+					SendMail.SendMail(lUsers.get(0).getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfSubmit"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfSubmit"), payment.getUName(),PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")));	
+				}
+				else{
+					throw new Exception("对应签核人员未维护，邮件发送失败");
+				}
+			}
+			
 		}
 	}
 	

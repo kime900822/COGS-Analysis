@@ -26,6 +26,7 @@ import com.kime.infoenum.Message;
 import com.kime.model.Dict;
 import com.kime.model.User;
 import com.kime.utils.CommonUtil;
+import com.kime.utils.TypeChangeUtil;
 import com.sign.biz.PaymentBIZ;
 import com.sign.model.Payment;
 import com.sign.other.FileSave;
@@ -1004,8 +1005,11 @@ public class PaymentAction extends ActionBase {
 		if (!"".equals(urgent)&&urgent!=null) {
 			where += " AND P.urgent = '"+urgent+"'";
 		}
-		if (!"".equals(amount)&&amount!=null) {
-			where += " AND (P.amount_1 = '"+amount+"' or P.amount_2 = '"+amount+"' or P.amount_3 = '"+amount+"' or P.amount_4 = '"+amount+"' or P.amount_5 = '"+amount+"' or P.amount_6 = '"+amount+"'";
+		if (!"".equals(UID)&&UID!=null) {
+			where += " AND UID='"+UID+"'";
+		}
+		if (!"".equals(departmentID)&&departmentID!=null) {
+			where += " AND departmentID='"+departmentID+"'";
 		}
 		
 			
@@ -1016,13 +1020,16 @@ public class PaymentAction extends ActionBase {
 			hql="  select  P from Payment P where (P.state='2' or P.state='4') AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
 		}
 		if ("sign".equals(queryType)) {
-			hql="  select  P from Payment P, SignMan S  where P.state='1' and P.departmentID=S.did And S.uid='"+user.getUid()+"' order By P.dateTemp desc";
+			hql="  select  P from Payment P where P.state='1' and P.departmentID='"+user.getUid()+"' order By P.dateTemp desc";
 		}
 		if ("user".equals(queryType)) {
 			hql=" select P from Payment P where P.UID='"+user.getUid()+"' "+where+" order By P.dateTemp desc";
 		}
 		List<Payment> list=paymentBIZ.getPaymentByHql(hql, Integer.parseInt(pageSize),Integer.parseInt(pageCurrent));
 		int total=paymentBIZ.getPaymentByHql(hql).size();
+		for (Payment payment : list) {
+			payment.setAmountInFigures(TypeChangeUtil.formatMoney(payment.getAmountInFigures(),2,""));
+		}
 		
 		queryResult.setList(list);
 		queryResult.setTotalRow(total);

@@ -17,6 +17,23 @@ function datagrid_paymentSubject() {
 function datagrid_paymentState() {
     return [{'0':'Save'},{'1':'Submit'},{'2':'Approve'},{'3':'REJECT'},{'4':'Finance'},{'5':'Invalid'}]
 }
+
+$(function(){
+	$.CurrentNavtab.find("#q_payment_urgent").on('ifChecked',function(){
+		$.CurrentNavtab.find("#q_payment_urgent").val("1");
+	})
+	$.CurrentNavtab.find("#q_payment_urgent").on('ifUnchecked',function(){
+		$.CurrentNavtab.find("#q_payment_urgent").val("0");
+	})	
+	
+})	
+
+
+
+
+
+
+
 </script>
 <div class="bjui-pageHeader" style="background-color:#fefefe; border-bottom:none;">
 <form data-toggle="ajaxsearch" data-options="{searchDatagrid:$.CurrentNavtab.find('#datagrid-payment-user-filter')}">
@@ -38,13 +55,13 @@ function datagrid_paymentState() {
         		<td width="180px">
             	<input type="text" name="code" value="" id="q_payment_code" size="15">
         		</td>
-        		<td width="80px">
-        		<span>Urgent：</span>
+        		<td colspan="2">
         		</td>
-        		<td width="80px">
-            	<input type="checkbox" name="urgent"  data-toggle="icheck" id="q_payment_urgent" value="1" data-label="">
-        		</td>
+
         	</tr>    
+        	<tr>
+        		<td colspan="6" height="10px"></td>
+        	</tr>
         	<tr>
         		<td>
         		<span>Payment Subject：</span>
@@ -61,12 +78,12 @@ function datagrid_paymentState() {
 	              <option value="7">Other 其他</option>
             	</select>
         		</td>
-        		<td>
-        		<span>Amount：</span>
+        		<td width="80px">
+        		<span>Urgent：</span>
         		</td>
-        		<td>
-            	<input type="text" name="amount" class="form-control" size="15" data-rule="number" >
-        		</td>
+        		<td width="80px">
+            	<input type="checkbox" name="urgent"  data-toggle="icheck" id="q_payment_urgent" data-label="" >
+         		</td>
         		<td colspan="2" align="center">
         		<div class="btn-group">
                 <button type="submit" class="btn-green" data-icon="search">Search</button>
@@ -109,6 +126,7 @@ function datagrid_paymentState() {
 				<th data-options="{name:'code',width:150,align:'center',finalWidth:'true'}">Code</th>
 				<th data-options="{name:'urgent',width:60,align:'center' ,finalWidth:'true'}">Urgent</th>
 				<th data-options="{name:'paymentSubject',width:200,align:'center',finalWidth:'true',type:'select', items:datagrid_paymentSubject}">Payment Subject</th>
+				<th data-options="{name:'currency_1',width:80,align:'right',finalWidth:'true'}">Currency</th>
 				<th data-options="{name:'amountInFigures',width:80,align:'right',finalWidth:'true'}">Amount</th>
 				<th data-options="{name:'usageDescription',width:400,align:'left',finalWidth:'true'}">UsageDescription</th>            
 			</tr>

@@ -19,7 +19,7 @@ function datagrid_paymentState() {
 }
 </script>
 <div class="bjui-pageHeader" style="background-color:#fefefe; border-bottom:none;">
-<form data-toggle="ajaxsearch" data-options="{searchDatagrid:$.CurrentNavtab.find('#datagrid-payment-user-filter')}">
+<form data-toggle="ajaxsearch" data-options="{searchDatagrid:$.CurrentNavtab.find('#datagrid-payment-all-filter')}">
     <fieldset>
         <legend style="font-weight:normal;">Search：</legend>
         <div style="margin:0; padding:1px 5px 5px;">
@@ -38,6 +38,12 @@ function datagrid_paymentState() {
         		<td width="180px">
             	<input type="text" name="code" value="" id="q_payment_code" size="15">
         		</td>
+        		<td>
+        		<span>ID：</span>
+        		</td>
+        		<td>
+        		<input type="text" name="UID" value="" id="q_payment_UID" size="15">
+        		</td>
         		<td width="80px">
         		<span>Urgent：</span>
         		</td>
@@ -45,6 +51,9 @@ function datagrid_paymentState() {
             	<input type="checkbox" name="urgent"  data-toggle="icheck" id="q_payment_urgent" value="1" data-label="">
         		</td>
         	</tr>    
+        	<tr>
+        		<td colspan="8" height="10px"></td>
+        	</tr>
         	<tr>
         		<td>
         		<span>Payment Subject：</span>
@@ -62,10 +71,10 @@ function datagrid_paymentState() {
             	</select>
         		</td>
         		<td>
-        		<span>Amount：</span>
+        		<span>DepermentID：</span>
         		</td>
         		<td>
-            	<input type="text" name="amount" class="form-control" size="15" data-rule="number" >
+            	<input type="text" name="deptManagerID" class="form-control" size="15" data-rule="number" >
         		</td>
         		<td colspan="2" align="center">
         		<div class="btn-group">
@@ -73,6 +82,7 @@ function datagrid_paymentState() {
                 <button type="reset" class="btn-orange" data-icon="times">Reset</button>
             	</div>
         		</td>
+        		<td colspan="2"></td>
         	</tr>    
         </table>
             
@@ -110,6 +120,7 @@ function datagrid_paymentState() {
 				<th data-options="{name:'code',width:150,align:'center',finalWidth:'true'}">Code</th>
 				<th data-options="{name:'urgent',width:60,align:'center' ,finalWidth:'true'}">Urgent</th>
 				<th data-options="{name:'paymentSubject',width:200,align:'center',finalWidth:'true',type:'select', items:datagrid_paymentSubject}">Payment Subject</th>
+				<th data-options="{name:'currency_1',width:80,align:'right',finalWidth:'true'}">Currency</th>
 				<th data-options="{name:'amountInFigures',width:80,align:'right',finalWidth:'true'}">Amount</th>
 				<th data-options="{name:'usageDescription',width:400,align:'left',finalWidth:'true'}">UsageDescription</th>            
 			</tr>

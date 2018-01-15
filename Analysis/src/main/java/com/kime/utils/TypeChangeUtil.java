@@ -32,25 +32,24 @@ public class TypeChangeUtil {
 		}
 		NumberFormat formater = null;
 		double num = Double.parseDouble(s);
-		if (len == 0) {
-			formater = new DecimalFormat("###,###");
-
-		} else {
-			StringBuffer buff = new StringBuffer();
-			buff.append("###,###.");
-			for (int i = 0; i < len; i++) {
-				buff.append("#");
-			}
-			formater = new DecimalFormat(buff.toString());
-		}
-		String result = formater.format(num);
+		
+		NumberFormat nf = NumberFormat.getNumberInstance();
+		nf.setMaximumFractionDigits(len);
+		nf.setGroupingUsed(true);
+		String result=nf.format(num);
+		
 		if(result.indexOf(".") == -1)
 		{
 			result = type +" "+ result + ".00";
 		}
 		else
 		{
-			result = type +" "+ result;
+			String[] strings=result.split("\\.");
+			if (strings[1].length()==1) {
+				result = type +" "+ result+"0";
+			}else{
+				result = type +" "+ result;
+			}			
 		}
 		return result;
 	}

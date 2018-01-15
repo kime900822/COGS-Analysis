@@ -519,6 +519,15 @@ public class UserAction extends ActionBase {
 		return SUCCESS;
 	}
 	
+	@Action(value="getSignUserByID",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String getSignUserByID() throws UnsupportedEncodingException{
+		List<User> list=userBIZ.getUser("WHERE UID='"+uid+"'");
+		reslutJson=new ByteArrayInputStream(new Gson().toJson(list).getBytes("UTF-8"));  
+		return SUCCESS;
+	}
    
     
     /**

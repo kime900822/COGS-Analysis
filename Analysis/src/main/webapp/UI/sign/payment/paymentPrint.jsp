@@ -91,7 +91,6 @@ function dataToFace(){
                 
                 $("#paymentSubject_"+json.paymentSubject).html("Y")  
                 $("#paymentDays_"+json.paymentTerm).html(json.paymentDays_1)  
-                
 /*                 if(json.paymentDays_1!=""&&json.paymentDays_1!=null){
                 	$("#paymentDays_1").html(json.paymentDays_1+"days");
                 }
@@ -114,7 +113,7 @@ function dataToFace(){
                
             	
             	if(json.amount_1!=''&&json.amount_1!=null&&json.amount_1!='0.00'){
-            		$("#amount_1").html(formatCurrency(json.amount_1));
+            		$("#amount_1").html(formatCurrency(json.amount_1)+"&nbsp&nbsp");
             		$("#receivingOrApprovalDate_1").html(json.receivingOrApprovalDate_1);
                 	$("#PONo_1").html(json.PONo_1);
                 	$("#currency_1").html(json.currency_1);
@@ -122,7 +121,7 @@ function dataToFace(){
     
             	
             	if(json.amount_2!=''&&json.amount_2!=null&&json.amount_2!='0.00'){
-            		$("#amount_2").html(formatCurrency(json.amount_2));
+            		$("#amount_2").html(formatCurrency(json.amount_2)+"&nbsp&nbsp");
             		$("#receivingOrApprovalDate_2").html(json.receivingOrApprovalDate_2);
                 	$("#PONo_2").html(json.PONo_2);
                 	$("#currency_2").html(json.currency_2);
@@ -130,7 +129,7 @@ function dataToFace(){
 
             	
             	if(json.amount_3!=''&&json.amount_3!=null&&json.amount_3!='0.00'){
-            		$("#amount_3").html(formatCurrency(json.amount_3));
+            		$("#amount_3").html(formatCurrency(json.amount_3)+"&nbsp&nbsp");
             		$("#receivingOrApprovalDate_3").html(json.receivingOrApprovalDate_3);
                 	$("#PONo_3").html(json.PONo_3);
                 	$("#currency_3").html(json.currency_3);
@@ -138,7 +137,7 @@ function dataToFace(){
             		
             	
             	if(json.amount_4!=''&& json.amount_4==null&&json.amount_4!='0.00'){
-            		$("#amount_4").html(formatCurrency(json.amount_4));
+            		$("#amount_4").html(formatCurrency(json.amount_4)+"&nbsp&nbsp");
             		$("#receivingOrApprovalDate_4").html(json.receivingOrApprovalDate_4);
                 	$("#PONo_4").html(json.PONo_4);
                 	$("#currency_4").html(json.currency_4);
@@ -146,7 +145,7 @@ function dataToFace(){
             		
             	
             	if(json.amount_5!=''&& json.amount_5!=null&&json.amount_5!='0.00'){
-            		$("#amount_5").html(formatCurrency(json.amount_5));
+            		$("#amount_5").html(formatCurrency(json.amount_5)+"&nbsp&nbsp");
             		$("#receivingOrApprovalDate_5").html(json.receivingOrApprovalDate_5);
                 	$("#PONo_5").html(json.PONo_5);
                 	$("#currency_5").html(json.currency_5);
@@ -154,7 +153,7 @@ function dataToFace(){
             		
             	
             	if(json.amount_6!=''&& json.amount_6!=null&&json.amount_6!='0.00'){
-            		$("#amount_6").html(formatCurrency(json.amount_6));
+            		$("#amount_6").html(formatCurrency(json.amount_6)+"&nbsp&nbsp");
             		$("#receivingOrApprovalDate_6").html(json.receivingOrApprovalDate_6);
                 	$("#PONo_6").html(json.PONo_6);
                 	$("#currency_6").html(json.currency_6);
@@ -203,11 +202,12 @@ function dataToFace(){
 				</tr>
 				<tr>
 					<td colspan="2" align="right" style="">
-						<p style="font-size:10px" align="right">Urgent:</p>
+						<label style="font-size:10px">Urgent:</label>
 					</td>
-					<td align="center" width="40px" align="left"><label id="urgent"></label></td>
+					<td align="center" width="20px" style="text-align: left;">&nbsp&nbsp&nbsp<label id="urgent" ></label></td>
 				</tr>
 			</table>		
+			
 			<table style="font-size:10px;">
 				<tr>
 					<td width="160px" ><label>Application Date(申请日期):</label></td>
@@ -233,7 +233,7 @@ function dataToFace(){
 				</tr>
 			</table>            
 			
-			<table width="1200px" border="1" cellspacing="0" bordercolor="black" style="font-size:10px;">
+			<table width="1200px" border="2" cellspacing="1" bordercolor="black" style="font-size:10px;">
 				<tr>
 					<th width="30px"></th>
 					<th width="140px"></th>
@@ -302,7 +302,7 @@ function dataToFace(){
 					<td><label id="receivingOrApprovalDate_1"></label></td>
 					<td><label id="PONo_1"></label></td>
 					<td><label id="currency_1"></label></td>
-					<td><label id="amount_1"></label></td>
+					<td style="text-align: right"><label id="amount_1"></label></td>
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_2"></label></td>
@@ -312,7 +312,7 @@ function dataToFace(){
 					<td><label id="receivingOrApprovalDate_2"></label></td>
 					<td><label id="PONo_2"></label></td>
 					<td><label id="currency_2"></label></td>
-					<td><label id="amount_2"></label></td>
+					<td style="text-align: right"><label id="amount_2"></label></td>
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_3"></label></td>
@@ -322,7 +322,7 @@ function dataToFace(){
 					<td><label id="receivingOrApprovalDate_3"></label></td>
 					<td><label id="PONo_3"></label></td>
 					<td><label id="currency_3"></label></td>
-					<td><label id="amount_3"></label></td>
+					<td style="text-align: right"><label id="amount_3"></label></td>
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_4"></label></td>
@@ -332,7 +332,7 @@ function dataToFace(){
 					<td><label id="receivingOrApprovalDate_4"></label></td>
 					<td><label id="PONo_4"></label></td>
 					<td><label id="currency_4"></label></td>
-					<td><label id="amount_4"></label></td>
+					<td style="text-align: right"><label id="amount_4"></label></td>
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_5"></label></td>
@@ -342,7 +342,7 @@ function dataToFace(){
 					<td><label id="receivingOrApprovalDate_5"></label></td>
 					<td><label id="PONo_5"></label></td>
 					<td><label id="currency_5"></label></td>
-					<td><label id="amount_5"></label></td>
+					<td style="text-align: right"><label id="amount_5"></label></td>
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_6"></label></td>
@@ -352,7 +352,7 @@ function dataToFace(){
 					<td><label id="receivingOrApprovalDate_6"></label></td>
 					<td><label id="PONo_6"></label></td>
 					<td><label id="currency_6"></label></td>
-					<td><label id="amount_6"></label></td>
+					<td style="text-align: right"><label id="amount_6"></label></td>
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_7"></label></td>

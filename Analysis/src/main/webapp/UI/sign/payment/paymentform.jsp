@@ -5,12 +5,10 @@
 $(function(){
 	var today = new Date().formatDate('yyyy-MM-dd');
 	$.CurrentNavtab.find('#j_payment_applicationDate').val(today);
-	$.CurrentNavtab.find('#j_payment_requestPaymentDate').val(today);
-	$.CurrentNavtab.find('#j_payment_contacturalPaymentDate').val(today);
 	
 	
 	
-	$.CurrentNavtab.find('#upfile_invoice').uploadify({
+	/* $.CurrentNavtab.find('#upfile_invoice').uploadify({
 	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
 	        uploader      : 'savefile.action',
 	        width         : 120,
@@ -53,7 +51,7 @@ $(function(){
 
 	        	
 	        }
-	    }); 
+	    });  */
 
 
 	//初始化全部缩进
@@ -127,8 +125,11 @@ $(function(){
 
 })
 
-function checkForm(){
-	
+function checkForm(i){
+	if(i='save'){
+		
+		
+	}
 }
 
 
@@ -240,7 +241,7 @@ function changePaymentTerm(){
 	}else{
 		for (var i=1;i<7;i++){
 			$.CurrentNavtab.find('#j_payment_paymentDays_'+i).find('option').remove().selectpicker('refresh');
-			$.CurrentNavtab.find('#j_payment_paymentDays_'+i).append("<option value=''></option>").append("<option value='30'>30Days</option>").append("<option value='45'>45Days</option>").append("<option value='60'>60Days</option>").append("<option value='90'>90Days</option>").append("<option value='120'>120Days</option>").selectpicker('refresh');
+			$.CurrentNavtab.find('#j_payment_paymentDays_'+i).append("<option value=''></option>").append("<option value='30Days'>30Days</option>").append("<option value='45Days'>45Days</option>").append("<option value='60Days'>60Days</option>").append("<option value='90Days'>90Days</option>").append("<option value='120Days'>120Days</option>").selectpicker('refresh');
 		}		
 	}	
 }
@@ -694,7 +695,6 @@ function dataToFace(){
 
 function faceToDate(){
 	var o=$.CurrentNavtab.find("#j_payment_form").serializeJson();
-	o.beneficiary=$.CurrentNavtab.find('#j_payment_beneficiary').find("option:selected").text();
 	o.UID='${user.uid}';
 	o.UName='${user.name}';
 	o.departmentName='${user.department.name}';
@@ -850,7 +850,7 @@ function checkSupplierCode(o){
 			<table class="table" style="font-size:12px;">
 				<tr>
 					<td width="250px">Application Date<br>（申请日期）</td>
-					<td width="250px"><input type="text" size="19" name="applicationDate" data-nobtn="true" id="j_payment_applicationDate" value="" data-toggle="datepicker" data-rule="required;date" readonly=""></td>
+					<td width="250px"><input type="text" size="19" name="applicationDate" data-nobtn="true" id="j_payment_applicationDate" value=""  readonly="" ></td>
 					<td width="250px">Request Payment Date<br>(要求付款日期）</td>
 					<td width="250px"><input type="text" size="19" name="requestPaymentDate" data-nobtn="true" id="j_payment_requestPaymentDate" value="" data-toggle="datepicker" data-rule="required;date"></td>					
 				</tr>

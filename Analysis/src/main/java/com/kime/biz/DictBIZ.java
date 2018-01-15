@@ -24,5 +24,5 @@ public interface DictBIZ {
 	public void update(Dict dict);
 	
 	public void delete(Dict dict);
-	
+
 }

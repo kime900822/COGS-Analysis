@@ -31,6 +31,8 @@ public class DictBIZImpl implements DictBIZ {
 		return dictDao.query(" where type='SIGN_TYPE' ");
 	}
 
+
+	
 	@Override
 	public List<Dict> getAllType() {
 		// TODO Auto-generated method stub

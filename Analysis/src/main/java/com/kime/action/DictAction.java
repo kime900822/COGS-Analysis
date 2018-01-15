@@ -228,10 +228,84 @@ public class DictAction extends ActionBase{
 	}
 	
 	
+	@Action(value="getSignMan4Management",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String getSignMan4Management() throws UnsupportedEncodingException{
+	
+	
+		String where=" where type='SignMan4Manager'  ";
+		List<Dict> list=dictBIZ.getDict(where, Integer.parseInt(pageSize),Integer.parseInt(pageCurrent));
+		int total=dictBIZ.getDict(where).size();
+		
+		
+		queryResult.setList(list);
+		queryResult.setTotalRow(total);
+		queryResult.setFirstPage(Integer.parseInt(pageCurrent)==1?true:false);
+		queryResult.setPageNumber(Integer.parseInt(pageCurrent));
+		queryResult.setLastPage(total/Integer.parseInt(pageSize) +1==Integer.parseInt(pageCurrent)&&Integer.parseInt(pageCurrent)!=1?true:false);
+		queryResult.setTotalPage(total/Integer.parseInt(pageSize) +1);
+		queryResult.setPageSize(Integer.parseInt(pageSize));
+		String r=callback+"("+new Gson().toJson(queryResult)+")";
+		
+		reslutJson=new ByteArrayInputStream(r.getBytes("UTF-8"));  
+		
+		return SUCCESS;
+	}
 	
 
 	
-	
+	@Action(value="modeSignMan4Management",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String modeSignMan4Management() throws UnsupportedEncodingException{
+		Dict dict=new Dict();
+		dict.setKey(key);
+		dict.setType(type);
+		dict.setValue(value);
+		boolean t=true;
+		try {
+			if ("".equals(id)||id==null) {
+				if (dictBIZ.getDict(" where type='"+dict.getType()+"' and key='"+dict.getKey()+"'").size()==1) {
+					logUtil.logInfo("新增字典:已存在相同type和相同key的记录：");
+					result.setMessage(Message.SAVE_MESSAGE_ERROR_DICT);
+					result.setStatusCode("300");
+					t=false;
+				}else{
+					dictBIZ.save(dict);
+					logUtil.logInfo("新增字典:"+dict.getType()+" "+dict.getKey());
+					result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
+					result.setStatusCode("200");
+				}
+				
+			}else{
+				dictBIZ.update(dict);
+				logUtil.logInfo("修改字典:"+dict.getType()+" "+dict.getKey());
+				result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
+				result.setStatusCode("200");
+			}
+			
+			
+		} catch (Exception e) {
+			logUtil.logInfo("修改字典:"+e.getMessage());
+			result.setMessage(e.getMessage());
+			result.setStatusCode("300");	
+			t=false;
+		}
+
+		if (t) {
+			String r = callback + "(" + new Gson().toJson(dict) + ")";
+			reslutJson = new ByteArrayInputStream(r.getBytes("UTF-8"));
+		}else{
+			reslutJson = new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8"));
+		}	
+
+
+		return SUCCESS;
+		
+	}
 	
 	
 	
