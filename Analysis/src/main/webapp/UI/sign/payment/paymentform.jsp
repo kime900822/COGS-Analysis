@@ -53,7 +53,7 @@ $(function(){
 
 	        	
 	        }
-	    });
+	    }); 
 
 
 	//初始化全部缩进
@@ -850,7 +850,7 @@ function checkSupplierCode(o){
 			<table class="table" style="font-size:12px;">
 				<tr>
 					<td width="250px">Application Date<br>（申请日期）</td>
-					<td width="250px"><input type="text" size="19" name="applicationDate" data-nobtn="true" id="j_payment_applicationDate" value="" data-toggle="datepicker" data-rule="required;date"></td>
+					<td width="250px"><input type="text" size="19" name="applicationDate" data-nobtn="true" id="j_payment_applicationDate" value="" data-toggle="datepicker" data-rule="required;date" readonly=""></td>
 					<td width="250px">Request Payment Date<br>(要求付款日期）</td>
 					<td width="250px"><input type="text" size="19" name="requestPaymentDate" data-nobtn="true" id="j_payment_requestPaymentDate" value="" data-toggle="datepicker" data-rule="required;date"></td>					
 				</tr>
