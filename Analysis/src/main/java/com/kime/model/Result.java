@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 public class Result implements Serializable {
 	private String statusCode;
 	private String message;
-	private Map<String,String> params;
+	private Map params;
 	
 	
 
-	public Map<String, String> getParams() {
+	public Map getParams() {
 		return params;
 	}
-	public void setParams(Map<String, String> params) {
+	public void setParams(Map params) {
 		this.params = params;
 	}
 	public String getStatusCode() {

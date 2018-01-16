@@ -74,7 +74,7 @@ function datagrid_paymentState() {
         		<span>DepermentID：</span>
         		</td>
         		<td>
-            	<input type="text" name="deptManagerID" class="form-control" size="15" data-rule="number" >
+            	<input type="text" name="departmentID" class="form-control" size="15" data-rule="number" >
         		</td>
         		<td colspan="2" align="center">
         		<div class="btn-group">

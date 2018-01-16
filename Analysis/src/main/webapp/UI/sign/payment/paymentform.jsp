@@ -5,54 +5,16 @@
 $(function(){
 	var today = new Date().formatDate('yyyy-MM-dd');
 	$.CurrentNavtab.find('#j_payment_applicationDate').val(today);
-	
-	
-	
-	$.CurrentNavtab.find('#upfile_invoice').uploadify({
-	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
-	        uploader      : 'savefile.action',
-	        width         : 120,
-	        onUploadSuccess:function(file, data, response){
-	        	if(data.statusCode='200'){
-	        		$.CurrentNavtab.find('#upfile_invoice_list').append(fileToTr(file.name,file.name));	    
-	        	}else{
-	        		BJUI.alertmsg('error', data.message); 
-	        	}
-	        	    	
-	        }
-	    });
-	 
-	$.CurrentNavtab.find('#upfile_contract').uploadify({
-	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
-	        uploader      : 'savefile.action',
-	        width         : 120,
-	        onUploadSuccess:function(file, data, response){
-	        	if(data.statusCode='200'){
-	        		$.CurrentNavtab.find('#upfile_contract_list').append(fileToTr(file.name,file.name));
-	        	}else{
-	        		BJUI.alertmsg('error', data.message); 
-	        	}
 
-	        	
-	        }
-	    });
-
-	 
-	$.CurrentNavtab.find('#upfile_other').uploadify({
-	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
-	        uploader      : 'savefile.action',
-	        width         : 120,
-	        onUploadSuccess:function(file, data, response){
-	        	if(data.statusCode='200'){
-	        		$.CurrentNavtab.find('#upfile_other_list').append(fileToTr(file.name,file.name));	
-	        	}else{
-	        		BJUI.alertmsg('error', data.message); 
-	        	}
-
-	        	
-	        }
-	    }); 
-
+	$.CurrentNavtab.find("#upfile_invoice").click(function () {
+        ajaxFileUpload('file1','upfile_invoice_list');
+    })
+	$.CurrentNavtab.find("#upfile_contract").click(function () {
+        ajaxFileUpload('file2','upfile_contract_list');
+    })
+	$.CurrentNavtab.find("#upfile_other").click(function () {
+        ajaxFileUpload('file3','upfile_other_list');
+    })
 
 	//初始化全部缩进
 	$.CurrentNavtab.find('tr.table-parent').each(
@@ -369,7 +331,7 @@ function listToString(id){
 	var s="";
 	$.each(tr,function(i,n){
 		if(i>0){
-			s=s+$.CurrentNavtab.find(n).children().eq(0).children().html()+"|";		
+			s=s+$.CurrentNavtab.find(n).children().eq(0).children().attr('url')+"|";		
 		}
 	})
 	return s;
@@ -377,7 +339,7 @@ function listToString(id){
 
 
 function fileToTr(name,path){
-	return "<tr><td align='center'><a onclick=\"getFile('"+path.replace('\\','\\\\')+"')\">"+name+"</></td><td align='center'><a onclick='deleteFile(this)'>Delete</a></td></tr>"
+	return "<tr><td align='center'><a onclick=\"getFile('"+path.replace('\\','\\\\')+"') url="+path.replace('\\','\\\\')+" \">"+name+"</></td><td align='center'><a onclick='deleteFile(this)'>Delete</a></td></tr>"
 }
 
 
@@ -654,7 +616,7 @@ function dataToFace(){
             		var file=json.file_invoice.split('|');
             		$.each(file,function(i,n){
             			var filename=n.split('/')[1];
-            			if(filename!=undefined){
+            			if(filename!=undefined){         				
             				$.CurrentNavtab.find('#upfile_invoice_list').append(fileToTr(filename,n));	   
             			}
             		})
@@ -837,6 +799,43 @@ function checkSupplierCode(o){
     	});	  	
     }    
 };
+
+
+function ajaxFileUpload(id,tid) {
+	if($.CurrentNavtab.find("#"+id).val()==""||$.CurrentNavtab.find("#"+id).val()==null||$.CurrentNavtab.find("#"+id).val()==undefined){
+		BJUI.alertmsg('error', "Choice file"); 
+		return false;	
+	}else{
+	    $.ajaxFileUpload
+	    (
+	        {
+	            url: 'savefile.action', //用于文件上传的服务器端请求地址
+	            secureuri: false, //是否需要安全协议，一般设置为false
+	            fileElementId: id, //文件上传域的ID
+	            dataType: 'json', //返回值类型 一般设置为json
+	            success: function (data, status)  //服务器成功响应处理函数
+	            {
+	                if(data.statusCode=='200'){	                      	
+	                	$.each(data.params.url,function(i,n){               		
+	                		var filename=n.split('/')[1];
+	                		$.CurrentNavtab.find("#"+tid).append(fileToTr(filename,n))
+	                	})                	
+	                	BJUI.alertmsg('info', data.message); 
+	                }else{              	
+	                	BJUI.alertmsg('error', data.message); 
+	                }
+	            },
+	            error: function (data, status, e)//服务器响应失败处理函数
+	            {
+	            	BJUI.alertmsg('error', e); 
+	            }
+	        }
+	    )
+	    return false;		
+	}
+
+}
+
 
 </script>
 <div class="bjui-pageContent">
@@ -1362,7 +1361,8 @@ function checkSupplierCode(o){
 						Attachment1 Invoice （附件：发票）
 					</td>
 					<td>
-						<input type="button" id="upfile_invoice" />
+						<input type="file" id="file1" name="file" />
+    					<input type="button" value="上传" id="upfile_invoice" />
 					</td>
 					<td colspan="2" >
 						<table class="table" id="upfile_invoice_list" >	
@@ -1378,7 +1378,8 @@ function checkSupplierCode(o){
 						Attachment2 Contract （附件：合同）
 					</td>
 					<td>
-						<input type="button" id="upfile_contract" />
+						<input type="file" id="file2" name="file" />
+    					<input type="button" value="上传" id="upfile_contract" />
 					</td>
 					<td	colspan="2">
 						<table class="table" id="upfile_contract_list" >	
@@ -1394,7 +1395,8 @@ function checkSupplierCode(o){
 						Attachment3 Other （附件：其他）
 					</td>
 					<td>
-						<input type="button" id="upfile_other" />
+						<input type="file" id="file3" name="file" />
+    					<input type="button" value="上传" id="upfile_other" />
 					</td>
 					<td colspan="2">
 						<table class="table" id="upfile_other_list" >	

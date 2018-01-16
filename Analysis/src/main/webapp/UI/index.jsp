@@ -76,7 +76,16 @@
 <script src="B-JUI/plugins/download/jquery.fileDownload.js"></script>
 <!-- util -->
 <script src="B-JUI/js/util.js"></script>
+<script src="B-JUI/js/ajaxfileupload.js"></script>
 <!-- init -->
+<style type="text/css">
+.bar {
+    height: 18px;
+    background: green;
+}
+</style>
+
+
 <script type="text/javascript">
 $(function() {
     BJUI.init({
@@ -176,7 +185,7 @@ function bjui_index_exchange() {
                 <ul class="nav navbar-nav navbar-right">
                     <li class="datetime"><a><span id="bjui-date">0000/00/00</span> <span id="bjui-clock">00:00:00</span></a></li>
                     <li><a href="changepassword.jsp" data-toggle="dialog" data-id="sys_user_changepass" data-mask="true" data-width="500" data-height="300">UserName：${user.name}</a></li>
-                    <li><a href="#">Department：${user.role.name}</a></li>
+                    <li><a href="#">Department：${user.department.name}</a></li>
                     <li><a href="logout.action" style="font-weight:bold;">&nbsp;<i class="fa fa-power-off"></i> Logout</a></li>
                     <li class="dropdown active"><a href="#" class="dropdown-toggle theme" data-toggle="dropdown" title="Change Skin"><i class="fa fa-tree"></i></a>
                         <ul class="dropdown-menu" role="menu" id="bjui-themes">

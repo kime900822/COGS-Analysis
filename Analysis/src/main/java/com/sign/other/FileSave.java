@@ -6,7 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,28 +33,28 @@ public class FileSave {
 
 
 
-	public String fileSave(File upfile,String filename){
+	public List<String> fileSave(File[] upfile,String[] filename){
 		String filepath=judeDirExists();
-
+		List<String> list=new ArrayList<>();
+		for (int i = 0; i < upfile.length; i++) {
 			if (filepath!=null) {
-				File file=new File(filepath+"/"+filename);
+				File file=new File(filepath+"/"+filename[i]);
 		        if (file.exists()) {
-		        	return null;
+		        	list.add("File Exists");
 		        } else {
-		        	if (upfile.renameTo(file)) {
+		        	if (upfile[i].renameTo(file)) {
 		        		logUtil.logInfo("上传文件:"+file.getPath());
-		        		return file.getPath();
-					}else{
-						return null;				
+		        		list.add(getFilePath(file.getName()));
 					}
 		        	
 		        }
 			}else{
-				return null;
+				list.add("Filepath Error");
 			}
+		}
+		return list;
 
-			
-		
+	
         
 		
 		

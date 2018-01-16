@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,9 +45,12 @@ public class PaymentAction extends ActionBase {
     @Autowired
     private DictBIZ dictBIZ;
 	
-	private File Filedata;
-	private String Filename;
+	private File[] file;
+	private String[] fileFileName;
 	private String dfile;
+
+
+
 
 	public String getDfile() {
 		return dfile;
@@ -54,17 +58,14 @@ public class PaymentAction extends ActionBase {
 	public void setDfile(String dfile) {
 		this.dfile = dfile;
 	}
-	public String getFilename() {
-		return Filename;
+	public String[] getFileFileName() {
+		return fileFileName;
 	}
-	public void setFilename(String filename) {
-		Filename = filename;
+	public void setFileFileName(String[] fileFileName) {
+		this.fileFileName = fileFileName;
 	}
-	public File getFiledata() {
-		return Filedata;
-	}
-	public void setFiledata(File filedata) {
-		Filedata = filedata;
+	public void setFile(File[] file) {
+		this.file = file;
 	}
 	public DictBIZ getDictBIZ() {
 		return dictBIZ;
@@ -583,13 +584,17 @@ public class PaymentAction extends ActionBase {
 			})})
     public String savefile() throws FileNotFoundException, IOException{
         try {
-	    	if (Filedata!=null) {
-	    		String path=fileSave.fileSave(Filedata, Filename);
-	            if (path!=null) {
+        	List<String> list=new ArrayList<>();
+	    	if (file!=null) {
+	    		list=fileSave.fileSave(file, fileFileName);
+	            if (!list.get(0).equals("File Exists")&&!list.get(0).equals("Filepath Error")) {
 	            	result.setMessage("upload Success!");
 					result.setStatusCode("200");
+					Map<String, List<String>> params=new HashMap<>();
+					params.put("url", list);
+					result.setParams(params);
 				}else{			
-					result.setMessage(Message.UPLOAD_MESSAGE_ERROE);
+					result.setMessage(list.get(0));
 					result.setStatusCode("300");	
 				}
 			}else{
@@ -616,11 +621,7 @@ public class PaymentAction extends ActionBase {
         try {
 	    	if (dfile!=null) {   
 	    		String[] f=dfile.split("/");
-	    		if (f.length>1 ) {
-	    			fileName=f[f.length-1];
-	    		}else{
-	    			fileName=dfile;
-	    		}
+	    		fileName=f[f.length-1];
 	    		byte[] file=fileSave.getFile(dfile);    		
 	    		ByteArrayInputStream is = new ByteArrayInputStream(file);    		
 	    		reslutJson = is; 	
@@ -938,7 +939,6 @@ public class PaymentAction extends ActionBase {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setState(PaymentState.SAVEPAYMENT);
 			payment.setDeptManager("");
-			payment.setDeptManagerID("");
 			payment.setDocumentAuditID("");
 			payment.setDocumentAudit("");
 			
