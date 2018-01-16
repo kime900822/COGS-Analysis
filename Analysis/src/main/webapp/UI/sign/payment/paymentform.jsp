@@ -326,12 +326,29 @@ function getFile(path){
 	
 }
 
+function deleteFile(path,o){
+	BJUI.ajax('doajax', {
+	    url:'deleteFile.action',
+	    data:{dfile:path},
+	    okCallback: function(json, options) {
+            if(json.status='200'){
+            	 BJUI.alertmsg('info', json.message); 
+            	$.CurrentNavtab.find(o).parent().parent().remove();	
+        		
+            }else{
+            	 BJUI.alertmsg('error', json.message); 
+            }
+	    }
+	})
+	
+}
+
 function listToString(id){
 	var tr=$.CurrentNavtab.find(id).find('tr');
 	var s="";
 	$.each(tr,function(i,n){
 		if(i>0){
-			s=s+$.CurrentNavtab.find(n).children().eq(0).children().attr('url')+"|";		
+			s=s+$.CurrentNavtab.find(n).children().eq(0).find('a').attr('url')+"|";		
 		}
 	})
 	return s;
@@ -339,7 +356,7 @@ function listToString(id){
 
 
 function fileToTr(name,path){
-	return "<tr><td align='center'><a onclick=\"getFile('"+path.replace('\\','\\\\')+"') url="+path.replace('\\','\\\\')+" \">"+name+"</></td><td align='center'><a onclick='deleteFile(this)'>Delete</a></td></tr>"
+	return "<tr><td align='center'><a onclick=\"getFile('"+path.replace('\\','\\\\')+"')\" url='"+path.replace('\\','\\\\')+ "' >"+name+"</></td><td align='center'><a onclick=\"deleteFile('"+path.replace('\\','\\\\')+"',this)\" >Delete</a></td></tr>"
 }
 
 

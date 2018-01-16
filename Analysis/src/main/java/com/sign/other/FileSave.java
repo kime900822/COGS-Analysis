@@ -60,18 +60,24 @@ public class FileSave {
 		
 	}
 	
+	public String fileDelete(String fileName){
+		try {
+			File file=new File(getFilePathDown(fileName));
+			if (file.delete()) {
+				return "1";
+			}else{
+				return "Delete field";
+			}
+		} catch (Exception e) {
+			return e.getMessage();
+		}
+		
+	}
+	
 	
 	public byte[] getFile(String fileName){
-		String filepath=judeDirExists();
-			if (filepath!=null) {
-				if (fileName.split("/").length>1 ) {
-					return getBytes(getFilePathDown(fileName));		
-				}else{
-					return getBytes(filepath+"/"+fileName);	
-				}				
-			}else{
-				return null;
-			}
+		return getBytes(getFilePathDown(fileName));		
+
 	}
 	
     private byte[] getBytes(String filePath){  

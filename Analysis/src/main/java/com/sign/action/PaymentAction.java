@@ -638,6 +638,40 @@ public class PaymentAction extends ActionBase {
     	return SUCCESS;
     }
 	
+	
+	
+	@Action(value="deleteFile",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson",
+					"contentType","application/octet-stream",
+					"contentDisposition","attachment;filename=%{fileName}",
+					"bufferSize","1024"
+			})})
+    public String deleteFile() throws FileNotFoundException, IOException{
+        try {
+	    	if (dfile!=null) {   
+	    		String r=fileSave.fileDelete(dfile);	
+	    		if (r.equals("1")) {
+	    			result.setMessage("Delete Success!");
+					result.setStatusCode("200");
+				}else{
+					result.setMessage(r);
+					result.setStatusCode("300");
+				}
+			}else{
+				result.setMessage("No File");
+				result.setStatusCode("300");
+		        
+			}
+		} catch (Exception e) {
+			result.setMessage(e.getMessage());
+			result.setStatusCode("300");
+	        reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8"));  
+		}
+        reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8"));  
+    	return SUCCESS;
+    }
+	
 	@Action(value="savePayment",results={@org.apache.struts2.convention.annotation.Result(type="stream",
 			params={
 					"inputName", "reslutJson"
@@ -680,13 +714,13 @@ public class PaymentAction extends ActionBase {
 				logUtil.logInfo("更新付款申请单:"+payment.getId());			
 			}else{
 				if (file_invoice!=null&&!"".equals(file_invoice)) {
-					payment.setFile_invoice(fileSave.getFilePath(file_invoice));
+					payment.setFile_invoice(file_invoice);
 				}
 				if (file_contract!=null&&!"".equals(file_contract)) {
-					payment.setFile_contract(fileSave.getFilePath(file_contract));
+					payment.setFile_contract(file_contract);
 				}
 				if (file_other!=null&&!"".equals(file_other)) {
-					payment.setFile_other(fileSave.getFilePath(file_other));
+					payment.setFile_other(file_other);
 				}
 				payment.setState(PaymentState.SAVEPAYMENT);
 				payment.setId(UUID.randomUUID().toString().replaceAll("-", ""));
