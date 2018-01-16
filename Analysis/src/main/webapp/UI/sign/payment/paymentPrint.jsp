@@ -2,31 +2,12 @@
     pageEncoding="UTF-8"%>
     
     
-    
-<!-- bootstrap - css -->
-<link href="../../B-JUI/themes/css/bootstrap.css" rel="stylesheet">
-<!-- core - css -->
-<link href="../../B-JUI/themes/css/style.css" rel="stylesheet">
-<link href="../../B-JUI/themes/blue/core.css" id="bjui-link-theme" rel="stylesheet">
-<link href="../../B-JUI/themes/css/fontsize.css" id="bjui-link-theme" rel="stylesheet">
+  
 
-<!--[if lte IE 7]>
-<link href="../../B-JUI/themes/css/ie7.css" rel="stylesheet">
-<![endif]-->
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lte IE 9]>
-    <script src="../../B-JUI/other/html5shiv.min.js"></script>
-    <script src="../../B-JUI/other/respond.min.js"></script>
-<![endif]-->
-<!-- jquery -->
+
+
 <script src="../../B-JUI/js/jquery-1.11.3.min.js"></script>
 <script src="../../B-JUI/js/jquery.cookie.js"></script>
-<!--[if lte IE 9]>
-<script src="../../B-JUI/other/jquery.iframe-transport.js"></script>
-<![endif]-->
-<!-- ../../B-JUI -->
-<%-- <script src="../../B-JUI/js/bjui-all.min.js"></script> --%>
-<script src="../../B-JUI/js/bjui-all.js"></script>
 
 <!-- util -->
 <script src="../../B-JUI/js/util.js"></script>
@@ -43,6 +24,9 @@ tr { font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑
 .bg { background:#B7DEE8 }
 .Beneficiarychange{background-color: #9ACD32}
 .BeneficiaryIDchange{background-color: #EEC900}
+
+
+
 </style>
 
 <script type="text/javascript">
@@ -196,8 +180,8 @@ function dataToFace(){
 				</tr>
 				<tr>
 					<td width="200px" align="left"><img  style="width:300px;height:50px;" alt="payment" src="../../images/printLogo.png"></td>
-					<td colspan="2"  align="center"><h4 align="center" style="font-weight:bold">Cimtas(NingBo) Steel Processing CO.,LTD 庆达西（宁波）钢构制造有限公司</h4>
-					<h5 align="center" style="font-weight:bold">Paymengt Application Form 付款申请单</h5>
+					<td colspan="2"  align="center"><h1 align="left" style="font-weight:bold">Cimtas(NingBo) Steel Processing CO.,LTD 庆达西（宁波）钢构制造有限公司</h1>
+					<h2 align="center" style="font-weight:bold">Paymengt Application Form 付款申请单</h2>
 					</td>
 				</tr>
 				<tr>
@@ -233,32 +217,32 @@ function dataToFace(){
 				</tr>
 			</table>            
 			
-			<table width="1200px" border="2" cellspacing="1" bordercolor="black" style="font-size:10px;">
-				<tr>
-					<th width="30px"></th>
-					<th width="140px"></th>
-					<th width="50px"></th>
-					<th width="120px"></th>
-					<th width="100px"></th>
-					<th width="50px"></th>
-					<th width="60px"></th>
-					<th width="110px"></th>
-					<th width="100px"></th>
-					<th width="160px"></th>
-					<th width="50px"></th>
-					<th width="130px"></th>
-					<th width="100px"></th>
+			<table width="1200px" border="1" cellspacing="0" border-bottom="0px" bordercolor="black" style="font-size:10px;">
+				<tr style="display:none">
+					<td width="30px" style="height:0px;line-height:0px;font-size:0px;"></td>
+					<td width="140px"></td>
+					<td width="50px"></td>
+					<td width="120px"></td>
+					<td width="100px"></td>
+					<td width="50px"></td>
+					<td width="60px"></td>
+					<td width="110px"></td>
+					<td width="100px"></td>
+					<td width="160px"></td>
+					<td width="50px"></td>
+					<td width="130px"></td>
+					<td width="100px"></td>
 				</tr>
 				<tr height="20px">
 					<td colspan="2" rowspan="2" class="bg">&nbsp申请人:<br>&nbspApplication:</td>
-					<td colspan="2" rowspan="2" style="text-align:center;border-bottom:0px" ><label id="UID"></label></td>
+					<td colspan="2" rowspan="2" style="text-align:center;" ><label id="UID"></label></td>
 					<td colspan="4" rowspan="2" class="bg">&nbsp收款人（全称）:<br>&nbspBeneficiary:</td>
 					<td colspan="2" rowspan="2"  id="beneficiary_td">
 						<label id="beneficiary"></label>
                     </td>
-					<td align="center" style="text-align:center;" class="bg">change<br/>变更</td>
-					<td rowspan="2" style="text-align:center;" class="bg">供应商代码:<br/>Supplier Code:</td>
-					<td rowspan="2" style="text-align:center"><label id="supplierCode"></label> </td>
+					<td width="50px" align="center" style="text-align:center;" class="bg">change<br/>变更</td>
+					<td width="130px" rowspan="2" style="text-align:center;" class="bg">供应商代码:<br/>Supplier Code:</td>
+					<td width="100px" rowspan="2" style="text-align:center"><label id="supplierCode"></label> </td>
 				</tr>
 				<tr height="20px">
 					<td style="text-align:center">
@@ -284,25 +268,25 @@ function dataToFace(){
 				<tr height="20px">
 					<td colspan="2" align="center" class="bg">付款项目<br/>Payment Subject</td>
 					<td colspan="2" align="center" class="bg">结算期 <br/>Payment Term</td>
-					<td align="center" class="bg" >收货或验收日期<br/>Receiving or Approval date</td>
-					<td align="center" class="bg" >订单号<br/>PO No.</td>
-					<td align="center" class="bg">币别<br/>Currency</td>
-					<td align="center" class="bg">金额<br/>Amount</td>
-					<td rowspan="8" align="center"  >支付用途<br/>Usage<br/>Description</td>
+					<td width="100px" align="center" class="bg" >收货或验收日期<br/>Receiving or Approval date</td>
+					<td width="50px" align="center" class="bg" >订单号<br/>PO No.</td>
+					<td width="60px" align="center" class="bg">币别<br/>Currency</td>
+					<td width="110px" align="center" class="bg">金额<br/>Amount</td>
+					<td width="100px" rowspan="8" align="center"  >支付用途<br/>Usage<br/>Description</td>
 					<td colspan="4" rowspan="8"><label id="usageDescription"></label></td>
 				</tr>
 				
 				
 				
 				<tr  align="center">
-					<td align="center"><label id="paymentSubject_1"></label></td>
-					<td align="left">&nbsp Fixed Asset 固定资产</td>
-					<td><label id="paymentDays_1"></label></td>
-					<td align="right">Advance &nbsp<br/>预付款 &nbsp</td>
-					<td><label id="receivingOrApprovalDate_1"></label></td>
-					<td><label id="PONo_1"></label></td>
-					<td><label id="currency_1"></label></td>
-					<td style="text-align: right"><label id="amount_1"></label></td>
+					<td width="30px" align="center"><label id="paymentSubject_1"></label></td>
+					<td width="140px" align="left">&nbsp Fixed Asset 固定资产</td>
+					<td width="50px" ><label id="paymentDays_1"></label></td>
+					<td width="120px" align="right">Advance &nbsp<br/>预付款 &nbsp</td>
+					<td width="100px" ><label id="receivingOrApprovalDate_1"></label></td>
+					<td width="50px" ><label id="PONo_1"></label></td>
+					<td width="60px" ><label id="currency_1"></label></td>
+					<td width="110px" style="text-align: right"><label id="amount_1"></label></td>
 				</tr>	
 				<tr align="center">
 					<td align="center"><label id="paymentSubject_2"></label></td>
@@ -377,7 +361,7 @@ function dataToFace(){
 			</table>
 			<table width="1200px" style="font-size:10px">
 				<tr >
-					<td width="25%" height="40px">General Manager:<br/>总经理</td>
+					<td width="25%" height="160px">General Manager:<br/>总经理</td>
 					<td width="25%">Finance Manager:<br/>财务经理</td>
 					<td width="25%">Finance Supervisor:<br/>财务主管</td>
 					<td width="10%">Dept. Manager:<br/>部门经理</td>		
