@@ -1006,15 +1006,15 @@ public class PaymentAction extends ActionBase {
 			where += " AND P.urgent = '"+urgent+"'";
 		}
 		if (!"".equals(UID)&&UID!=null) {
-			where += " AND UID='"+UID+"'";
+			where += " AND P.UID='"+UID+"'";
 		}
 		if (!"".equals(departmentID)&&departmentID!=null) {
-			where += " AND departmentID='"+departmentID+"'";
+			where += " AND P.departmentID='"+departmentID+"'";
 		}
 		
 			
 		if ("all".equals(queryType)) {
-			hql="  select P from Payment P,User U where P.UID=U.uid "+where+" AND U.did='"+user.getDid()+"' order By P.dateTemp desc";
+			hql="  select P from Payment P WHERE P.departmentID='"+user.getDid()+"' "+where+" order By P.dateTemp desc";
 		}
 		if ("acc".equals(queryType)) {
 			hql="  select  P from Payment P where (P.state='2' or P.state='4') AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";

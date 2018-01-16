@@ -246,15 +246,11 @@ function bjui_index_exchange() {
                 </ul>
                 <div class="navtab-panel tabsPageContent">
                     <div class="navtabPage unitBox">
-                        <div class="bjui-pageContent">
+                        <div class="bjui-pageContent" style="position:absolute;width:100%;height:100%;z-index:-1;background-image:url(images/loginbg_05.jpg);background-attachment: fixed;background-repeat: no-repeat;background-size: cover;">
                         	<br><br>
-                        	<table>
-                        		<tr>
-                        			<td>
-                        				<a href="getChildMenu.action?id=40289f81605e86cf01605e87be510001" data-toggle="sidenav" data-id-key="targetid"><img src="images/menu/payment.png" height="45"></a>
-                        			</td>
-                        		</tr>
-                        	</table>
+                        	<div style="position:absolute; left: 100px; top:50px">
+                        		<a href="getChildMenu.action?id=40289f81605e86cf01605e87be510001" data-toggle="sidenav" data-id-key="targetid"><img src="images/menu/payment.png" height="60"></a>
+                        	</div>
                         </div>
                     </div>
                 </div>

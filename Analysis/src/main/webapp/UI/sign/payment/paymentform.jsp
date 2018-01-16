@@ -8,7 +8,7 @@ $(function(){
 	
 	
 	
-	/* $.CurrentNavtab.find('#upfile_invoice').uploadify({
+	$.CurrentNavtab.find('#upfile_invoice').uploadify({
 	        swf           : 'B-JUI/plugins/uploadify/uploadify.swf',
 	        uploader      : 'savefile.action',
 	        width         : 120,
@@ -51,7 +51,7 @@ $(function(){
 
 	        	
 	        }
-	    });  */
+	    }); 
 
 
 	//初始化全部缩进
