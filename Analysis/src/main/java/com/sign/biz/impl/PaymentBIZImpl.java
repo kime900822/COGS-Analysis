@@ -95,27 +95,33 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	public void submitPayment(Payment payment) throws Exception {
 		List<User> lUsers=userDAO.queryByHql(" select U from User U,SignMan S where U.uid=S.uid AND S.did='"+payment.getDepartmentID()+"'");
 		if (lUsers.size()>0) {
-			payment.setDeptManagerID(lUsers.get(0).getUid());
-			paymentDao.update(payment);
-			//SendMail.SendMail(lUsers.get(0).getEmail(), "Payment application system inform", "Dear sir,<br><br> You have got a payment approval request from <u><b>\""+payment.getUName()+"\"</b></u> . <br><br>Approval Website:<a href='"+PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")+"'>Analysis</a>");	
-			SendMail.SendMail(lUsers.get(0).getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfSubmit"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfSubmit"), payment.getUName(),PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")));	
-		}else{
-			List<Dict> lDicts=commonDAO.queryByHql(" select D from Dict D where D.key='"+payment.getUID()+"'");
-			if (lDicts.size()>0) {
-				List<User> list=userDAO.query(" where uid='"+lDicts.get(0).getValue()+"'");
-				if (list.size()>0) {
-					payment.setDeptManagerID(list.get(0).getUid());
-					payment.setDeptManager(list.get(0).getName());
-					paymentDao.update(payment);
-					//SendMail.SendMail(lUsers.get(0).getEmail(), "Payment application system inform", "Dear sir,<br><br> You have got a payment approval request from <u><b>\""+payment.getUName()+"\"</b></u> . <br><br>Approval Website:<a href='"+PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")+"'>Analysis</a>");	
-					SendMail.SendMail(lUsers.get(0).getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfSubmit"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfSubmit"), payment.getUName(),PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")));	
+			if (!lUsers.get(0).getUid().equals(payment.getUID())) {
+				payment.setDeptManagerID(lUsers.get(0).getUid());
+				paymentDao.update(payment);
+				//SendMail.SendMail(lUsers.get(0).getEmail(), "Payment application system inform", "Dear sir,<br><br> You have got a payment approval request from <u><b>\""+payment.getUName()+"\"</b></u> . <br><br>Approval Website:<a href='"+PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")+"'>Analysis</a>");	
+				SendMail.SendMail(lUsers.get(0).getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfSubmit"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfSubmit"), payment.getUName(),PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")));	
+
+			}else{
+				List<Dict> lDicts=commonDAO.queryByHql(" select D from Dict D where D.key='"+payment.getUID()+"'");
+				if (lDicts.size()>0) {
+					List<User> list=userDAO.query(" where uid='"+lDicts.get(0).getValue()+"'");
+					if (list.size()>0) {
+						payment.setDeptManagerID(list.get(0).getUid());
+						payment.setDeptManager(list.get(0).getName());
+						paymentDao.update(payment);
+						//SendMail.SendMail(lUsers.get(0).getEmail(), "Payment application system inform", "Dear sir,<br><br> You have got a payment approval request from <u><b>\""+payment.getUName()+"\"</b></u> . <br><br>Approval Website:<a href='"+PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")+"'>Analysis</a>");	
+						SendMail.SendMail(lUsers.get(0).getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfSubmit"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfSubmit"), payment.getUName(),PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")));	
+					}
+					else{
+						throw new Exception("对应签核人员未维护，邮件发送失败");
+					}
 				}
-				else{
-					throw new Exception("对应签核人员未维护，邮件发送失败");
-				}
+				
 			}
-			
+		}else{
+			throw new Exception("对应签核人员未维护，邮件发送失败");
 		}
+	
 	}
 	
 	@Override
@@ -172,8 +178,9 @@ public class PaymentBIZImpl implements PaymentBIZ {
 	public void rejectPayment(Payment payment) throws Exception {
 		paymentDao.update(payment);
 		User user=(User)userDAO.query(" where id='"+payment.getUID()+"'").get(0);
+		User ruser=(User)userDAO.query(" where id='"+payment.getDeptManagerID()+"'").get(0);
 		//SendMail.SendMail(user.getEmail(), "Payment application system inform", "Dear sir,<br><br>Your application form which amount is <u><b>"+TypeChangeUtil.formatMoney(payment.getAmountInFigures(),2,payment.getCurrency_1())+"</b></u> have been approved by <u><b>"+payment.getDeptManager()+"</b></u>");	
-		SendMail.SendMail(user.getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfReject"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfReject"), TypeChangeUtil.formatMoney(payment.getAmountInFigures(),2,payment.getCurrency_1()),payment.getDeptManager()));	
+		SendMail.SendMail(user.getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfReject"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfReject"), TypeChangeUtil.formatMoney(payment.getAmountInFigures(),2,payment.getCurrency_1()),ruser.getName()));	
 
 	}
 	
