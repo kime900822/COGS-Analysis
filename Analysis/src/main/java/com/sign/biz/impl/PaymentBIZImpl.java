@@ -96,7 +96,6 @@ public class PaymentBIZImpl implements PaymentBIZ {
 		List<User> lUsers=userDAO.queryByHql(" select U from User U,SignMan S where U.uid=S.uid AND S.did='"+payment.getDepartmentID()+"'");
 		if (lUsers.size()>0) {
 			payment.setDeptManagerID(lUsers.get(0).getUid());
-			payment.setDeptManager(lUsers.get(0).getName());
 			paymentDao.update(payment);
 			//SendMail.SendMail(lUsers.get(0).getEmail(), "Payment application system inform", "Dear sir,<br><br> You have got a payment approval request from <u><b>\""+payment.getUName()+"\"</b></u> . <br><br>Approval Website:<a href='"+PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")+"'>Analysis</a>");	
 			SendMail.SendMail(lUsers.get(0).getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfSubmit"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfSubmit"), payment.getUName(),PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")));	
