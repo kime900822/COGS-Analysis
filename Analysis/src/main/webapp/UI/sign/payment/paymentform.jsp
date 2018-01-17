@@ -124,6 +124,8 @@ function deletePayment(){
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
             	 $.CurrentNavtab.find('#payment-delete').hide();
+            	 $.CurrentNavtab.find('#payment-save').hide();
+            	 $.CurrentNavtab.find('#payment-submit').hide();
          		 $("input[id*='j_payment']").attr('disabled','disabled');
         		 $("select[id*='j_payment']").attr('disabled','disabled');
         		 $("textarea[id*='j_payment']").attr('disabled','disabled')
@@ -248,7 +250,10 @@ function returnPayment(){
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message);
-            	 showButton('5','');
+            	 $.CurrentNavtab.find('#payment-return').hide();
+            	 $.CurrentNavtab.find('#payment-invalid').hide();
+            	 $.CurrentNavtab.find('#payment-invalid-tr').hide();
+         		 $.CurrentNavtab.find('#payment-return-tr').hide();
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -260,13 +265,16 @@ function returnPayment(){
 
 function invalidPayment(){
 	BJUI.ajax('doajax', {
-	    url: 'returnPayment.action',
+	    url: 'invalidPayment.action',
 	    loadingmask: true,
 	    data:{id:$.CurrentNavtab.find("#j_payment_id").val(),invalidDescription:CurrentNavtab.find("#payment-invalidDescription").val()},	    
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
-            	 showButton('5','');
+            	 $.CurrentNavtab.find('#payment-return').hide();
+            	 $.CurrentNavtab.find('#payment-invalid').hide();
+            	 $.CurrentNavtab.find('#payment-invalid-tr').hide();
+         		 $.CurrentNavtab.find('#payment-return-tr').hide();
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -380,7 +388,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-assign').hide();
 		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-print').hide();
-		$.CurrentNavtab.find('#payment-delete').hide();
+		$.CurrentNavtab.find('#payment-delete').show();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 	}else if(state=="4"&&documentAuditid=='${user.uid}'){//财务处理完成
@@ -485,23 +493,6 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-print').hide();
 		$.CurrentNavtab.find('#payment-delete').hide();
-		$.CurrentNavtab.find('#payment-invalid-tr').hide();
-		$.CurrentNavtab.find('#payment-return-tr').hide();	
-		$("input[id*='j_payment']").attr('disabled','disabled');
-		$("select[id*='j_payment']").attr('disabled','disabled');
-		$("textarea[id*='j_payment']").attr('disabled','disabled')
-		$.CurrentNavtab.find('#upfile_other').hide();
-		$.CurrentNavtab.find('#upfile_contract').hide();
-		$.CurrentNavtab.find('#upfile_invoice').hide();
-	}else if(state=="5"){//单据作废
-		$.CurrentNavtab.find('#payment-save').hide();
-		$.CurrentNavtab.find('#payment-submit').hide();
-		$.CurrentNavtab.find('#payment-approve').hide();
-		$.CurrentNavtab.find('#payment-reject').hide();
-		$.CurrentNavtab.find('#payment-assign').hide();
-		$.CurrentNavtab.find('#payment-acc').hide();
-		$.CurrentNavtab.find('#payment-print').hide();
-		$.CurrentNavtab.find('#payment-delete').show();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
 		$("input[id*='j_payment']").attr('disabled','disabled');
