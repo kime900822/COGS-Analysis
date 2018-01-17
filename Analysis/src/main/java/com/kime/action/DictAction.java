@@ -19,6 +19,7 @@ import com.kime.biz.UserBIZ;
 import com.kime.infoenum.Message;
 import com.kime.model.Dict;
 import com.kime.model.Editor;
+import com.kime.model.User;
 import com.sign.model.Beneficiary;
 
 @Controller
@@ -33,6 +34,8 @@ public class DictAction extends ActionBase{
 	protected String type;
 	protected String key;
 	protected String value;
+	protected String keyExplain;
+	protected String valueExplain;
 	protected String id;
 	
 	public DictBIZ getDictBIZ() {
@@ -43,8 +46,22 @@ public class DictAction extends ActionBase{
 		this.dictBIZ = dictBIZ;
 	}
 	
-	
-	
+	public String getKeyExplain() {
+		return keyExplain;
+	}
+
+	public void setKeyExplain(String keyExplain) {
+		this.keyExplain = keyExplain;
+	}
+
+	public String getValueExplain() {
+		return valueExplain;
+	}
+
+	public void setValueExplain(String valueExplain) {
+		this.valueExplain = valueExplain;
+	}
+
 	public UserBIZ getUserBIZ() {
 		return userBIZ;
 	}
@@ -111,6 +128,19 @@ public class DictAction extends ActionBase{
 		reslutJson=new ByteArrayInputStream(new Gson().toJson(list).getBytes("UTF-8"));  
 		return SUCCESS;
 	}
+	
+	@Action(value="getALLAcc",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String getALLAcc() throws UnsupportedEncodingException{
+	
+		User user=(User)session.getAttribute("user");
+		List list=dictBIZ.getDict(" where type='PAYMENT' and value<>'"+user.getUid()+"'" );	
+		reslutJson=new ByteArrayInputStream(new Gson().toJson(list).getBytes("UTF-8"));  
+		return SUCCESS;
+	}
+	
 	
 	@Action(value="getDict",results={@org.apache.struts2.convention.annotation.Result(type="stream",
 			params={
@@ -196,7 +226,7 @@ public class DictAction extends ActionBase{
 		Dict object=list.get(0);
 
 		try {
-			if (object.getAddFlag().equals("true")) {
+			if (object.getAddFlag()!=null) {
 				if (dictBIZ.getDict(" where type='"+object.getType()+"' and key='"+object.getKey()+"'").size()==1) {
 					logUtil.logInfo("新增字典:已存在相同type和相同key的记录：");
 					result.setMessage(Message.SAVE_MESSAGE_ERROR_DICT);
@@ -265,6 +295,9 @@ public class DictAction extends ActionBase{
 		dict.setKey(key);
 		dict.setType(type);
 		dict.setValue(value);
+		dict.setKeyExplain(keyExplain);
+		dict.setValueExplain(valueExplain);
+		dict.setId(id);
 		boolean t=true;
 		try {
 			if ("".equals(id)||id==null) {
@@ -306,6 +339,8 @@ public class DictAction extends ActionBase{
 		return SUCCESS;
 		
 	}
+	
+	
 	
 	
 	

@@ -43,4 +43,6 @@ public interface UserBIZ {
 	public void deleteUser(User user);
 	
 	public void inportUser(List<User> lUsers);
+	
+	public String forgetPassword(User user);
 }

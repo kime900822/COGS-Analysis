@@ -29,7 +29,9 @@
             	<th data-options="{name:'id',width:150,align:'center',finalWidth:'true',hide:'true'}" >id</th>
 				<th data-options="{name:'type',width:150,align:'center',finalWidth:'true',edit:false}">Type</th>
 				<th data-options="{name:'key',width:200,align:'center',finalWidth:'true'}">ManagerID</th>
+				<th data-options="{name:'keyExplain',width:200,align:'center',finalWidth:'true'}">ManagerName</th>
 				<th data-options="{name:'value',width:150,align:'center',finalWidth:'true'}">SignID</th>
+				<th data-options="{name:'valueExplain',width:150,align:'center',finalWidth:'true'}">SignName</th>
             </tr>
         </thead>
     </table>

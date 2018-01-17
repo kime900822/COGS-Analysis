@@ -7,7 +7,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.analysis.model.Source;
 import com.google.gson.Gson;
 import com.kime.action.ActionBase;
 import com.kime.biz.DictBIZ;
@@ -27,6 +30,7 @@ import com.kime.infoenum.Message;
 import com.kime.model.Dict;
 import com.kime.model.User;
 import com.kime.utils.CommonUtil;
+import com.kime.utils.ExcelUtil;
 import com.kime.utils.TypeChangeUtil;
 import com.sign.biz.PaymentBIZ;
 import com.sign.model.Payment;
@@ -40,8 +44,6 @@ public class PaymentAction extends ActionBase {
 	private PaymentBIZ paymentBIZ;
 	@Autowired
 	private FileSave fileSave;
-    @Autowired  
-    private  HttpSession session;   
     @Autowired
     private DictBIZ dictBIZ;
 	
@@ -73,12 +75,6 @@ public class PaymentAction extends ActionBase {
 	public void setDictBIZ(DictBIZ dictBIZ) {
 		this.dictBIZ = dictBIZ;
 	}
-	public HttpSession getSession() {
-		return session;
-	}
-	public void setSession(HttpSession session) {
-		this.session = session;
-	}
 	public FileSave getFileSave() {
 		return fileSave;
 	}
@@ -105,6 +101,8 @@ public class PaymentAction extends ActionBase {
 	private String departmentID;
 	private String beneficiary;
 	private String beneficiaryAccountNO;
+	private String beneficiaryE;
+	private String beneficiaryAccountBank;
 	private String beneficiaryChange;
 	private String beneficiaryAccountNOChange;
 	private String supplierCode;
@@ -166,6 +164,18 @@ public class PaymentAction extends ActionBase {
 	private String generalManager;
 	
 	
+	public String getBeneficiaryE() {
+		return beneficiaryE;
+	}
+	public void setBeneficiaryE(String beneficiaryE) {
+		this.beneficiaryE = beneficiaryE;
+	}
+	public String getBeneficiaryAccountBank() {
+		return beneficiaryAccountBank;
+	}
+	public void setBeneficiaryAccountBank(String beneficiaryAccountBank) {
+		this.beneficiaryAccountBank = beneficiaryAccountBank;
+	}
 	public String getAmount() {
 		return amount;
 	}
@@ -679,6 +689,9 @@ public class PaymentAction extends ActionBase {
 	public String savePayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=new Gson().fromJson(json, Payment.class);		
+		
+			
+			
 			if (!payment.getId().equals("")&&payment.getId()!=null) {
 				if (file_invoice!=null&&!"".equals(file_invoice)) {
 					String filenames="";
@@ -841,7 +854,6 @@ public class PaymentAction extends ActionBase {
 	public String assignPayment() throws UnsupportedEncodingException{
 		try {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
-			payment.setDocumentAudit(documentAudit);
 			payment.setDocumentAuditID(documentAuditID);
 			
 			paymentBIZ.assignPayment(payment);
@@ -1078,6 +1090,41 @@ public class PaymentAction extends ActionBase {
 		logUtil.logInfo("查询付款申请单:"+hql);
 		return SUCCESS;
 	}
+	
+	 /**
+     * excel导出
+     * @return
+     */
+	@Action(value="exportPaymentExcel",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson",
+					"contentType","application/vnd.ms-excel",
+					"contentDisposition","attachment;filename=%{fileName}",
+					"bufferSize","1024"
+			})})
+    public String exportPaymentExcel() {
+        try {
+
+        	List<Payment> lPayments=paymentBIZ.getPayment("");
+        	Class c = (Class) new Payment().getClass();  
+        	ByteArrayOutputStream os=ExcelUtil.exportExcel("Payment", c, lPayments, "yyy-MM-dd");
+        	byte[] fileContent = os.toByteArray();
+        	ByteArrayInputStream is = new ByteArrayInputStream(fileContent);
+        	
+    		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");		 
+    		fileName = "Source"+sf.format(new Date()).toString()+ ".xls";
+    		fileName= new String(fileName.getBytes(), "ISO8859-1");
+    		//文件流
+            reslutJson = is;            
+            logUtil.logInfo("导出Payment！"+fileName);
+        }
+        catch(Exception e) {
+        	logUtil.logInfo("导出Payment！"+e.getMessage());
+            e.printStackTrace();
+        }
+
+        return "success";
+    }
 	
 	
 }

@@ -16,7 +16,9 @@ public class LoginInterceptor extends MethodFilterInterceptor  {
 		ActionContext ctx = invocation.getInvocationContext(); 
 		Map session = ctx.getSession();  
 		User user=(User)session.get("user");
-		if (user!=null) {
+		String actionname=invocation.getInvocationContext().getName();
+		
+		if (user!=null||actionname.equals("forgetPassword")) {
 			return invocation.invoke(); 
 		}
 		else

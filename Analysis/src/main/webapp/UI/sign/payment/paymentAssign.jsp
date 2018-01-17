@@ -3,6 +3,24 @@
  <script type="text/javascript">
  
  
+		$(function(){			
+			BJUI.ajax('doajax', {
+			    url: 'getALLAcc.action',
+			    loadingmask: false,
+			    okCallback: function(json, options) {
+	                $.each(json, function (i, item) {
+	                    $.CurrentDialog.find('#j_assign_edit_uid').append("<option value='" + item.value + "'>" + item.value + "</option>")           
+	                })
+	                $.CurrentDialog.find('#j_assign_edit_uid').selectpicker('refresh');
+			    }
+			})	
+			
+		
+		})
+
+		
+		
+		 
 		function getUname(){
 			var id=$.CurrentDialog.find('#j_assign_edit_uid').val();
 			BJUI.ajax('doajax', {
@@ -22,14 +40,14 @@
 		}
 		
 		
+		
 		function assign(){
 			var uid=$.CurrentDialog.find('#j_assign_edit_uid').val();
-			var uname=$.CurrentDialog.find('#j_assign_edit_uid').val();
-			var id=$.CurrentDialog.find('#j_assign_edit_uid').val();
+			var uname=$.CurrentDialog.find('#j_assign_edit_uname').val();
 			BJUI.ajax('doajax', {
 			    url: 'assignPayment.action',
 			    loadingmask: true,
-			    data:{id:'${param.id}',documentAuditID:$.CurrentDialog.find('#j_assign_edit_uid').val(),documentAudit:$.CurrentDialog.find('#j_assign_edit_uname').val()},
+			    data:{id:'${param.id}',documentAuditID:uid,documentAudit:uname},
 			    okCallback: function(json, options) {
 			    	if(json.status='200'){
 			    		BJUI.dialog('closeCurrent'); 
@@ -49,9 +67,11 @@
         <form class="datagrid-edit-form" data-toggle="validate" data-data-type="jsonp">
             <div class="bjui-row col-2">
             	<input type="hidden" name="id" id="j_assign_id"value="${param.id}">
-                <label class="row-label">UserID</label>
+                <label class="row-label">User</label>                
                 <div class="row-input required">
-                    <input type="text" name="documentAuditID" id="j_assign_edit_uid" value="" data-rule="required" onchange="getUname()">
+                    <select name="documentAuditID" data-toggle="selectpicker" id="j_assign_edit_uid" data-rule="required" data-width="100%" onchange="getUname();" >
+                         <option value="" selected></option>
+                    </select>
                 </div>
                 <label class="row-label">Name</label>
                 <div class="row-input required">

@@ -101,6 +101,8 @@ function datagrid_paymentState() {
         gridTitle : 'Payment management',
         dataUrl: 'getPayment.action?queryType=all',
         dataType: 'jsonp',
+        showToolbar: true,
+        toolbarItem: 'export',
         editMode: {navtab:{width:'830',height:800,title:'Edit Payment',mask:true,fresh:true}},
         delUrl:'deleteUser.action',
         editUrl: 'sign/payment/paymentform.jsp',
@@ -108,7 +110,8 @@ function datagrid_paymentState() {
         linenumberAll: true,
         contextMenuB: true,
         hScrollbar: true,
-        filterThead:false
+        filterThead:false,
+        exportOption: {type:'file', options:{url:'exportPaymentExcel.action', loadingmask:false}}
     }">
         <thead>
             <tr>

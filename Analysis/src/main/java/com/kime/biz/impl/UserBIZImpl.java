@@ -1,8 +1,10 @@
 package com.kime.biz.impl;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.YamlProcessor.ResolutionMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,7 @@ import com.kime.infoenum.Message;
 import com.kime.model.Role;
 import com.kime.model.User;
 import com.kime.utils.PropertiesUtil;
+import com.kime.utils.mail.SendMail;
 
 @Service
 @Transactional(readOnly=true)
@@ -81,6 +84,17 @@ public class UserBIZImpl implements UserBIZ {
 	public void inportUser(List<User> lUsers) {
 		for (User u : lUsers) {
 			userDao.save(u);
+		}
+		
+	}
+
+	@Override
+	public String forgetPassword(User user) {
+		try {
+			SendMail.SendMail(user.getEmail(),PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfForgetPWD"),MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfForgetPWD"),user.getPassword()));
+			return "1";
+		} catch (Exception e) {
+			return e.getMessage();
 		}
 		
 	}

@@ -303,6 +303,34 @@ public class UserAction extends ActionBase {
 		return SUCCESS;
 	}
 	
+	
+	@Action(value="forgetPassword",results={@org.apache.struts2.convention.annotation.Result(type="stream",
+			params={
+					"inputName", "reslutJson"
+			})})
+	public String forgetPassword() throws UnsupportedEncodingException{
+		
+		List<User> list=userBIZ.getUser(" where uid='"+uid+"'");
+		if (list.size()>0) {
+			try {
+				String string=userBIZ.forgetPassword(list.get(0));
+				if (string.equals("1")) {
+					result.setMessage("Success");
+					result.setStatusCode("200");
+				}else{					
+					result.setMessage(string);
+					result.setStatusCode("200");
+				}
+				
+			} catch (Exception e1) {
+				result.setMessage(e1.getMessage());
+				result.setStatusCode("300");
+			}	
+		}
+		reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8"));  
+		return SUCCESS;
+	}
+	
 	/**
 	 * 修改密码
 	 * @return

@@ -96,6 +96,12 @@ function checkForm(i){
 
 
 function savePayment(){
+	var err=checkSave()
+	if(err!=''){
+		BJUI.alertmsg('warn', err); 
+		return false;
+	}
+	
 	var o=faceToDate();	
 	BJUI.ajax('doajax', {
 	    url: 'savePayment.action',
@@ -211,6 +217,12 @@ function changePaymentTerm(){
 }
 
 function accPayment(){
+	var err=checkAcc()
+	if(err!=''){
+		BJUI.alertmsg('warn', err); 
+		return false;
+	}
+	
 	BJUI.ajax('doajax', {
 	    url: 'accPayment.action',
 	    loadingmask: true,
@@ -246,10 +258,11 @@ function returnPayment(){
 	BJUI.ajax('doajax', {
 	    url: 'returnPayment.action',
 	    loadingmask: true,
-	    data:{id:$.CurrentNavtab.find("#j_payment_id").val(),returnDescription:CurrentNavtab.find("#payment-returnDescription").val()},	    
+	    data:{id:$.CurrentNavtab.find("#j_payment_id").val(),returnDescription:$.CurrentNavtab.find("#payment-returnDescription").val()},	    
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message);
+            	 $.CurrentNavtab.find('#payment-print').hide();
             	 $.CurrentNavtab.find('#payment-return').hide();
             	 $.CurrentNavtab.find('#payment-invalid').hide();
             	 $.CurrentNavtab.find('#payment-invalid-tr').hide();
@@ -267,10 +280,11 @@ function invalidPayment(){
 	BJUI.ajax('doajax', {
 	    url: 'invalidPayment.action',
 	    loadingmask: true,
-	    data:{id:$.CurrentNavtab.find("#j_payment_id").val(),invalidDescription:CurrentNavtab.find("#payment-invalidDescription").val()},	    
+	    data:{id:$.CurrentNavtab.find("#j_payment_id").val(),invalidDescription:$.CurrentNavtab.find("#payment-invalidDescription").val()},	    
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
+            	 $.CurrentNavtab.find('#payment-print').hide();
             	 $.CurrentNavtab.find('#payment-return').hide();
             	 $.CurrentNavtab.find('#payment-invalid').hide();
             	 $.CurrentNavtab.find('#payment-invalid-tr').hide();
@@ -307,15 +321,19 @@ function printPayment(){
 function isChange(){
 	$.CurrentNavtab.find("#j_payment_beneficiaryChange").on('ifChecked',function(){
 		$.CurrentNavtab.find("#j_payment_beneficiary_tr").attr("style","background-color: #9ACD32");
+		$.CurrentNavtab.find("#j_payment_beneficiaryE_tr").attr("style","background-color: #9ACD32");
 	})
 	$.CurrentNavtab.find("#j_payment_beneficiaryChange").on('ifUnchecked',function(){
 		$.CurrentNavtab.find("#j_payment_beneficiary_tr").removeAttr("style");
+		$.CurrentNavtab.find("#j_payment_beneficiaryE_tr").removeAttr("style");
 	})
 	$.CurrentNavtab.find("#j_payment_beneficiaryAccountNOChange").on('ifChecked',function(){
 		$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO_tr").attr("style","background-color: #EEC900");
+		$.CurrentNavtab.find("#j_payment_beneficiaryAccountBank_tr").attr("style","background-color: #EEC900");
 	})
 	$.CurrentNavtab.find("#j_payment_beneficiaryAccountNOChange").on('ifUnchecked',function(){
 		$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO_tr").removeAttr("style");
+		$.CurrentNavtab.find("#j_payment_beneficiaryAccountBank_tr").removeAttr("style");
 	})
 	
 }
@@ -363,8 +381,12 @@ function listToString(id){
 }
 
 
-function fileToTr(name,path){
-	return "<tr><td align='center'><a onclick=\"getFile('"+path.replace('\\','\\\\')+"')\" url='"+path.replace('\\','\\\\')+ "' >"+name+"</></td><td align='center'><a onclick=\"deleteFile('"+path.replace('\\','\\\\')+"',this)\" >Delete</a></td></tr>"
+function fileToTr(name,path,b){
+	if(b){
+		return "<tr><td align='center'><a onclick=\"getFile('"+path.replace('\\','\\\\')+"')\" url='"+path.replace('\\','\\\\')+ "' >"+name+"</></td><td align='center'><a onclick=\"deleteFile('"+path.replace('\\','\\\\')+"',this)\" >Delete</a></td></tr>"
+	}else{
+		return "<tr><td align='center'><a onclick=\"getFile('"+path.replace('\\','\\\\')+"')\" url='"+path.replace('\\','\\\\')+ "' >"+name+"</></td><td align='center'></td></tr>"
+	}
 }
 
 
@@ -549,14 +571,18 @@ function dataToFace(){
             	$.CurrentNavtab.find("#j_payment_UID").val(json.UID+'-'+json.UName);
             	$.CurrentNavtab.find("#j_payment_departmentID").val(json.departmentName+'-'+json.departmentID);            	
             	$.CurrentNavtab.find("#j_payment_beneficiary").val(json.beneficiary);
+            	$.CurrentNavtab.find("#j_payment_beneficiaryE").val(json.beneficiaryE);
             	$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO").val(json.beneficiaryAccountNO);
+            	$.CurrentNavtab.find("#j_payment_beneficiaryAccountBank").val(json.beneficiaryAccountBank);
                 if(json.beneficiaryChange=='1'){
             		$.CurrentNavtab.find("#j_payment_beneficiaryChange").iCheck('check'); 
             		$.CurrentNavtab.find("#j_payment_beneficiary_tr").attr("style","background-color: #9ACD32");
+            		$.CurrentNavtab.find("#j_payment_beneficiaryE_tr").attr("style","background-color: #9ACD32");
             	}
                 if(json.beneficiaryAccountNOChange=='1'){
             		$.CurrentNavtab.find("#j_payment_beneficiaryAccountNOChange").iCheck('check'); 
             		$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO_tr").attr("style","background-color: #EEC900");
+            		$.CurrentNavtab.find("#j_payment_beneficiaryAccountBank_tr").attr("style","background-color: #EEC900");
             	}
                 $.CurrentNavtab.find("#j_payment_paymentSubject").selectpicker().selectpicker('val',json.paymentSubject).selectpicker('refresh');
                 $.CurrentNavtab.find("#j_payment_paymentTerm").selectpicker().selectpicker('val',json.paymentTerm).selectpicker('refresh');
@@ -619,13 +645,18 @@ function dataToFace(){
             	
             	$.CurrentNavtab.find("#j_payment_documentAudit").val(json.documentAudit);
             	$.CurrentNavtab.find("#j_payment_deptManager").val(json.deptManager);
-            		
+            	var b=true;
+            	if(json.state!='0'||'${user.uid}'!=json.UID){
+            		b=false;
+            	}
+            	
             	if(json.file_invoice!=undefined&&json.file_invoice!=""){
             		var file=json.file_invoice.split('|');
+            		
             		$.each(file,function(i,n){
             			var filename=n.split('/')[1];
             			if(filename!=undefined){         				
-            				$.CurrentNavtab.find('#upfile_invoice_list').append(fileToTr(filename,n));	   
+            				$.CurrentNavtab.find('#upfile_invoice_list').append(fileToTr(filename,n,b));	   
             			}
             		})
             	}
@@ -634,7 +665,7 @@ function dataToFace(){
             		$.each(file,function(i,n){
             			var filename=n.split('/')[1];
             			if(filename!=undefined){
-            				$.CurrentNavtab.find('#upfile_other_list').append(fileToTr(filename,n));	 
+            				$.CurrentNavtab.find('#upfile_other_list').append(fileToTr(filename,n,b));	 
             			}
             		})
             	}
@@ -643,7 +674,7 @@ function dataToFace(){
             		$.each(file,function(i,n){
             			var filename=n.split('/')[1];
             			if(filename!=undefined){
-            				$.CurrentNavtab.find('#upfile_contract_list').append(fileToTr(filename,n));
+            				$.CurrentNavtab.find('#upfile_contract_list').append(fileToTr(filename,n,b));
             			}
             			
             		})
@@ -798,10 +829,14 @@ function checkSupplierCode(o){
                 	$.CurrentNavtab.find(o).val("");
                 	$.CurrentNavtab.find("#j_payment_beneficiary").val('');
                  	$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO").val('');
+                 	$.CurrentNavtab.find("#j_payment_beneficiaryE").val('');
+                 	$.CurrentNavtab.find("#j_payment_beneficiaryAccountBank").val('');
                 	
                 }else{
                 	$.CurrentNavtab.find("#j_payment_beneficiary").val(json.name);
                 	$.CurrentNavtab.find("#j_payment_beneficiaryAccountNO").val(json.accno);
+                	$.CurrentNavtab.find("#j_payment_beneficiaryE").val(json.ename);
+                	$.CurrentNavtab.find("#j_payment_beneficiaryAccountBank").val(json.accbank);
                 }
     	    }
     	});	  	
@@ -826,7 +861,7 @@ function ajaxFileUpload(id,tid) {
 	                if(data.statusCode=='200'){	                      	
 	                	$.each(data.params.url,function(i,n){               		
 	                		var filename=n.split('/')[1];
-	                		$.CurrentNavtab.find("#"+tid).append(fileToTr(filename,n))
+	                		$.CurrentNavtab.find("#"+tid).append(fileToTr(filename,n,true))
 	                	})                	
 	                	BJUI.alertmsg('info', data.message); 
 	                }else{              	
@@ -844,6 +879,39 @@ function ajaxFileUpload(id,tid) {
 
 }
 
+function checkSave(){
+	var err='';
+	if($.CurrentNavtab.find('input:radio:checked').val()==null||$.CurrentNavtab.find('input:radio:checked').val()==''){
+		err+=" PayType can`t be  impty！<br>";		
+	}
+	if($.CurrentNavtab.find('#j_payment_paymentSubject').val()==null||$.CurrentNavtab.find('#j_payment_paymentSubject').val()==''){
+		err+=" paymentSubject can`t be  impty！<br>";				
+	}
+	if($.CurrentNavtab.find('#j_payment_currency_1').val()==null||$.CurrentNavtab.find('#j_payment_currency_1').val()==''){
+		err+=" Currency can`t be  impty！<br>";				
+	}
+	if($.CurrentNavtab.find('#j_payment_usageDescription').val()==null||$.CurrentNavtab.find('#j_payment_usageDescription').val()==''){
+		err+=" Usage Description can`t be  impty！<br>";				
+	}
+	
+	for(var i=1;i<7;i++){
+		if($.CurrentNavtab.find("#j_payment_PONo_"+i).val()!=''){
+			if($.CurrentNavtab.find("#j_payment_amount_"+i).val()==''){
+				err+=" the "+i+" PO Amount can`t be  impty！<br>";					
+			}
+			
+		}
+	}
+	return err;
+}
+
+function checkAcc(){
+	var err='';
+	if($.CurrentNavtab.find('#j_payment_refNoofBank').val()==null||$.CurrentNavtab.find('#j_payment_refNoofBank').val()==''){
+		err+=" Ref. No. of Bank can`t be  impty！\r\n";				
+	}
+	return err;
+}
 
 </script>
 <div class="bjui-pageContent">
@@ -925,7 +993,7 @@ function ajaxFileUpload(id,tid) {
 				</tr>
 				<tr>
 					<td>
-						收款人（全称）<br>Beneficiary:
+						收款人（中文）<br>Beneficiary:
 					</td>
 					<td id="j_payment_beneficiary_tr">
 						<input type="text" name="beneficiary" id="j_payment_beneficiary" value="" readonly=""  size="19">
@@ -935,6 +1003,20 @@ function ajaxFileUpload(id,tid) {
 					</td>
 					<td id="j_payment_beneficiaryAccountNO_tr">
 						<input type="text" name="beneficiaryAccountNO" id="j_payment_beneficiaryAccountNO" value="" readonly=""  size="19">
+					</td>					
+				</tr>
+				<tr>
+				<td>
+						收款人（英文）<br>Beneficiary:
+					</td>
+					<td id="j_payment_beneficiaryE_tr">
+						<input type="text" name="beneficiaryE" id="j_payment_beneficiaryE" value="" readonly=""  size="19">
+					</td>
+					<td>
+						开户银行信息<br>Beneficiary Account Bank.
+					</td>
+					<td id="j_payment_beneficiaryAccountBank_tr">
+						<input type="text" name="beneficiaryAccountBank" id="j_payment_beneficiaryAccountBank" value="" readonly=""  size="19">
 					</td>					
 				</tr>
 				<tr>
@@ -1370,7 +1452,7 @@ function ajaxFileUpload(id,tid) {
 					</td>
 					<td>
 						<input type="file" id="file1" name="file" />
-    					<input type="button" value="上传" id="upfile_invoice" />
+    					<input type="button" value="upload" id="upfile_invoice" />
 					</td>
 					<td colspan="2" >
 						<table class="table" id="upfile_invoice_list" >	
@@ -1387,7 +1469,7 @@ function ajaxFileUpload(id,tid) {
 					</td>
 					<td>
 						<input type="file" id="file2" name="file" />
-    					<input type="button" value="上传" id="upfile_contract" />
+    					<input type="button" value="upload" id="upfile_contract" />
 					</td>
 					<td	colspan="2">
 						<table class="table" id="upfile_contract_list" >	
@@ -1404,7 +1486,7 @@ function ajaxFileUpload(id,tid) {
 					</td>
 					<td>
 						<input type="file" id="file3" name="file" />
-    					<input type="button" value="上传" id="upfile_other" />
+    					<input type="button" value="upload" id="upfile_other" />
 					</td>
 					<td colspan="2">
 						<table class="table" id="upfile_other_list" >	

@@ -159,6 +159,26 @@ function choose_bg() {
     $('body').css('background-image', 'url(images/loginbg_0'+ bg +'.jpg)');
 }
 
+function getPassword(){
+	if($('#j_uid').val()==''){
+		BJUI.alertmsg('warn', 'Your ID is impty!');		
+	}else{
+		BJUI.ajax('doajax', {
+		    url: 'forgetPassword.action',
+		    loadingmask: true,
+		    data:{uid:$('#j_uid').val()},	    
+		    okCallback: function(json, options) {
+	            if(json.status='200'){
+	            	 BJUI.alertmsg('info', json.message); 
+	            }else{
+	            	 BJUI.alertmsg('error', json.message); 
+	            }
+		    }
+		});	
+	}
+	
+	
+}
 
 </script>
 </head>
@@ -177,7 +197,7 @@ function choose_bg() {
         <form action="login.action" id="login_form" method="post" data-toggle="validate" onsubmit="return checkform();">
             <input type="hidden" value="" id="j_randomKey" />
             <input type="hidden" name="jfinal_token" value="" />
-            </br>
+            <br>
             <p class="text-center logo"><img src="images/logo1.png" height="45"></p>
             <div class="login_msg text-center"><font color="red"></font></div>
             <div class="form-group">
@@ -186,7 +206,7 @@ function choose_bg() {
                     <input type="text" class="form-control" id="j_uid" name="uid" value="" data-rule="required" placeholder="ID" aria-describedby="sizing-addon-user">
                 </div>
             </div>
-            </br>
+            <br>
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon" id="sizing-addon-password"><span class="glyphicon glyphicon-lock"></span></span>
@@ -198,13 +218,15 @@ function choose_bg() {
                     <label for="j_remember" class="m"><input id="j_remember" type="checkbox" value="true">&nbsp;Remenber JobNumber!</label>
                 </div>
             </div>
-            </br>
+            <br>
             <div class="text-center">
                 <button type="submit" id="login_ok" class="btn btn-primary btn-lg">&nbsp;Login&nbsp;</button>&nbsp;             
                 <button type="reset" class="btn btn-default btn-lg">&nbsp;Reset&nbsp;</button>&nbsp; 
+                <br>
+                <a href="#" onclick="getPassword();">Forget password</a>
                 <!--  <a href="register.html" data-toggle="dialog" data-id="sys_user_changepass" data-mask="true" data-width="300" data-height="380">注册</a>  -->                      	
             </div>
-            </br>
+            <br>
             <div class="text-center">
                 <hr>
                 2014 - 2017 <a href="login.jsp">Analysis</a>

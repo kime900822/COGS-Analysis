@@ -111,8 +111,8 @@ function dataToFace(){
             	}
             	$("#UID").html(json.UID+'<br>'+json.UName);
             	$("#departmentID").html(json.departmentName+'<br>'+json.departmentID);
-            	$("#beneficiary").html(json.beneficiary)
-            	$("#beneficiaryAccountNO").html(json.beneficiaryAccountNO)
+            	$("#beneficiary").html(json.beneficiary+'<br>'+json.beneficiaryE)
+            	$("#beneficiaryAccountNO").html(json.beneficiaryAccountBank+'<br>'+json.beneficiaryAccountNO)
                 if(json.beneficiaryChange=='1'){
             		$("#beneficiaryChange").html("●"); 
             		$("#beneficiary_td").attr("class","Beneficiarychange");
@@ -196,9 +196,10 @@ function dataToFace(){
             		
             	$("#supplierCode").html(json.supplierCode);
             	$("#refNoofBank").html(json.refNoofBank);
-            	$("#usageDescription").html(json.usageDescription);
+            	$("#usageDescription").html(json.usageDescription.replace(/\r\n/g,"<br>"));
+
             	if(json.amountInFigures!=''&&json.amountInFigures!=null){
-            		$("#amountInFigures").html(formatCurrency(json.amountInFigures)+"&nbsp&nbsp");
+            		$("#amountInFigures").html(json.currency_1+"&nbsp&nbsp"+formatCurrency(json.amountInFigures)+"&nbsp&nbsp");
             		$("#amountInWords").html("&nbsp&nbsp"+smalltoBIG(json.amountInFigures));
             	}
             	
@@ -230,7 +231,7 @@ function dataToFace(){
 					<td align="center"><label id="code"></label></td>
 				</tr>
 				<tr>
-					<td width="200px" align="left"><img  style="width:300px;height:50px;" alt="payment" src="../../images/printLogo.png"></td>
+					<td width="200px" align="left"><img  style="width:300px;height:60px;" alt="payment" src="../../images/printLogo.png"></td>
 					<td colspan="2"  align="center"><h1 align="left" style="font-weight:bold">Cimtas(NingBo) Steel Processing CO.,LTD 庆达西（宁波）钢构制造有限公司</h1>
 					<h2 align="center" style="font-weight:bold">Paymengt Application Form 付款申请单</h2>
 					</td>
@@ -287,15 +288,16 @@ function dataToFace(){
 				<tr height="20px">
 					<td colspan="2" rowspan="2" class="bg">&nbsp申请人:<br>&nbspApplication:</td>
 					<td colspan="2" rowspan="2" style="text-align:center;" ><label id="UID"></label></td>
-					<td colspan="4" rowspan="2" class="bg">&nbsp收款人（全称）:<br>&nbspBeneficiary:</td>
-					<td colspan="2" rowspan="2"  id="beneficiary_td">
+					<td colspan="4"  class="bg">&nbsp收款人（全称）:</td>
+					<td colspan="2" rowspan="2"  id="beneficiary_td" style="text-align:center;" >
 						<label id="beneficiary"></label>
                     </td>
-					<td width="50px" align="center" style="text-align:center;" class="bg">change<br/>变更</td>
-					<td width="130px" rowspan="2" style="text-align:center;" class="bg">供应商代码:<br/>Supplier Code:</td>
-					<td width="100px" rowspan="2" style="text-align:center"><label id="supplierCode"></label> </td>
+					<td width="40px" align="center" style="text-align:center;" class="bg">change<br/>变更</td>
+					<td width="90px" rowspan="2" style="text-align:center;" class="bg">供应商代码:<br/>Supplier Code:</td>
+					<td width="90px" rowspan="2" style="text-align:center"><label id="supplierCode"></label> </td>
 				</tr>
 				<tr height="20px">
+					<td colspan="4"  class="bg" height="12px">&nbspBeneficiary:</td>
 					<td style="text-align:center">
 						<label id="beneficiaryChange" ></label>
 					</td>
@@ -303,8 +305,8 @@ function dataToFace(){
 				<tr height="20px">
 					<td colspan="2" rowspan="2" class="bg">&nbsp所属部门:<br>&nbspDepartment of Applicant:</td>
 					<td colspan="2" rowspan="2" style="text-align:center"><label id="departmentID"></label></td>
-					<td colspan="4" rowspan="2" class="bg">&nbsp银行及帐号:<br>&nbspBeneficiary Account NO:</td>
-					<td colspan="2" rowspan="2" id="beneficiaryAccountNO_td">
+					<td colspan="4"  class="bg">&nbsp银行及帐号:</td>
+					<td colspan="2" rowspan="2" id="beneficiaryAccountNO_td" style="text-align:center;" >
 						<label id="beneficiaryAccountNO"></label>
 					</td>
 					<td align="center" style="text-align:center;" class="bg">change<br/>变更</td>
@@ -312,6 +314,7 @@ function dataToFace(){
 					<td rowspan="2" ><label id="refNoofBank"></label></td>
 				</tr>
 				<tr height="20px">
+					<td colspan="4"  class="bg">&nbspBeneficiary Account NO:</td>
 					<td style="text-align:center">
 						<label id="beneficiaryAccountNOChange" ></label>
 					</td>
@@ -323,8 +326,8 @@ function dataToFace(){
 					<td width="50px" align="center" class="bg" >订单号<br/>PO No.</td>
 					<td width="60px" align="center" class="bg">币别<br/>Currency</td>
 					<td width="110px" align="center" class="bg">金额<br/>Amount</td>
-					<td width="100px" rowspan="8" align="center"  >支付用途<br/>Usage<br/>Description</td>
-					<td colspan="4" rowspan="8"><label id="usageDescription"></label></td>
+					<td width="100px" rowspan="8" align="center" >支付用途<br/>Usage<br/>Description</td>
+					<td colspan="4" rowspan="8"  id="usageDescription" style="word-wrap: break-word; word-break: normal;"></td>
 				</tr>
 				
 				
@@ -405,7 +408,7 @@ function dataToFace(){
 					<td colspan="2" class="bg" align="right">金额(小写)<br/>Amount in figures:</td>
 					<td colspan="6" align="right"><label id="amountInFigures"></label></td>
 					<td align="right" class="bg">金额(大写)<br/>Amount in words:</td>
-					<td colspan="2"><label id="amountInWords"></label></td>
+					<td colspan="2" ><label id="amountInWords"></label></td>
 					<td align="right" class="bg" >Document Audit:<br/>单据审核</td>
 					<td><label id="documentAudit"></label></td>
 				</tr>		

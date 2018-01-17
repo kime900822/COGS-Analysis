@@ -85,16 +85,28 @@ public class Payment {
 	private String departmentName;
 	
 	/**
-	 * 收款人全称
+	 * 收款人中文
 	 */
 	@Column
 	private String beneficiary;
 	
 	/**
-	 * 银行账号
+	 * 账号
 	 */
 	@Column
 	private String beneficiaryAccountNO;
+	
+	/**
+	 * 收款人英文
+	 */
+	@Column
+	private String beneficiaryE;
+	
+	/**
+	 * 银行
+	 */
+	@Column
+	private String beneficiaryAccountBank;
 	
 	/**
 	 * 收款人变更标志
@@ -416,6 +428,22 @@ public class Payment {
 	private String dateTemp;
 	
 	
+	public String getBeneficiaryE() {
+		return beneficiaryE;
+	}
+
+	public void setBeneficiaryE(String beneficiaryE) {
+		this.beneficiaryE = beneficiaryE;
+	}
+
+	public String getBeneficiaryAccountBank() {
+		return beneficiaryAccountBank;
+	}
+
+	public void setBeneficiaryAccountBank(String beneficiaryAccountBank) {
+		this.beneficiaryAccountBank = beneficiaryAccountBank;
+	}
+
 	public String getDateTemp() {
 		return dateTemp;
 	}

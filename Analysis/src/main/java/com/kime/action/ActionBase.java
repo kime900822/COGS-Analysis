@@ -5,6 +5,8 @@ package com.kime.action;
 import java.io.File;
 import java.io.InputStream;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -25,6 +27,8 @@ public class ActionBase extends ActionSupport{
 	protected QueryResult queryResult;
 	@Autowired
 	protected LogUtil logUtil;
+    @Autowired  
+    protected  HttpSession session;   
 	protected InputStream reslutJson;
 	protected String json;
 	protected String pageSize;
@@ -36,6 +40,12 @@ public class ActionBase extends ActionSupport{
 	
 	protected String[] upfileFileName;
 	
+	public HttpSession getSession() {
+		return session;
+	}
+	public void setSession(HttpSession session) {
+		this.session = session;
+	}
 	public InputStream getReslutJson() {
 		return reslutJson;
 	}

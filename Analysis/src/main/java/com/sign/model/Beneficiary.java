@@ -17,7 +17,11 @@ public class Beneficiary {
 	@Column
 	private String name;
 	@Column
+	private String ename;
+	@Column
 	private String accno;
+	@Column
+	private String accbank;
 	@Id
 	@GeneratedValue(generator="assigned")
 	@GenericGenerator(name = "assigned", strategy = "assigned")
@@ -49,6 +53,19 @@ public class Beneficiary {
 	}
 	public void setAccno(String accno) {
 		this.accno = accno;
+	}
+
+	public String getEname() {
+		return ename;
+	}
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
+	public String getAccbank() {
+		return accbank;
+	}
+	public void setAccbank(String accbank) {
+		this.accbank = accbank;
 	}
 
 	

@@ -53,7 +53,7 @@
             <div class="bjui-row col-2">
                 
 
-                <input type="hidden" name="id" id="j_signman4manager_edit_id" value="${param.id}"  >
+                <input type="hidden" name="id" id="j_signman4manager_edit_id" value="${param.Id}"  >
 				<input type="hidden" name="type" id="j_signman4manager_edit_type" value="SignMan4Manager"  >
                 <label class="row-label">UserID</label>
                 <div class="row-input required">
@@ -61,7 +61,7 @@
                 </div>
                 <label class="row-label">Name</label>
                 <div class="row-input required">
-                    <input type="text"  id="j_signman4manager_edit_uname" value="" data-rule="required" readonly="">
+                    <input type="text" name="keyExplain" id="j_signman4manager_edit_uname" value="" data-rule="required" readonly="">
                 </div>
                 <label class="row-label">SignID</label>
                 <div class="row-input required">
@@ -69,7 +69,7 @@
                 </div>
                 <label class="row-label">SignName</label>
                 <div class="row-input required">
-                    <input type="text" id="j_signman4manager_edit_signname" value="" data-rule="required" readonly="">
+                    <input type="text" name="valueExplain"  id="j_signman4manager_edit_signname" value="" data-rule="required" readonly="">
                 </div>
             </div>
         </form>

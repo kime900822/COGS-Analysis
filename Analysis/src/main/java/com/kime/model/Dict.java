@@ -25,6 +25,10 @@ public class Dict {
 	private String key;
 	@Column
 	private String value;
+	@Column
+	private String keyExplain;
+	@Column
+	private String valueExplain;
 	@Transient
 	private String addFlag;
 	
@@ -57,6 +61,18 @@ public class Dict {
 	}
 	public void setId(String id) {
 		Id = id;
+	}
+	public String getKeyExplain() {
+		return keyExplain;
+	}
+	public void setKeyExplain(String keyExplain) {
+		this.keyExplain = keyExplain;
+	}
+	public String getValueExplain() {
+		return valueExplain;
+	}
+	public void setValueExplain(String valueExplain) {
+		this.valueExplain = valueExplain;
 	}
 
 	

@@ -145,7 +145,7 @@ public class BeneficiaryAction extends ActionBase {
 		Beneficiary object=list.get(0);
 
 		try {
-			if (object.getAddFlag().equals("true")) {
+			if (object.getAddFlag()!=null) {
 				beneficiaryBIZ.saveBeneficiary(object);
 				logUtil.logInfo("新增收款人信息:"+object.getAccno());
 			}else{

@@ -49,7 +49,7 @@
         linenumberAll: true,
         contextMenuB: true,
         hScrollbar: true,
-        importOption: {type:'dialog', options:{url:'JSP/user/user-import.html', width:500, height:300, title:'Import Users'}},
+        importOption: {type:'dialog', options:{url:'system/user/user-import.html', width:500, height:300, title:'Import Users'}},
         exportOption: {type:'file', options:{url:'exportUserExcel.action', loadingmask:false}}
     }">
         <thead>
