@@ -636,7 +636,7 @@ function dataToFace(){
             	$.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_4").val(json.receivingOrApprovalDate_4);
             	$.CurrentNavtab.find("#j_payment_PONo_4").val(json.PONo_4);
             	$.CurrentNavtab.find("#j_payment_currency_4").selectpicker().selectpicker('val',json.currency_4).selectpicker('refresh');
-            	if(json.amount_4!=''&& json.amount_4==null){
+            	if(json.amount_4!=''&& json.amount_4!=null){
             		$.CurrentNavtab.find("#j_payment_amount_4_t").val(json.amount_4);
             	}
             		

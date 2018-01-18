@@ -205,6 +205,9 @@ function dataToFace(){
             	
             	$("#documentAudit").html("&nbsp&nbsp"+json.documentAudit);
             	$("#deptManager").html("&nbsp&nbsp"+json.deptManager);
+            	if(json.state=='5'){
+            		$("#invalid-img").show();
+            	}
 
             }else{
             	 BJUI.alertmsg('error', json.message); 
@@ -216,7 +219,9 @@ function dataToFace(){
 }
 
 </script>
+<div id="invalid-img" style="display:none;position: absolute;top:200px;left:200px;width:800px;height:400px;background-image:url(images/invalid.png);background-attachment: fixed;background-repeat: no-repeat;background-size: cover;">
 
+</div>
     <div  style="width:1200px;padding:20px" >
 			<table  style="font-size:10px;">
 				<tr>
