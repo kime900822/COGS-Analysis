@@ -20,6 +20,7 @@ import javax.jws.soap.SOAPBinding.Use;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.jasper.tagplugins.jstl.core.If;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -27,6 +28,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -289,10 +292,17 @@ public class UserAction extends ActionBase {
 		user.setEmail(email);
 		
 		try {
-			userBIZ.register(user);
-			logUtil.logInfo("注册成功");
-			result.setMessage(Message.REGISTER_MESSAGE_SUCCESS);
-			result.setStatusCode("200");
+			String rString=userBIZ.register(user);
+			if (rString.equals("1")) {
+				logUtil.logInfo("注册成功");
+				result.setMessage(Message.REGISTER_MESSAGE_SUCCESS);
+				result.setStatusCode("200");
+			}else{
+				logUtil.logInfo(rString);
+				result.setMessage(rString);
+				result.setStatusCode("300");				
+			}
+			
 		} catch (Exception e1) {
 			result.setMessage("注册失败！"+e1.getMessage());
 			logUtil.logInfo(e1.getMessage());
@@ -486,21 +496,44 @@ public class UserAction extends ActionBase {
 		user.setDate(sdf.format(d1));
 		user.setUid(uid);
 		user.setEmail(email);
-		
-		try {
+		boolean b=true;
+		String rString="";
+		try {			
 			if (uid==null||"".equals(uid)) {
-				userBIZ.register(user);	
+				rString=userBIZ.register(user);		
+
 			}else{
-				userBIZ.modUser(user);
+				rString=userBIZ.modUser(user);
 			}			
-			user=userBIZ.getUser(" where uid='"+uid+"'").get(0);
-			logUtil.logInfo("修改用户信息，用户:"+user.getUid());
+			
+			if (rString.equals("1")) {
+				result.setMessage("Success");
+				result.setStatusCode("200");
+				user=userBIZ.getUser(" where uid='"+uid+"'").get(0);
+				logUtil.logInfo("修改用户信息，用户:"+user.getUid());
+			}else{					
+				result.setMessage(rString);
+				result.setStatusCode("300");
+				logUtil.logInfo("修改用户信息，用户:"+rString);
+				b=false;
+			}	
+
 		} catch (Exception e1) {
+			b=false;
+			result.setMessage(e1.getMessage());
+			result.setStatusCode("300");
 			e1.printStackTrace();
 			logUtil.logInfo("修改用户信息，用户:"+e1.getMessage());
 		}
-		String r=callback+"("+new Gson().toJson(user)+")";
-		reslutJson=new ByteArrayInputStream(r.getBytes("UTF-8"));  
+		
+		
+		if (b) {
+			String r=callback+"("+new Gson().toJson(user)+")";
+			reslutJson=new ByteArrayInputStream(r.getBytes("UTF-8"));  
+		}else{
+			reslutJson=new ByteArrayInputStream(new Gson().toJson(result).getBytes("UTF-8"));  
+		}
+		
 		
 		return SUCCESS;
 		
@@ -734,17 +767,37 @@ public class UserAction extends ActionBase {
 	                HSSFRow row = sheet.getRow(i);
 	
 	    				User user=new User();
-	    				user.setUid(row.getCell(0).getStringCellValue().trim());
-	    				user.setName(row.getCell(1).getStringCellValue().trim());
-	    				user.setPassword(row.getCell(2).getStringCellValue().trim());	    				
-	    				user.setSex(row.getCell(3).getStringCellValue().trim());
-	    				user.setEmail(row.getCell(4).getStringCellValue().trim());
-	    				String rid=roleBIZ.getRoleID(row.getCell(5).getStringCellValue().trim());
+	    				HSSFCell cell=row.getCell(0);
+	    				cell.setCellType(CellType.STRING);
+	    				user.setUid(cell.getStringCellValue().trim());
+	    				
+	    				cell=row.getCell(1);
+	    				cell.setCellType(CellType.STRING);
+	    				user.setName(cell.getStringCellValue().trim());
+	    				
+	    				cell=row.getCell(2);
+	    				cell.setCellType(CellType.STRING);
+	    				user.setPassword(cell.getStringCellValue().trim());	 
+	    				
+	    				cell=row.getCell(3);
+	    				cell.setCellType(CellType.STRING);
+	    				user.setSex(cell.getStringCellValue().trim());
+	    				
+	    				cell=row.getCell(4);
+	    				cell.setCellType(CellType.STRING);
+	    				user.setEmail(cell.getStringCellValue().trim());
+	    				
+	    				cell=row.getCell(5);
+	    				cell.setCellType(CellType.STRING);
+	    				String rid=roleBIZ.getRoleID(cell.getStringCellValue().trim());
 	    				if (rid==null) {
 							throw new Exception(row.getCell(0).getStringCellValue().trim() +" 的权限不存在！");
 						}
-	    				user.setRid(did);
-	    				user.setDid(row.getCell(6).getStringCellValue().trim());
+	    				user.setRid(rid);
+	    				
+	    				cell=row.getCell(6);
+	    				cell.setCellType(CellType.STRING);
+	    				user.setDid(cell.getStringCellValue().trim());
 	    				user.setDate(sdf.format(d1));
 	    				lUsers.add(user);
 	            }

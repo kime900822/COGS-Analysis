@@ -1063,13 +1063,16 @@ public class PaymentAction extends ActionBase {
 			hql="  select P from Payment P WHERE P.departmentID='"+user.getDid()+"' "+where+" order By P.dateTemp desc";
 		}
 		if ("acc".equals(queryType)) {
-			hql="  select  P from Payment P where (P.state='2' or P.state='4') AND isPrint='1' AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
+			hql="  select  P from Payment P where P.state<>0 AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
 		}
 		if ("sign".equals(queryType)) {
 			hql="  select  P from Payment P where P.state='1' and P.deptManagerID='"+user.getUid()+"' order By P.dateTemp desc";
 		}
 		if ("user".equals(queryType)) {
 			hql=" select P from Payment P where P.UID='"+user.getUid()+"' "+where+" order By P.dateTemp desc";
+		}
+		if ("admin".equals(queryType)) {
+			hql=" select P from Payment P where 1=1 "+where+" order By P.dateTemp desc";
 		}
 		List<Payment> list=paymentBIZ.getPaymentByHql(hql, Integer.parseInt(pageSize),Integer.parseInt(pageCurrent));
 		int total=paymentBIZ.getPaymentByHql(hql).size();
@@ -1104,15 +1107,56 @@ public class PaymentAction extends ActionBase {
 			})})
     public String exportPaymentExcel() {
         try {
-
-        	List<Payment> lPayments=paymentBIZ.getPayment("");
+        	User user=(User)session.getAttribute("user");
+        	
+    		String hql="";
+    		
+    		String where="";
+    		
+    		if (!"".equals(applicationDate_f)&&applicationDate_f!=null) {
+    			where += " AND P.applicationDate>='"+applicationDate_f+"'";
+    		}
+    		if (!"".equals(applicationDate_t)&&applicationDate_t!=null) {
+    			where += " AND P.applicationDate <= '"+applicationDate_t+"'";
+    		}
+    		if (!"".equals(code)&&code!=null) {
+    			where += " AND P.code = '"+code+"'";
+    		}
+    		
+    		if (!"".equals(urgent)&&urgent!=null) {
+    			where += " AND P.urgent = '"+urgent+"'";
+    		}
+    		if (!"".equals(UID)&&UID!=null) {
+    			where += " AND P.UID='"+UID+"'";
+    		}
+    		if (!"".equals(departmentID)&&departmentID!=null) {
+    			where += " AND P.departmentID='"+departmentID+"'";
+    		}
+    		
+    			
+    		if ("all".equals(queryType)) {
+    			hql="  select P from Payment P WHERE P.departmentID='"+user.getDid()+"' "+where+" order By P.dateTemp desc";
+    		}
+    		if ("acc".equals(queryType)) {
+    			hql="  select  P from Payment P where P.state<>0 AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
+    		}
+    		if ("sign".equals(queryType)) {
+    			hql="  select  P from Payment P where P.state='1' and P.deptManagerID='"+user.getUid()+"' order By P.dateTemp desc";
+    		}
+    		if ("user".equals(queryType)) {
+    			hql=" select P from Payment P where P.UID='"+user.getUid()+"' "+where+" order By P.dateTemp desc";
+    		}
+    		if ("admin".equals(queryType)) {
+    			hql=" select P from Payment P where 1=1 "+where+" order By P.dateTemp desc";
+    		}
+    		List<Payment> lPayments=paymentBIZ.getPaymentByHql(hql);
         	Class c = (Class) new Payment().getClass();  
         	ByteArrayOutputStream os=ExcelUtil.exportExcel("Payment", c, lPayments, "yyy-MM-dd");
         	byte[] fileContent = os.toByteArray();
         	ByteArrayInputStream is = new ByteArrayInputStream(fileContent);
         	
     		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");		 
-    		fileName = "Source"+sf.format(new Date()).toString()+ ".xls";
+    		fileName = "Payment"+sf.format(new Date()).toString()+ ".xls";
     		fileName= new String(fileName.getBytes(), "ISO8859-1");
     		//文件流
             reslutJson = is;            

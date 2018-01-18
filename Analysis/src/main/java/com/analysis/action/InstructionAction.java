@@ -113,7 +113,7 @@ public class InstructionAction extends ActionBase {
 //				result.setStatusCode("200");
 	    		
 	    		
-	    		List<Instruction> lInstructions=ExcelUtil.FileToList(instruction.getClass(),upfile,first,upfileFileName[0]);
+	    		List<Instruction> lInstructions=ExcelUtil.FileToList(instruction.getClass(),upfile,first,upfileFileName[0],2);
 	    		if (lInstructions.size()>0) {
 					instructionBIZ.DeleteInstruction("");
 					instructionBIZ.SaveInstruction(lInstructions);

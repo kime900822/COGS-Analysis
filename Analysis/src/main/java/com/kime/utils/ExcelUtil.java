@@ -319,7 +319,7 @@ public static <T>ByteArrayOutputStream  exportExcel(String title, Class class1, 
  * @throws IOException 
  * @throws FileNotFoundException 
  */
-public static  List FileToList(Class c,File file,String first,String filename) throws Exception{
+public static  List FileToList(Class c,File file,String first,String filename,int start) throws Exception{
 	List list=new ArrayList<>();
 //	POIFSFileSystem fs=new POIFSFileSystem(new FileInputStream(file));   
 //	HSSFWorkbook wb = new HSSFWorkbook(fs); 
@@ -344,7 +344,7 @@ public static  List FileToList(Class c,File file,String first,String filename) t
 		}
     	Object o = c.newInstance();
         //导入时去除对象第一位ID
-        for (int j = 1; j < headers.length; j++) {
+        for (int j = start-1; j < headers.length; j++) {
         	String methodName = "set"+headers[j];
             Method setMethod = c.getMethod(methodName,String.class);
             setMethod.invoke(o, new Object[]{ExcelUtil.getCellValue(row.getCell(j-1))});

@@ -215,7 +215,7 @@ function getPassword(){
             </div>
             <div class="form-group">
                 <div class="checkbox">
-                    <label for="j_remember" class="m"><input id="j_remember" type="checkbox" value="true">&nbsp;Remenber JobNumber!</label>
+                    <label for="j_remember" class="m"><input id="j_remember" type="checkbox" value="true">&nbsp;Remember my login information!</label>
                 </div>
             </div>
             <br>
@@ -229,7 +229,7 @@ function getPassword(){
             <br>
             <div class="text-center">
                 <hr>
-                2014 - 2017 <a href="login.jsp">Analysis</a>
+                From 201801 <a href="login.jsp">Finance</a>
             </div>
         </form>
     </div>

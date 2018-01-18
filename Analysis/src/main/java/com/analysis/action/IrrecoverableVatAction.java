@@ -76,7 +76,7 @@ public class IrrecoverableVatAction extends ActionBase {
     public String  ImportIrrecoverableVat() throws FileNotFoundException, IOException{
         try {
 	    	if (upfile!=null) {
-	    		List<IrrecoverableVat> lIrrecoverableVats=ExcelUtil.FileToList(irrecoverableVat.getClass(),upfile,first,upfileFileName[0]);
+	    		List<IrrecoverableVat> lIrrecoverableVats=ExcelUtil.FileToList(irrecoverableVat.getClass(),upfile,first,upfileFileName[0],2);
 	    		if (lIrrecoverableVats.size()>0) {
 					IrrecoverableVatBIZ.DeleteIrrecoverableVat("");
 					IrrecoverableVatBIZ.SaveIrrecoverableVat(lIrrecoverableVats);

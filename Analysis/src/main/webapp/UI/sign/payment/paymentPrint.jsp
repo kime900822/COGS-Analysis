@@ -219,10 +219,10 @@ function dataToFace(){
 }
 
 </script>
-<div id="invalid-img" style="display:none;position: absolute;top:200px;left:200px;width:800px;height:400px;background-image:url(images/invalid.png);background-attachment: fixed;background-repeat: no-repeat;background-size: cover;">
-
+<div id="invalid-img" style="z-index:99;position:absolute;top:200px;left:200px;width:800px;height:400px;display: none;">
+	<img alt="" src="../../images/invalid.png">
 </div>
-    <div  style="width:1200px;padding:20px" >
+    <div style="width:1200px;padding:20px;" >
 			<table  style="font-size:10px;">
 				<tr>
 					<td  width="200px"></td>

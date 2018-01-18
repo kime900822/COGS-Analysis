@@ -86,7 +86,7 @@ public class SalesAction extends ActionBase {
     public String  ImportSales() throws FileNotFoundException, IOException{
         try {
 	    	if (upfile!=null) {
-	    		List<Sales> lSales=ExcelUtil.FileToList(sales.getClass(),upfile,first,upfileFileName[0]);
+	    		List<Sales> lSales=ExcelUtil.FileToList(sales.getClass(),upfile,first,upfileFileName[0],2);
 	    		if (lSales.size()>0) {
 					salesBIZ.DeleteSales("");
 					salesBIZ.SaveSales(lSales);

@@ -119,6 +119,7 @@ function datagrid_paymentState() {
             	<th data-options="{name:'id',width:150,align:'center',finalWidth:'true',hide:'true'}">id</th>
             	<th data-options="{name:'applicationDate',width:150,align:'center',finalWidth:'true'}" >ApplicationDate</th>
 				<th data-options="{name:'state',width:150,align:'center',finalWidth:'true',type:'select', items:datagrid_paymentState}">Approval Status</th>
+				<th data-options="{name:'UID',width:150,align:'center',finalWidth:'true'}">ID</th>
 				<th data-options="{name:'UName',width:150,align:'center',finalWidth:'true'}">User</th>
 				<th data-options="{name:'code',width:150,align:'center',finalWidth:'true'}">Code</th>
 				<th data-options="{name:'urgent',width:60,align:'center' ,finalWidth:'true'}">Urgent</th>

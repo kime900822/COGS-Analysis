@@ -22,7 +22,7 @@ public interface UserBIZ {
 	 * @param user
 	 * @return
 	 */
-	public void register(User user);
+	public String register(User user);
 	
 	/**
 	 * 查询
@@ -38,11 +38,13 @@ public interface UserBIZ {
 	 * @param user
 	 * @return
 	 */
-	public void modUser(User user);
+	public String modUser(User user);
 	
 	public void deleteUser(User user);
 	
 	public void inportUser(List<User> lUsers);
 	
 	public String forgetPassword(User user);
+
+	public boolean checkNewUser(User user);
 }

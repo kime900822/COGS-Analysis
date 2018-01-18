@@ -111,6 +111,7 @@ function savePayment(){
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
             	 $.CurrentNavtab.find('#payment-submit').show();
+            	 $.CurrentNavtab.find('#payment-delete').show();
             	 $.CurrentNavtab.find("#j_payment_id").val(json.params.id);
             }else{
             	 BJUI.alertmsg('error', json.message); 
@@ -153,6 +154,7 @@ function submitPayment(){
             	 BJUI.alertmsg('info', json.message); 
             	 $.CurrentNavtab.find('#payment-save').hide();
          		 $.CurrentNavtab.find('#payment-submit').hide();
+         		 $.CurrentNavtab.find('#payment-delete').hide();
          		 $("input[id*='j_payment']").attr('disabled','disabled');
         		 $("select[id*='j_payment']").attr('disabled','disabled');
         		 $("textarea[id*='j_payment']").attr('disabled','disabled')
@@ -216,13 +218,7 @@ function changePaymentTerm(){
 	}	
 }
 
-function accPayment(){
-	var err=checkAcc()
-	if(err!=''){
-		BJUI.alertmsg('warn', err); 
-		return false;
-	}
-	
+function accPayment(){	
 	BJUI.ajax('doajax', {
 	    url: 'accPayment.action',
 	    loadingmask: true,
@@ -408,7 +404,7 @@ function fileToTr(name,path,b){
 }
 
 
-function showButton(state,print,uid,documentAuditid,deptManagerid){
+function showButton(state,print,uid,documentAuditid,deptManagerid){	
 	if(state==''){//新建 退回
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -420,7 +416,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
-	}else if(state=='0'&&uid=='${user.uid}'){//保存后可提交
+	}else if(state=='0'&&(uid=='${user.uid}'||'${param.viewtype}'=='admin')){//保存后可提交
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').show();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -431,24 +427,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-delete').show();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
-	}else if(state=="4"&&documentAuditid=='${user.uid}'){//财务处理完成
-		$.CurrentNavtab.find('#payment-save').hide();
-		$.CurrentNavtab.find('#payment-submit').hide();
-		$.CurrentNavtab.find('#payment-approve').hide();
-		$.CurrentNavtab.find('#payment-reject').hide();
-		$.CurrentNavtab.find('#payment-assign').hide();
-		$.CurrentNavtab.find('#payment-acc').hide();
-		$.CurrentNavtab.find('#payment-delete').hide();
-		$.CurrentNavtab.find('#payment-print').show();
-		$.CurrentNavtab.find('#payment-invalid-tr').hide();
-		$.CurrentNavtab.find('#payment-return-tr').hide();					
-		$("input[id*='j_payment']").attr('disabled','disabled');
-		$("select[id*='j_payment']").attr('disabled','disabled');
-		 $("textarea[id*='j_payment']").attr('disabled','disabled')
-		$.CurrentNavtab.find('#upfile_other').hide();
-		$.CurrentNavtab.find('#upfile_contract').hide();
-		$.CurrentNavtab.find('#upfile_invoice').hide();
-	}else if(state=="4"&&documentAuditid!='${user.uid}'){//财务处理完成  非财务人员查看。可打印
+	}else if(state=="4"){//财务处理完成  非财务人员查看。可打印
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -465,7 +444,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#upfile_other').hide();
 		$.CurrentNavtab.find('#upfile_contract').hide();
 		$.CurrentNavtab.find('#upfile_invoice').hide();
-	}else if(state=="1"&&deptManagerid=='${user.uid}'){//部门经理审批
+	}else if(state=="1"&&(deptManagerid=='${user.uid}'||'${param.viewtype}'=='admin')){//部门经理审批
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').show();
@@ -482,7 +461,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#upfile_other').hide();
 		$.CurrentNavtab.find('#upfile_contract').hide();
 		$.CurrentNavtab.find('#upfile_invoice').hide();
-	}else if(state=="2"&&documentAuditid=='${user.uid}'){//审批通过 财务处理
+	}else if(state=="2"&&(documentAuditid=='${user.uid}'||'${param.viewtype}'=='admin')){//审批通过 财务处理
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -537,6 +516,23 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
+		$("input[id*='j_payment']").attr('disabled','disabled');
+		$("select[id*='j_payment']").attr('disabled','disabled');
+		$("textarea[id*='j_payment']").attr('disabled','disabled')
+		$.CurrentNavtab.find('#upfile_other').hide();
+		$.CurrentNavtab.find('#upfile_contract').hide();
+		$.CurrentNavtab.find('#upfile_invoice').hide();
+	}else if(state=="5"){
+		$.CurrentNavtab.find('#payment-save').hide();
+		$.CurrentNavtab.find('#payment-submit').hide();
+		$.CurrentNavtab.find('#payment-approve').hide();
+		$.CurrentNavtab.find('#payment-reject').hide();
+		$.CurrentNavtab.find('#payment-assign').hide();
+		$.CurrentNavtab.find('#payment-acc').hide();
+		$.CurrentNavtab.find('#payment-print').show();
+		$.CurrentNavtab.find('#payment-invalid-tr').hide();
+		$.CurrentNavtab.find('#payment-return-tr').hide();	
+		$.CurrentNavtab.find('#payment-delete').hide();
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
 		$("textarea[id*='j_payment']").attr('disabled','disabled')

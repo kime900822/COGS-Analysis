@@ -5,10 +5,10 @@
 <div class="bjui-pageContent" id="div-user">
     <table class="table table-bordered" id="datagrid-edit-filter" data-toggle="datagrid" data-options="{
         height: '100%',
-        gridTitle : '收款人维护',
+        gridTitle : '供应商维护',
         showToolbar: true,
         dataType: 'jsonp',
-        toolbarItem: 'add,edit,del,save,cancel,|,refresh',
+        toolbarItem: 'add,edit,del,save,cancel,|,import,export,refresh',
         dataUrl: 'queryBeneficiary.action',
         delUrl:'deleteBeneficiary.action',
         editUrl: 'saveBeneficiary.action',
@@ -16,7 +16,9 @@
         showCheckboxcol: true,
         linenumberAll: true,
         contextMenuB: true,
-        hScrollbar: true
+        hScrollbar: true,
+        importOption: {type:'dialog', options:{url:'sign/beneficiary/beneficiary-import.html', width:500, height:300, title:'Import Beneficiary'}},
+        exportOption: {type:'file', options:{url:'exportBeneficiary.action', loadingmask:false}}
     }">
         <thead>
             <tr>

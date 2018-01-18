@@ -51,8 +51,14 @@ public class UserBIZImpl implements UserBIZ {
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
-	public void register(User user) {
-		userDao.save(user);
+	public String register(User user) {
+		if (checkNewUser(user)) {
+			userDao.save(user);
+			return "1";
+		}else{
+			return "email repeat!";
+		}
+		
 	}
 
 	@Override
@@ -68,8 +74,13 @@ public class UserBIZImpl implements UserBIZ {
 
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
-	public void modUser(User user) {
-		userDao.update(user);
+	public String modUser(User user) {
+		if (checkNewUser(user)) {
+			userDao.update(user);
+			return "1";
+		}else{
+			return "email repeat!";
+		}
 	}
 
 	@Override
@@ -83,7 +94,9 @@ public class UserBIZImpl implements UserBIZ {
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void inportUser(List<User> lUsers) {
 		for (User u : lUsers) {
-			userDao.save(u);
+			if (checkNewUser(u)) {
+				userDao.save(u);
+			}		
 		}
 		
 	}
@@ -97,6 +110,14 @@ public class UserBIZImpl implements UserBIZ {
 			return e.getMessage();
 		}
 		
+	}
+	
+	@Override
+	public boolean checkNewUser(User user){
+		if (userDao.query(" where  email='"+user.getEmail()+"'").size()>0) {
+			return false;
+		}
+		return true;
 	}
 
 	
