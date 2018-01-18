@@ -230,8 +230,12 @@ function accPayment(){
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
+            	 $.CurrentNavtab.find('#payment-return').hide();
+            	 $.CurrentNavtab.find('#payment-acc').hide();
             	 $.CurrentNavtab.find('#payment-assign').hide();
-         		 $.CurrentNavtab.find('#payment-acc').hide();
+            	 $.CurrentNavtab.find('#payment-invalid').hide();
+            	 $.CurrentNavtab.find('#payment-invalid-tr').hide();
+         		 $.CurrentNavtab.find('#payment-return-tr').hide();
             }else{
             	 BJUI.alertmsg('error', json.message); 
             }
@@ -255,6 +259,11 @@ function assignPayment(){
 }
 
 function returnPayment(){
+	var err=checkReturn()
+	if(err!=''){
+		BJUI.alertmsg('warn', err); 
+		return false;
+	}
 	BJUI.ajax('doajax', {
 	    url: 'returnPayment.action',
 	    loadingmask: true,
@@ -264,6 +273,8 @@ function returnPayment(){
             	 BJUI.alertmsg('info', json.message);
             	 $.CurrentNavtab.find('#payment-print').hide();
             	 $.CurrentNavtab.find('#payment-return').hide();
+            	 $.CurrentNavtab.find('#payment-acc').hide();
+            	 $.CurrentNavtab.find('#payment-assign').hide();
             	 $.CurrentNavtab.find('#payment-invalid').hide();
             	 $.CurrentNavtab.find('#payment-invalid-tr').hide();
          		 $.CurrentNavtab.find('#payment-return-tr').hide();
@@ -277,6 +288,12 @@ function returnPayment(){
 
 
 function invalidPayment(){
+	var err=checkInvalid()
+	if(err!=''){
+		BJUI.alertmsg('warn', err); 
+		return false;
+	}
+	
 	BJUI.ajax('doajax', {
 	    url: 'invalidPayment.action',
 	    loadingmask: true,
@@ -284,8 +301,9 @@ function invalidPayment(){
 	    okCallback: function(json, options) {
             if(json.status='200'){
             	 BJUI.alertmsg('info', json.message); 
-            	 $.CurrentNavtab.find('#payment-print').hide();
             	 $.CurrentNavtab.find('#payment-return').hide();
+            	 $.CurrentNavtab.find('#payment-acc').hide();
+            	 $.CurrentNavtab.find('#payment-assign').hide();
             	 $.CurrentNavtab.find('#payment-invalid').hide();
             	 $.CurrentNavtab.find('#payment-invalid-tr').hide();
          		 $.CurrentNavtab.find('#payment-return-tr').hide();
@@ -422,13 +440,8 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-acc').hide();
 		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-print').show();
-		if(print=='1'){
-			$.CurrentNavtab.find('#payment-invalid-tr').show();
-			$.CurrentNavtab.find('#payment-return-tr').show();		
-		}else{
-			$.CurrentNavtab.find('#payment-invalid-tr').hide();
-			$.CurrentNavtab.find('#payment-return-tr').hide();					
-		}
+		$.CurrentNavtab.find('#payment-invalid-tr').hide();
+		$.CurrentNavtab.find('#payment-return-tr').hide();					
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
 		 $("textarea[id*='j_payment']").attr('disabled','disabled')
@@ -474,12 +487,19 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
 		$.CurrentNavtab.find('#payment-reject').hide();
-		$.CurrentNavtab.find('#payment-assign').show();
-		$.CurrentNavtab.find('#payment-acc').show();
 		$.CurrentNavtab.find('#payment-print').show();
 		$.CurrentNavtab.find('#payment-delete').hide();
-		$.CurrentNavtab.find('#payment-invalid-tr').hide();
-		$.CurrentNavtab.find('#payment-return-tr').hide();	
+		if(print=='1'){
+			$.CurrentNavtab.find('#payment-assign').show();
+			$.CurrentNavtab.find('#payment-acc').show();
+			$.CurrentNavtab.find('#payment-invalid-tr').show();
+			$.CurrentNavtab.find('#payment-return-tr').show();		
+		}else{
+			$.CurrentNavtab.find('#payment-assign').hide();
+			$.CurrentNavtab.find('#payment-acc').hide();
+			$.CurrentNavtab.find('#payment-invalid-tr').hide();
+			$.CurrentNavtab.find('#payment-return-tr').hide();					
+		}
 		$.CurrentNavtab.find('#j_payment_documentAudit').val('${user.name}')
 		$("input[id*='j_payment']").attr('disabled','disabled');
 		$("select[id*='j_payment']").attr('disabled','disabled');
@@ -912,6 +932,26 @@ function checkAcc(){
 	}
 	return err;
 }
+
+
+function checkInvalid(){
+	var err='';
+	if($.CurrentNavtab.find('#payment-invalidDescription').val()==null||$.CurrentNavtab.find('#invalidDescription').val()==''){
+		err+=" ReturnDescription can`t be  impty！\r\n";				
+	}
+	return err;
+}
+
+
+
+function checkReturn(){
+	var err='';
+	if($.CurrentNavtab.find('#payment-returnDescription').val()==null||$.CurrentNavtab.find('#payment-returnDescription').val()==''){
+		err+=" Ref. No. of Bank can`t be  impty！\r\n";				
+	}
+	return err;
+}
+
 
 </script>
 <div class="bjui-pageContent">

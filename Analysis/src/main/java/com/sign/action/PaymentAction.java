@@ -1063,7 +1063,7 @@ public class PaymentAction extends ActionBase {
 			hql="  select P from Payment P WHERE P.departmentID='"+user.getDid()+"' "+where+" order By P.dateTemp desc";
 		}
 		if ("acc".equals(queryType)) {
-			hql="  select  P from Payment P where (P.state='2' or P.state='4') AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
+			hql="  select  P from Payment P where (P.state='2' or P.state='4') AND isPrint='1' AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
 		}
 		if ("sign".equals(queryType)) {
 			hql="  select  P from Payment P where P.state='1' and P.deptManagerID='"+user.getUid()+"' order By P.dateTemp desc";
