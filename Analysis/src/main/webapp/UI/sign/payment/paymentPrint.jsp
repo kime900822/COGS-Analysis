@@ -171,7 +171,7 @@ function dataToFace(){
             	}
             		
             	
-            	if(json.amount_4!=''&& json.amount_4==null&&json.amount_4!='0.00'){
+            	if(json.amount_4!=''&& json.amount_4!=null&&json.amount_4!='0.00'){
             		$("#amount_4").html(formatCurrency(json.amount_4)+"&nbsp&nbsp");
             		$("#receivingOrApprovalDate_4").html(json.receivingOrApprovalDate_4);
                 	$("#PONo_4").html(json.PONo_4);
