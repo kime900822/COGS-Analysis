@@ -150,10 +150,10 @@ function checkform(){
     //location.href = 'index.jsp'
 	
 }
-function changeCode(){
+/* function changeCode(){
 	var img=document.getElementById("captcha_img");
 	img.src="../ValidationCode?"+Math.random();	
-}
+} */
 function choose_bg() {
     var bg = Math.floor(Math.random() * 9 + 1);
     $('body').css('background-image', 'url(images/loginbg_0'+ bg +'.jpg)');

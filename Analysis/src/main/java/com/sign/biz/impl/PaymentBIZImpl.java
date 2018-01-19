@@ -104,7 +104,10 @@ public class PaymentBIZImpl implements PaymentBIZ {
 				paymentDao.update(payment);
 				//SendMail.SendMail(lUsers.get(0).getEmail(), "Payment application system inform", "Dear sir,<br><br> You have got a payment approval request from <u><b>\""+payment.getUName()+"\"</b></u> . <br><br>Approval Website:<a href='"+PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")+"'>Analysis</a>");	
 				SendMail.SendMail(list.get(0).getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfSubmit"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfSubmit"), payment.getCode(),payment.getUName(),TypeChangeUtil.formatMoney(payment.getAmountInFigures(), 2, payment.getCurrency_1()),PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")));	
+			}else{
+				throw new Exception("对应签核人员信息不存在，提交审批失败");
 			}
+		}
 			else{
 				List<User> lUsers=userDAO.queryByHql(" select U from User U,SignMan S where U.uid=S.uid AND S.did='"+payment.getDepartmentID()+"'");
 				if (lUsers.size()>0) {
@@ -115,13 +118,12 @@ public class PaymentBIZImpl implements PaymentBIZ {
 						SendMail.SendMail(lUsers.get(0).getEmail(), PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailTitleOfSubmit"), MessageFormat.format(PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "mailContentOfSubmit"), payment.getCode(),payment.getUName(),TypeChangeUtil.formatMoney(payment.getAmountInFigures(), 2, payment.getCurrency_1()),PropertiesUtil.ReadProperties(Message.SYSTEM_PROPERTIES, "website")));	
 
 					}else{
-						throw new Exception("对应签核人员未维护，提交审批失败");
+						throw new Exception("对应特殊签核人员未维护，提交审批失败");
 					}
 				}else{
-					throw new Exception("对应签核人员未维护，提交审批失败");
+					throw new Exception("对应签核人员信息不存在，提交审批失败");
 				}
 			}
-		}
 
 	
 	}
