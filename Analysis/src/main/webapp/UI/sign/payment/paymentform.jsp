@@ -405,6 +405,28 @@ function fileToTr(name,path,b){
 
 
 function showButton(state,print,uid,documentAuditid,deptManagerid){	
+	
+	if('${param.viewtype}'=='admin'){
+		if(state=="0"||state=="1"){
+			$.CurrentNavtab.find('#payment-delete').show();
+		}		
+		$.CurrentNavtab.find('#upfile_other').hide();
+		$.CurrentNavtab.find('#upfile_contract').hide();
+		$.CurrentNavtab.find('#upfile_invoice').hide();
+		$.CurrentNavtab.find('#payment-save').show();
+		$.CurrentNavtab.find('#payment-submit').hide();
+		$.CurrentNavtab.find('#payment-approve').hide();
+		$.CurrentNavtab.find('#payment-reject').hide();
+		$.CurrentNavtab.find('#payment-assign').hide();
+		$.CurrentNavtab.find('#payment-acc').hide();
+		$.CurrentNavtab.find('#payment-print').hide();
+		$.CurrentNavtab.find('#payment-invalid-tr').hide();
+		$.CurrentNavtab.find('#payment-return-tr').hide();	
+		$.CurrentNavtab.find('#payment-delete').hide();
+		$("input[id*='j_payment']").attr('disabled','disabled');
+		$("select[id*='j_payment']").attr('disabled','disabled');
+		$("textarea[id*='j_payment']").attr('disabled','disabled')
+	}else{
 	if(state==''){//新建 退回
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').hide();
@@ -416,7 +438,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#payment-delete').hide();
 		$.CurrentNavtab.find('#payment-invalid-tr').hide();
 		$.CurrentNavtab.find('#payment-return-tr').hide();	
-	}else if(state=='0'&&(uid=='${user.uid}'||'${param.viewtype}'=='admin')){//保存后可提交
+	}else if(state=='0'&&uid=='${user.uid}'){//保存后可提交
 		$.CurrentNavtab.find('#payment-save').show();
 		$.CurrentNavtab.find('#payment-submit').show();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -444,7 +466,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#upfile_other').hide();
 		$.CurrentNavtab.find('#upfile_contract').hide();
 		$.CurrentNavtab.find('#upfile_invoice').hide();
-	}else if(state=="1"&&(deptManagerid=='${user.uid}'||'${param.viewtype}'=='admin')){//部门经理审批
+	}else if(state=="1"&&deptManagerid=='${user.uid}'){//部门经理审批
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').show();
@@ -461,7 +483,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#upfile_other').hide();
 		$.CurrentNavtab.find('#upfile_contract').hide();
 		$.CurrentNavtab.find('#upfile_invoice').hide();
-	}else if(state=="2"&&(documentAuditid=='${user.uid}'||'${param.viewtype}'=='admin')){//审批通过 财务处理
+	}else if(state=="2"&&documentAuditid=='${user.uid}'){//审批通过 财务处理
 		$.CurrentNavtab.find('#payment-save').hide();
 		$.CurrentNavtab.find('#payment-submit').hide();
 		$.CurrentNavtab.find('#payment-approve').hide();
@@ -558,7 +580,7 @@ function showButton(state,print,uid,documentAuditid,deptManagerid){
 		$.CurrentNavtab.find('#upfile_invoice').hide();
 	}
 	
-	
+	}
 	
 }
 
@@ -664,6 +686,9 @@ function dataToFace(){
             	var b=true;
             	if(json.state!='0'||'${user.uid}'!=json.UID){
             		b=false;
+            	}
+            	if('${param.viewtype}'=='admin'){
+            		b=true;
             	}
             	
             	if(json.file_invoice!=undefined&&json.file_invoice!=""){
@@ -898,22 +923,22 @@ function ajaxFileUpload(id,tid) {
 function checkSave(){
 	var err='';
 	if($.CurrentNavtab.find('input:radio:checked').val()==null||$.CurrentNavtab.find('input:radio:checked').val()==''){
-		err+=" PayType can`t be  impty！<br>";		
+		err+=" PayType can`t be  empty！<br>";		
 	}
 	if($.CurrentNavtab.find('#j_payment_paymentSubject').val()==null||$.CurrentNavtab.find('#j_payment_paymentSubject').val()==''){
-		err+=" paymentSubject can`t be  impty！<br>";				
+		err+=" paymentSubject can`t be  empty！<br>";				
 	}
 	if($.CurrentNavtab.find('#j_payment_currency_1').val()==null||$.CurrentNavtab.find('#j_payment_currency_1').val()==''){
-		err+=" Currency can`t be  impty！<br>";				
+		err+=" Currency can`t be  empty！<br>";				
 	}
 	if($.CurrentNavtab.find('#j_payment_usageDescription').val()==null||$.CurrentNavtab.find('#j_payment_usageDescription').val()==''){
-		err+=" Usage Description can`t be  impty！<br>";				
+		err+=" Usage Description can`t be  empty！<br>";				
 	}
 	
 	for(var i=1;i<7;i++){
 		if($.CurrentNavtab.find("#j_payment_PONo_"+i).val()!=''){
 			if($.CurrentNavtab.find("#j_payment_amount_"+i).val()==''){
-				err+=" the "+i+" PO Amount can`t be  impty！<br>";					
+				err+=" the "+i+" PO Amount can`t be  empty！<br>";					
 			}
 			
 		}
@@ -924,7 +949,7 @@ function checkSave(){
 function checkAcc(){
 	var err='';
 	if($.CurrentNavtab.find('#j_payment_refNoofBank').val()==null||$.CurrentNavtab.find('#j_payment_refNoofBank').val()==''){
-		err+=" Ref. No. of Bank can`t be  impty！\r\n";				
+		err+=" Ref. No. of Bank can`t be  empty！\r\n";				
 	}
 	return err;
 }
@@ -933,7 +958,7 @@ function checkAcc(){
 function checkInvalid(){
 	var err='';
 	if($.CurrentNavtab.find('#payment-invalidDescription').val()==null||$.CurrentNavtab.find('#invalidDescription').val()==''){
-		err+=" ReturnDescription can`t be  impty！\r\n";				
+		err+=" ReturnDescription can`t be  empty！\r\n";				
 	}
 	return err;
 }
@@ -943,7 +968,7 @@ function checkInvalid(){
 function checkReturn(){
 	var err='';
 	if($.CurrentNavtab.find('#payment-returnDescription').val()==null||$.CurrentNavtab.find('#payment-returnDescription').val()==''){
-		err+=" Ref. No. of Bank can`t be  impty！\r\n";				
+		err+=" Ref. No. of Bank can`t be  empty！\r\n";				
 	}
 	return err;
 }
@@ -963,14 +988,14 @@ function checkReturn(){
 					<td width="250px">Application Date<br>（申请日期）</td>
 					<td width="250px"><input type="text" size="19" name="applicationDate" data-nobtn="true" id="j_payment_applicationDate" value=""  readonly="" ></td>
 					<td width="250px">Request Payment Date<br>(要求付款日期）</td>
-					<td width="250px"><input type="text" size="19" name="requestPaymentDate" data-nobtn="true" id="j_payment_requestPaymentDate" value="" data-toggle="datepicker" data-rule="required;date"></td>					
+					<td width="250px"><input type="text" size="19" name="requestPaymentDate" data-nobtn="true" id="j_payment_requestPaymentDate" value="" data-toggle="datepicker" ></td>					
 				</tr>
 				<tr>
 					<td>
 						Contactural Payment Date<br>（合同付款日期）
 					</td>
 					<td>
-						<input type="text" name="contacturalPaymentDate" size="19" value="" data-nobtn="true" id="j_payment_contacturalPaymentDate"  data-toggle="datepicker" data-rule="required;date">
+						<input type="text" name="contacturalPaymentDate" size="19" value="" data-nobtn="true" id="j_payment_contacturalPaymentDate"  data-toggle="datepicker" >
 					</td>
 					<td>
 						CODE(流水码)
@@ -990,7 +1015,7 @@ function checkReturn(){
 						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_banking" value="Banking" data-label="银行支付 <br>Banking">
 					</td>	
 					<td>
-						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_advanceWriteoff" value="AdvanceWriteoff" data-label="核销预付  <br>Advance Write-off (Amount)">
+						<input type="radio" name="payType" data-toggle="icheck" id="j_payment_advanceWriteoff" value="AdvanceWriteoff" data-label="核销预付  <br>Advance Write-off">
 					</td>				
 				</tr>
 				<tr>
@@ -1022,7 +1047,7 @@ function checkReturn(){
 						供应商代码<br>Supplier Code
 					</td>
 					<td>
-						<input type="text" name="supplierCode" id="j_payment_supplierCode" value="" size="19" data-rule="required" onchange="checkSupplierCode(this);">
+						<input type="text" name="supplierCode" id="j_payment_supplierCode" value="" size="19" onchange="checkSupplierCode(this);">
 					</td>
 					<td colspan="2">
 					</td>
