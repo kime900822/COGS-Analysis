@@ -23,6 +23,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFComment;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
@@ -204,6 +205,12 @@ public static <T>ByteArrayOutputStream  exportExcel(String title, Class class1, 
     // 把字体应用到当前的样式
     style2.setFont(font2);
 
+    //设置单元格个税文本类型
+    HSSFDataFormat format = workbook.createDataFormat(); 
+    style.setDataFormat(format.getFormat("@")); 
+    style2.setDataFormat(format.getFormat("@")); 
+    
+    
     // 声明一个画图的顶级管理器
     HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
     // 定义注释的大小和位置,详见文档
@@ -212,6 +219,7 @@ public static <T>ByteArrayOutputStream  exportExcel(String title, Class class1, 
 //    comment.setString(new HSSFRichTextString("可以在POI中添加注释！"));
     // 设置注释作者，当鼠标移动到单元格上是可以在状态栏中看到该内容.
     comment.setAuthor("Analysis");
+    
 
     // 产生表格标题行
     HSSFRow row = sheet.createRow(0);
@@ -273,7 +281,12 @@ public static <T>ByteArrayOutputStream  exportExcel(String title, Class class1, 
                 }
                 // 如果不是图片数据，就利用正则表达式判断textValue是否全部由数字组成
                 if (textValue != null) {
-                    Pattern p = Pattern.compile("^\\d+(\\.\\d+)?$");
+                    HSSFRichTextString richString = new HSSFRichTextString(textValue);
+                    HSSFFont font3 = workbook.createFont();
+                    font3.setColor(HSSFColor.BLUE.index);
+                    richString.applyFont(font3);
+                    cell.setCellValue(richString);
+/*                    Pattern p = Pattern.compile("^\\d+(\\.\\d+)?$");
                     Matcher matcher = p.matcher(textValue);
                     if (matcher.matches()) {
                         // 是数字当作double处理
@@ -284,7 +297,7 @@ public static <T>ByteArrayOutputStream  exportExcel(String title, Class class1, 
                         font3.setColor(HSSFColor.BLUE.index);
                         richString.applyFont(font3);
                         cell.setCellValue(richString);
-                    }
+                    }*/
                 }
             } catch (SecurityException e) {
                 e.printStackTrace();

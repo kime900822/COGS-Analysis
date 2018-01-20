@@ -118,7 +118,7 @@ $(function(){
         contextMenuB: true,
         hScrollbar: true,
         filterThead:false,
-        exportOption: {type:'file', options:{url:'exportPaymentExcel.action', loadingmask:false}}
+        exportOption: {type:'file', options:{url:'exportPaymentExcel.action?queryType=admin', loadingmask:false}}
     }">
         <thead>
             <tr>

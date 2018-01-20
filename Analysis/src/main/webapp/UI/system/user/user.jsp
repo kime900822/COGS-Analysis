@@ -56,7 +56,7 @@
             <tr>
             	<th data-options="{name:'uid',width:150,align:'center',finalWidth:'true'}" >ID</th>
 				<th data-options="{name:'name',width:150,align:'center',finalWidth:'true'}">UserName</th>
-				<th data-options="{name:'sex',width:60,align:'center',type:'select',items:[{'M':'Male'},{'F':'Female'}] ,finalWidth:'true'}">Position</th>
+				<th data-options="{name:'position',width:60,align:'center',finalWidth:'true'}">Position</th>
 				<th data-options="{name:'email',width:400,align:'center',finalWidth:'true'}">Email</th>
 				<th data-options="{name:'rid',width:80,align:'center',finalWidth:'true',type:'select',items:${allrole}}">Role</th>
 				<th data-options="{name:'did',width:100,align:'center',finalWidth:'true'}">BU ID</th>

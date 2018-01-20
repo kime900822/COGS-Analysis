@@ -31,10 +31,6 @@
 	                $.CurrentDialog.find('#j_user_edit_did').selectpicker('refresh');
 			    }
 			})	
-			
-			if('${param.sex}'=='F'){
-				$.CurrentDialog.find('#j_user_edit_sex_nv').attr("checked","checked");
-			}
 		})
 
 		
@@ -57,8 +53,7 @@
                 </div>
                 <label class="row-label">Position</label>
                 <div class="row-input required">
-                    <input type="radio" name="sex" id="j_user_edit_sex_nan" data-toggle="icheck" value="M" data-label="Male&nbsp;&nbsp;" checked>
-                    <input type="radio" name="sex" id="j_user_edit_sex_nv" data-toggle="icheck" value="F" data-label="Female">
+					<input type="text" name="position"  id="j_user_edit_Position" data-rule="required" value="${param.position}">
                 </div>
                 <label class="row-label">Role</label>
                 <div class="row-input required">
@@ -72,7 +67,7 @@
                          <option value="" selected></option>
                     </select>
                 </div>
-                <label class="row-label">email</label>
+                <label class="row-label">Email</label>
                 <div class="row-input required">
                     <input type="text" name="email"  id="j_user_edit_email" data-rule="email" value="${param.email}">
                 </div>

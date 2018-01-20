@@ -76,7 +76,7 @@ public class UserAction extends ActionBase {
 
 	private String name;
 	private String password;
-	private String sex;
+	private String position;
 	private String oldpassword;
 	private String rid;
 	private String uid;
@@ -156,13 +156,13 @@ public class UserAction extends ActionBase {
 		this.password = password;
 	}
 
-	public String getSex() {
-		return sex;
+	public String getPosition() {
+		return position;
 	}
 
 
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 
@@ -286,7 +286,7 @@ public class UserAction extends ActionBase {
 		user.setUid(uid);
 		user.setName(name);
 		user.setPassword(password);
-		user.setSex(sex);
+		user.setPosition(position);
 		user.setRid(Message.NORMAL_USER);
 		user.setDate(sdf.format(d1));
 		user.setEmail(email);
@@ -431,11 +431,11 @@ public class UserAction extends ActionBase {
 			where += " did ='"+did+"'";
 		}
 		
-		if (!"".equals(sex)&&sex!=null) {
+		if (!"".equals(position)&&position!=null) {
 			if (!"".equals(where)) {
 				where +=" and ";
 			}
-			where += " sex = '"+sex+"'";
+			where += " position = '"+position+"'";
 		}
 		
 		if (!"".equals(date)&&date!=null) {
@@ -490,7 +490,7 @@ public class UserAction extends ActionBase {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		user.setName(name);
 		user.setPassword(password);
-		user.setSex(sex);
+		user.setPosition(position);
 		user.setDid(did);
 		user.setRid(rid);
 		user.setDate(sdf.format(d1));
@@ -633,7 +633,7 @@ public class UserAction extends ActionBase {
             cell.setCellStyle(style);
 
             cell = row.createCell(3);
-            cell.setCellValue("Sex");
+            cell.setCellValue("Position");
             cell.setCellStyle(style);
 
             cell = row.createCell(4);
@@ -680,11 +680,11 @@ public class UserAction extends ActionBase {
     			where += " uid like '%"+uid+"%'";
     		}
     		
-    		if (!"".equals(sex)&&sex!=null) {
+    		if (!"".equals(position)&&position!=null) {
     			if (!"".equals(where)) {
     				where +=" and ";
     			}
-    			where += " sex = '"+sex+"'";
+    			where += " position = '"+position+"'";
     		}
     		
     		if (!"".equals(date)&&date!=null) {
@@ -714,7 +714,7 @@ public class UserAction extends ActionBase {
                 row.createCell(0).setCellValue(user.getUid());
                 row.createCell(1).setCellValue(user.getName());
                 row.createCell(2).setCellValue(user.getPassword());
-                row.createCell(3).setCellValue(user.getSex());
+                row.createCell(3).setCellValue(user.getPosition());
                 row.createCell(4).setCellValue(user.getEmail());
                 row.createCell(5).setCellValue(user.getRole().getName());
                 row.createCell(6).setCellValue(user.getDepartment().getName());
@@ -781,7 +781,7 @@ public class UserAction extends ActionBase {
 	    				
 	    				cell=row.getCell(3);
 	    				cell.setCellType(CellType.STRING);
-	    				user.setSex(cell.getStringCellValue().trim());
+	    				user.setPosition(cell.getStringCellValue().trim());
 	    				
 	    				cell=row.getCell(4);
 	    				cell.setCellType(CellType.STRING);

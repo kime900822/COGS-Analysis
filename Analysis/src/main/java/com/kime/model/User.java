@@ -32,8 +32,8 @@ public class User {
 	private String name;
 	@Column(length=50)
 	private String password;
-	@Column(length=10)
-	private String sex;
+	@Column
+	private String position;
 	@Column
 	private String rid;
 	@Column
@@ -82,11 +82,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getSex() {
-		return sex;
+	public String getPosition() {
+		return position;
 	}
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setPosition(String position) {
+		this.position = position;
 	}
 	public String getRid() {
 		return rid;
