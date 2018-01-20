@@ -55,7 +55,7 @@
                 <div class="row-input required">
                     <input type="text" name="name" value="${param.name}" data-rule="required">
                 </div>
-                <label class="row-label">Sex</label>
+                <label class="row-label">Position</label>
                 <div class="row-input required">
                     <input type="radio" name="sex" id="j_user_edit_sex_nan" data-toggle="icheck" value="M" data-label="Male&nbsp;&nbsp;" checked>
                     <input type="radio" name="sex" id="j_user_edit_sex_nv" data-toggle="icheck" value="F" data-label="Female">

@@ -52,7 +52,7 @@ public class UserBIZImpl implements UserBIZ {
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public String register(User user) {
-		if (checkNewUser(user)) {
+		if (checkUser(user)) {
 			userDao.save(user);
 			return "1";
 		}else{
@@ -75,7 +75,7 @@ public class UserBIZImpl implements UserBIZ {
 	@Override
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public String modUser(User user) {
-		if (checkNewUser(user)) {
+		if (checkUser(user)) {
 			userDao.update(user);
 			return "1";
 		}else{
@@ -94,7 +94,7 @@ public class UserBIZImpl implements UserBIZ {
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRED,rollbackFor=Exception.class )
 	public void inportUser(List<User> lUsers) {
 		for (User u : lUsers) {
-			if (checkNewUser(u)) {
+			if (checkUser(u)) {
 				userDao.save(u);
 			}		
 		}
@@ -113,8 +113,8 @@ public class UserBIZImpl implements UserBIZ {
 	}
 	
 	@Override
-	public boolean checkNewUser(User user){
-		if (userDao.query(" where  email='"+user.getEmail()+"'").size()>0) {
+	public boolean checkUser(User user){
+		if (userDao.query(" where  email='"+user.getEmail()+"' and uid<>'"+user.getUid()+"'").size()>0) {
 			return false;
 		}
 		return true;

@@ -22,7 +22,7 @@
 			    loadingmask: false,
 			    okCallback: function(json, options) {
 	                $.each(json, function (i, item) {
-	                    $.CurrentDialog.find('#j_signman_edit_departmenmt').append("<option value='" + item.did + "'>" + item.name + "</option>")           
+	                    $.CurrentDialog.find('#j_signman_edit_departmenmt').append("<option value='" + item.did + "'>" + item.did + "</option>")           
 	                })
 	                $.CurrentDialog.find('#j_signman_edit_departmenmt').selectpicker('val','${param.did}');
 	                $.CurrentDialog.find('#j_signman_edit_departmenmt').selectpicker('refresh');

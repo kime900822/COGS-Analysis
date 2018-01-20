@@ -46,5 +46,5 @@ public interface UserBIZ {
 	
 	public String forgetPassword(User user);
 
-	public boolean checkNewUser(User user);
+	public boolean checkUser(User user);
 }

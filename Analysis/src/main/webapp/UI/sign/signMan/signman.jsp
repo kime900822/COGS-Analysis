@@ -58,10 +58,10 @@ $(function(){
         <thead>
             <tr>
             	<th data-options="{name:'sid',width:150,align:'center',finalWidth:'true',hide:'true'}" >sid</th>
-            	<th data-options="{name:'rid',width:150,align:'center',finalWidth:'true',hide:'true'}" >rid</th>
-            	<th data-options="{name:'uid',width:150,align:'center',finalWidth:'true',hide:'true'}" >uid</th>
 				<th data-options="{name:'type',width:150,align:'center',finalWidth:'true'}">Type</th>
+				<th data-options="{name:'did',width:150,align:'center',finalWidth:'true'}" >BU ID</th>
 				<th data-options="{name:'dname',width:200,align:'center',finalWidth:'true'}">Department</th>
+				<th data-options="{name:'uid',width:150,align:'center',finalWidth:'true' }" >Name ID</th>
 				<th data-options="{name:'uname',width:150,align:'center',finalWidth:'true'}">Name</th>
             </tr>
         </thead>

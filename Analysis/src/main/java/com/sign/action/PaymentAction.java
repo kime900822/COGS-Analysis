@@ -693,7 +693,7 @@ public class PaymentAction extends ActionBase {
 			
 			
 			if (!payment.getId().equals("")&&payment.getId()!=null) {
-				if (file_invoice!=null&&!"".equals(file_invoice)) {
+/*				if (file_invoice!=null&&!"".equals(file_invoice)) {
 					String filenames="";
 					String[] files=file_invoice.split("\\|");
 					for (String string : files) {
@@ -716,8 +716,17 @@ public class PaymentAction extends ActionBase {
 						filenames+=fileSave.getFilePath(string)+"|";
 					}
 					payment.setFile_other(filenames);
-				}
+				}*/
 				
+				if (file_invoice!=null&&!"".equals(file_invoice)) {
+					payment.setFile_invoice(file_invoice);
+				}
+				if (file_contract!=null&&!"".equals(file_contract)) {
+					payment.setFile_contract(file_contract);
+				}
+				if (file_other!=null&&!"".equals(file_other)) {
+					payment.setFile_other(file_other);
+				}
 				paymentBIZ.updatePayment(payment);
 				result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 				result.setStatusCode("200");
@@ -957,17 +966,15 @@ public class PaymentAction extends ActionBase {
 			payment.setState(PaymentState.RETURNPAYMENT);
 			payment.setReturnDescription(returnDescription);
 			payment.setDeptManager("");
-			payment.setDeptManagerID("");
-			payment.setDocumentAuditID("");
 			payment.setDocumentAudit("");
 			
 			paymentBIZ.returnPayment(payment);
 			
 			result.setMessage(Message.SAVE_MESSAGE_SUCCESS);
 			result.setStatusCode("200");
-			logUtil.logInfo("作废申请单:"+payment.getId());
+			logUtil.logInfo("退回申请单:"+payment.getId());
 		} catch (Exception e) {
-			logUtil.logInfo("作废申请单异常:"+e.getMessage());
+			logUtil.logInfo("退回申请单异常:"+e.getMessage());
 			result.setMessage(e.getMessage());
 			result.setStatusCode("300");
 		}
@@ -985,7 +992,6 @@ public class PaymentAction extends ActionBase {
 			Payment payment=paymentBIZ.getPayment(" where id='"+id+"'").get(0);
 			payment.setState(PaymentState.SAVEPAYMENT);
 			payment.setDeptManager("");
-			payment.setDocumentAuditID("");
 			payment.setDocumentAudit("");
 			
 			paymentBIZ.rejectPayment(payment);
@@ -1063,7 +1069,13 @@ public class PaymentAction extends ActionBase {
 			hql="  select P from Payment P WHERE P.departmentID='"+user.getDid()+"' "+where+" order By P.dateTemp desc";
 		}
 		if ("acc".equals(queryType)) {
-			hql="  select  P from Payment P where P.state<>0 AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
+			if (state==null||state.equals("")) {
+				hql="  select  P from Payment P where P.state in (0,2,4,5) AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
+			}else if (state.equals("1")) {
+				hql="  select  P from Payment P where P.state in (0,5,4) AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
+			}else if(state.equals("2")) {
+				hql="  select  P from Payment P where P.state=2 AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
+			}
 		}
 		if ("sign".equals(queryType)) {
 			hql="  select  P from Payment P where P.state='1' and P.deptManagerID='"+user.getUid()+"' order By P.dateTemp desc";
@@ -1138,7 +1150,14 @@ public class PaymentAction extends ActionBase {
     			hql="  select P from Payment P WHERE P.departmentID='"+user.getDid()+"' "+where+" order By P.dateTemp desc";
     		}
     		if ("acc".equals(queryType)) {
-    			hql="  select  P from Payment P where P.state<>0 AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
+    			if (state.equals("1")) {
+    				hql="  select  P from Payment P where P.state in (0,5,4) AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
+				}else if(state.equals("2")) {
+    				hql="  select  P from Payment P where P.state=2 AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
+				}else{
+					hql="  select  P from Payment P where P.state in (0,2,4,5) AND P.documentAuditID='"+user.getUid()+"' order By P.dateTemp desc";
+				}
+    			
     		}
     		if ("sign".equals(queryType)) {
     			hql="  select  P from Payment P where P.state='1' and P.deptManagerID='"+user.getUid()+"' order By P.dateTemp desc";

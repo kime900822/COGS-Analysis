@@ -78,13 +78,23 @@ function datagrid_paymentState() {
         		<td>
             	<input type="text" name="departmentID" class="form-control" size="15" data-rule="number" >
         		</td>
+        		<td>
+        		<span>Status</span>
+        		</td>
+        		<td>
+            	<select name="state" data-toggle="selectpicker" id="q_payment_state"  data-width="80px">
+	              <option value="" >all</option>
+	              <option value="1">check</option>
+	              <option value="2">uncheck</option>
+            	</select>
+        		</td>
         		<td colspan="2" align="center">
         		<div class="btn-group">
                 <button type="submit" class="btn-green" data-icon="search">Search</button>
                 <button type="reset" class="btn-orange" data-icon="times">Reset</button>
             	</div>
         		</td>
-        		<td colspan="2"></td>
+
         	</tr>    
         </table>
             

@@ -102,7 +102,7 @@ function savePayment(){
 		return false;
 	}
 	
-	var o=faceToDate();	
+	var o=faceToData();	
 	BJUI.ajax('doajax', {
 	    url: 'savePayment.action',
 	    loadingmask: true,
@@ -735,16 +735,13 @@ function dataToFace(){
 }
 
 
-function faceToDate(){
+function faceToData(){
 	var o=$.CurrentNavtab.find("#j_payment_form").serializeJson();
 	o.UID='${user.uid}';
 	o.UName='${user.name}';
 	o.departmentName='${user.department.name}';
 	o.departmentID='${user.department.did}';
-		
-	o.invoice=$.CurrentNavtab.find("#j_payment_update_invoice").val();
-	o.contract=$.CurrentNavtab.find("#j_payment_update_contract").val();
-	o.other=$.CurrentNavtab.find("#j_payment_update_other").val();	
+	
 
 	return o;
 }
@@ -935,13 +932,20 @@ function checkSave(){
 		err+=" Usage Description can`t be  empty！<br>";				
 	}
 	
-	for(var i=1;i<7;i++){
+	var term=$.CurrentNavtab.find("#j_payment_paymentTerm").val();
+	for(var i=1;i<7;i++){		
 		if($.CurrentNavtab.find("#j_payment_PONo_"+i).val()!=''){
-			if($.CurrentNavtab.find("#j_payment_amount_"+i).val()==''){
+			if($.CurrentNavtab.find("#j_payment_amount_"+i).val()==''||$.CurrentNavtab.find("#j_payment_amount_"+i).val()=='0.00'){
 				err+=" the "+i+" PO Amount can`t be  empty！<br>";					
 			}
-			
+			if(term=='3'||term=='4'||term=='5'){
+				if($.CurrentNavtab.find("#j_payment_receivingOrApprovalDate_"+i).val()==''){
+					err+=" the "+i+" PO Receiving or Approval date can`t be  empty！<br>";									
+				}				
+			}
 		}
+		
+
 	}
 	return err;
 }
