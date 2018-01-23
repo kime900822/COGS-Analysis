@@ -6,6 +6,7 @@ import com.kime.infoenum.Message;
 import com.kime.utils.PropertiesUtil;
 
 public class MailSenderInfo {
+	private String isSSL=PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "isSSl");    
     // 发送邮件的服务器的IP和端口    
     private String mailServerHost=PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "MailServerHost");    
     private String mailServerPort =PropertiesUtil.ReadProperties(Message.MAIL_PROPERTIES, "MailServerPort");    
@@ -41,11 +42,14 @@ public class MailSenderInfo {
       p.put("mail.smtp.host", this.mailServerHost);    
       p.put("mail.smtp.port", this.mailServerPort);    
       p.put("mail.smtp.auth", validate ? "true" : "false");    
-      //ssl连接发送邮件
-      p.put("mail.smtp.socketFactory.class", this.SSLSocketFactory);
-      p.put("mail.smtp.socketFactory.fallback", this.fallback);
-      p.put("mail.smtp.socketFactory.port", this.socketFactoryport);
       p.put("mail.transport.protocol", this.protocol);
+      //ssl连接发送邮件
+      if(isSSL.equals("Y")){
+          p.put("mail.smtp.socketFactory.class", this.SSLSocketFactory);
+          p.put("mail.smtp.socketFactory.fallback", this.fallback);
+          p.put("mail.smtp.socketFactory.port", this.socketFactoryport);
+      }
+
       return p;    
     }    
     public String getMailServerHost() {    
